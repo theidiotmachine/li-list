@@ -2,8 +2,6 @@ import { Signal, signal, effect, computed } from "@preact/signals";
 import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadout, ModelGroup } from "./game/types.ts";
 import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType } from "./game/lists.ts";
 
-
-
 export type Formation = {
     armyListName: ArmyListName | "";
     formationType: FormationType | "";
@@ -27,6 +25,8 @@ export type ChangeModelLoadout = (uuid: string, detachmentIndex: number, modelTy
 export type AddModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
 export type RemoveModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number) => void;
 export type ChangeModelLoadoutGroupNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, number: number) => void;
+export type Undo = () => void;
+export type Redo = () => void;
 
 export type AppStateType = {
     army: Signal<Army>; 
@@ -40,6 +40,8 @@ export type AppStateType = {
     addModelLoadoutGroup: AddModelLoadoutGroup;
     removeModelLoadoutGroup: RemoveModelLoadoutGroup;
     changeModelLoadoutGroupNumber: ChangeModelLoadoutGroupNumber;
+    undo: Undo;
+    redo: Redo;
 };
 
 function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadout) {
@@ -80,12 +82,16 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
             let numModels = 0;
             for(let i = 0; i < detachment.modelGroups.length; ++i) {
                 const m = detachment.modelGroups[i];
-                const shape = c.modelGroupShapes[i];
+                const shapeIdx = c.modelGroupShapes.findIndex(x=>x.modelType == m.modelType);
+                if(shapeIdx == -1)
+                    continue;
+                const shape = c.modelGroupShapes[shapeIdx];
                 if(shape.minModels != undefined && m.number < shape.minModels)
                     return { valid: false, error: "Too few models in group", data: m.modelType + ". Min: " + shape.minModels };
                 if(shape.maxModels != undefined && m.number > shape.maxModels)
                     return { valid: false, error: "Too many models in group", data: m.modelType  + ". Max: " + shape.maxModels  };
                 if(shape.possibleModelGroupQuantities.findIndex(x=>x.num == m.number) == -1) {
+                    console.log("Invalid number of models in group", m.number, shape.possibleModelGroupQuantities);
                     const possibleModelNumbers = shape.possibleModelGroupQuantities.map(m=>m.num.toString());
                     return { valid: false, error: "Invalid number of models in group", data: m.modelType + ". Could be: " + 
                         possibleModelNumbers.join(", ")
@@ -150,16 +156,42 @@ function refreshFormation(newFormation: Formation) {
 }
 
 function createAppState(): AppStateType {
+    let undoStack: Army[] = [{points: 0, formations: []}];
+    let undoIndex = 0;
     const army = signal<Army>({formations: [], points: 0});
 
-    const setFormationAtIdx = (newFormation: Formation, formationIdx: number) => {
+    const pushOntoUndoStack = (army: Army) => {
+        if(undoIndex < undoStack.length - 1) {
+            undoStack = undoStack.slice(0, undoIndex + 1);
+        }
+            
+        undoStack.push(army);
+        undoIndex = undoStack.length - 1;
+    }
 
+    const undo = () => {
+        if(undoIndex > 0) {
+            undoIndex--;
+            army.value = undoStack[undoIndex];
+        }
+    }
+
+    const redo = () => {
+        if(undoIndex < undoStack.length - 1) {
+            undoIndex++;
+            army.value = undoStack[undoIndex];
+        }
+    }
+
+    const setFormationAtIdx = (newFormation: Formation, formationIdx: number) => {
         refreshFormation(newFormation);
 
         const newArmy = {...army.value};
+        newArmy.formations = newArmy.formations.slice();
         newArmy.formations[formationIdx] = newFormation;
         newArmy.points = calcArmyPoints(newArmy.formations);
 
+        pushOntoUndoStack(newArmy);
         army.value = newArmy;
     }
 
@@ -167,11 +199,13 @@ function createAppState(): AppStateType {
         const uuid = crypto.randomUUID();
 
         const newArmy = {...army.value};
+        newArmy.formations = newArmy.formations.slice();
         newArmy.formations.push({armyListName: "", formationType: "", points: 0, detachments:[], uuid});
         newArmy.points = calcArmyPoints(newArmy.formations);
 
+        pushOntoUndoStack(newArmy);
         army.value = newArmy;
-      };
+    };
 
     const removeFormation: RemoveFormation = (uuid: string) => {
         const newArmy = {...army.value};
@@ -179,6 +213,7 @@ function createAppState(): AppStateType {
         newArmy.formations = newArmy.formations.filter((elem: Formation) => elem.uuid != uuid)
         newArmy.points = calcArmyPoints(newArmy.formations);
 
+        pushOntoUndoStack(newArmy);
         army.value = newArmy;
     };
 
@@ -190,13 +225,12 @@ function createAppState(): AppStateType {
         if(army.value.formations[formationIdx].armyListName == armyListName)
             return;
 
-        const newFormation = { ...army.value.formations[formationIdx] }
+        const newFormation = {...army.value.formations[formationIdx]}
 
         newFormation.armyListName = armyListName;
         newFormation.formationType = "";
         newFormation.detachments = [];
 
-        refreshFormation(newFormation);
         setFormationAtIdx(newFormation, formationIdx);
     }
 
@@ -208,7 +242,7 @@ function createAppState(): AppStateType {
         if(army.value.formations[formationIdx].formationType == formationType)
             return;
 
-        const newFormation = { ...army.value.formations[formationIdx] }
+        const newFormation = {...army.value.formations[formationIdx]}
 
         newFormation.formationType = formationType;
         
@@ -217,7 +251,6 @@ function createAppState(): AppStateType {
             slot: s.slot, modelGroups: [], points: 0, detachmentType: "", validationState: {valid: true}
         }});
 
-        refreshFormation(newFormation);
         setFormationAtIdx(newFormation, formationIdx);
     };
 
@@ -230,6 +263,8 @@ function createAppState(): AppStateType {
             return;
 
         const newFormation = { ...army.value.formations[formationIdx] };
+        newFormation.detachments = newFormation.detachments.slice();
+        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
         newFormation.detachments[detachmentIndex].detachmentType = detachmentType;
         newFormation.detachments[detachmentIndex].modelGroups = [];
 
@@ -270,6 +305,10 @@ function createAppState(): AppStateType {
             return;
 
         const newFormation = { ...army.value.formations[formationIdx] };
+        newFormation.detachments = newFormation.detachments.slice();
+        newFormation.detachments[detachmentIndex]= {...newFormation.detachments[detachmentIndex]};
+        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx] = {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx]};
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].number = num;
 
         const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
@@ -277,8 +316,14 @@ function createAppState(): AppStateType {
             newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].points = 0;
             newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups = [];
         } else {
-            if(newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups.length === 1)
+            if(newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups.length === 1) {
+                newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups = 
+                    newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups.slice();
+                newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[0] = {
+                    ...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[0]
+                };
                 newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[0].number = num;
+            }
         }
 
         setFormationAtIdx(newFormation, formationIdx);
@@ -310,6 +355,18 @@ function createAppState(): AppStateType {
         if(l === undefined)
             return;
 
+        newFormation.detachments = newFormation.detachments.slice();
+        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
+        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx] = {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx]};
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups = 
+            newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups.slice();
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex] = 
+            {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex]};
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots = 
+            newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots.slice();
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots[modelLoadoutSlotIndex] = 
+            {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots[modelLoadoutSlotIndex]};
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots[modelLoadoutSlotIndex].modelLoadout = l;
         
         setFormationAtIdx(newFormation, formationIdx);
@@ -342,9 +399,15 @@ function createAppState(): AppStateType {
             {number: 0, modelLoadoutSlots: c.modelLoadoutSlots.map((y)=>
                 {return {name: y.name, modelLoadout: y.possibleModelLoadouts[0]}}
             ), points: -1};
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.push(newModelLoadoutGroup);
 
-        console.log(newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex]);
+        newFormation.detachments = newFormation.detachments.slice();
+        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
+        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex] = {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex]};
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups = 
+            newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.slice();
+            
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.push(newModelLoadoutGroup);
 
         setFormationAtIdx(newFormation, formationIdx);
     };
@@ -364,6 +427,12 @@ function createAppState(): AppStateType {
         if(detachmentType === "")
             return;
 
+        newFormation.detachments = newFormation.detachments.slice();
+        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
+        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex] =
+            {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex]};
+        
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups = 
             newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.filter((_, i)=>i!=modelLoadoutGroupIndex);
 
@@ -385,13 +454,22 @@ function createAppState(): AppStateType {
         if(detachmentType === "")
             return;
 
+        newFormation.detachments = newFormation.detachments.slice();
+        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
+        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex] 
+            = {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex]};
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups = 
+            newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.slice();
+        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups[modelLoadoutGroupIndex] = 
+            {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups[modelLoadoutGroupIndex]};
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups[modelLoadoutGroupIndex].number = number;
        
         setFormationAtIdx(newFormation, formationIdx);
     };
 
     return {army, addFormation, removeFormation, changeFormationArmyList, changeFormationType, changeDetachmentType, changeModelNumber, 
-        changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber};
+        changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, undo, redo};
 }
 
 export default createAppState();

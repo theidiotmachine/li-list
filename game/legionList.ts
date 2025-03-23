@@ -1,6 +1,7 @@
-import { DetachmentType, FormationSlot, FormationShape, LegionFormationType, LegionDetachmentType, DetachmentConfiguration, LegionModelType, Stats } from "./types.ts";
+import { DetachmentType, FormationSlot, FormationShape, LegionFormationType, LegionDetachmentType, DetachmentConfiguration, LegionModelType, Stats, DetachmentValidationState, Detachment } from "./types.ts";
 
 const formationShapes = new Map<LegionFormationType, FormationShape>([
+    //CRB
     [ "Legion Demi-Company", { slotRequirements: [
         {   slot: "HQ",             slotRequirementType: "Required"                 },
         {   slot: "Support",        slotRequirementType: "Required"                 },
@@ -56,7 +57,33 @@ const formationShapes = new Map<LegionFormationType, FormationShape>([
         {   slot: "Support",        slotRequirementType: "Optional"                 },
         {   slot: "Vanguard",       slotRequirementType: "Optional"                 },
         {   slot: "Air Support",    slotRequirementType: "Optional"                 },
-    ] } ]
+    ] } ],
+    //TGS
+    [ "Legion Sky-hunter Phalanx", { slotRequirements: [
+        {   slot: "Sky-hunter Phalanx Vanguard Compulsory", displayName: "Vanguard",
+                                    slotRequirementType: "Required"                 },
+        {   slot: "Sky-hunter Phalanx Vanguard Compulsory", displayName: "Vanguard",
+                                    slotRequirementType: "Required"                 },
+        {   slot: "Sky-hunter Phalanx Vanguard Compulsory", displayName: "Vanguard",
+                                    slotRequirementType: "Required"                 },
+        {   slot: "Sky-hunter Phalanx Vanguard Compulsory", displayName: "Vanguard",
+                                    slotRequirementType: "Required"                 },
+        {   slot: "Light Armour",   slotRequirementType: "Optional"                 },
+        {   slot: "Light Armour",   slotRequirementType: "Optional"                 },
+        {   slot: "Air Support",    slotRequirementType: "Optional"                 },
+        {   slot: "Vanguard",       slotRequirementType: "Optional"                 },
+    ] } ],
+    [ "Legion Drop Pod Assault", { slotRequirements: [
+        {   slot: "HQ",             slotRequirementType: "Required"                 },
+        {   slot: "Support",        slotRequirementType: "Required"                 },
+        {   slot: "Core",           slotRequirementType: "Required"                 },
+        {   slot: "Core",           slotRequirementType: "Required"                 },
+        {   slot: "Core",           slotRequirementType: "Optional"                 },
+        {   slot: "Core",           slotRequirementType: "Optional"                 },
+        {   slot: "Air Support",    slotRequirementType: "Optional"                 },
+        {   slot: "Support",        slotRequirementType: "Optional"                 },
+        {   slot: "Support",        slotRequirementType: "Optional"                 },
+    ] } ],
 ])
 
 export function getShapeForLegionFormationType(formationType: LegionFormationType | ""): FormationShape {
@@ -86,19 +113,29 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
     ] ],
     [ "HQ", [ "Legion Command" ] ],
     [ "Light Armour", [] ],
+    [ "Sky-hunter Phalanx Vanguard Compulsory", [
+        "Legion Javelin Squadron",
+        "Legion Land Speeder Squadron",
+        "Legion Scimitar Jetbike Squadron",
+    ] ],
     [ "Support", [ 
         "Legion Assault Detachment", 
         "Legion Dreadnought Talon",
         "Legion Missile Launcher Support Detachment", 
         "Legion Plasma Gun Support Detachment", 
         "Legion Rapier Battery Detachment",
-        "Leviathan Siege Dreadnought Detachment",
         "Legion Terminator Detachment", 
+        "Leviathan Siege Dreadnought Detachment",
     ] ],
     [ "Transport", [ 
         "Legion Rhino Detachment" 
     ] ], 
-    [ "Vanguard", [] ]
+    [ "Vanguard", [
+        "Legion Javelin Squadron",
+        "Legion Land Speeder Squadron",
+        "Legion Outrider Squadron",
+        "Legion Scimitar Jetbike Squadron"
+    ] ]
 ]);
 
 export function getLegionDetachmentTypesForSlot(slot: FormationSlot): LegionDetachmentType[] {
@@ -106,6 +143,7 @@ export function getLegionDetachmentTypesForSlot(slot: FormationSlot): LegionDeta
 }
 
 const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentConfiguration> = new Map([
+    //CRB
     ["Legion Command", {modelGroupShapes: [
         {modelType: "Command Squad", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]},
         {modelType: "Rhino (dedicated transport)", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
@@ -122,6 +160,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Thunderhawk Gunship (dedicated transport)", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150},
+        ]},
+        {modelType: "Drop Pod (dedicated transport)", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 6}
         ]}
     ]}],
     ["Legion Tactical Detachment", {maxModels: 12, modelGroupShapes: [
@@ -140,7 +181,6 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         {modelType: "Plasma Support Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 30}, {num: 6, points: 45}, {num: 8, points: 60},
         ]},
-        
         {modelType: "Rhino (dedicated transport)", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "Twin-linked bolter", points: 0}, 
@@ -156,6 +196,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Thunderhawk Gunship (dedicated transport)", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+150}
+        ]},
+        {modelType: "Drop Pod (dedicated transport)", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 6}, {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}, {num: 5, points: 6*5}, {num: 6, points: 6*6}
         ]}
     ]}],
     ["Legion Plasma Gun Support Detachment", {modelGroupShapes: [
@@ -177,6 +220,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Thunderhawk Gunship (dedicated transport)", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
+        ]},
+        {modelType: "Drop Pod (dedicated transport)", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 6}, {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
         ]}
     ]}],
     ["Legion Missile Launcher Support Detachment", {modelGroupShapes: [
@@ -198,6 +244,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Thunderhawk Gunship (dedicated transport)", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
+        ]},
+        {modelType: "Drop Pod (dedicated transport)", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 6}, {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
         ]}
     ]}],
     ["Legion Assault Detachment", {modelGroupShapes: [
@@ -249,6 +298,10 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Thunderhawk Gunship (dedicated transport)", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 300}
+        ]},
+        {modelType: "Dreadnought Drop Pod (dedicated transport)", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 7}, {num: 2, points: 7*2}, {num: 3, points: 7*3}, {num: 4, points: 7*4},
+            {num: 5, points: 7*5}, {num: 6, points: 7*6}, {num: 7, points: 7*7}, {num: 8, points: 7*8}
         ]}
     ]}],
     ["Legion Dreadnought Talon", {minModels: 4, maxModels: 4+3*2, modelGroupShapes: [
@@ -273,6 +326,11 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Thunderhawk Gunship (dedicated transport)", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 300}, {num: 3, points: 450}
+        ]},
+        {modelType: "Dreadnought Drop Pod (dedicated transport)", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 7}, {num: 2, points: 7*2}, {num: 3, points: 7*3}, {num: 4, points: 7*4},
+            {num: 5, points: 7*5}, {num: 6, points: 7*6}, {num: 7, points: 7*7}, {num: 8, points: 7*8}, 
+            {num: 9, points: 7*9}, {num: 10, points: 7*10}
         ]}
     ]}],
     ["Legion Tarantula Battery", {minModels: 4, maxModels: 8, modelGroupShapes: [
@@ -299,6 +357,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Thunderhawk Gunship (dedicated transport)", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
+        ]},
+        {modelType: "Drop Pod (dedicated transport)", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 6}, {num: 2, points: 6*2}, {num: 3, points: 6*3}
         ]}
     ]}],
     ["Legion Deredeo Dreadnought Detachment", {minModels: 4, maxModels: 6, modelGroupShapes: [
@@ -314,6 +375,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 150}
         ]}
     ]}],
+    
     ["Legion Predator Squadron", {minModels: 3, maxModels: 9, modelGroupShapes: [
         {modelType: "Legion Predator", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts: [
@@ -399,6 +461,52 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
     ["Legion Thunderhawk Gunship", {modelGroupShapes: [
         {modelType: "Thunderhawk Gunship", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 1, points: 150}, {num: 2, points: 150+150}, {num: 3, points: 150+280}
+        ]}
+    ]}],
+    //TGS
+    ["Legion Outrider Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelType: "Legion Outrider", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 2, points: 30}, {num: 4, points: 30+30}, {num: 6, points: 30+60}
+        ]}
+    ]}],
+    ["Legion Scimitar Jetbike Squadron", {minModels: 3, maxModels: 9, modelGroupShapes: [
+        {modelType: "Scimitar Jetbike", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 3, points: 35}, {num: 6, points: 35+35}, {num: 9, points: 35+70}
+        ]}
+    ]}],
+    ["Legion Land Speeder Squadron", {minModels: 2, maxModels: 6, 
+        customValidation: (detachment: Detachment): DetachmentValidationState => {
+            const data = detachment.modelGroups[0].modelLoadoutGroups.reduce((acc: number[], modelLoadout) => {
+                if (modelLoadout.modelLoadoutSlots[0].modelLoadout.loadout === "Plasma cannon and heavy bolter") {
+                    acc[0] += modelLoadout.number;
+                } else {
+                    acc[1] += modelLoadout.number;
+                }
+                return acc;
+            }, [0, 0]);
+            //This is my least favourite rule in the whole book
+            if(data[1] > data[0]) {
+                return {valid: false, error: "Invalid loadouts of models in group", data: "Land Speeders can't have more than half armed with flamers/multi meltas"};
+            }
+            return {valid: true};
+        },
+        modelGroupShapes: [
+            {modelType: "Land Speeder", modelLoadoutSlots: [
+                {name: "Guns", possibleModelLoadouts: [
+                    {loadout: "Plasma cannon and heavy bolter", points: 0}, 
+                    {loadout: "Nose mounted heavy flamer and multi-melta", points: 0},
+                ]},
+            ], possibleModelGroupQuantities: [
+                {num: 2, points: 30}, {num: 4, points: 30+30}, {num: 6, points: 30+60}
+            ]}
+    ]}],
+    ["Legion Javelin Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelType: "Javelin", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, {loadout: "Cyclone missile launcher", points: 2}
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 2, points: 33}, {num: 4, points: 33+33}, {num: 6, points: 33+66}
         ]}
     ]}],
 ]);

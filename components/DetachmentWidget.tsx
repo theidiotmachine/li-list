@@ -1,5 +1,5 @@
 import { DetachmentTypeSelect } from "./DetachmentTypeSelect.tsx";
-import { getDetachmentConfigurationForDetachmentType } from "../game/lists.ts";
+import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType } from "../game/lists.ts";
 import { NumModelSelect } from "./NumModelSelect.tsx";
 import { DetachmentValidity } from "./DetachmentValidity.tsx";
 import { ModelLoadoutWidget } from "./ModelLoadoutWidget.tsx";
@@ -18,9 +18,11 @@ interface DetachmentWidgetProps {
 export function DetachmentWidget(props: DetachmentWidgetProps) {
     const { addModelLoadoutGroup, army } = useContext(AppState);
     const formationType = army.value.formations.find(x=>x.uuid == props.uuid)?.formationType ?? "";
+
+    const shape = getShapeForFormationType(props.armyListName, formationType);
+
     let modelGroups = <div></div>;
     const detachmentType = props.detachment.detachmentType;
-    console.log(detachmentType);
     if(detachmentType != "") {
         const config = getDetachmentConfigurationForDetachmentType(props.armyListName, detachmentType);
         modelGroups = <div> {
@@ -69,12 +71,14 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                 })
             } </div>   
     }
+
+    const slotDisplayName = shape.slotRequirements[props.detachmentIndex].displayName ?? props.detachment.slot;
         
     //border-t-2 border-gray-100
     return <div class="mb-1 mt-1">
         <div class="grid grid-cols-[20%_8%_22%_20%_20%_10%] gap-0 ">
             <div class="col-span-2 font-medium text-lg">
-                <DetachmentValidity detachment={props.detachment}/>{props.detachment.slot}
+                <DetachmentValidity detachment={props.detachment}/>{slotDisplayName}
             </div> 
             <div class="col-span-3"><DetachmentTypeSelect 
                 uuid = {props.uuid} detachmentIndex = {props.detachmentIndex} slot = {props.detachment.slot}

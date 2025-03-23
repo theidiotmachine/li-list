@@ -8,7 +8,7 @@ export function ArmyWidget() {
     const { army, addFormation } = useContext(AppState);
 
     return(
-        <div class="flex flex-row justify-center">
+        <div class="flex flex-row justify-center mt-8">
             <div>
                 <div class="grid grid-cols-[20%_10%_20%_20%_20%_10%] gap-0 w-[800px]">
                     <div class="col-span-1 col-start-1">

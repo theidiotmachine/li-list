@@ -9,7 +9,9 @@ export const LegionFormationTypes = [
     "Legion Aerial Assault",
     "Legion Armoured Company",
     "Legion Demi-Company",
+    "Legion Drop Pod Assault",
     "Legion Garrison Force",
+    "Legion Sky-hunter Phalanx",
 ] as const;
 export type LegionFormationType = (typeof LegionFormationTypes)[number];
 
@@ -38,12 +40,13 @@ export type FormationSlot =
     "Heavy Armour" | 
     "HQ" | 
     "Knight" |
-    "Light Armour"| 
+    "Light Armour" |
+    "Sky-hunter Phalanx Vanguard Compulsory" | //This just makes it easier. It can't have bikes
     "Support" | 
     "Storm Section" |
     "Titan" |
     "Transport" | 
-    "Vanguard"  
+    "Vanguard" 
 ; 
 
 export type SlotRequirementType = "Required" | "Optional" | "One Of";
@@ -51,6 +54,7 @@ export type SlotRequirements = {
     slot: FormationSlot;
     slotRequirementType: SlotRequirementType;
     oneOfGroup?: number;
+    displayName?: string;
 };
 
 export type FormationShape = {
@@ -64,11 +68,15 @@ export type LegionDetachmentType =
     "Legion Deredeo Dreadnought Detachment" |
     "Legion Dreadnought Talon" | 
     "Legion Fire Raptor Squadron" |
+    "Legion Javelin Squadron" |
+    "Legion Land Speeder Squadron" |
     "Legion Missile Launcher Support Detachment" |
+    "Legion Outrider Squadron" |
     "Legion Plasma Gun Support Detachment" |
     "Legion Predator Squadron" |
     "Legion Rapier Battery Detachment" |
     "Legion Rhino Detachment" |
+    "Legion Scimitar Jetbike Squadron" |
     "Legion Sicaran Squadron" |
     "Legion Siege Dreadnought Detachment" |
     "Legion Storm Eagle Squadron" |
@@ -100,6 +108,8 @@ export type AuxiliaDetachmentType =
 ;
 
 export type StrategicAssetDetachmentType = 
+    "Acastus Knight Banner" |
+    "Cerastus Knight Banner" |
     "Questoris Knight Banner" |
     "Warhound Hunting Pack"
 ;
@@ -112,6 +122,8 @@ export const AllLegionModelTypes = [
     "Contemptor Dreadnought",
     "Deredeo Dreadnought",
     "Fire Raptor",
+    "Javelin",
+    "Land Speeder",
     "Legion Kratos",
     "Legion Predator", 
     "Legion Rapier",
@@ -120,8 +132,10 @@ export const AllLegionModelTypes = [
     "Legion Terminators",
     "Leviathan Dreadnought",
     "Missile Launcher Legionaries", //renamed from "Missile Launcher Heavy Support Legionaries" because come on
+    "Outrider",
     "Plasma Support Legionaries",
     "Rhino",
+    "Scimitar Jetbike",
     "Storm Eagle",
     "Tactical Legionaries",
     "Thunderhawk Gunship",
@@ -154,10 +168,16 @@ export const AllAuxiliaModelTypes = [
 export type AuxiliaModelType = (typeof AllAuxiliaModelTypes)[number];
 
 export const AllStrategicAssetModelTypes = [
+    "Acastus Knight Asterius",
+    "Acastus Knight Porphyrion",
+    "Cerastus Knight Atrapos",
+    "Knight Acheron",
     "Knight Armiger",
+    "Knight Castigator",
     "Knight Crusader",
     "Knight Errant",
     "Knight Gallant",
+    "Knight Lancer",
     "Knight Magaera",
     "Knight Moirax",
     "Knight Paladin",
@@ -205,7 +225,8 @@ export type DetachmentValidationError =
     "Only one of these detachments should be present" | 
     "Too few models in group" | 
     "Too many models in group" |
-    "Invalid number of models in group" 
+    "Invalid number of models in group" |
+    "Invalid loadouts of models in group" 
 ;
 export type DetachmentValidationState = {
     valid: boolean,
