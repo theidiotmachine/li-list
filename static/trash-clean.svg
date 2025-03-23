@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient13" x1=".26458" x2="3.9687" y1="1.1906" y2="1.1906" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#c6c6c6" offset="0"/>
+   <stop stop-color="#3d3d3d" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient15" x1=".52917" x2="3.7042" y1="2.6458" y2="2.6458" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#c6c6c6" offset="0"/>
+   <stop stop-color="#3d3d3d" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g stroke-width=".26458px">
+  <path d="m0.66146 3.8365 1e-8 -2.3812h2.9104l1e-7 2.3812z" fill="url(#linearGradient15)" stroke="#000"/>
+  <path d="m0.39687 1.4552h3.4396v-0.26458h-0.26458l-0.52917-0.26458h-1.8521l-0.52917 0.26458h-0.26458z" fill="url(#linearGradient13)" stroke="#000"/>
+  <g fill="none">
+   <path d="m1.4552 0.92604v-0.26458l0.26458-0.26458h0.79375l0.26458 0.26458v0.26458z" stroke="#000"/>
+   <path d="m1.1906 1.8521v1.5875" stroke="#6b6b6b"/>
+   <path d="m1.7198 1.8521v1.5875" stroke="#616161"/>
+   <path d="m2.249 1.8521v1.5875" stroke="#575757"/>
+   <path d="m2.7781 1.8521v1.5875" stroke="#4d4d4d"/>
+   <path d="m3.0427 1.8521v1.5875" stroke="#9e9e9e"/>
+   <path d="m2.5135 1.8521v1.5875" stroke="#a8a8a8"/>
+   <path d="m1.9844 1.8521v1.5875" stroke="#b2b2b2"/>
+   <path d="m1.4552 1.8521v1.5875" stroke="#bdbdbd"/>
+   <path d="m0.92604 1.8521v1.5875" stroke="#c6c6c6"/>
+   <path d="m3.3073 1.8521v1.5875" stroke="#3d3d3d"/>
+  </g>
+ </g>
+</svg>
