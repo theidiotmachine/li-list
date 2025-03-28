@@ -50,7 +50,11 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                             )
                         }
 
-                        <div class="col-span-3 col-start-3">{props.detachment.modelGroups[i].modelType}</div>
+                        <div class="col-span-3 col-start-3">
+                            <a href={"unit/"+props.detachment.modelGroups[i].modelType}>
+                                {props.detachment.modelGroups[i].modelType + ((u.dedicatedTransport ? " (dedicated transport)": ""))}
+                            </a>
+                        </div>
 
                         <div class="col-span-1 col-start-6 justify-self-end">{props.detachment.modelGroups[i].points}</div> 
                         {

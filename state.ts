@@ -1,6 +1,7 @@
 import { Signal, signal, effect, computed } from "@preact/signals";
 import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadout, ModelGroup } from "./game/types.ts";
-import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType } from "./game/lists.ts";
+import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
+import { _common } from "$std/path/_common/common.ts";
 
 export type Formation = {
     armyListName: ArmyListName | "";
@@ -8,6 +9,7 @@ export type Formation = {
     points: number;
     detachments: Detachment[];
     uuid: string;
+    breakPoint: number;
 };
 
 export type Army = {
@@ -61,6 +63,73 @@ function calcDetachmentPoints(detachment: Detachment) {
     return detachment.modelGroups.reduce((p, m) => p + m.points, 0);
 }
 
+/*
+**
+    A Formation’s Break Point is equal to half the total
+    number of the models within the Formation at the start of
+    the battle – unless otherwise noted, this includes models
+    that were on the battlefield and off the battlefield, due
+    to being in Reserve or for another reason. Break Points
+    are rounded up. Titan and Knight models add their total
+    starting Wounds characteristic, rather than the number of
+    models, to the total model count of a Formation instead,
+    and the current number of Wounds lost counts towards
+    the Formation’s Break Point.
+
+    For example, a Formation with 28 models has a Break Point
+    of 14, while a Formation with 27 models will also have a
+    Break Point of 14 (rounded up from 13.5).
+
+    CRB p63
+
+    Automated Sentry: Detachments with this special rule
+    are ignored for the purposes of calculating a Formation’s
+    Break Point.
+
+    CRB p87
+
+    In addition,
+    Drop Pod models are ignored for the purposes of
+    calculating a Formation’s Break Point.
+
+    CRB p88
+
+    Dedicated Transports are ignored for the purposes of
+    calculating Break Point.
+
+    CRB p129
+
+*/
+function calcFormationBreakPoint(formation: Formation): number {
+    const wounds = formation.detachments.reduce((p, d) => {
+        if(formation.armyListName == "" || d.detachmentType == "")
+            return p;
+        const config = getDetachmentConfigurationForDetachmentType(formation.armyListName, d.detachmentType);
+        if(config === undefined)
+            return p;
+
+        return p + d.modelGroups.reduce((p2, mg) => {
+            const stats = getStatsForModelType(mg.modelType);
+            const c = config.modelGroupShapes.find(x=>x.modelType == mg.modelType);
+            if(c === undefined)
+                return p2;
+
+            let woundsPerModel = 1;
+            if(stats !== undefined) {
+                if(stats.unitType == "Knight" || stats.unitType == "Titan")
+                    woundsPerModel = stats.wounds;
+                if(c.dedicatedTransport)
+                    woundsPerModel = 0;
+                if(stats.unitTraits.find(x=>x == "Automated Sentry" || x == "Drop Pod") != undefined)
+                    woundsPerModel = 0;
+            }
+                
+            return p2 + mg.number * woundsPerModel;
+        }, 0)
+    }, 0);
+    return Math.ceil(wounds / 2);
+}
+
 function calcFormationPoints(formation: Formation) {
     return formation.detachments.reduce((p, d) => p + d.points, 0);
 }
@@ -80,6 +149,20 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
         const c = getDetachmentConfigurationForDetachmentType(formation.armyListName, detachment.detachmentType);
         if( c ) {
             let numModels = 0;
+
+            type TransportData = {
+                numModels: number;
+                
+            };
+            let transportCapacity = 0;
+            let assaultTransportCapacity = 0;
+            let largeTransportCapacity = 0;
+            let largeAssaultTransportCapacity = 0;
+
+            let slimModels = 0;
+            let bulkyModels = 0;
+            let walkerModels = 0;
+
             for(let i = 0; i < detachment.modelGroups.length; ++i) {
                 const m = detachment.modelGroups[i];
                 const shapeIdx = c.modelGroupShapes.findIndex(x=>x.modelType == m.modelType);
@@ -97,15 +180,63 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
                         possibleModelNumbers.join(", ")
                      };
                 }
+
+                const stats = getStatsForModelType(m.modelType);
+
                 //don't include dedicated detachments for the purposes of validation
-                if(!shape.dedicatedTransport)
+                if(!shape.dedicatedTransport) {
                     numModels += m.number;
+                    if(stats) {
+                        if(stats.unitType == "Walker")
+                            walkerModels += m.number;
+                        else {
+                            const isBulky = stats.unitTraits.findIndex((x)=>x==="Bulky" || x==="Jump Packs") !== -1;
+                            if(isBulky) 
+                                bulkyModels += m.number;
+                            else
+                                slimModels += m.number;
+                        }
+                    }
+                } else {
+                    //okay, figure out the transport capacity of dedicated transports
+                    if(stats) {
+                        //eww
+                        const transportTrait = stats.unitTraits.find((x)=>x.startsWith("Transport"));
+                        if(transportTrait) {
+                            const matches = /Transport \([0-9]\)/.exec(transportTrait);
+                            transportCapacity += parseInt(matches![0]);
+                        }else{
+                            const assaultTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Assault Transport"));
+                            if(assaultTransportTrait) {
+                                const matches = /Assault Transport \([0-9]\)/.exec(assaultTransportTrait);
+                                assaultTransportCapacity += parseInt(matches![0]);
+                            } else {
+                                const largeTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Large Transport"));
+                                if(largeTransportTrait) { 
+                                    const matches = /Large Transport \([0-9]\)/.exec(largeTransportTrait);
+                                    largeTransportCapacity += parseInt(matches![0]);
+                                } else {
+                                    const largeAssaultTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Large Assault Transport"));
+                                    if(largeAssaultTransportTrait) { 
+                                        const matches = /Large Assault Transport \([0-9]\)/.exec(largeAssaultTransportTrait);
+                                        largeAssaultTransportCapacity += parseInt(matches![0]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             if(c.maxModels !== undefined && c.maxModels < numModels)
                 return { valid: false, error: "Too many models in detachment", data: "max " + c.maxModels}
             if(c.minModels !== undefined && c.minModels > numModels)
                 return { valid: false, error: "Too few models in detachment", data: "min " + c.minModels}
+
+            if(transportCapacity + assaultTransportCapacity + largeTransportCapacity + largeAssaultTransportCapacity > 0) {
+                //work down from walkers to slims
+                
+            }
 
             if(c.customValidation !== undefined){
                 const validationState = c.customValidation(detachment);
@@ -189,6 +320,7 @@ function createAppState(): AppStateType {
         const newArmy = {...army.value};
         newArmy.formations = newArmy.formations.slice();
         newArmy.formations[formationIdx] = newFormation;
+        newFormation.breakPoint = calcFormationBreakPoint(newFormation);
         newArmy.points = calcArmyPoints(newArmy.formations);
 
         pushOntoUndoStack(newArmy);
@@ -200,7 +332,7 @@ function createAppState(): AppStateType {
 
         const newArmy = {...army.value};
         newArmy.formations = newArmy.formations.slice();
-        newArmy.formations.push({armyListName: "", formationType: "", points: 0, detachments:[], uuid});
+        newArmy.formations.push({armyListName: "", formationType: "", points: 0, detachments:[], uuid, breakPoint: 0});
         newArmy.points = calcArmyPoints(newArmy.formations);
 
         pushOntoUndoStack(newArmy);

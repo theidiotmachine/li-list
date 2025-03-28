@@ -1,3 +1,5 @@
+import { WeaponType } from "./weaponTypes.ts";
+
 export const ArmyListNames = [
     "Legions Astartes",
     "Solar Auxilia",
@@ -125,6 +127,7 @@ export const AllLegionModelTypes = [
     "Javelin",
     "Land Speeder",
     "Legion Kratos",
+    "Legion Outrider", 
     "Legion Predator", 
     "Legion Rapier",
     "Legion Sicaran",
@@ -274,47 +277,67 @@ export type UnitType =
     "Cavalry" |
     "Infantry" |
     "Vehicle" |
-    "Walker"
+    "Walker" |
+    "Knight" |
+    "Structure" |
+    "Super-heavy vehicle" |
+    "Titan" |
+    "Vehcile"
 ;
 
 export type Scale = 1 | 2 | 3 | 4 | 5;
 
 export type SaveType = 
     "Armour" |
-    "Invulnerable"
+    "Invuln" |
+    "Ion Shield" |
+    "Jink"
 ;
 
 export type Save = {
     saveType: SaveType;
     save: number;
+    arc: Arc;
 };
-
-export type UnitStats = {
-    unitType: UnitType;
-    scale: Scale;
-    advance: number;
-    charge: number;
-    march: number;
-    saves: Save[];
-    caf: number;
-    morale: number;
-    wounds: number;
-    tacticalStrength: number;
-}
 
 export type Arc =
     "All" |
-    "Front"
+    "Front" |
+    "Rear"
 ;
 
-export type ArmourSaveModifier = {
-    unitType: UnitType;
+export type SaveModifier = {
     modifier: number;
+    wounds: number;
 }
 
-export type Trait = 
+export type UnitTrait = 
+    "Automated Sentry" |
+    "Bulky" |
+    "Commander" |
+    "Deep Strike" |
+    "Drop Pod" |
+    "Implacable" |
+    "Independent" |
+    "Inspire (8)" |
+    "Jump Packs" |
+    "Master Tactician" |
+    "Medicae" |
+    "Nimble" |
+    "Skimmer" |
+    "Transport (2)"
+;
+
+export type WeaponTrait = 
+    "Accurate" |
+    "Anti-tank" |
+    "Barrage" |
+    "Ignores Cover" |
     "Light" |
-    "Point Defence"
+    "Light AT" |
+    "Point Defence" |
+    "Skyfire" | 
+    "Tracking"
 ;
 
 export type WeaponStatsAtRange = {
@@ -322,18 +345,33 @@ export type WeaponStatsAtRange = {
     maxRange: number;
     dice: number;
     hit: number;
-    armourSaveModifiers: ArmourSaveModifier[];
-    extraTraits: Trait[];
+    infAndCav?: SaveModifier;
+    walker?: SaveModifier;
+    vShvKT?: SaveModifier;
+    ionShield?: SaveModifier;
+    structure?: SaveModifier;
+    voidShields: number;
+    traits: WeaponTrait[];
 }
 
 export type WeaponStats = {
-    name: string; //type?
     arc: Arc;
     weaponStatsAtRange: WeaponStatsAtRange[];
-    traits: Trait[];
 };
 
 export type Stats = {
-    unitStats: UnitStats;
-    weaponStats: WeaponStats[];
+    unitType: UnitType;
+    scale: Scale;
+    advance: number;
+    charge: number;
+    march: number;
+    saves: Save[];
+    caf: number;
+    morale?: number;
+    wounds: number;
+    voidShields: number;
+    tacticalStrength: number;
+    unitTraits: UnitTrait[];
+
+    weaponTypes: WeaponType[];
 }

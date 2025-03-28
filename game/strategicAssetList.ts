@@ -1,4 +1,4 @@
-import { Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, StrategicAssetDetachmentType, StrategicAssetFormationType } from "./types.ts";
+import { Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, Stats, StrategicAssetDetachmentType, StrategicAssetFormationType, StrategicAssetModelType } from "./types.ts";
 
 const formationShapes = new Map<StrategicAssetFormationType, FormationShape>([
     [ "Knight Household Lance", { slotRequirements: [
@@ -256,4 +256,19 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
 
 export function getStrategicAssetDetachmentConfigurationForDetachmentType(detachmentType: StrategicAssetDetachmentType): DetachmentConfiguration {
     return detachmentConfigurationForDetachmentType.get(detachmentType) ?? {modelGroupShapes: []}
+}
+const statsForModelType = new Map<StrategicAssetModelType, Stats>([
+    ["Knight Crusader", {
+        unitType: "Knight", scale: 4, advance: 8, charge: 16, march: 16, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Thermal cannon"],
+        unitTraits: ["Independent", "Nimble"]
+    }]
+]);
+
+export function getStatsForStrategicAssetModelType(modelType: StrategicAssetModelType): Stats | undefined {
+    return statsForModelType.get(modelType)
 }
