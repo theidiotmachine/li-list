@@ -523,6 +523,14 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         weaponTypes: ["Bolt pistols"],
         unitTraits: ["Jump Packs"] //counts as Bulky
     }],
+    ["Contemptor Dreadnought", {
+        unitType: "Walker", scale: 1, advance: 5, charge: 10, march: 10, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 5, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
+        weaponTypes: ["In-built twin-linked bolter", "Kheres assault cannon", "Twin-linked lascannon"],
+        unitTraits: ["Armoured"],
+    }],
     ["Command Squad", {
         unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}

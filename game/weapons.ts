@@ -44,6 +44,21 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Skyfire", "Tracking"], voidShields: 1
         },
     ]}],
+    ["In-built twin-linked bolter", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 4, dice: 2, hit: 5, infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1}, traits: ["Light", "Point Defence"], voidShields: 0},
+        {minRange: 4, maxRange: 8, dice: 1, hit: 5, infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1}, traits: ["Light", "Point Defence"], voidShields: 0}
+    ]}],
+    ["Kheres assault cannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 10, dice: 1, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Rapid Fire"], voidShields: 1
+        },
+    ]}],
     ["Legion bolters", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 2, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -170,6 +185,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             walker: {modifier: 0, wounds: 1}, traits: ["Light", "Point Defence"], voidShields: 0},
         {minRange: 4, maxRange: 8, dice: 1, hit: 5, infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1}, traits: ["Light", "Point Defence"], voidShields: 0}
+    ]}],
+    ["Twin-linked lascannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
     ]}],
     ["Twin plasma guns", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 10, dice: 1, hit: 4, 

@@ -21,6 +21,8 @@
     "**/_fresh/*"
   ],
   "imports": {
+    "dexie": "npm:/dexie@4.0.11",
+    "dexie/": "npm:/dexie@4.0.11/",
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
     "preact": "https://esm.sh/preact@10.22.0",
     "preact/": "https://esm.sh/preact@10.22.0/",
@@ -35,7 +37,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact"
   },
-  "nodeModulesDir": true,
+  "nodeModulesDir": "auto",
   "deploy": {
     "project": "8662d1e5-b267-4a2b-9b49-b44a29b4900d",
     "exclude": [

@@ -1,21 +1,7 @@
-import { Signal, signal, effect, computed } from "@preact/signals";
-import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadout, ModelGroup } from "./game/types.ts";
+import { Signal, signal, computed } from "@preact/signals";
+import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadout, ModelGroup, Army, Formation, Allegiance } from "./game/types.ts";
 import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
-
-export type Formation = {
-    armyListName: ArmyListName | "";
-    formationType: FormationType | "";
-    points: number;
-    detachments: Detachment[];
-    uuid: string;
-    breakPoint: number;
-};
-
-export type Army = {
-    formations: Formation[];
-    points: number;
-};
 
 export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
@@ -32,6 +18,12 @@ export type Redo = () => void;
 
 export type AppStateType = {
     army: Signal<Army>; 
+    makeNewArmy: () => void;
+    canMakeNewArmy: Signal<boolean>;
+    changeArmyName: (name: string) => void;
+    changeArmyMaxPoints: (points: number) => void;
+    changePrimaryArmyListName: (armyListName: ArmyListName | "") => void;
+    changeArmyAllegiance: (allegiance: Allegiance | "") => void;
     addFormation: AddFormation;
     removeFormation: RemoveFormation;
     changeFormationArmyList: ChangeFormationArmyList;
@@ -43,7 +35,9 @@ export type AppStateType = {
     removeModelLoadoutGroup: RemoveModelLoadoutGroup;
     changeModelLoadoutGroupNumber: ChangeModelLoadoutGroupNumber;
     undo: Undo;
+    canUndo: Signal<boolean>;
     redo: Redo;
+    canRedo: Signal<boolean>;
 };
 
 function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadout) {
@@ -151,13 +145,13 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
             let numModels = 0;
 
             type TransportData = {
-                numModels: number;
-                
+                capacity: number;
+                remainingCapacity: number;
+                takesWalkers: boolean;
+                takesBulky: boolean;
+                bulkyIs: number
             };
-            let transportCapacity = 0;
-            let assaultTransportCapacity = 0;
-            let largeTransportCapacity = 0;
-            let largeAssaultTransportCapacity = 0;
+            const transports: TransportData[] = [];
 
             let slimModels = 0;
             let bulkyModels = 0;
@@ -197,30 +191,36 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
                                 slimModels += m.number;
                         }
                     }
-                } else {
+                } else if(m.number > 0) {
                     //okay, figure out the transport capacity of dedicated transports
                     if(stats) {
                         //eww
                         const transportTrait = stats.unitTraits.find((x)=>x.startsWith("Transport"));
                         if(transportTrait) {
-                            const matches = /Transport \([0-9]\)/.exec(transportTrait);
-                            transportCapacity += parseInt(matches![0]);
-                        }else{
+                            const matches = transportTrait.match(/Transport \(([0-9])\)/);
+                            const transportCapacity = parseInt(matches![1]);
+                            for(let i = 0; i < m.number; ++i)
+                                transports.push(
+                                    {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: false, bulkyIs: 0}
+                                );
+                        } else {
                             const assaultTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Assault Transport"));
                             if(assaultTransportTrait) {
-                                const matches = /Assault Transport \([0-9]\)/.exec(assaultTransportTrait);
-                                assaultTransportCapacity += parseInt(matches![0]);
+                                const matches = /Assault Transport \(([0-9])\)/.exec(assaultTransportTrait);
+                                const transportCapacity = parseInt(matches![1]);
+                                for(let i = 0; i < m.number; ++i)
+                                    transports.push(
+                                        {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: true, bulkyIs: 2}
+                                    );
                             } else {
-                                const largeTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Large Transport"));
+                                const largeTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Large Transport") || x.startsWith("Large Assault Transport"));
                                 if(largeTransportTrait) { 
-                                    const matches = /Large Transport \([0-9]\)/.exec(largeTransportTrait);
-                                    largeTransportCapacity += parseInt(matches![0]);
-                                } else {
-                                    const largeAssaultTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Large Assault Transport"));
-                                    if(largeAssaultTransportTrait) { 
-                                        const matches = /Large Assault Transport \([0-9]\)/.exec(largeAssaultTransportTrait);
-                                        largeAssaultTransportCapacity += parseInt(matches![0]);
-                                    }
+                                    const matches = /.* Transport \(([0-9])\)/.exec(largeTransportTrait);
+                                    const transportCapacity = parseInt(matches![1]);
+                                    for(let i = 0; i < m.number; ++i)
+                                        transports.push(
+                                            {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: true, takesBulky: true, bulkyIs: 1}
+                                        );
                                 }
                             }
                         }
@@ -233,9 +233,68 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
             if(c.minModels !== undefined && c.minModels > numModels)
                 return { valid: false, error: "Too few models in detachment", data: "min " + c.minModels}
 
-            if(transportCapacity + assaultTransportCapacity + largeTransportCapacity + largeAssaultTransportCapacity > 0) {
+            if(transports.length > 0) {
                 //work down from walkers to slims
-                
+                while(walkerModels > 0) {
+                    const transport = transports.find((x)=>x.takesWalkers && x.remainingCapacity > 0);
+                    if(transport === undefined)
+                        return { valid: false, error: "Need more dedicated transports", data: "remaining walkers: " + walkerModels};
+
+                    const walkerLoad = walkerModels * 2;
+                    if(transport.remainingCapacity >= walkerLoad) {
+                        transport.remainingCapacity -= walkerLoad;
+                        break;
+                    }
+
+                    if(transport.remainingCapacity % 2 == 0) {
+                        walkerModels -= transport.remainingCapacity / 2;
+                        transport.remainingCapacity = 0;
+                    } else {
+                        const numToLoad = Math.floor(transport.remainingCapacity / 2);
+                        transport.remainingCapacity -= numToLoad * 2;
+                        walkerModels -= numToLoad; 
+                    }
+                }
+
+                //now bulky
+                while(bulkyModels > 0) {
+                    const transport = transports.find((x)=>x.takesBulky && x.remainingCapacity > 0);
+                    if(transport === undefined)
+                        return { valid: false, error: "Need more dedicated transports", data: "remaining bulky models: " + bulkyModels};
+
+                    const bulkyLoad = bulkyModels * transport.bulkyIs;
+                    if(transport.remainingCapacity >= bulkyLoad) {
+                        transport.remainingCapacity -= bulkyLoad;
+                        break;
+                    }
+
+                    if(transport.remainingCapacity % transport.bulkyIs == 0) {
+                        bulkyModels -= transport.remainingCapacity / transport.bulkyIs;
+                        transport.remainingCapacity = 0;
+                    } else {
+                        const numToLoad = Math.floor(transport.remainingCapacity / transport.bulkyIs);
+                        transport.remainingCapacity -= numToLoad * transport.bulkyIs;
+                        bulkyModels -= numToLoad; 
+                    }
+                }
+
+                //finally, slim
+                while(slimModels > 0) {
+                    const transport = transports.find((x)=>x.remainingCapacity > 0);
+                    if(transport === undefined)
+                        return { valid: false, error: "Need more dedicated transports", data: "remaining models: " + slimModels};
+                    if(transport.remainingCapacity >= slimModels) {
+                        transport.remainingCapacity -= slimModels;
+                        break;
+                    }
+                    slimModels -= transport.remainingCapacity;
+                    transport.remainingCapacity = 0;
+                }
+
+                //okay now make sure we're not overprovisioned
+                const transport = transports.find((x)=>x.remainingCapacity == x.capacity);
+                if(transport !== undefined)
+                    return { valid: false, error: "Too many dedicated transports"};
             }
 
             if(c.customValidation !== undefined){
@@ -287,31 +346,84 @@ function refreshFormation(newFormation: Formation) {
 }
 
 function createAppState(): AppStateType {
-    let undoStack: Army[] = [{points: 0, formations: []}];
-    let undoIndex = 0;
-    const army = signal<Army>({formations: [], points: 0});
+    const newArmy = {
+        formations: [], points: 0, uuid: crypto.randomUUID(), name: "", maxPoints: 0, primaryArmyListName: "" as ArmyListName | "",
+        allegiance: "" as Allegiance | ""
+    };
+    const undoStack= signal<Army[]>([newArmy]);
+    const undoIndex = signal<number>(0);
+    const army = signal<Army>(newArmy);
+    const canUndo = computed(()=>{
+        return undoIndex.value > 0;
+    });
+    const canRedo = computed(()=>{
+        return undoIndex.value < undoStack.value.length - 1;
+    });
+    const canMakeNewArmy = computed(()=>{
+        return army.value.formations.length > 0 || army.value.name != "" || army.value.maxPoints != 0 
+            || army.value.primaryArmyListName != "" || army.value.allegiance != "";
+    });
 
     const pushOntoUndoStack = (army: Army) => {
-        if(undoIndex < undoStack.length - 1) {
-            undoStack = undoStack.slice(0, undoIndex + 1);
+        if(undoIndex.value < undoStack.value.length - 1) {
+            undoStack.value = undoStack.value.slice(0, undoIndex.value + 1);
         }
-            
-        undoStack.push(army);
-        undoIndex = undoStack.length - 1;
+        
+        const newUnodoStack = undoStack.value.slice();
+        newUnodoStack.push(army);
+        undoStack.value = newUnodoStack;
+        undoIndex.value = undoStack.value.length - 1;
     }
 
     const undo = () => {
-        if(undoIndex > 0) {
-            undoIndex--;
-            army.value = undoStack[undoIndex];
+        if(undoIndex.value > 0) {
+            undoIndex.value = undoIndex.value-1;
+            army.value = undoStack.value[undoIndex.value];
         }
     }
 
     const redo = () => {
-        if(undoIndex < undoStack.length - 1) {
-            undoIndex++;
-            army.value = undoStack[undoIndex];
+        if(undoIndex.value < undoStack.value.length - 1) {
+            undoIndex.value = undoIndex.value + 1;
+            army.value = undoStack.value[undoIndex.value];
         }
+    }
+
+    const makeNewArmy = () => {
+        const newArmy = {
+            formations: [], points: 0, uuid: crypto.randomUUID(), name: "", maxPoints: 0, 
+            primaryArmyListName: "" as ArmyListName | "", allegiance: "" as Allegiance | ""
+        };
+        pushOntoUndoStack(newArmy);
+        army.value = newArmy;
+    }
+
+    const changeArmyName = (name: string) => {
+        const newArmy = {...army.value};
+        newArmy.name = name;
+        pushOntoUndoStack(newArmy);
+        army.value = newArmy;
+    }
+
+    const changeArmyMaxPoints = (value: number) => {
+        const newArmy = {...army.value};
+        newArmy.maxPoints = value;
+        pushOntoUndoStack(newArmy);
+        army.value = newArmy;
+    }
+
+    const changeArmyAllegiance = (allegiance: Allegiance | "") => {
+        const newArmy = {...army.value};
+        newArmy.allegiance = allegiance;
+        pushOntoUndoStack(newArmy);
+        army.value = newArmy;
+    }
+    
+    const changePrimaryArmyListName = (armyListName: ArmyListName | "") => {
+        const newArmy = {...army.value};
+        newArmy.primaryArmyListName = armyListName;
+        pushOntoUndoStack(newArmy);
+        army.value = newArmy;
     }
 
     const setFormationAtIdx = (newFormation: Formation, formationIdx: number) => {
@@ -600,8 +712,10 @@ function createAppState(): AppStateType {
         setFormationAtIdx(newFormation, formationIdx);
     };
 
-    return {army, addFormation, removeFormation, changeFormationArmyList, changeFormationType, changeDetachmentType, changeModelNumber, 
-        changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, undo, redo};
+    return {army, makeNewArmy, canMakeNewArmy, changeArmyName, changeArmyMaxPoints, changePrimaryArmyListName, changeArmyAllegiance,
+        addFormation, removeFormation, changeFormationArmyList, 
+        changeFormationType, changeDetachmentType, changeModelNumber, 
+        changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo};
 }
 
 export default createAppState();

@@ -43,6 +43,7 @@ export default function Unit(props: PageProps) {
               <span class="text-xs">{hasWeaponTrait(wsar, "Barrage") ? " Barrage" : ""}</span>
               <span class="text-xs">{hasWeaponTrait(wsar, "Skyfire") ? " Skyfire" : ""}</span>
               <span class="text-xs">{hasWeaponTrait(wsar, "Tracking") ? " Reroll misses vs flyers" : ""}</span>
+              <span class="text-xs">{hasWeaponTrait(wsar, "Rapid Fire") ? " Nat 6 is +1 hit" : ""}</span>
             </td>
             <td>{(wsar.infAndCav)?(formatSaveModifier(wsar.infAndCav)):""}</td>
             <td>
@@ -81,9 +82,9 @@ export default function Unit(props: PageProps) {
             <tr>
               <td>{stats.unitType}</td>
               <td>{stats.scale}</td>
-              <td>{stats.advance}</td>
-              <td>{stats.charge}</td>
-              <td>{stats.march}</td>
+              <td>{stats.advance}"</td>
+              <td>{stats.charge}"</td>
+              <td>{stats.march}"</td>
               {saves}
               <td>{(stats.caf >= 0)?("+" + stats.caf.toString()):stats.caf}</td>
               <td>

@@ -4,6 +4,8 @@ export type WeaponType =
     "Cyclone missile launcher" |
     "Heavy bolter" |
     "Hyperios air defence missile launcher" |
+    "Kheres assault cannon" |
+    "In-built twin-linked bolter" |
     "Laser destroyer array" |
     "Legion bolters" |
     "Missile launchers" |
@@ -18,5 +20,6 @@ export type WeaponType =
     "Tarantula lascannon battery" |
     "Thermal cannon" |
     "Twin-linked bolters" |
+    "Twin-linked lascannon" |
     "Twin plasma guns"
 ;

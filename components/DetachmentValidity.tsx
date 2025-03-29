@@ -7,7 +7,6 @@ interface DetachmentValidityProps {
 export function DetachmentValidity(props: DetachmentValidityProps) {
     if(props.detachment.validationState.valid) 
         return <span></span>
-    //else return <span class="w-8 to-red-500" label={props.detachment.validationState.error}>🚫</span>
     let errorText = props.detachment.validationState.error;
     if(props.detachment.validationState.data) 
         errorText += ", " + props.detachment.validationState.data;

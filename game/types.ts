@@ -1,5 +1,11 @@
 import { WeaponType } from "./weaponTypes.ts";
 
+export const Allegiances = [
+    "Loyalist",
+    "Traitor"
+] as const;
+export type Allegiance = (typeof Allegiances)[number];
+
 export const ArmyListNames = [
     "Legions Astartes",
     "Solar Auxilia",
@@ -229,7 +235,9 @@ export type DetachmentValidationError =
     "Too few models in group" | 
     "Too many models in group" |
     "Invalid number of models in group" |
-    "Invalid loadouts of models in group" 
+    "Invalid loadouts of models in group" |
+    "Need more dedicated transports" |
+    "Too many dedicated transports"
 ;
 export type DetachmentValidationState = {
     valid: boolean,
@@ -264,6 +272,25 @@ export type Detachment = {
     modelGroups: ModelGroup[];
     points: number;
     validationState: DetachmentValidationState;
+};
+
+export type Formation = {
+    armyListName: ArmyListName | "";
+    formationType: FormationType | "";
+    points: number;
+    detachments: Detachment[];
+    uuid: string;
+    breakPoint: number;
+};
+
+export type Army = {
+    allegiance: Allegiance | "";
+    primaryArmyListName: ArmyListName | "";
+    formations: Formation[];
+    maxPoints: number;
+    points: number;
+    uuid: string;
+    name: string;
 };
 
 export type DetachmentConfiguration = {
@@ -312,6 +339,7 @@ export type SaveModifier = {
 }
 
 export type UnitTrait = 
+    "Armoured" |
     "Automated Sentry" |
     "Bulky" |
     "Commander" |
@@ -336,6 +364,7 @@ export type WeaponTrait =
     "Light" |
     "Light AT" |
     "Point Defence" |
+    "Rapid Fire" |
     "Skyfire" | 
     "Tracking"
 ;

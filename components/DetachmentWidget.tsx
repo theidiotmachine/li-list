@@ -51,7 +51,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                         }
 
                         <div class="col-span-3 col-start-3">
-                            <a href={"unit/"+props.detachment.modelGroups[i].modelType}>
+                            <a href={"unit/"+props.detachment.modelGroups[i].modelType} target="_blank" class="hover:underline">
                                 {props.detachment.modelGroups[i].modelType + ((u.dedicatedTransport ? " (dedicated transport)": ""))}
                             </a>
                         </div>
