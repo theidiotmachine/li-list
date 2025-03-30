@@ -2,6 +2,24 @@ import { WeaponStats } from "./types.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 const weapons = new Map<WeaponType, WeaponStats>([
+    ["Aiolus missile launcher", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 25, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: ["Skyfire"], voidShields: 1
+        }
+    ]}],
+    ["Anvilus autocannon battery", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Light AT"], voidShields: 0
+        },
+    ]} ],
     ["Bolt pistols", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -33,6 +51,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1},
             traits: ["Light", "Point Defence"], voidShields: 0
+        }
+    ]}],
+    ["Hellfire plasma cannonade", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 14, dice: 2, hit: 4, 
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"], voidShields: 0
         }
     ]}],
     ["Hyperios air defence missile launcher", {arc: "All", weaponStatsAtRange: [
@@ -144,6 +171,13 @@ const weapons = new Map<WeaponType, WeaponStats>([
             infAndCav: {modifier: -1, wounds: 1},
             walker: {modifier: -1, wounds: 1},
             traits: ["Barrage", "Light"], voidShields: 1
+        }
+    ]}],
+    ["Sarcophagus mounted weapon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 8, dice: 1, hit: 6, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Light", "Point Defence"], voidShields: 0
         }
     ]}],
     ["Scimitar heavy bolter", {arc: "All", weaponStatsAtRange: [

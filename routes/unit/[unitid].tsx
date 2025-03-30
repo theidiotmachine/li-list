@@ -1,5 +1,5 @@
 import { PageProps } from "$fresh/server.ts";
-import { ModelType, SaveModifier, Stats, UnitTrait, WeaponStatsAtRange, WeaponTrait } from "../../game/types.ts";
+import { ModelType, Save, SaveModifier, Stats, UnitTrait, UnitType, WeaponStatsAtRange, WeaponTrait } from "../../game/types.ts";
 import { getStatsForModelType } from "../../game/lists.ts";
 import { getWeaponStats } from "../../game/weapons.ts";
 
@@ -9,6 +9,13 @@ function formatSaveModifier(saveModifier: SaveModifier): string {
   if(saveModifier.wounds > 1)
     out += ", " + saveModifier.wounds.toString() + "W";
   return out;
+}
+
+function formatSave(s: Save, i: number, stats: Stats) {
+  return <td key={i}>
+    {s.save.toString() + "+"}
+    <span class="text-xs">{((hasUnitTrait(stats,"Armoured") && s.saveType=="Armour") ? " Reroll fails vs light" : "")}</span>
+  </td>
 }
 
 function hasUnitTrait(stats: Stats, unitTrait: UnitTrait): boolean {
@@ -23,15 +30,15 @@ export default function Unit(props: PageProps) {
   const modelType = decodeURIComponent(props.params.unitid) as ModelType;
   const stats = getStatsForModelType(modelType);
   if(stats) {
-    const saveHeaders = stats.saves.map((s,i)=><td key ={i} class="w-16">{(s.arc=="All"?"":(s.arc+" ")) + s.saveType}</td>);
-    const saves = stats.saves.map(s=><td>{s.save.toString() + "+"}</td>);
+    const saveHeaders = stats.saves.map((s,i)=><td key={i} class="w-16">{(s.arc=="All"?"":(s.arc+" ")) + s.saveType}</td>);
+    const saves = stats.saves.map((s, i)=>formatSave(s, i, stats));
     const weapons = stats.weaponTypes.flatMap((wt)=> {
         const w = getWeaponStats(wt);
         if(w === undefined)
           return <tr></tr>;
 
         return w.weaponStatsAtRange.map((wsar, i)=>{
-          return <tr><td>{(i==0)?wt:""}</td>
+          return <tr key={i} class="even:bg-gray-50 odd:bg-white"><td>{(i==0)?wt:""}</td>
             <td>{w.arc}</td>
             <td>
               {wsar.minRange}"-{wsar.maxRange}"
@@ -47,12 +54,12 @@ export default function Unit(props: PageProps) {
             </td>
             <td>{(wsar.infAndCav)?(formatSaveModifier(wsar.infAndCav)):""}</td>
             <td>
-              {(wsar.walker)?(formatSaveModifier(wsar.walker)):""}<span class="text-xs">{hasWeaponTrait(wsar, "Light") ? " Reroll fails" : ""}</span>
+              {(wsar.walker)?(formatSaveModifier(wsar.walker)):""}
             </td>
             <td>{(wsar.vShvKT)?(formatSaveModifier(wsar.vShvKT)):""}</td>
-            <td>{(wsar.structure)?(formatSaveModifier(wsar.structure)):""}</td>
             <td>{(wsar.ionShield)?(formatSaveModifier(wsar.ionShield)):""}</td>
             <td>{(wsar.voidShields)?("-" + wsar.voidShields + "VS"):""}</td>
+            <td>{(wsar.structure)?(formatSaveModifier(wsar.structure)):""}</td>
             <td>{wsar.traits.join(", ")}</td>
           </tr>
         })}
@@ -63,9 +70,9 @@ export default function Unit(props: PageProps) {
         <p>{stats.unitTraits.join(", ")}</p>
       </div>
       <div>
-        <table class="border-collapse border border-gray-400 table-fixed">
+        <table class="border-collapse border table-fixed text-sm">
           <thead>
-            <tr>
+            <tr class="border-b-2 border-gray-400 font-bold bg-gray-100">
               <td class="w-32">Type</td>
               <td class="w-16">Scale</td>
               <td class="w-16">Advance</td>
@@ -79,7 +86,7 @@ export default function Unit(props: PageProps) {
             </tr>
           </thead>
           <tbody>
-            <tr>
+            <tr class="even:bg-gray-50 odd:bg-white">
               <td>{stats.unitType}</td>
               <td>{stats.scale}</td>
               <td>{stats.advance}"</td>
@@ -101,9 +108,9 @@ export default function Unit(props: PageProps) {
       </div>
       
       <div>
-      <table class="border-collapse border border-gray-400">
+      <table class="border-collapse border text-sm">
           <thead>
-            <tr>
+            <tr class="border-b-2 border-gray-400 font-bold bg-gray-100">
               <td class="w-32">Name</td>
               <td class="w-16">Arc</td>
               <td class="w-16">Range</td>
@@ -112,13 +119,13 @@ export default function Unit(props: PageProps) {
               <td class="w-16">Inf, Cav</td>
               <td class="w-16">Walker</td>
               <td class="w-16">Ve, SHV, Kn, Ti</td>
-              <td class="w-16">Struct</td>
               <td class="w-16">Ion Shield</td>
               <td class="w-16">Void Shield</td>
-              <td class="w-16">Traits</td>
+              <td class="w-16">Struct</td>
+              <td class="w-32">Traits</td>
             </tr>
           </thead>
-          <tbody>
+          <tbody >
             {weapons}
           </tbody>
         </table>

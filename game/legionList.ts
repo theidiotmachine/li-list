@@ -539,6 +539,14 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         weaponTypes: ["Combi bolters"],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Medicae"] //and whatever gives them invuln
     }],
+    ["Deredeo Dreadnought", {
+        unitType: "Walker", scale: 1, advance: 5, charge: 10, march: 10, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
+        ],
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
+        weaponTypes: ["Aiolus missile launcher", "Anvilus autocannon battery", "Hellfire plasma cannonade", "Sarcophagus mounted weapon"],
+        unitTraits: ["Armoured", "Tracking Array"],
+    }],
     ["Javelin", {
         unitType: "Cavalry", scale: 1, advance: 10, charge: 20, march: 20, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
@@ -585,7 +593,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         ],
         caf: 4, morale: 3, wounds: 1, tacticalStrength: 6, voidShields: 0,
         weaponTypes: ["Combi bolters"],
-        unitTraits: ["Bulky", "Deep Strike", "Implacable"] //and whatever gives them 6 tac str and invuln
+        unitTraits: ["Bulky", "Deep Strike", "Implacable", "Steadfast"] //and whatever gives invuln
     }],
     ["Missile Launcher Legionaries",{
         unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [

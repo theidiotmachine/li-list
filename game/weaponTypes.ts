@@ -1,8 +1,11 @@
 export type WeaponType = 
+    "Aiolus missile launcher" |
+    "Anvilus autocannon battery" |
     "Bolt pistols" |
     "Combi bolters" |
     "Cyclone missile launcher" |
     "Heavy bolter" |
+    "Hellfire plasma cannonade" |
     "Hyperios air defence missile launcher" |
     "Kheres assault cannon" |
     "In-built twin-linked bolter" |
@@ -15,6 +18,7 @@ export type WeaponType =
     "Plasma cannon" |
     "Plasma guns" |
     "Quad launcher" |
+    "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
     "Sponson mounted lascannon" |
     "Tarantula lascannon battery" |

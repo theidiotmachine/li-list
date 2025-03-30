@@ -353,6 +353,8 @@ export type UnitTrait =
     "Medicae" |
     "Nimble" |
     "Skimmer" |
+    "Steadfast" |
+    "Tracking Array" |
     "Transport (2)"
 ;
 
@@ -366,7 +368,7 @@ export type WeaponTrait =
     "Point Defence" |
     "Rapid Fire" |
     "Skyfire" | 
-    "Tracking"
+    "Tracking" 
 ;
 
 export type WeaponStatsAtRange = {
