@@ -12,7 +12,7 @@ function formatSaveModifier(saveModifier: SaveModifier): string {
 }
 
 function formatSave(s: Save, i: number, stats: Stats) {
-  return <td key={i}>
+  return <td key={"c"+i}>
     {s.save.toString() + "+"}
     <span class="text-xs">{((hasUnitTrait(stats,"Armoured") && s.saveType=="Armour") ? " Reroll fails vs light" : "")}</span>
   </td>
@@ -30,7 +30,7 @@ export default function Unit(props: PageProps) {
   const modelType = decodeURIComponent(props.params.unitid) as ModelType;
   const stats = getStatsForModelType(modelType);
   if(stats) {
-    const saveHeaders = stats.saves.map((s,i)=><td key={i} class="w-16">{(s.arc=="All"?"":(s.arc+" ")) + s.saveType}</td>);
+    const saveHeaders = stats.saves.map((s,i)=><td key={"a"+i} class="w-16">{(s.arc=="All"?"":(s.arc+" ")) + s.saveType}</td>);
     const saves = stats.saves.map((s, i)=>formatSave(s, i, stats));
     const weapons = stats.weaponTypes.flatMap((wt)=> {
         const w = getWeaponStats(wt);
@@ -38,7 +38,7 @@ export default function Unit(props: PageProps) {
           return <tr></tr>;
 
         return w.weaponStatsAtRange.map((wsar, i)=>{
-          return <tr key={i} class="even:bg-gray-50 odd:bg-white"><td>{(i==0)?wt:""}</td>
+          return <tr key={"b"+i} class="even:bg-gray-50 odd:bg-white"><td>{(i==0)?wt:""}</td>
             <td>{w.arc}</td>
             <td>
               {wsar.minRange}"-{wsar.maxRange}"

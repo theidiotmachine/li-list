@@ -1,5 +1,5 @@
 import { useContext } from "preact/hooks";
-import { Formation } from "../state.ts";
+import { Formation } from "../game/types.ts";
 import { DetachmentTable } from "./DetachmentTable.tsx";
 import { AppState } from "../islands/App.tsx";
 import { FormationTypeSelect } from "./FormationTypeSelect.tsx";

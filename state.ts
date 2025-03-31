@@ -2,6 +2,7 @@ import { Signal, signal, computed } from "@preact/signals";
 import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadout, ModelGroup, Army, Formation, Allegiance } from "./game/types.ts";
 import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
+import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
 
 export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
@@ -16,10 +17,17 @@ export type ChangeModelLoadoutGroupNumber = (uuid: string, detachmentIndex: numb
 export type Undo = () => void;
 export type Redo = () => void;
 
+export enum LoadState{
+    NotStarted,
+    Loading,
+    Loaded,
+}
+
+
+
 export type AppStateType = {
     army: Signal<Army>; 
     makeNewArmy: () => void;
-    canMakeNewArmy: Signal<boolean>;
     changeArmyName: (name: string) => void;
     changeArmyMaxPoints: (points: number) => void;
     changePrimaryArmyListName: (armyListName: ArmyListName | "") => void;
@@ -38,6 +46,16 @@ export type AppStateType = {
     canUndo: Signal<boolean>;
     redo: Redo;
     canRedo: Signal<boolean>;
+
+    //storage
+    armiesLoadState: Signal<LoadState>;
+    armyLoadState: Signal<LoadState>;
+    saves: Signal<SaveState[]>;
+    refreshSaves: () => void;
+    load: (uuid: string) => void;
+    deleteSave: (uuid: string) => void;
+    canCloneArmy: Signal<boolean>;
+    cloneArmy: () => void;
 };
 
 function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadout) {
@@ -359,10 +377,46 @@ function createAppState(): AppStateType {
     const canRedo = computed(()=>{
         return undoIndex.value < undoStack.value.length - 1;
     });
-    const canMakeNewArmy = computed(()=>{
-        return army.value.formations.length > 0 || army.value.name != "" || army.value.maxPoints != 0 
-            || army.value.primaryArmyListName != "" || army.value.allegiance != "";
-    });
+    
+    const armiesLoadState = signal<LoadState>(LoadState.NotStarted);
+    const armyLoadState = signal<LoadState>(LoadState.NotStarted);
+
+    const saves = signal<SaveState[]>([]);
+
+    const refreshSaves = async () => {
+        if(armiesLoadState.value === LoadState.Loading || armiesLoadState.value === LoadState.Loaded)
+            return;
+
+        armiesLoadState.value = LoadState.Loading;
+        saves.value = await getArmyNames();
+        armiesLoadState.value = LoadState.Loaded;
+    }
+
+    const deleteSave = async (uuid: string) => {
+        await deleteArmy(uuid);
+        armiesLoadState.value = LoadState.NotStarted;
+        refreshSaves();
+    }
+
+    const canSaveLocally = ()=>army.value.name != "";
+    const save = () => {
+        if(canSaveLocally())
+            saveArmy(army.value);
+    }
+
+    const load = async (uuid: string) => {
+        if(armyLoadState.value === LoadState.Loading || armyLoadState.value === LoadState.Loaded)
+            return;
+
+        armyLoadState.value = LoadState.Loading;
+        const storedArmy = await loadArmy(uuid);
+        if(storedArmy != undefined) {
+            army.value = storedArmy;
+            undoStack.value = [storedArmy];
+            undoIndex.value = 0;
+        }
+        armyLoadState.value = LoadState.Loaded;
+    }
 
     const pushOntoUndoStack = (army: Army) => {
         if(undoIndex.value < undoStack.value.length - 1) {
@@ -394,8 +448,31 @@ function createAppState(): AppStateType {
             formations: [], points: 0, uuid: crypto.randomUUID(), name: "", maxPoints: 0, 
             primaryArmyListName: "" as ArmyListName | "", allegiance: "" as Allegiance | ""
         };
-        pushOntoUndoStack(newArmy);
+        undoStack.value = [newArmy];
+        undoIndex.value = 0;
         army.value = newArmy;
+        save();
+        location.href = "./?uuid="+newArmy.uuid;
+    }
+
+    const canCloneArmy = computed(()=>canSaveLocally());
+    //I think there was a movie about this
+    const cloneArmy = async () => {
+        const uuid = army.value.uuid;
+        const storedArmy = await loadArmy(uuid);
+        
+        if(storedArmy === undefined)
+            return;
+
+        storedArmy.uuid = crypto.randomUUID();
+
+        storedArmy.name = "Copy of " + storedArmy.name;
+
+        undoStack.value = [storedArmy];
+        undoIndex.value = 0;
+        army.value = storedArmy;
+        save();
+        location.href = "./?uuid="+storedArmy.uuid;
     }
 
     const changeArmyName = (name: string) => {
@@ -403,6 +480,7 @@ function createAppState(): AppStateType {
         newArmy.name = name;
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
+        save();
     }
 
     const changeArmyMaxPoints = (value: number) => {
@@ -410,6 +488,7 @@ function createAppState(): AppStateType {
         newArmy.maxPoints = value;
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
+        save();
     }
 
     const changeArmyAllegiance = (allegiance: Allegiance | "") => {
@@ -417,6 +496,7 @@ function createAppState(): AppStateType {
         newArmy.allegiance = allegiance;
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
+        save();
     }
     
     const changePrimaryArmyListName = (armyListName: ArmyListName | "") => {
@@ -424,6 +504,7 @@ function createAppState(): AppStateType {
         newArmy.primaryArmyListName = armyListName;
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
+        save();
     }
 
     const setFormationAtIdx = (newFormation: Formation, formationIdx: number) => {
@@ -437,6 +518,7 @@ function createAppState(): AppStateType {
 
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
+        save();
     }
 
     const addFormation: AddFormation = (): void => {
@@ -712,10 +794,12 @@ function createAppState(): AppStateType {
         setFormationAtIdx(newFormation, formationIdx);
     };
 
-    return {army, makeNewArmy, canMakeNewArmy, changeArmyName, changeArmyMaxPoints, changePrimaryArmyListName, changeArmyAllegiance,
+    return {army, makeNewArmy, changeArmyName, changeArmyMaxPoints, changePrimaryArmyListName, changeArmyAllegiance,
         addFormation, removeFormation, changeFormationArmyList, 
         changeFormationType, changeDetachmentType, changeModelNumber, 
-        changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo};
+        changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
+        armiesLoadState, armyLoadState, saves, refreshSaves, load, deleteSave, canCloneArmy, cloneArmy
+    };
 }
 
 export default createAppState();
