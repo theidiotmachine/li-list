@@ -1,8 +1,7 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { ArmyListName, DetachmentType, FormationSlot } from "../game/types.ts";
+import { ArmyListName, DetachmentType, Formation, FormationSlot } from "../game/types.ts";
 import { getDetachmentTypesForSlot } from "../game/lists.ts";
-import { Formation } from "../state.ts";
 
 interface UnitTypeSelectProps {
     uuid: string;

@@ -84,7 +84,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
             <div class="col-span-2 font-medium text-lg">
                 <DetachmentValidity detachment={props.detachment}/>{slotDisplayName}
             </div> 
-            <div class="col-span-4 col-start-2 row-start-2 md:col-span-3"><DetachmentTypeSelect 
+            <div class="col-span-4 col-start-2 row-start-2 md:col-start-3 md:row-start-1 md:col-span-3"><DetachmentTypeSelect 
                 uuid = {props.uuid} detachmentIndex = {props.detachmentIndex} slot = {props.detachment.slot}
                 armyListName={props.armyListName}/></div>
             <div class="col-span-1 col-start-6 justify-self-end md:text-lg">{props.detachment.points}</div>
