@@ -87,6 +87,7 @@ export type LegionDetachmentType =
     "Legion Scimitar Jetbike Squadron" |
     "Legion Sicaran Squadron" |
     "Legion Siege Dreadnought Detachment" |
+    "Legion Spartan Detachment" |
     "Legion Storm Eagle Squadron" |
     "Legion Tactical Detachment"| 
     "Legion Tarantula Battery" |

@@ -128,7 +128,8 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
         "Leviathan Siege Dreadnought Detachment",
     ] ],
     [ "Transport", [ 
-        "Legion Rhino Detachment" 
+        "Legion Rhino Detachment",
+        "Legion Spartan Detachment"
     ] ], 
     [ "Vanguard", [
         "Legion Javelin Squadron",
