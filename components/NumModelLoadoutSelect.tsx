@@ -29,7 +29,7 @@ export function NumModelLoadoutSelect(props: NumModelLoadoutSelectProps) {
         }
     }
 
-    return <select class="w-10 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" onInput={(e) => changeModelLoadoutGroupNumber(
+    return <select class="w-8 md:w-10 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" onInput={(e) => changeModelLoadoutGroupNumber(
         props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, parseNumber(e.currentTarget.value, "")
         )}>
         {options.map((x) => 

@@ -134,7 +134,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
     ]}],
     ["Leviathan siege claw", {
         arc: "Melee", weaponStatsAtRange: [{
-            traits: ["Rend", "Wrecker (2)"]
+            traits: ["Rend", "Wrecker (2)"],
         }]
     }],
     ["Leviathan storm cannon", {arc: "All", weaponStatsAtRange: [
@@ -150,7 +150,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
         {minRange: 0, maxRange: 20, dice: 2, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1},
-            traits: ["Ignores Cover", "Light"], voidShields: 0
+            traits: ["Ignores Cover", "Light"],
         },
         {minRange: 0, maxRange: 20, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -180,6 +180,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: -3, wounds: 1},
             ionShield: {modifier: -1, wounds: 1},
             traits: ["Anti-tank"], voidShields: 1
+        }
+    ]}],
+    ["Pintle Mounted havoc launcher", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 15, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Point Defence"]
         }
     ]}],
     ["Pintle Mounted twin bolter", {arc: "Front", weaponStatsAtRange: [
@@ -255,6 +264,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
     ]}],
     ["Sponson Mounted quad lascannon", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 22, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
+    ]}],
+    ["Sponson Mounted twin-linked lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: -1, wounds: 1},
             vShvKT: {modifier: -1, wounds: 1},

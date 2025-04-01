@@ -1,5 +1,5 @@
 import { PageProps } from "$fresh/server.ts";
-import { ModelType, Save, SaveModifier, Stats, UnitTrait, UnitType, WeaponStatsAtRange, WeaponTrait } from "../../game/types.ts";
+import { ModelType, Save, SaveModifier, Stats, UnitTrait, WeaponStatsAtRange, WeaponTrait } from "../../game/types.ts";
 import { getStatsForModelType } from "../../game/lists.ts";
 import { getWeaponStats } from "../../game/weapons.ts";
 

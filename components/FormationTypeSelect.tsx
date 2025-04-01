@@ -17,7 +17,7 @@ export function FormationTypeSelect(props: FormationTypeSelectProps) {
     let formationTypes: (FormationType | "")[] = [""];
     formationTypes = formationTypes.concat(getFormationTypesForArmyListName(formation?.armyListName ?? ""));
 
-    return <select class="w-80 text-xl appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" 
+    return <select class="w-48 md:w-80 md:text-xl appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" 
         onInput={(e) => changeFormationType(props.uuid, e.currentTarget.value as FormationType)}>
         {formationTypes.map((f, i)=><option key={i} selected={formationType == f}>{f}</option>)}
     </select>

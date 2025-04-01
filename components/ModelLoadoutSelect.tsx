@@ -23,7 +23,7 @@ export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
         return <div></div>
         
     const slot = modelOptions.modelLoadoutSlots[props.modelLoadoutSlotIndex];
-    return <select class="w-72 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right"
+    return <select class="w-44 md:w-72 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right"
         onInput={(e)=> changeModelLoadout(props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotIndex, e.currentTarget.value)}>
         {slot.possibleModelLoadouts.map((x,i)=><option key={i} selected={props.loadout.loadout == x.loadout}>{x.loadout}</option>)} 
     </select>

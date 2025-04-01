@@ -128,6 +128,7 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
         "Leviathan Siege Dreadnought Detachment",
     ] ],
     [ "Transport", [ 
+        "Legion Land Raider Detachment",
         "Legion Rhino Detachment",
         "Legion Spartan Detachment"
     ] ], 
@@ -530,6 +531,36 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 5, points: 5*80}, {num: 6, points: 6*80}, {num: 7, points: 7*80}, {num: 8, points: 8*80}, 
         ]}
     ]}],
+    ["Legion Land Raider Detachment", {
+        customValidation: (detachment: Detachment): DetachmentValidationState => {
+            const data = detachment.modelGroups[0].modelLoadoutGroups.reduce((acc: number[], modelLoadout) => {
+                if (modelLoadout.modelLoadoutSlots[0].modelLoadout.loadout === "None") {
+                    acc[0] += modelLoadout.number;
+                } else {
+                    acc[1] += modelLoadout.number;
+                }
+                return acc;
+            }, [0, 0]);
+
+            //another stupid rule
+            if(data[1]*2 > data[0])
+                return {valid: false, error: "Invalid loadouts of models in group", 
+                    data: "No more than one in three Land Raiders can have multi-meltas"};
+
+            return {valid: true};
+        },
+        modelGroupShapes: [
+        {modelType: "Land Raider", modelLoadoutSlots: [
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Multi-melta", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [
+            //p128 - max transport size is 8
+            {num: 1, points: 40}, {num: 2, points: 2*40}, {num: 3, points: 4*40}, {num: 4, points: 4*40}, 
+            {num: 5, points: 5*40}, {num: 6, points: 6*40}, {num: 7, points: 7*40}, {num: 8, points: 8*40}, 
+        ]}
+    ]}]
 ]);
     
 export function getLegionDetachmentConfigurationForDetachmentType(detachmentType: DetachmentType): DetachmentConfiguration {
@@ -584,6 +615,14 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
         weaponTypes: ["Heavy bolter", "Multi-melta", "Nose mounted heavy flamer", "Plasma cannon"],
         unitTraits: ["Skimmer"]
+    }],
+    ["Land Raider", {
+        unitType: "Vehicle", scale: 2, advance: 9, charge: 18, march: 18, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}
+        ],
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: ["Pintle Mounted multi-melta", "Sponson Mounted twin-linked lascannon"],
+        unitTraits: ["Assault Transport (2)", "Forward Deployment"]
     }],
     ["Legion Outrider", {
         unitType: "Cavalry", scale: 1, advance: 10, charge: 20, march: 20, saves: [
@@ -646,7 +685,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"}
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: ["Pintle Mounted multi-melta", "Pintle Mounted twin bolter"], //TODO havoc
+        weaponTypes: ["Pintle Mounted havoc launcher", "Pintle Mounted multi-melta", "Pintle Mounted twin bolter"],
         unitTraits: ["Transport (2)"]
     }],
     ["Scimitar Jetbike", {

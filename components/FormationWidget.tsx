@@ -13,7 +13,7 @@ interface FormationWidgetProps {
 export function FormationWidget(props: FormationWidgetProps) {
     const { removeFormation } = useContext(AppState);
     //
-    return <div class="mb-8 mt-8">
+    return <div class="mb-6 mt-6 md:mb-8 md:mt-8">
         <div class ="grid grid-cols-[6%_42%_42%_10%] gap-0">
             <div class="col-span-1">
                 <DelButton hidden={false} onClick={() => removeFormation(props.formation.uuid)}></DelButton>
@@ -23,8 +23,8 @@ export function FormationWidget(props: FormationWidgetProps) {
             </div>
             
             <div class="col-start-3"><FormationTypeSelect uuid={props.formation.uuid}/> </div>
-            <div class="col-start-4 justify-self-end text-xl">{props.formation.points}</div>
-            <div class="row-start-2 col-start-2 col-span-1 text-l">Breakpoint: {props.formation.breakPoint}</div>
+            <div class="col-start-4 justify-self-end text-lg md:text-xl">{props.formation.points}</div>
+            <div class="row-start-2 col-start-2 col-span-1 md:text-lg">Breakpoint: {props.formation.breakPoint}</div>
         </div>
         { 
         (props.formation.armyListName == "") ?

@@ -20,6 +20,7 @@ export type WeaponType =
     "Missile launchers" |
     "Multi-melta" |
     "Nose mounted heavy flamer" |
+    "Pintle Mounted havoc launcher" |
     "Pintle Mounted multi-melta" |
     "Pintle Mounted twin bolter" |
     "Plasma cannon" |
@@ -30,6 +31,7 @@ export type WeaponType =
     "Sponson mounted lascannon" |
     "Sponson mounted laser destroyers" |
     "Sponson Mounted quad lascannon" |
+    "Sponson Mounted twin-linked lascannon" |
     "Tarantula lascannon battery" |
     "Thermal cannon" |
     "Twin-linked bolters" |

@@ -77,6 +77,7 @@ export type LegionDetachmentType =
     "Legion Dreadnought Talon" | 
     "Legion Fire Raptor Squadron" |
     "Legion Javelin Squadron" |
+    "Legion Land Raider Detachment" |
     "Legion Land Speeder Squadron" |
     "Legion Missile Launcher Support Detachment" |
     "Legion Outrider Squadron" |
@@ -132,6 +133,7 @@ export const AllLegionModelTypes = [
     "Deredeo Dreadnought",
     "Fire Raptor",
     "Javelin",
+    "Land Raider",
     "Land Speeder",
     "Legion Kratos",
     "Legion Outrider", 
@@ -146,6 +148,7 @@ export const AllLegionModelTypes = [
     "Plasma Support Legionaries",
     "Rhino",
     "Scimitar Jetbike",
+    "Spartan",
     "Storm Eagle",
     "Tactical Legionaries",
     "Thunderhawk Gunship",
@@ -342,12 +345,14 @@ export type SaveModifier = {
 
 export type UnitTrait = 
     "Armoured" |
+    "Assault Transport (2)" |
     "Assault Transport (5)" |
     "Automated Sentry" |
     "Bulky" |
     "Commander" |
     "Deep Strike" |
     "Drop Pod" |
+    "Forward Deployment" |
     "Implacable" |
     "Independent" |
     "Inspire (8)" |
@@ -388,7 +393,7 @@ export type WeaponStatsAtRange = {
     vShvKT?: SaveModifier;
     ionShield?: SaveModifier;
     structure?: SaveModifier;
-    voidShields: number;
+    voidShields?: number;
     traits: WeaponTrait[];
 }
 

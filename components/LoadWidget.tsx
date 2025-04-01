@@ -19,7 +19,7 @@ export function LoadWidget() {
             :
                 (
                     
-                    <div class="grid grid-cols-[80%_20%] gap-2 w-[600px]"> 
+                    <div class="grid grid-cols-[80%_20%] gap-2 w-[500px] md:w-[600px]"> 
                         <h1 class="text-xl">Army name</h1>
                         <p class="text-xl">Delete</p>    
                     {

@@ -11,7 +11,7 @@ export function ArmyAllegianceSelect() {
     Allegiances.forEach(a => {
         options.push(<option key={a} value={a} selected={allegiance == a}>{a}</option>)
     });
-    return <select class ="text-2xl w-80 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-grey-200" 
+    return <select class ="text-l md:text-2xl w-52 md:w-80 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-grey-200" 
         onInput={(e) => changeArmyAllegiance(e.currentTarget.value as Allegiance)}>
         {options}
     </select>

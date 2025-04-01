@@ -23,7 +23,7 @@ export function DetachmentTypeSelect(props: UnitTypeSelectProps) {
 
     const options = unitTypesForSlot.map((u, i)=> <option key={i} selected={unit == u}>{u}</option>);
 
-    return <select class="w-[490px] text-lg appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" onInput={(e) => changeDetachmentType(props.uuid, props.detachmentIndex, e.currentTarget.value as DetachmentType | "")}>
+    return <select class="w-full md:w-[490px] md:text-lg appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" onInput={(e) => changeDetachmentType(props.uuid, props.detachmentIndex, e.currentTarget.value as DetachmentType | "")}>
         {options}
     </select>
 }

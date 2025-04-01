@@ -10,7 +10,7 @@ export function FormationArmyListSelect(props: FormationArmyListSelectProps) {
     const { army, changeFormationArmyList } = useContext(AppState);
     const formation = army.value.formations.find((f: Formation)=>f.uuid == props.uuid);
     const formationArmyListName = formation?.armyListName ?? "";
-    return <select class ="text-xl w-80 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" 
+    return <select class ="md:text-xl w-48 md:w-80 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" 
         onInput={(e) => changeFormationArmyList(props.uuid, e.currentTarget.value as ArmyListName)}>
         <option value="" selected={formationArmyListName == ""}>Choose an Army List</option>
         <option selected={formationArmyListName == "Legions Astartes"}>Legions Astartes</option>
