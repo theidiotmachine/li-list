@@ -485,7 +485,8 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             }, [0, 0]);
             //This is my least favourite rule in the whole book
             if(data[1] > data[0]) {
-                return {valid: false, error: "Invalid loadouts of models in group", data: "Land Speeders can't have more than half armed with flamers/multi meltas"};
+                return {valid: false, error: "Invalid loadouts of models in group", 
+                    data: "Land Speeders can't have more than half armed with flamers/multi meltas"};
             }
             return {valid: true};
         },
@@ -506,6 +507,26 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             ]}
         ], possibleModelGroupQuantities: [
             {num: 2, points: 33}, {num: 4, points: 33+33}, {num: 6, points: 33+66}
+        ]}
+    ]}],
+    ["Legion Spartan Detachment", {modelGroupShapes: [
+        {modelType: "Spartan", modelLoadoutSlots: [
+            {name: "Sponson mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", points: 0}, 
+                {loadout: "Laser destroyers", points: 0},
+            ]},
+            {name: "Hull mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolters", points: 0}, 
+                {loadout: "Lascannon", points: 2},
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Multi-melta", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [
+            //p128 - max transport size is 8
+            {num: 1, points: 80}, {num: 2, points: 2*80}, {num: 3, points: 4*80}, {num: 4, points: 4*80}, 
+            {num: 5, points: 5*80}, {num: 6, points: 6*80}, {num: 7, points: 7*80}, {num: 8, points: 8*80}, 
         ]}
     ]}],
 ]);
@@ -595,6 +616,14 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         weaponTypes: ["Combi bolters"],
         unitTraits: ["Bulky", "Deep Strike", "Implacable", "Steadfast"] //and whatever gives invuln
     }],
+    ["Leviathan Dreadnought", {
+        unitType: "Walker", scale: 1, advance: 5, charge: 10, march: 10, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
+        ],
+        caf: 5, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
+        weaponTypes: ["Cyclonic melta lance", "Leviathan siege claw", "Leviathan storm cannon", "Twin-linked volkite calvier" ],
+        unitTraits: ["Armoured"],
+    }],
     ["Missile Launcher Legionaries",{
         unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
@@ -616,7 +645,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"}
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: ["Pintle Mounted twin bolter"],
+        weaponTypes: ["Pintle Mounted multi-melta", "Pintle Mounted twin bolter"], //TODO havoc
         unitTraits: ["Transport (2)"]
     }],
     ["Scimitar Jetbike", {
@@ -626,6 +655,16 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
         weaponTypes: ["Scimitar heavy bolter"],
         unitTraits: ["Skimmer"]
+    }],
+    ["Spartan", {
+        unitType: "Vehicle", scale: 2, advance: 8, charge: 16, march: 16, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}
+        ],
+        caf: 2, morale: 3, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: ["Hull Mounted heavy bolters", "Hull Mounted lascannon", 
+            "Pintle Mounted multi-melta",
+            "Sponson mounted laser destroyers", "Sponson Mounted quad lascannon" ],
+        unitTraits: ["Assault Transport (5)"]
     }],
     ["Tactical Legionaries", {
         unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [

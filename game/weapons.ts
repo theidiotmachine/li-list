@@ -46,6 +46,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Ignores Cover", "Light"], voidShields: 0
         }
     ]}],
+    ["Cyclonic melta lance", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 1, hit: 4, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: ["Anti-tank", "Demolisher"], voidShields: 1
+        }
+    ]}],
     ["Heavy bolter", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 2, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -61,6 +70,22 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT"], voidShields: 0
         }
+    ]}],
+    ["Hull Mounted heavy bolters", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 2, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Light", "Point Defence"], voidShields: 0
+        }
+    ]}],
+    ["Hull Mounted lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        },
     ]}],
     ["Hyperios air defence missile launcher", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 25, dice: 1, hit: 4, 
@@ -86,6 +111,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT", "Rapid Fire"], voidShields: 1
         },
     ]}],
+    ["Laser destroyer array", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 15, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        },
+    ]}],
     ["Legion bolters", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 2, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -98,13 +132,18 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light"], voidShields: 0
         }
     ]}],
-    ["Laser destroyer array", {arc: "All", weaponStatsAtRange: [
-        {minRange: 0, maxRange: 15, dice: 2, hit: 4, 
-            infAndCav: {modifier: 0, wounds: 1},
-            walker: {modifier: -2, wounds: 1},
-            vShvKT: {modifier: -2, wounds: 1},
-            ionShield: {modifier: -1, wounds: 1},
-            traits: ["Anti-tank"], voidShields: 1
+    ["Leviathan siege claw", {
+        arc: "Melee", weaponStatsAtRange: [{
+            traits: ["Rend", "Wrecker (2)"]
+        }]
+    }],
+    ["Leviathan storm cannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 10, dice: 1, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Rapid Fire"], voidShields: 1
         },
     ]}],
     ["Missile launchers", {arc: "All", weaponStatsAtRange: [
@@ -133,6 +172,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
     ["Nose mounted heavy flamer", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 4, infAndCav: {modifier: 0, wounds: 1},
         walker: {modifier: 0, wounds: 1}, traits: ["Ignores Cover", "Light", "Point Defence"], voidShields: 0}
+    ]}],
+    ["Pintle Mounted multi-melta", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 1, hit: 5, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        }
     ]}],
     ["Pintle Mounted twin bolter", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 2, hit: 5, infAndCav: {modifier: 0, wounds: 1},
@@ -187,13 +235,31 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light", "Point Defence"], voidShields: 0
         }
     ]}],
-    ["Sponson mounted lascannon", {arc: "All", weaponStatsAtRange: [
+    ["Sponson mounted lascannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: -1, wounds: 1},
             vShvKT: {modifier: -1, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Anti-tank"], voidShields: 1
+        },
+    ]}],
+    ["Sponson mounted laser destroyers", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 15, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
+    ]}],
+    ["Sponson Mounted quad lascannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
     ]}],
     ["Tarantula lascannon battery", {arc: "All", weaponStatsAtRange: [
@@ -228,6 +294,11 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
+    ]}],
+    ["Twin-linked volkite calvier", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 1, hit: 4, infAndCav: {modifier: 0, wounds: 1},
+        walker: {modifier: 0, wounds: 1}, 
+        traits: ["Accurate", "Deflagrate", "Light", "Point Defence"], voidShields: 0}
     ]}],
     ["Twin plasma guns", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 10, dice: 1, hit: 4, 

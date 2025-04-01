@@ -330,6 +330,7 @@ export type Save = {
 export type Arc =
     "All" |
     "Front" |
+    "Melee" |
     "Rear"
 ;
 
@@ -340,6 +341,7 @@ export type SaveModifier = {
 
 export type UnitTrait = 
     "Armoured" |
+    "Assault Transport (5)" |
     "Automated Sentry" |
     "Bulky" |
     "Commander" |
@@ -362,20 +364,24 @@ export type WeaponTrait =
     "Accurate" |
     "Anti-tank" |
     "Barrage" |
+    "Deflagrate" |
+    "Demolisher" |
     "Ignores Cover" |
     "Light" |
     "Light AT" |
     "Point Defence" |
     "Rapid Fire" |
+    "Rend" |
     "Skyfire" | 
-    "Tracking" 
+    "Tracking" |
+    "Wrecker (2)"
 ;
 
 export type WeaponStatsAtRange = {
-    minRange: number;
-    maxRange: number;
-    dice: number;
-    hit: number;
+    minRange?: number;
+    maxRange?: number;
+    dice?: number;
+    hit?: number;
     infAndCav?: SaveModifier;
     walker?: SaveModifier;
     vShvKT?: SaveModifier;
