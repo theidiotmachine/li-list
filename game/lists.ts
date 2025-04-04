@@ -1,7 +1,9 @@
 import { getAuxiliaDetachmentConfigurationForDetachmentType, getAuxiliaDetachmentTypesForSlot, getShapeForAuxiliaFormationType } from "./auxiliaList.ts";
+import { AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaFormationTypes } from "./auxiliaTypes.ts";
 import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentType, getLegionDetachmentTypesForSlot, getShapeForLegionFormationType } from "./legionList.ts";
+import { AllLegionModelTypes, LegionDetachmentType, LegionFormationType, LegionFormationTypes, LegionModelType } from "./legionTypes.ts";
 import { getShapeForStrategicAssetFormationType, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentType, getStrategicAssetDetachmentTypesForSlot } from "./strategicAssetList.ts";
-import { AllLegionModelTypes, AllStrategicAssetModelTypes, ArmyListName, AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaFormationTypes, DetachmentConfiguration, DetachmentType, FormationShape, FormationSlot, FormationType, LegionDetachmentType, LegionFormationType, LegionFormationTypes, LegionModelType, ModelType, Stats, StrategicAssetDetachmentType, StrategicAssetFormationType, StrategicAssetFormationTypes } from "./types.ts";
+import { AllStrategicAssetModelTypes, ArmyListName, DetachmentConfiguration, DetachmentType, FormationShape, FormationSlot, FormationType, ModelType, Stats, StrategicAssetDetachmentType, StrategicAssetFormationType, StrategicAssetFormationTypes } from "./types.ts";
 
 
 const formationTypesForArmyListName: Map<ArmyListName, FormationType[]> = new Map([

@@ -90,9 +90,9 @@ export default function Unit(props: PageProps) {
             <tr class="even:bg-gray-50 odd:bg-white">
               <td>{stats.unitType}</td>
               <td>{stats.scale}</td>
-              <td>{stats.advance}"</td>
-              <td>{stats.charge}"</td>
-              <td>{stats.march}"</td>
+              <td>{(stats.advance)?(stats.advance+'"'): ""}</td>
+              <td>{(stats.charge)?(stats.charge+'"'): ""}</td>
+              <td>{(stats.march)?(stats.march+'"'): ""}</td>
               {saves}
               <td>{(stats.caf >= 0)?("+" + stats.caf.toString()):stats.caf}</td>
               <td>

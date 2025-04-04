@@ -1,4 +1,5 @@
-import { DetachmentType, FormationSlot, FormationShape, LegionFormationType, LegionDetachmentType, DetachmentConfiguration, LegionModelType, Stats, DetachmentValidationState, Detachment } from "./types.ts";
+import { LegionDetachmentType, LegionFormationType, LegionModelType } from "./legionTypes.ts";
+import { DetachmentType, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment } from "./types.ts";
 
 const formationShapes = new Map<LegionFormationType, FormationShape>([
     //CRB
@@ -120,6 +121,7 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
     ] ],
     [ "Support", [ 
         "Legion Assault Detachment", 
+        "Legion Deathstorm Drop Pod Battery",
         "Legion Dreadnought Talon",
         "Legion Missile Launcher Support Detachment", 
         "Legion Plasma Gun Support Detachment", 
@@ -128,6 +130,7 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
         "Leviathan Siege Dreadnought Detachment",
     ] ],
     [ "Transport", [ 
+        "Legion Drop Pod Detachment",
         "Legion Land Raider Detachment",
         "Legion Rhino Detachment",
         "Legion Spartan Detachment"
@@ -200,7 +203,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+150}
         ]},
         {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 6}, {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}, {num: 5, points: 6*5}, {num: 6, points: 6*6}
+            {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}, {num: 5, points: 6*5}, {num: 6, points: 6*6}
         ]}
     ]}],
     ["Legion Plasma Gun Support Detachment", {modelGroupShapes: [
@@ -224,7 +227,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 150}
         ]},
         {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 6}, {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
+            {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
         ]}
     ]}],
     ["Legion Missile Launcher Support Detachment", {modelGroupShapes: [
@@ -248,7 +251,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 150}
         ]},
         {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 6}, {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
+            {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
         ]}
     ]}],
     ["Legion Assault Detachment", {modelGroupShapes: [
@@ -330,7 +333,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 300}, {num: 3, points: 450}
         ]},
         {modelType: "Dreadnought Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 7}, {num: 2, points: 7*2}, {num: 3, points: 7*3}, {num: 4, points: 7*4},
+            {num: 4, points: 7*4},
             {num: 5, points: 7*5}, {num: 6, points: 7*6}, {num: 7, points: 7*7}, {num: 8, points: 7*8}, 
             {num: 9, points: 7*9}, {num: 10, points: 7*10}
         ]}
@@ -550,17 +553,75 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             return {valid: true};
         },
         modelGroupShapes: [
-        {modelType: "Land Raider", modelLoadoutSlots: [
-            {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "None", points: 0}, 
-                {loadout: "Multi-melta", points: 5},
-            ]},
-        ], possibleModelGroupQuantities: [
+            {modelType: "Land Raider", modelLoadoutSlots: [
+                {name: "Pintle mounted", possibleModelLoadouts: [
+                    {loadout: "None", points: 0}, 
+                    {loadout: "Multi-melta", points: 5},
+                ]},
+            ], possibleModelGroupQuantities: [
+                //p128 - max transport size is 8
+                {num: 1, points: 40}, {num: 2, points: 2*40}, {num: 3, points: 4*40}, {num: 4, points: 4*40}, 
+                {num: 5, points: 5*40}, {num: 6, points: 6*40}, {num: 7, points: 7*40}, {num: 8, points: 8*40}, 
+            ]}
+    ]}],
+    ["Legion Drop Pod Detachment", {
+        //why does TGS have lots of stupid list restrictions
+        customValidation: (detachment: Detachment): DetachmentValidationState => {
+            const dropPods = detachment.modelGroups.find((a)=>a.modelType == "Drop Pod");
+            const palisadeDropPods = detachment.modelGroups.find((a)=>a.modelType == "Palisade Drop Pod");
+
+            if(palisadeDropPods == undefined)
+                return {valid: true};
+
+            if(dropPods == undefined || palisadeDropPods.number > dropPods.number)
+                return {valid: false, error: "Invalid loadouts of models in group", 
+                    data: "Can't have more Drop pods than Palisade Drop pod"};
+
+            return {valid: true};
+        },
+        modelGroupShapes:[
+        {modelType: "Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 1, points: 40}, {num: 2, points: 2*40}, {num: 3, points: 4*40}, {num: 4, points: 4*40}, 
-            {num: 5, points: 5*40}, {num: 6, points: 6*40}, {num: 7, points: 7*40}, {num: 8, points: 8*40}, 
-        ]}
-    ]}]
+            {num: 1, points: 6}, {num: 2, points: 2*6}, {num: 3, points: 4*6}, {num: 4, points: 4*6}, 
+            {num: 5, points: 5*6}, {num: 6, points: 6*6}, {num: 7, points: 7*6}, {num: 8, points: 8*6}, 
+        ]},
+        {modelType: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
+            //p128 - max transport size is 8
+            {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 4*32}, {num: 4, points: 4*32}, 
+            {num: 5, points: 5*32}, {num: 6, points: 6*32}, {num: 7, points: 7*32}, {num: 8, points: 8*32}, 
+        ]},
+    ]}],
+    ["Legion Dreadnought Drop Pod Detachment", {
+        customValidation: (detachment: Detachment): DetachmentValidationState => {
+            const dropPods = detachment.modelGroups.find((a)=>a.modelType == "Dreadnought Drop Pod");
+            const palisadeDropPods = detachment.modelGroups.find((a)=>a.modelType == "Palisade Drop Pod");
+
+            if(palisadeDropPods == undefined)
+                return {valid: true};
+
+            if(dropPods == undefined || palisadeDropPods.number > dropPods.number)
+                return {valid: false, error: "Invalid loadouts of models in group", 
+                    data: "Can't have more Dreadnought Drop pods than Palisade Drop pods"};
+
+            return {valid: true};
+        },
+        modelGroupShapes:[
+        {modelType: "Dreadnought Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
+            //p128 - max transport size is 8
+            {num: 1, points: 7}, {num: 2, points: 2*7}, {num: 3, points: 4*7}, {num: 4, points: 4*7}, 
+            {num: 5, points: 5*7}, {num: 6, points: 6*7}, {num: 7, points: 7*7}, {num: 8, points: 8*7}, 
+        ]},
+        {modelType: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
+            //p128 - max transport size is 8
+            {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 4*32}, {num: 4, points: 4*32}, 
+            {num: 5, points: 5*32}, {num: 6, points: 6*32}, {num: 7, points: 7*32}, {num: 8, points: 8*32}, 
+        ]},
+    ]}],
+    ["Legion Deathstorm Drop Pod Battery", {modelGroupShapes:[
+        {modelType: "Deathstorm Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
+            {num: 2, points: 32}, {num: 2+2, points: 32+32}, {num: 2+4, points: 32+64}
+        ]},
+    ]}],
 ]);
     
 export function getLegionDetachmentConfigurationForDetachmentType(detachmentType: DetachmentType): DetachmentConfiguration {
@@ -592,6 +653,14 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         weaponTypes: ["Combi bolters"],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Medicae"] //and whatever gives them invuln
     }],
+    ["Deathstorm Drop Pod", {
+        unitType: "Vehicle", scale: 2, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}
+        ],
+        caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: ["Deathstorm missile launcher"],
+        unitTraits: ["Drop Pod"]
+    }],
     ["Deredeo Dreadnought", {
         unitType: "Walker", scale: 1, advance: 5, charge: 10, march: 10, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
@@ -599,6 +668,22 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
         weaponTypes: ["Aiolus missile launcher", "Anvilus autocannon battery", "Hellfire plasma cannonade", "Sarcophagus mounted weapon"],
         unitTraits: ["Armoured", "Tracking Array"],
+    }],
+    ["Dreadnought Drop Pod", {
+        unitType: "Vehicle", scale: 2, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}
+        ],
+        caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: [],
+        unitTraits: ["Drop Pod", "Large Transport (2)"]
+    }],
+    ["Drop Pod", {
+        unitType: "Vehicle", scale: 2, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}
+        ],
+        caf: -3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: ["Turret Mounted twin bolter"],
+        unitTraits: ["Drop Pod", "Transport (2)"]
     }],
     ["Javelin", {
         unitType: "Cavalry", scale: 1, advance: 10, charge: 20, march: 20, saves: [
@@ -671,6 +756,14 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
         weaponTypes: ["Missile launchers"],
         unitTraits: []
+    }],
+    ["Palisade Drop Pod" , {
+        unitType: "Vehicle", scale: 2, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}
+        ],
+        caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: [],
+        unitTraits: ["Drop Pod", "Shield Generator (5+)"]
     }],
     ["Plasma Support Legionaries", {
         unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [

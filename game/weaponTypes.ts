@@ -5,7 +5,9 @@ export type WeaponType =
     "Combi bolters" |
     "Cyclonic melta lance" |
     "Cyclone missile launcher" |
+    "Deathstorm missile launcher" |
     "Heavy bolter" |
+    "Heavy stubber" |
     "Hellfire plasma cannonade" |
     "Hull Mounted heavy bolters" |
     "Hull Mounted lascannon" |
@@ -26,6 +28,8 @@ export type WeaponType =
     "Plasma cannon" |
     "Plasma guns" |
     "Quad launcher" |
+    "Questoris-avenger gatling cannon" |
+    "Rapid-fire battlecannon" |
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
     "Sponson mounted lascannon" |
@@ -34,6 +38,7 @@ export type WeaponType =
     "Sponson Mounted twin-linked lascannon" |
     "Tarantula lascannon battery" |
     "Thermal cannon" |
+    "Turret Mounted twin bolter" |
     "Twin-linked bolters" |
     "Twin-linked lascannon" |
     "Twin-linked volkite calvier" |

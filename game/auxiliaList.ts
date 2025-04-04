@@ -1,4 +1,5 @@
-import { AuxiliaDetachmentType, AuxiliaFormationType, DetachmentConfiguration, FormationShape, FormationSlot } from "./types.ts";
+import { AuxiliaDetachmentType, AuxiliaFormationType } from "./auxiliaTypes.ts";
+import { DetachmentConfiguration, FormationShape, FormationSlot } from "./types.ts";
 const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
     [ "Solar Auxilia Sub-Cohort", { slotRequirements: [
         {   slot: "HQ",                 slotRequirementType: "Required"                 },

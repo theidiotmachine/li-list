@@ -174,6 +174,10 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
                 {name: "Carapace", possibleModelLoadouts: [
                     {loadout: "Nothing", points: 0}, 
                     {loadout: "Rocket pods", points: 5},
+                ]},
+                {name: "Primary", possibleModelLoadouts: [
+                    {loadout: "Questoris-avenger gatling cannon", points: 0}, 
+                    {loadout: "Rapid-fire battlecannon", points: 0},
                 ]}
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
@@ -264,7 +268,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Thermal cannon"],
+        weaponTypes: ["Heavy stubber", "Questoris-avenger gatling cannon", "Rapid-fire battlecannon", "Thermal cannon"],
         unitTraits: ["Independent", "Nimble"]
     }]
 ]);

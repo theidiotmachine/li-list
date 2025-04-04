@@ -1,3 +1,5 @@
+import { AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { LegionDetachmentType, LegionFormationType, LegionModelType } from "./legionTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 export const Allegiances = [
@@ -12,23 +14,6 @@ export const ArmyListNames = [
     "Strategic Asset",
 ] as const;
 export type ArmyListName = (typeof ArmyListNames)[number];    
-
-export const LegionFormationTypes = [
-    "Legion Aerial Assault",
-    "Legion Armoured Company",
-    "Legion Demi-Company",
-    "Legion Drop Pod Assault",
-    "Legion Garrison Force",
-    "Legion Sky-hunter Phalanx",
-] as const;
-export type LegionFormationType = (typeof LegionFormationTypes)[number];
-
-export const AuxiliaFormationTypes = [
-    "Solar Auxilia Sub-Cohort",
-    "Solar Auxilia Armoured Company",
-    "Solar Auxilia Pioneer Company"
-] as const;
-export type AuxiliaFormationType = (typeof AuxiliaFormationTypes)[number];
 
 export const StrategicAssetFormationTypes = [
     "Knight Household Lance",
@@ -69,54 +54,6 @@ export type FormationShape = {
     slotRequirements: SlotRequirements[]
 }
 
-export type LegionDetachmentType = 
-    "Legion Assault Detachment" | 
-    "Legion Command" | 
-    "Legion Kratos Squadron" | 
-    "Legion Deredeo Dreadnought Detachment" |
-    "Legion Dreadnought Talon" | 
-    "Legion Fire Raptor Squadron" |
-    "Legion Javelin Squadron" |
-    "Legion Land Raider Detachment" |
-    "Legion Land Speeder Squadron" |
-    "Legion Missile Launcher Support Detachment" |
-    "Legion Outrider Squadron" |
-    "Legion Plasma Gun Support Detachment" |
-    "Legion Predator Squadron" |
-    "Legion Rapier Battery Detachment" |
-    "Legion Rhino Detachment" |
-    "Legion Scimitar Jetbike Squadron" |
-    "Legion Sicaran Squadron" |
-    "Legion Siege Dreadnought Detachment" |
-    "Legion Spartan Detachment" |
-    "Legion Storm Eagle Squadron" |
-    "Legion Tactical Detachment"| 
-    "Legion Tarantula Battery" |
-    "Legion Terminator Detachment" |
-    "Legion Thunderhawk Gunship" |
-    "Legion Xiphon Interceptor Squadron" |
-    "Leviathan Siege Dreadnought Detachment"
-;
-
-export type AuxiliaDetachmentType =
-    "Auxilia Aethon Heavy Sentinel Patrol" |
-    "Auxilia Arvus Lighter" |
-    "Auxilia Avenger Strike Fighter Squadron" |
-    "Auxilia Lasrifle Tercio" |
-    "Auxilia Lightning Fighter Squadron" |
-    "Auxilia Marauder Bomber Squadron" |
-    "Auxilia Ogryn Charonite Section" |
-    "Auxilia Rapier Battery" |
-    "Auxilia Super-Heavy Tank Squadron" |
-    "Auxilia Tactical Command Detachment" | 
-    "Auxilia Tarantula Battery" |
-    "Auxilia Thunderbolt Squadron" |
-    "Auxilia Veletaris Storm Section" |
-    "Legate Commander Detachment" |
-    "Leman Russ Strike Squadron" |
-    "Malcador Tank Squadron"
-;
-
 export type StrategicAssetDetachmentType = 
     "Acastus Knight Banner" |
     "Cerastus Knight Banner" |
@@ -125,60 +62,6 @@ export type StrategicAssetDetachmentType =
 ;
         
 export type DetachmentType = LegionDetachmentType | AuxiliaDetachmentType | StrategicAssetDetachmentType;
-
-export const AllLegionModelTypes = [
-    "Assault Marines", 
-    "Command Squad",
-    "Contemptor Dreadnought",
-    "Deredeo Dreadnought",
-    "Fire Raptor",
-    "Javelin",
-    "Land Raider",
-    "Land Speeder",
-    "Legion Kratos",
-    "Legion Outrider", 
-    "Legion Predator", 
-    "Legion Rapier",
-    "Legion Sicaran",
-    "Legion Tarantula",
-    "Legion Terminators",
-    "Leviathan Dreadnought",
-    "Missile Launcher Legionaries", //renamed from "Missile Launcher Heavy Support Legionaries" because come on
-    "Outrider",
-    "Plasma Support Legionaries",
-    "Rhino",
-    "Scimitar Jetbike",
-    "Spartan",
-    "Storm Eagle",
-    "Tactical Legionaries",
-    "Thunderhawk Gunship",
-    "Xiphon Interceptor"
-] as const;
-export type LegionModelType = (typeof AllLegionModelTypes)[number];
-
-export const AllAuxiliaModelTypes = [
-    "Aethon Heavy Sentinel",
-    "Arvus Lighter",
-    "Auxilia Commander",
-    "Auxilia Rapier",
-    "Auxilia Super-heavy",
-    "Auxilia Tarantula",
-    "Auxiliaries",
-    "Auxiliaries with Flamers",
-    "Avenger Strike Fighter",
-    "Charonite Ogryns",
-    "Leman Russ Tank",
-    "Lightning Fighter",
-    "Malcador Tank",
-    "Marauder Bomber", 
-    "Marauder Colossus", 
-    "Marauder Destroyer", 
-    "Marauder Pathfinder", 
-    "Tactical Command",
-    "Thunderbolt Fighter",
-    "Veletarii"
-] as const;
-export type AuxiliaModelType = (typeof AllAuxiliaModelTypes)[number];
 
 export const AllStrategicAssetModelTypes = [
     "Acastus Knight Asterius",
@@ -357,9 +240,11 @@ export type UnitTrait =
     "Independent" |
     "Inspire (8)" |
     "Jump Packs" |
+    "Large Transport (2)" |
     "Master Tactician" |
     "Medicae" |
     "Nimble" |
+    "Shield Generator (5+)" |
     "Skimmer" |
     "Steadfast" |
     "Tracking Array" |
@@ -368,16 +253,20 @@ export type UnitTrait =
 
 export type WeaponTrait = 
     "Accurate" |
+    "Assault" |
     "Anti-tank" |
     "Barrage" |
     "Deflagrate" |
     "Demolisher" |
+    "Engine Killer (1)" |
     "Ignores Cover" |
     "Light" |
     "Light AT" |
+    "Limited" |
     "Point Defence" |
     "Rapid Fire" |
     "Rend" |
+    "Saturation Fire" |
     "Skyfire" | 
     "Tracking" |
     "Wrecker (2)"
@@ -386,7 +275,7 @@ export type WeaponTrait =
 export type WeaponStatsAtRange = {
     minRange?: number;
     maxRange?: number;
-    dice?: number;
+    dice?: number | string;
     hit?: number;
     infAndCav?: SaveModifier;
     walker?: SaveModifier;
@@ -405,9 +294,9 @@ export type WeaponStats = {
 export type Stats = {
     unitType: UnitType;
     scale: Scale;
-    advance: number;
-    charge: number;
-    march: number;
+    advance?: number;
+    charge?: number;
+    march?: number;
     saves: Save[];
     caf: number;
     morale?: number;
