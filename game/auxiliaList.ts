@@ -1,6 +1,42 @@
 import { AuxiliaDetachmentType, AuxiliaFormationType } from "./auxiliaTypes.ts";
 import { DetachmentConfiguration, FormationShape, FormationSlot } from "./types.ts";
 const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
+    //todo tank commander
+    [ "Solar Auxilia Armoured Company", { slotRequirements: [
+        {   slot: "Battle Tank",        slotRequirementType: "Required"                 },
+        {   slot: "Battle Tank",        slotRequirementType: "Required"                 },
+        {   slot: "Heavy Armour",       slotRequirementType: "Required"                 },
+        {   slot: "Battle Tank",        slotRequirementType: "Optional"                 },
+        {   slot: "Battle Tank",        slotRequirementType: "Optional"                 },
+        {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
+        {   slot: "Battle Tank",        slotRequirementType: "One Of",  oneOfGroup: 1   },
+        {   slot: "Artillery",          slotRequirementType: "One Of",  oneOfGroup: 1   },
+        {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 1   },
+    ]}],
+    ["Solar Auxilia Artillery Company", { slotRequirements: [
+        {   slot: "HQ",                 slotRequirementType: "Required"                 },
+        {   slot: "Artillery",          slotRequirementType: "Required"                 },
+        {   slot: "Artillery",          slotRequirementType: "Required"                 },
+        {   slot: "Artillery",          slotRequirementType: "Required"                 },
+        {   slot: "Support",            slotRequirementType: "Optional"                 },
+        {   slot: "Support",            slotRequirementType: "Optional"                 },
+        {   slot: "Bastion",            slotRequirementType: "Optional"                 },
+        {   slot: "Bastion",            slotRequirementType: "Optional"                 },
+    ]}],
+    [ "Solar Auxilia Pioneer Company", { slotRequirements: [
+        {   slot: "HQ",                 slotRequirementType: "Required"                 },
+        {   slot: "Bastion",            slotRequirementType: "Required"                 },
+        {   slot: "Storm Section",      slotRequirementType: "Required"                 },
+        {   slot: "Bastion",            slotRequirementType: "Required"                 },
+        {   slot: "Support",            slotRequirementType: "Optional"                 },
+        {   slot: "Core",               slotRequirementType: "Optional"                 },
+        {   slot: "Air Support",        slotRequirementType: "Optional"                 },
+        {   slot: "Vanguard",           slotRequirementType: "Optional"                 },
+        {   slot: "Vanguard",           slotRequirementType: "Optional"                 },
+        {   slot: "Battle Tank",        slotRequirementType: "One Of",  oneOfGroup: 1   },
+        {   slot: "Artillery",          slotRequirementType: "One Of",  oneOfGroup: 1   },
+        {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 1   },
+    ]}],
     [ "Solar Auxilia Sub-Cohort", { slotRequirements: [
         {   slot: "HQ",                 slotRequirementType: "Required"                 },
         {   slot: "Support",            slotRequirementType: "Required"                 },
@@ -17,33 +53,7 @@ const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
         {   slot: "Artillery",          slotRequirementType: "One Of",  oneOfGroup: 2   },
         {   slot: "Battle Tank",        slotRequirementType: "One Of",  oneOfGroup: 2   },
         {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 2   },
-    ]}],
-    //todo tank commander
-    [ "Solar Auxilia Armoured Company", { slotRequirements: [
-        {   slot: "Battle Tank",        slotRequirementType: "Required"                 },
-        {   slot: "Battle Tank",        slotRequirementType: "Required"                 },
-        {   slot: "Heavy Armour",       slotRequirementType: "Required"                 },
-        {   slot: "Battle Tank",        slotRequirementType: "Optional"                 },
-        {   slot: "Battle Tank",        slotRequirementType: "Optional"                 },
-        {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
-        {   slot: "Battle Tank",        slotRequirementType: "One Of",  oneOfGroup: 1   },
-        {   slot: "Artillery",          slotRequirementType: "One Of",  oneOfGroup: 1   },
-        {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 1   },
-    ]}],
-    [ "Solar Auxilia Pioneer Company", { slotRequirements: [
-        {   slot: "HQ",                 slotRequirementType: "Required"                 },
-        {   slot: "Bastion",            slotRequirementType: "Required"                 },
-        {   slot: "Storm Section",      slotRequirementType: "Required"                 },
-        {   slot: "Bastion",            slotRequirementType: "Required"                 },
-        {   slot: "Support",            slotRequirementType: "Optional"                 },
-        {   slot: "Core",               slotRequirementType: "Optional"                 },
-        {   slot: "Air Support",        slotRequirementType: "Optional"                 },
-        {   slot: "Vanguard",           slotRequirementType: "Optional"                 },
-        {   slot: "Vanguard",           slotRequirementType: "Optional"                 },
-        {   slot: "Battle Tank",        slotRequirementType: "One Of",  oneOfGroup: 1   },
-        {   slot: "Artillery",          slotRequirementType: "One Of",  oneOfGroup: 1   },
-        {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 1   },
-    ]}]
+    ]}],    
 ])
 
 export function getShapeForAuxiliaFormationType(formationType: AuxiliaFormationType | ""): FormationShape {

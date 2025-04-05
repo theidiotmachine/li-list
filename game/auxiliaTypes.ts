@@ -1,7 +1,9 @@
 export const AuxiliaFormationTypes = [
-    "Solar Auxilia Sub-Cohort",
     "Solar Auxilia Armoured Company",
-    "Solar Auxilia Pioneer Company"
+    "Solar Auxilia Artillery Company",
+    "Solar Auxilia Mechanised Infantry Sub-Cohort",
+    "Solar Auxilia Pioneer Company",
+    "Solar Auxilia Sub-Cohort",
 ] as const;
 export type AuxiliaFormationType = (typeof AuxiliaFormationTypes)[number];
 

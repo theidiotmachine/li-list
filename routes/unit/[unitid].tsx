@@ -14,7 +14,9 @@ function formatSaveModifier(saveModifier: SaveModifier): string {
 function formatSave(s: Save, i: number, stats: Stats) {
   return <td key={"c"+i}>
     {s.save.toString() + "+"}
-    <span class="text-xs">{((hasUnitTrait(stats,"Armoured") && s.saveType=="Armour") ? " Reroll fails vs light" : "")}</span>
+    <span class="text-xs">{((hasUnitTrait(stats,"Armoured") && s.saveType=="Armour") ? " Reroll fails vs Light" : "")}</span>
+    <span class="text-xs">{((hasUnitTrait(stats,"Ionic Flare Shield") && s.saveType=="Ion Shield") ? (" " + (s.save-2).toString() + "+ vs Barrage and Blast") : "")}</span>
+    
   </td>
 }
 
@@ -57,7 +59,10 @@ export default function Unit(props: PageProps) {
             <td>
               {(wsar.walker)?(formatSaveModifier(wsar.walker)):""}
             </td>
-            <td>{(wsar.vShvKT)?(formatSaveModifier(wsar.vShvKT)):""}</td>
+            <td>
+              {(wsar.vShvKT)?(formatSaveModifier(wsar.vShvKT)):""}
+              <span class="text-xs">{hasWeaponTrait(wsar, "Armourbane") ? " Reroll successes" : ""}</span>
+            </td>
             <td>{(wsar.ionShield)?(formatSaveModifier(wsar.ionShield)):""}</td>
             <td>{(wsar.voidShields)?("-" + wsar.voidShields + "VS"):""}</td>
             <td>{(wsar.structure)?(formatSaveModifier(wsar.structure)):""}</td>

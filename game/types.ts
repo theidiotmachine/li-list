@@ -231,16 +231,20 @@ export type UnitTrait =
     "Assault Transport (2)" |
     "Assault Transport (5)" |
     "Automated Sentry" |
+    "Blessed Auto-simulacra" |
     "Bulky" |
     "Commander" |
     "Deep Strike" |
     "Drop Pod" |
     "Forward Deployment" |
+    "Furious Charge" |
     "Implacable" |
     "Independent" |
     "Inspire (8)" |
+    "Ionic Flare Shield" |
     "Jump Packs" |
     "Large Transport (2)" |
+    "Macro-extinction Targeting Protocols" |
     "Master Tactician" |
     "Medicae" |
     "Nimble" |
@@ -253,12 +257,16 @@ export type UnitTrait =
 
 export type WeaponTrait = 
     "Accurate" |
+    "Armourbane" |
     "Assault" |
     "Anti-tank" |
     "Barrage" |
+    "Blast (3\")" |
+    "Collapsing Singularity" |
     "Deflagrate" |
     "Demolisher" |
     "Engine Killer (1)" |
+    "Graviton Pulse" |
     "Ignores Cover" |
     "Light" |
     "Light AT" |
@@ -267,9 +275,12 @@ export type WeaponTrait =
     "Rapid Fire" |
     "Rend" |
     "Saturation Fire" |
+    "Shieldbane" |
     "Skyfire" | 
     "Tracking" |
-    "Wrecker (2)"
+    "Wrecker (1)" |
+    "Wrecker (2)" |
+    "Wrecker (3)"
 ;
 
 export type WeaponStatsAtRange = {

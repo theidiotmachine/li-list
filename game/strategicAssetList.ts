@@ -262,15 +262,96 @@ export function getStrategicAssetDetachmentConfigurationForDetachmentType(detach
     return detachmentConfigurationForDetachmentType.get(detachmentType) ?? {modelGroupShapes: []}
 }
 const statsForModelType = new Map<StrategicAssetModelType, Stats>([
+    ["Cerastus Knight Atrapos", {
+        unitType: "Knight", scale: 4, advance: 9, charge: 18, march: 18, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 3, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 11, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Atrapos lascutter", "Graviton singularity cannon"],
+        unitTraits: ["Furious Charge", "Independent", "Macro-extinction Targeting Protocols", "Nimble"]
+    }],
+    ["Knight Acheron", {
+        unitType: "Knight", scale: 4, advance: 9, charge: 18, march: 18, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 11, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Acheron pattern flame cannon", "Reaper chainfist", "In-built twin-linked heavy bolters"],
+        unitTraits: ["Furious Charge", "Independent", "Nimble"]
+    }],
+    ["Knight Castigator", {
+        unitType: "Knight", scale: 4, advance: 9, charge: 18, march: 18, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 11, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Castigator pattern bolt cannon", "Tempest warblade"],
+        unitTraits: ["Furious Charge", "Independent", "Nimble"]
+    }],
     ["Knight Crusader", {
         unitType: "Knight", scale: 4, advance: 8, charge: 16, march: 16, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Heavy stubber", "Questoris-avenger gatling cannon", "Rapid-fire battlecannon", "Thermal cannon"],
+        weaponTypes: ["Heavy stubber", "Questoris-avenger gatling cannon", "Rapid-fire battlecannon", "Rocket pods", "Thermal cannon"],
         unitTraits: ["Independent", "Nimble"]
-    }]
+    }],
+    ["Knight Errant", {
+        unitType: "Knight", scale: 4, advance: 8, charge: 16, march: 16, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Heavy stubber", "Reaper chainsword", "Rocket pods", "Thermal cannon", "Thunderstrike gauntlet"],
+        unitTraits: ["Independent", "Nimble"]
+    }],
+    ["Knight Gallant", {
+        unitType: "Knight", scale: 4, advance: 8, charge: 16, march: 16, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Meltagun", "Reaper chainsword", "Rocket pods", "Thunderstrike gauntlet"],
+        unitTraits: ["Independent", "Nimble"]
+    }],
+    ["Knight Magaera", {
+        unitType: "Knight", scale: 4, advance: 8, charge: 16, march: 16, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Hekaton siege claw", "Lightning cannon", "Phased plasma-fusil"],
+        unitTraits: ["Blessed Auto-simulacra", "Independent", "Ionic Flare Shield", "Nimble"]
+    }],
+    ["Knight Paladin", {
+        unitType: "Knight", scale: 4, advance: 8, charge: 16, march: 16, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Heavy stubber", "Rapid-fire battlecannon", "Reaper chainsword", "Rocket pods", "Thunderstrike gauntlet"],
+        unitTraits: ["Independent", "Nimble"]
+    }],
+    ["Knight Styrix", {
+        unitType: "Knight", scale: 4, advance: 8, charge: 16, march: 16, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Graviton gun", "Hekaton siege claw", "Volkite chieorovile"],
+        unitTraits: ["Blessed Auto-simulacra", "Independent", "Ionic Flare Shield", "Nimble"]
+    }],
+    ["Knight Warden", {
+        unitType: "Knight", scale: 4, advance: 8, charge: 16, march: 16, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
+            {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
+        ],
+        caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
+        weaponTypes: ["Questoris-avenger gatling cannon", "Meltagun", "Reaper chainsword", "Rocket pods", "Thunderstrike gauntlet"],
+        unitTraits: ["Independent", "Nimble"]
+    }],
 ]);
 
 export function getStatsForStrategicAssetModelType(modelType: StrategicAssetModelType): Stats | undefined {
