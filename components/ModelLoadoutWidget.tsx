@@ -43,7 +43,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
             //need these for tailwind to understand the dynamic css:
             //row-start-2 row-start-3 row-start-4 row-start-5
             //order-3 order-4 order-5 order-6 order-7 order-8 order-9 order-10
-            <div key={"n"+i} class = {"col-start-3 col-span-1 row-start-"+(i+1)+" order-"+(3+i*2)}>
+            <div key={"n"+i} class = {"text-sm col-start-3 col-span-1 row-start-"+(i+1)+" order-"+(3+i*2)}>
                 {x.name}
             </div>)}
         {props.modelLoadoutGroup.modelLoadoutSlots.map((x,i) => 

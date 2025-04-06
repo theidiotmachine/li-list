@@ -124,7 +124,7 @@ export default function Unit(props: PageProps) {
               <td class="w-16">Hit</td>
               <td class="w-16">Inf, Cav</td>
               <td class="w-16">Walker</td>
-              <td class="w-16">Ve, SHV, Kn, Ti</td>
+              <td class="w-16">Ve., SHV, Kn., Ti.</td>
               <td class="w-16">Ion Shield</td>
               <td class="w-16">Void Shield</td>
               <td class="w-16">Struct</td>

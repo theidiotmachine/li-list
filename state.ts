@@ -56,6 +56,12 @@ export type AppStateType = {
     deleteSave: (uuid: string) => void;
     canCloneArmy: Signal<boolean>;
     cloneArmy: () => void;
+
+    //ui
+    openState: Signal<Map<string, boolean>>;
+    getKey: (uuid: string, detachmentIndex: number, modelType: ModelType) => string;
+    open: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
+    close: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
 };
 
 function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadout) {
@@ -371,6 +377,23 @@ function createAppState(): AppStateType {
     const undoStack= signal<Army[]>([newArmy]);
     const undoIndex = signal<number>(0);
     const army = signal<Army>(newArmy);
+    const openState = signal<Map<string, boolean>>(new Map());
+    const getKey = (uuid: string, detachmentIndex: number, modelType: ModelType): string => {
+        return uuid + ":" + detachmentIndex + ":" + modelType;
+    }
+    const open = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
+        const key = getKey(uuid, detachmentIndex, modelType);
+        const newState = structuredClone(openState.value);
+        newState.set(key, true);
+        openState.value = newState;
+    }
+    const close = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
+        const key = getKey(uuid, detachmentIndex, modelType);
+        const newState = structuredClone(openState.value);
+        newState.delete(key);
+        openState.value = newState;
+    }
+
     const canUndo = computed(()=>{
         return undoIndex.value > 0;
     });
@@ -551,7 +574,7 @@ function createAppState(): AppStateType {
         if(army.value.formations[formationIdx].armyListName == armyListName)
             return;
 
-        const newFormation = {...army.value.formations[formationIdx]}
+        const newFormation = structuredClone(army.value.formations[formationIdx])
 
         newFormation.armyListName = armyListName;
         newFormation.formationType = "";
@@ -568,7 +591,7 @@ function createAppState(): AppStateType {
         if(army.value.formations[formationIdx].formationType == formationType)
             return;
 
-        const newFormation = {...army.value.formations[formationIdx]}
+        const newFormation = structuredClone(army.value.formations[formationIdx])
 
         newFormation.formationType = formationType;
         
@@ -588,9 +611,7 @@ function createAppState(): AppStateType {
         if(army.value.formations[formationIdx].detachments[detachmentIndex].detachmentType == detachmentType)
             return;
 
-        const newFormation = { ...army.value.formations[formationIdx] };
-        newFormation.detachments = newFormation.detachments.slice();
-        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
+        const newFormation = structuredClone(army.value.formations[formationIdx]);
         newFormation.detachments[detachmentIndex].detachmentType = detachmentType;
         newFormation.detachments[detachmentIndex].modelGroups = [];
 
@@ -630,11 +651,7 @@ function createAppState(): AppStateType {
         if(modelGroupIdx === -1)
             return;
 
-        const newFormation = { ...army.value.formations[formationIdx] };
-        newFormation.detachments = newFormation.detachments.slice();
-        newFormation.detachments[detachmentIndex]= {...newFormation.detachments[detachmentIndex]};
-        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx] = {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx]};
+        const newFormation = structuredClone(army.value.formations[formationIdx]);
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].number = num;
 
         const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
@@ -643,11 +660,6 @@ function createAppState(): AppStateType {
             newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups = [];
         } else {
             if(newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups.length === 1) {
-                newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups = 
-                    newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups.slice();
-                newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[0] = {
-                    ...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[0]
-                };
                 newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[0].number = num;
             }
         }
@@ -666,7 +678,7 @@ function createAppState(): AppStateType {
         if(modelGroupIdx === -1)
             return;
 
-        const newFormation = { ...army.value.formations[formationIdx] };
+        const newFormation = structuredClone(army.value.formations[formationIdx]);
 
         const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
         if(detachmentType === "")
@@ -681,18 +693,6 @@ function createAppState(): AppStateType {
         if(l === undefined)
             return;
 
-        newFormation.detachments = newFormation.detachments.slice();
-        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
-        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx] = {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx]};
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups = 
-            newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups.slice();
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex] = 
-            {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex]};
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots = 
-            newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots.slice();
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots[modelLoadoutSlotIndex] = 
-            {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots[modelLoadoutSlotIndex]};
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups[modelLoadoutGroupIndex].modelLoadoutSlots[modelLoadoutSlotIndex].modelLoadout = l;
         
         setFormationAtIdx(newFormation, formationIdx);
@@ -707,7 +707,7 @@ function createAppState(): AppStateType {
         if(modelGroupIndex === -1)
             return;
 
-        const newFormation = { ...army.value.formations[formationIdx] };
+        const newFormation = structuredClone(army.value.formations[formationIdx]);
 
         const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
         if(detachmentType === "")
@@ -726,13 +726,6 @@ function createAppState(): AppStateType {
                 {return {name: y.name, modelLoadout: y.possibleModelLoadouts[0]}}
             ), points: -1};
 
-        newFormation.detachments = newFormation.detachments.slice();
-        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
-        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex] = {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex]};
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups = 
-            newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.slice();
-            
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.push(newModelLoadoutGroup);
 
         setFormationAtIdx(newFormation, formationIdx);
@@ -747,18 +740,12 @@ function createAppState(): AppStateType {
         if(modelGroupIndex === -1)
             return;
 
-        const newFormation = { ...army.value.formations[formationIdx] };
+        const newFormation = structuredClone(army.value.formations[formationIdx] );
 
         const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
         if(detachmentType === "")
             return;
 
-        newFormation.detachments = newFormation.detachments.slice();
-        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
-        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex] =
-            {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex]};
-        
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups = 
             newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.filter((_, i)=>i!=modelLoadoutGroupIndex);
 
@@ -774,21 +761,12 @@ function createAppState(): AppStateType {
         if(modelGroupIndex === -1)
             return;
 
-        const newFormation = { ...army.value.formations[formationIdx] };
+        const newFormation = structuredClone(army.value.formations[formationIdx]);
 
         const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
         if(detachmentType === "")
             return;
 
-        newFormation.detachments = newFormation.detachments.slice();
-        newFormation.detachments[detachmentIndex] = {...newFormation.detachments[detachmentIndex]};
-        newFormation.detachments[detachmentIndex].modelGroups = newFormation.detachments[detachmentIndex].modelGroups.slice();
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex] 
-            = {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex]};
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups = 
-            newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups.slice();
-        newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups[modelLoadoutGroupIndex] = 
-            {...newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups[modelLoadoutGroupIndex]};
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups[modelLoadoutGroupIndex].number = number;
        
         setFormationAtIdx(newFormation, formationIdx);
@@ -798,7 +776,8 @@ function createAppState(): AppStateType {
         addFormation, removeFormation, changeFormationArmyList, 
         changeFormationType, changeDetachmentType, changeModelNumber, 
         changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
-        armiesLoadState, armyLoadState, saves, refreshSaves, load, deleteSave, canCloneArmy, cloneArmy
+        armiesLoadState, armyLoadState, saves, refreshSaves, load, deleteSave, canCloneArmy, cloneArmy,
+        openState, open, close, getKey
     };
 }
 

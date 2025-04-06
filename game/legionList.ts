@@ -130,6 +130,7 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
         "Leviathan Siege Dreadnought Detachment",
     ] ],
     [ "Transport", [ 
+        "Legion Dreadnought Drop Pod Detachment",
         "Legion Drop Pod Detachment",
         "Legion Land Raider Detachment",
         "Legion Rhino Detachment",
@@ -587,7 +588,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 4*32}, {num: 4, points: 4*32}, 
+            {num: 0, points: 0}, {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 4*32}, {num: 4, points: 4*32}, 
             {num: 5, points: 5*32}, {num: 6, points: 6*32}, {num: 7, points: 7*32}, {num: 8, points: 8*32}, 
         ]},
     ]}],
@@ -613,7 +614,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 4*32}, {num: 4, points: 4*32}, 
+            {num: 0, points: 0}, {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 4*32}, {num: 4, points: 4*32}, 
             {num: 5, points: 5*32}, {num: 6, points: 6*32}, {num: 7, points: 7*32}, {num: 8, points: 8*32}, 
         ]},
     ]}],

@@ -18,10 +18,10 @@ export function NumModelSelect(props: NumModelSelectProps) {
 
     const config = getDetachmentConfigurationForDetachmentType(props.armyListName, props.detachmentType);
     const modelOptions = config?.modelGroupShapes.find((x)=>x.modelType == props.modelType);
-    return <select class = "w-8 md:w-10 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" 
+    return <select class = "w-8 md:w-10 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white bg-opacity-0" 
         onInput={(e) => changeModelNumber(props.uuid, props.detachmentIndex, props.modelType, parseNumber(e.currentTarget.value, ""))}>
         {modelOptions?.possibleModelGroupQuantities.map((x) => 
-            <option key={x.num} selected={props.numModels == x.num}>{x.num}</option>
+            <option class="bg-white bg-opacity-0" key={x.num} selected={props.numModels == x.num}>{x.num}</option>
         )}
     </select>
 }
