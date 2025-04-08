@@ -30,7 +30,7 @@ export function NumModelLoadoutSelect(props: NumModelLoadoutSelectProps) {
     }
 
     return <select 
-        class="w-8 md:w-10 text-sm appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white" 
+        class="w-8 md:w-10 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white" 
         onInput={(e) => changeModelLoadoutGroupNumber(
             props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, parseNumber(e.currentTarget.value, "")
         )}>

@@ -14,12 +14,6 @@ interface DetachmentWidgetProps {
     detachment: Detachment;
 }
 
-/*
-<AddButton hidden={(u.modelLoadoutSlots.length== 0)} 
-                                        onClick={() => addModelLoadoutGroup(props.uuid, props.detachmentIndex, props.detachment.modelGroups[i].modelType)}>
-                                    </AddButton>
-                                    */
-
 export function DetachmentWidget(props: DetachmentWidgetProps) {
     const { addModelLoadoutGroup, army, open, openState, close, getKey } = useContext(AppState);
     const formationType = army.value.formations.find(x=>x.uuid == props.uuid)?.formationType ?? "";
@@ -36,6 +30,17 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                 .map((u, i) => {
                     const modelGroupIndex = props.detachment.modelGroups.findIndex((m: ModelGroup) => m.modelType == u.modelType);
                     return <div class={"grid gap-0 grid-cols-[20%_8%_22%_20%_20%_10%] " + ((i%2)?"bg-gray-50":"bg-white")} key={i}>
+                        <div class="col-span-1 col-start-1 justify-self-end">
+                        {
+                                (u.modelLoadoutSlots.length == 0) ?
+                                <a href={"/hammer?shooterModelType="+props.detachment.modelGroups[i].modelType} target="_blank" >
+                                    <img src="/hammer-clean.svg" class="w-6 h-6 mr-1 ml-1 cursor-pointer opacity-5 hover:opacity-100"></img>
+                                </a>
+                                :
+                                (<div></div>)
+                        }
+                        </div>
+
                         {
                             //if there are no size options, or we manage it from loadouts, just present a number. 
                             (u.possibleModelGroupQuantities.length === 1 || u.modelLoadoutSlots.length > 0) ? ( 
@@ -59,14 +64,17 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                                     uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} modelType={u.modelType}
                                     numModels={props.detachment.modelGroups[modelGroupIndex].number} detachmentType={detachmentType}
                                 />
-                                </div> 
+                                </div>
                             )
                         }
 
                         <div class="col-span-3 col-start-3">
+                            <div class="flex items-center">
                             <a href={"unit/"+props.detachment.modelGroups[i].modelType} target="_blank" class="hover:underline">
                                 {props.detachment.modelGroups[i].modelType + ((u.dedicatedTransport ? " (dedicated transport)": ""))}
                             </a>
+                            
+                            </div>
                         </div>
 
                         <div class="col-span-1 col-start-6 justify-self-end">{props.detachment.modelGroups[i].points}</div> 
@@ -74,7 +82,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                             (u.modelLoadoutSlots.length > 0) ? (
                                 <div class="contents" 
                                     >
-                                    <button type="button" class="w-full text-sm text-centre bg-gray-200 row-start-2 col-start-3"
+                                    <button type="button" class="w-full text-centre bg-gray-200 row-start-2 col-start-3"
                                         hidden={(openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}
                                         onClick={() => addModelLoadoutGroup(props.uuid, props.detachmentIndex, props.detachment.modelGroups[i].modelType)}>
                                         New Loadout

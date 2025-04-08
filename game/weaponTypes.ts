@@ -17,7 +17,7 @@ export type WeaponType =
     "Hellfire plasma cannonade" |
     "Hull Mounted heavy bolters" |
     "Hull Mounted lascannon" |
-    "Hyperios air defence missile launcher" |
+    "Hyperios air-defence missile launcher" |
     "Kheres assault cannon" |
     "Leviathan storm cannon" |
     "In-built twin-linked bolter" |
@@ -30,7 +30,7 @@ export type WeaponType =
     "Missile launchers" |
     "Multi-melta" |
     "Meltagun" |
-    "Nose mounted heavy flamer" |
+    "Nose Mounted heavy flamer" |
     "Phased plasma-fusil" |
     "Pintle Mounted havoc launcher" |
     "Pintle Mounted multi-melta" |
@@ -45,7 +45,7 @@ export type WeaponType =
     "Reaper chainsword" |
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
-    "Sponson mounted lascannon" |
+    "Sponson Mounted lascannon" |
     "Sponson mounted laser destroyers" |
     "Sponson Mounted quad lascannon" |
     "Sponson Mounted twin-linked lascannon" |

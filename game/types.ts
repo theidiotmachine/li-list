@@ -87,6 +87,8 @@ export type ModelType = LegionModelType | AuxiliaModelType | StrategicAssetModel
 export type ModelLoadoutForSlot = {
     loadout: string;
     points: number;
+    //use this if the loadout is not an actual weaponType
+    weaponTypes?: WeaponType[]; 
 }
 
 export type ModelLoadoutSlot = {
@@ -195,8 +197,7 @@ export type UnitType =
     "Knight" |
     "Structure" |
     "Super-heavy vehicle" |
-    "Titan" |
-    "Vehcile"
+    "Titan"
 ;
 
 export type Scale = 1 | 2 | 3 | 4 | 5;
@@ -297,6 +298,9 @@ export type WeaponStatsAtRange = {
     traits: WeaponTrait[];
 }
 
+export const weaponHasTrait = (wsar: WeaponStatsAtRange, trait: WeaponTrait): boolean => 
+    wsar.traits.findIndex((t)=>t==trait) != -1
+
 export type WeaponStats = {
     arc: Arc;
     weaponStatsAtRange: WeaponStatsAtRange[];
@@ -317,4 +321,6 @@ export type Stats = {
     unitTraits: UnitTrait[];
 
     weaponTypes: WeaponType[];
+
+    requiredWeaponTypes?: WeaponType[];
 }

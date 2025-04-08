@@ -158,7 +158,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Anti-tank"], voidShields: 1
         },
     ]}],
-    ["Hyperios air defence missile launcher", {arc: "All", weaponStatsAtRange: [
+    ["Hyperios air-defence missile launcher", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 25, dice: 1, hit: 4, 
             infAndCav: {modifier: -1, wounds: 1},
             walker: {modifier: -1, wounds: 1},
@@ -265,7 +265,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Anti-tank"], voidShields: 1
         }
     ]}],
-    ["Nose mounted heavy flamer", {arc: "Front", weaponStatsAtRange: [
+    ["Nose Mounted heavy flamer", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 4, infAndCav: {modifier: 0, wounds: 1},
         walker: {modifier: 0, wounds: 1}, traits: ["Ignores Cover", "Light", "Point Defence"]}
     ]}],
@@ -384,7 +384,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light", "Point Defence"]
         }
     ]}],
-    ["Sponson mounted lascannon", {arc: "Front", weaponStatsAtRange: [
+    ["Sponson Mounted lascannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: -1, wounds: 1},
