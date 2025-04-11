@@ -155,7 +155,9 @@ const detachmentTypesForSlot = new Map<FormationSlot, AuxiliaDetachmentType[]>([
         "Auxilia Marauder Bomber Squadron",
         "Auxilia Thunderbolt Squadron",
     ] ],
-    [ "Artillery", [] ], 
+    [ "Artillery", [
+        "Auxilia Medusa Battery"
+    ] ], 
     [ "Auxilia Lasrifle", [ "Auxilia Lasrifle Tercio" ] ],
     [ "Bastion", [
         "Auxilia Rapier Battery",
@@ -171,6 +173,7 @@ const detachmentTypesForSlot = new Map<FormationSlot, AuxiliaDetachmentType[]>([
         "Auxilia Lasrifle Tercio"
     ] ],  
     [ "Heavy Armour", [
+        "Auxilia Stormhammer Squadron",
         "Auxilia Super-Heavy Tank Squadron"
     ] ],
     ["HQ", [ 
@@ -185,6 +188,7 @@ const detachmentTypesForSlot = new Map<FormationSlot, AuxiliaDetachmentType[]>([
         "Malcador Tank Squadron",
     ]],
     ["Solar Auxilia Armoured Company Compulsory Heavy Armour", [ 
+        "Auxilia Stormhammer Squadron",
         "Auxilia Super-Heavy Tank Squadron"
     ]],
     ["Storm Section", ["Auxilia Veletaris Storm Section"]],
@@ -523,6 +527,32 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
         ], possibleModelGroupQuantities: [
             {num: 1, points: 70}, {num: 2, points: 140}, {num: 3, points: 70+140},
         ]}
+    ]}],
+    ["Auxilia Stormhammer Squadron", {modelGroupShapes: [
+        {modelType: "Stormhammer", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Stormhammer multi-laser sponsons", points: 0}, {loadout: "Stormhammer lascannon sponsons", points: 4}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 100}, {num: 2, points: 200}, {num: 3, points: 300},
+        ]}
+    ]}],
+    ["Auxilia Medusa Battery", {modelGroupShapes: [
+        {modelType: "Medusa", modelLoadoutSlots: [],
+            possibleModelGroupQuantities: [
+                {num: 4, points: 130}, {num: 8, points: 260}, {num: 12, points: 390},
+            ]
+        }
+    ]}],
+    ["Auxilia Basilisk Battery", {modelGroupShapes: [
+        {modelType: "Basilisk", modelLoadoutSlots: [],
+            possibleModelGroupQuantities: [
+                {num: 4, points: 140}, {num: 8, points: 280}, {num: 12, points: 420},
+            ]
+        }
     ]}],
 ]);
 

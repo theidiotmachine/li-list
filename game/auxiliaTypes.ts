@@ -12,14 +12,17 @@ export type AuxiliaDetachmentType =
     "Auxilia Aethon Heavy Sentinel Patrol" |
     "Auxilia Arvus Lighter" |
     "Auxilia Avenger Strike Fighter Squadron" |
+    "Auxilia Basilisk Battery" |
     "Auxilia Cyclops Detachment" |
     "Auxilia Dracosan Detachment" |
     "Auxilia Lasrifle Tercio" |
     "Auxilia Lightning Fighter Squadron" |
     "Auxilia Malcador Infernus Squadron" |
     "Auxilia Marauder Bomber Squadron" |
+    "Auxilia Medusa Battery" |
     "Auxilia Ogryn Charonite Section" |
     "Auxilia Rapier Battery" |
+    "Auxilia Stormhammer Squadron" |
     "Auxilia Super-Heavy Tank Squadron" |
     "Auxilia Tactical Command Detachment" | 
     "Auxilia Tarantula Battery" |
@@ -41,6 +44,7 @@ export const AllAuxiliaModelTypes = [
     "Auxiliaries",
     "Auxiliaries with Flamers",
     "Avenger Strike Fighter",
+    "Basilisk",
     "Charonite Ogryns",
     "Cyclops",
     "Dracosan",
@@ -52,6 +56,8 @@ export const AllAuxiliaModelTypes = [
     "Marauder Colossus", 
     "Marauder Destroyer", 
     "Marauder Pathfinder", 
+    "Medusa",
+    "Stormhammer",
     "Tactical Command",
     "Thunderbolt Fighter",
     "Valdor",
