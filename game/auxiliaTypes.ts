@@ -16,6 +16,7 @@ export type AuxiliaDetachmentType =
     "Auxilia Dracosan Detachment" |
     "Auxilia Lasrifle Tercio" |
     "Auxilia Lightning Fighter Squadron" |
+    "Auxilia Malcador Infernus Squadron" |
     "Auxilia Marauder Bomber Squadron" |
     "Auxilia Ogryn Charonite Section" |
     "Auxilia Rapier Battery" |
@@ -23,6 +24,7 @@ export type AuxiliaDetachmentType =
     "Auxilia Tactical Command Detachment" | 
     "Auxilia Tarantula Battery" |
     "Auxilia Thunderbolt Squadron" |
+    "Auxilia Valdor Squadron" |
     "Auxilia Veletaris Storm Section" |
     "Legate Commander Detachment" |
     "Leman Russ Strike Squadron" |
@@ -44,6 +46,7 @@ export const AllAuxiliaModelTypes = [
     "Dracosan",
     "Leman Russ Tank",
     "Lightning Fighter",
+    "Malcador Infernus",
     "Malcador Tank",
     "Marauder Bomber", 
     "Marauder Colossus", 
@@ -51,6 +54,7 @@ export const AllAuxiliaModelTypes = [
     "Marauder Pathfinder", 
     "Tactical Command",
     "Thunderbolt Fighter",
+    "Valdor",
     "Veletarii"
 ] as const;
 export type AuxiliaModelType = (typeof AllAuxiliaModelTypes)[number];

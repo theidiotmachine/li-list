@@ -162,6 +162,8 @@ const detachmentTypesForSlot = new Map<FormationSlot, AuxiliaDetachmentType[]>([
         "Auxilia Tarantula Battery",
     ] ],
     [ "Battle Tank", [
+        "Auxilia Malcador Infernus Squadron",
+        "Auxilia Valdor Squadron",
         "Leman Russ Strike Squadron",
         "Malcador Tank Squadron",
     ] ],
@@ -177,6 +179,8 @@ const detachmentTypesForSlot = new Map<FormationSlot, AuxiliaDetachmentType[]>([
     ]],
     ["Light Armour", []],
     ["Solar Auxilia Armoured Company Compulsory Battle Tank", [
+        "Auxilia Malcador Infernus Squadron",
+        "Auxilia Valdor Squadron",
         "Leman Russ Strike Squadron",
         "Malcador Tank Squadron",
     ]],
@@ -495,7 +499,31 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
         possibleModelGroupQuantities: [
             {num: 2, points: 40}, {num: 4, points: 80}, {num: 6, points: 40+80}
         ]},
-    ]}]
+    ]}],
+    ["Auxilia Malcador Infernus Squadron", {modelGroupShapes: [
+        {modelType: "Malcador Inferus", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Malcador lascannon sponsons", points: 0}, {loadout: "Malcador autocannon sponsons", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 70}, {num: 2, points: 140}, {num: 3, points: 70+140},
+        ]}
+    ]}],
+    ["Auxilia Valdor Squadron", {modelGroupShapes: [
+        {modelType: "Valdor", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Malcador lascannon sponson", points: 0}, {loadout: "Malcador autocannon sponson", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 70}, {num: 2, points: 140}, {num: 3, points: 70+140},
+        ]}
+    ]}],
 ]);
 
 export function getAuxiliaDetachmentConfigurationForDetachmentType(detachmentType: AuxiliaDetachmentType): DetachmentConfiguration {
