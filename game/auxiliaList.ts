@@ -1,11 +1,70 @@
-import { AuxiliaDetachmentType, AuxiliaFormationType } from "./auxiliaTypes.ts";
-import { DetachmentConfiguration, FormationShape, FormationSlot } from "./types.ts";
+import { AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { Detachment, DetachmentConfiguration, DetachmentValidationState, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
+
+const tankCommanderValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
+    if(detachmentIndex > 2) {
+        return { valid: true };
+    }
+
+    //we want exactly one tank commander in the required slots
+    let totalNumTankCommanders = 0;
+    let numTankCommandersInThisDetachment = 0;
+    for(let i = 0; i < 3; ++i) {
+        const detachment = formation.detachments[i];
+        let numTankCommanders = 0;
+
+        for(let j = 0; j < detachment.modelGroups.length; ++j){
+            const modelGroup = detachment.modelGroups[j];
+
+            for(let k = 0; k < modelGroup.modelLoadoutGroups.length; ++k) {
+                const modelLoadoutGroup = modelGroup.modelLoadoutGroups[k];
+
+                const slot = modelLoadoutGroup.modelLoadoutSlots.find((t)=>t.name == "Tank Commander");
+                if(slot != undefined) {
+                    if(slot.modelLoadout.loadout == "Tank Commander") {
+                        numTankCommanders += modelLoadoutGroup.number;
+                        if(detachmentIndex == i)
+                            numTankCommandersInThisDetachment += modelLoadoutGroup.number;
+                    }
+                }
+            }
+        }
+
+        if(i == detachmentIndex && numTankCommandersInThisDetachment > 1)
+            return { 
+                valid: false, 
+                error: "Tank Commander rules broken", 
+                data : "should have maximum one Tank Commander, found " + numTankCommandersInThisDetachment.toString() + " in this detachment"
+            };
+
+        totalNumTankCommanders += numTankCommanders;
+    }
+
+    if(totalNumTankCommanders == 0)
+        return {valid: false, error: "Tank Commander rules broken", data : "must have one Tank Commander"};
+    if(totalNumTankCommanders > 1 && numTankCommandersInThisDetachment > 0)
+        return {valid: false, error: "Tank Commander rules broken", data : "should have maximum one Tank Commander"};
+
+    return {valid: true};
+}
+
 const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
     //todo tank commander
-    [ "Solar Auxilia Armoured Company", { slotRequirements: [
-        {   slot: "Battle Tank",        slotRequirementType: "Required"                 },
-        {   slot: "Battle Tank",        slotRequirementType: "Required"                 },
-        {   slot: "Heavy Armour",       slotRequirementType: "Required"                 },
+    [ "Solar Auxilia Armoured Company", { 
+        customValidation: tankCommanderValidation,
+        slotRequirements: [
+        {   slot: "Solar Auxilia Armoured Company Compulsory Battle Tank",
+            displayName: "Battle Tank",        
+            slotRequirementType: "Required"                 
+        },
+        {   slot: "Solar Auxilia Armoured Company Compulsory Battle Tank",
+            displayName: "Battle Tank",        
+            slotRequirementType: "Required"                 
+        },
+        {   slot: "Solar Auxilia Armoured Company Compulsory Heavy Armour",
+            displayName: "Heavy Armour",        
+            slotRequirementType: "Required"                 
+        },
         {   slot: "Battle Tank",        slotRequirementType: "Optional"                 },
         {   slot: "Battle Tank",        slotRequirementType: "Optional"                 },
         {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
@@ -22,6 +81,16 @@ const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
         {   slot: "Support",            slotRequirementType: "Optional"                 },
         {   slot: "Bastion",            slotRequirementType: "Optional"                 },
         {   slot: "Bastion",            slotRequirementType: "Optional"                 },
+    ]}],
+    ["Solar Auxilia Mechanised Infantry Sub-Cohort", {slotRequirements: [
+        {   slot: "HQ",                 slotRequirementType: "Required"                 },
+        {   slot: "Support",            slotRequirementType: "Required"                 },
+        {   slot: "Core",               slotRequirementType: "Required"                 },
+        {   slot: "Core",               slotRequirementType: "Required"                 },
+        {   slot: "Vanguard",           slotRequirementType: "Optional"                 },
+        {   slot: "Vanguard",           slotRequirementType: "Optional"                 },
+        {   slot: "Air Support",        slotRequirementType: "Optional"                 },
+        {   slot: "Support",            slotRequirementType: "Optional"                 },
     ]}],
     [ "Solar Auxilia Pioneer Company", { slotRequirements: [
         {   slot: "HQ",                 slotRequirementType: "Required"                 },
@@ -54,6 +123,24 @@ const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
         {   slot: "Battle Tank",        slotRequirementType: "One Of",  oneOfGroup: 2   },
         {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 2   },
     ]}],    
+    [ "Solar Auxilia Super-Heavy Company", {
+        customValidation: tankCommanderValidation,
+        slotRequirements: [
+        {   slot: "Solar Auxilia Armoured Company Compulsory Heavy Armour",
+            displayName: "Heavy Armour",        
+            slotRequirementType: "Required"                 
+        },
+        {   slot: "Solar Auxilia Armoured Company Compulsory Heavy Armour",
+            displayName: "Heavy Armour",        
+            slotRequirementType: "Required"                 
+        },
+        {   slot: "Solar Auxilia Armoured Company Compulsory Heavy Armour",
+            displayName: "Heavy Armour",        
+            slotRequirementType: "Required"                 
+        },
+        {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
+        {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
+    ]}],
 ])
 
 export function getShapeForAuxiliaFormationType(formationType: AuxiliaFormationType | ""): FormationShape {
@@ -84,18 +171,26 @@ const detachmentTypesForSlot = new Map<FormationSlot, AuxiliaDetachmentType[]>([
     [ "Heavy Armour", [
         "Auxilia Super-Heavy Tank Squadron"
     ] ],
-    [ "HQ", [ 
+    ["HQ", [ 
         "Auxilia Tactical Command Detachment",
         "Legate Commander Detachment",
-    ] ],
-    [ "Light Armour", [] ],
-    [ "Storm Section", [ "Auxilia Veletaris Storm Section" ] ],
+    ]],
+    ["Light Armour", []],
+    ["Solar Auxilia Armoured Company Compulsory Battle Tank", [
+        "Leman Russ Strike Squadron",
+        "Malcador Tank Squadron",
+    ]],
+    ["Solar Auxilia Armoured Company Compulsory Heavy Armour", [ 
+        "Auxilia Super-Heavy Tank Squadron"
+    ]],
+    ["Storm Section", ["Auxilia Veletaris Storm Section"]],
     [ "Support", [ 
         "Auxilia Ogryn Charonite Section", 
         "Auxilia Veletaris Storm Section",
     ] ],
     [ "Transport", [ 
         "Auxilia Arvus Lighter",
+        "Auxilia Dracosan Detachment",
     ] ], 
     [ "Vanguard", [
         "Auxilia Aethon Heavy Sentinel Patrol",
@@ -109,9 +204,29 @@ export function getAuxiliaDetachmentTypesForSlot(slot: FormationSlot): AuxiliaDe
 const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, DetachmentConfiguration> = new Map([
     ["Legate Commander Detachment", {modelGroupShapes: [
         {modelType: "Auxilia Commander", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 16}]},
+        {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
+            modelLoadoutSlots: [{
+                name: "Primary", possibleModelLoadouts: [
+                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+            ]}
+        ], possibleModelGroupQuantities: [
+            //p128 - max transport size is 8
+            {num: 1, points: 37},
+        ]}
     ]}],
     ["Auxilia Tactical Command Detachment", {modelGroupShapes: [
         {modelType: "Tactical Command", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 10}]},
+        {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
+            modelLoadoutSlots: [{
+                name: "Primary", possibleModelLoadouts: [
+                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+            ]}
+        ], possibleModelGroupQuantities: [
+            //p128 - max transport size is 8
+            {num: 1, points: 37},
+        ]}
     ]}],
     ["Auxilia Lasrifle Tercio", {maxModels: 16, modelGroupShapes: [
         {modelType: "Auxiliaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
@@ -130,16 +245,44 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
             {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 15*2}, {num: 6, points: 15*3},
             {num: 8, points: 15*4}, {num: 10, points: 15*5}, {num: 12, points: 15*6}
         ]},
+        {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
+            modelLoadoutSlots: [{
+                name: "Primary", possibleModelLoadouts: [
+                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
+            {num: 5, points: 37*5}, {num: 6, points: 37*6}, {num: 7, points: 37*7}, {num: 8, points: 37*8}, 
+        ]}
     ]}],
     ["Auxilia Ogryn Charonite Section", {maxModels: 8, modelGroupShapes: [
         {modelType: "Charonite Ogryns", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 50}, {num: 4+2, points: 50+15}, {num: 4+4, points: 50+30}
         ]},
+        {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
+            modelLoadoutSlots: [{
+                name: "Primary", possibleModelLoadouts: [
+                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
+        ]}
     ]}],
     ["Auxilia Veletaris Storm Section", {maxModels: 8, modelGroupShapes: [
         {modelType: "Veletarii", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 40}, {num: 4+2, points: 40+10}, {num: 4+4, points: 40+20}
         ]},
+        {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
+            modelLoadoutSlots: [{
+                name: "Primary", possibleModelLoadouts: [
+                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
+        ]}
     ]}],
     ["Auxilia Rapier Battery", {minModels: 3, maxModels: 9, modelGroupShapes: [
         {modelType: "Auxilia Rapier", modelLoadoutSlots: [
@@ -175,6 +318,9 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
             ]},
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
@@ -194,6 +340,9 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador heavy bolters", points: 0}, {loadout: "Malcador lascannon", points: 0}, {loadout: "Malcador autocannon", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 2, points: 165}, {num: 2+1, points: 165+70}, {num: 2+2, points: 165+130},
@@ -208,6 +357,9 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Baneblade heavy bolters", points: 0}, {loadout: "Baneblade heavy flamer", points: 0}, {loadout: "Baneblade autocannon", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+90+90},
@@ -312,9 +464,138 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
             {num: 5, points: 60}, {num: 6, points: 72}, {num: 7, points: 84}, {num: 8, points: 96}, 
         ]}
     ]}],
-    
+    //TGS
+    ["Auxilia Dracosan Detachment", {modelGroupShapes: [
+        {modelType: "Dracosan", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
+                {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+            ]}
+        ], possibleModelGroupQuantities: [
+            //p128 - max transport size is 8
+            {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
+            {num: 5, points: 37*5}, {num: 6, points: 37*6}, {num: 7, points: 37*7}, {num: 8, points: 37*8}, 
+        ]}
+    ]}],
+    ["Auxilia Cyclops Detachment", {
+        customValidation: (detachment: Detachment): DetachmentValidationState => {
+            const cyclopses = detachment.modelGroups.find((a)=>a.modelType == "Cyclops");
+            if(!cyclopses) return {valid: true};
+            if(cyclopses?.modelLoadoutGroups.length > 1)
+                return {valid: false, error: "Invalid loadouts of models in group", data: "All models must be equipped with the same weapon"}
+            return {valid: true};
+        },
+        modelGroupShapes: [
+            {modelType: "Cyclops", modelLoadoutSlots: [
+                {name: "Charge", possibleModelLoadouts: [
+                    {loadout: "Demolition charge", points: 0},
+                    {loadout: "Incineration charge", points: 0},
+                ]}
+            ], 
+        possibleModelGroupQuantities: [
+            {num: 2, points: 40}, {num: 4, points: 80}, {num: 6, points: 40+80}
+        ]},
+    ]}]
 ]);
 
 export function getAuxiliaDetachmentConfigurationForDetachmentType(detachmentType: AuxiliaDetachmentType): DetachmentConfiguration {
     return detachmentConfigurationForDetachmentType.get(detachmentType) ?? {modelGroupShapes: []}
+}
+
+const statsForModelType = new Map<AuxiliaModelType, Stats>([
+    ["Aethon Heavy Sentinel", {
+        unitType: "Walker", scale: 2, advance: 7, charge: 14, saves: [
+            {saveType: "Armour", save: 4, arc: "All"},
+        ],
+        caf: 0, morale: 4, wounds: 1, tacticalStrength: 3, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO,
+        unitTraits: ["Forward Deployment"]
+    }],
+    ["Auxilia Commander", {
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+            {saveType: "Armour", save: 6, arc: "All"},
+            {saveType: "Invuln", save: 6, arc: "All"},
+        ],
+        caf: 3, morale: 2, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Solar Auxilia HQ (10)"]
+    }],
+    ["Auxilia Rapier", {
+        unitType: "Infantry", scale: 1, advance: 4, charge: 8, saves:[
+            {saveType: "Armour", save: 6, arc: "All"},
+        ],
+        caf: 0, morale: 4, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Bulky", "Chain of Command"],
+    }],
+    ["Auxilia Tarantula", {
+        unitType: "Infantry", scale: 1, advance: 0, charge: 0, saves:[
+            {saveType: "Armour", save: 5, arc: "All"},
+        ],
+        caf: -3, wounds: 1, tacticalStrength: 0, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Automated Sentry"],
+    }],
+    ["Auxiliaries", {
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+            {saveType: "Armour", save: 6, arc: "All"},
+        ],
+        caf: 0, morale: 4, wounds: 1, tacticalStrength: 7, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Chain of Command", "Line"]
+    }],
+    ["Charonite Ogryns", {
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+            {saveType: "Armour", save: 6, arc: "All"},
+        ],
+        caf: 3, morale: 4, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Furious Charge"]
+    }],
+    ["Cyclops", {
+        unitType: "Vehicle", scale: 2, advance: 9, charge: 18, saves: [
+            {saveType: "Armour", save: 5, arc: "All"},
+        ],
+        caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Compact", "Remote Controlled Detonation"]
+    }],
+    ["Dracosan", {
+        unitType: "Vehicle", scale: 2, advance: 8, charge: 16, saves: [
+            {saveType: "Armour", save: 2, arc: "All"},
+        ],
+        caf: 2, morale: 4, wounds:1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Explorer Adaptation"]
+    }],
+    ["Tactical Command", {
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+            {saveType: "Armour", save: 6, arc: "All"},
+        ],
+        caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Commander", "Inspire (8)", "Solar Auxilia HQ (6)"]
+    }],
+    ["Veletarii", {
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+            {saveType: "Armour", save: 6, arc: "All"},
+        ],
+        caf: 1, morale: 4, wounds: 1, tacticalStrength: 6, voidShields: 0,
+        weaponTypes: [], //TODO
+        requiredWeaponTypes: [], //TODO
+        unitTraits: ["Steadfast"]
+    }],
+]);
+
+export function getStatsForAuxiliaModelType(modelType: AuxiliaModelType): Stats | undefined {
+    return statsForModelType.get(modelType)
 }

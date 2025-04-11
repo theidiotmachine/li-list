@@ -348,25 +348,6 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ], possibleModelGroupQuantities: [
             {num: 4, points: 36}, {num: 4+2, points: 36+15}, {num: 4+4, points: 36+30}
         ]},
-        {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
-            {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0, weaponTypes: ["Pintle Mounted twin bolter"]}, 
-                {loadout: "Havoc launcher", points: 2, weaponTypes: ["Pintle Mounted havoc launcher"]},
-                {loadout: "Multi-melta", points: 4, weaponTypes: ["Pintle Mounted multi-melta"]},
-            ]},
-        ], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
-            {num: 4, points: 40},
-        ]},
-        {modelType: "Storm Eagle", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}
-        ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 150}
-        ]},
-        {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 6}, {num: 2, points: 6*2}, {num: 3, points: 6*3}
-        ]}
     ]}],
     ["Legion Deredeo Dreadnought Detachment", {minModels: 4, maxModels: 6, modelGroupShapes: [
         {modelType: "Deredeo Dreadnought", modelLoadoutSlots: [
@@ -633,7 +614,7 @@ export function getLegionDetachmentConfigurationForDetachmentType(detachmentType
 
 const statsForModelType = new Map<LegionModelType, Stats>([
     ["Assault Marines", {
-        unitType: "Infantry", scale: 1, advance: 7, charge: 14, march: 21, saves: [
+        unitType: "Infantry", scale: 1, advance: 7, charge: 14, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
         ],
         caf: 3, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
@@ -642,7 +623,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Jump Packs"] //counts as Bulky
     }],
     ["Contemptor Dreadnought", {
-        unitType: "Walker", scale: 1, advance: 5, charge: 10, march: 10, saves: [
+        unitType: "Walker", scale: 1, advance: 5, charge: 10, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
         caf: 5, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -651,7 +632,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Armoured"],
     }],
     ["Command Squad", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
         caf: 4, morale: 2, wounds: 1, tacticalStrength: 5, voidShields: 0,
@@ -663,13 +644,13 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitType: "Vehicle", scale: 2, saves: [
             {saveType: "Armour", save: 4, arc: "All"}
         ],
-        caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: -8, wounds: 1, tacticalStrength: 0, voidShields: 0,
         weaponTypes: ["Deathstorm missile launcher"],
         requiredWeaponTypes: ["Deathstorm missile launcher"],
-        unitTraits: ["Drop Pod"]
+        unitTraits: ["Drop Pod", "Orbital Assault"]
     }],
     ["Deredeo Dreadnought", {
-        unitType: "Walker", scale: 1, advance: 5, charge: 10, march: 10, saves: [
+        unitType: "Walker", scale: 1, advance: 5, charge: 10, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -681,7 +662,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitType: "Vehicle", scale: 2, saves: [
             {saveType: "Armour", save: 4, arc: "All"}
         ],
-        caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: -8, wounds: 1, tacticalStrength: 0, voidShields: 0,
         weaponTypes: [],
         unitTraits: ["Drop Pod", "Large Transport (2)"]
     }],
@@ -689,13 +670,13 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitType: "Vehicle", scale: 2, saves: [
             {saveType: "Armour", save: 4, arc: "All"}
         ],
-        caf: -3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: -3, wounds: 1, tacticalStrength: 0, voidShields: 0,
         weaponTypes: ["Turret Mounted twin bolter"],
         requiredWeaponTypes: ["Turret Mounted twin bolter"],
         unitTraits: ["Drop Pod", "Transport (2)"]
     }],
     ["Javelin", {
-        unitType: "Cavalry", scale: 1, advance: 10, charge: 20, march: 20, saves: [
+        unitType: "Cavalry", scale: 1, advance: 10, charge: 20, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -704,7 +685,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Skimmer"]
     }],
     ["Land Speeder", {
-        unitType: "Cavalry", scale: 1, advance: 10, charge: 20, march: 20, saves: [
+        unitType: "Cavalry", scale: 1, advance: 10, charge: 20, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -712,7 +693,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Skimmer"]
     }],
     ["Land Raider", {
-        unitType: "Vehicle", scale: 2, advance: 9, charge: 18, march: 18, saves: [
+        unitType: "Vehicle", scale: 2, advance: 9, charge: 18, saves: [
             {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
@@ -721,7 +702,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Assault Transport (2)", "Forward Deployment"]
     }],
     ["Legion Outrider", {
-        unitType: "Cavalry", scale: 1, advance: 10, charge: 20, march: 20, saves: [
+        unitType: "Cavalry", scale: 1, advance: 10, charge: 20, saves: [
             {saveType: "Armour", save: 5, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -730,7 +711,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: []
     }],
     ["Legion Rapier", {
-        unitType: "Infantry", scale: 1, advance: 4, charge: 8, march: 12, saves: [
+        unitType: "Infantry", scale: 1, advance: 4, charge: 8, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
@@ -738,15 +719,15 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Bulky"]
     }],
     ["Legion Tarantula", {
-        unitType: "Infantry", scale: 1, advance: 0, charge: 0, march: 0, saves: [
+        unitType: "Infantry", scale: 1, advance: 0, charge: 0, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
         ],
-        caf: -3, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: -3, wounds: 1, tacticalStrength: 0, voidShields: 0,
         weaponTypes: ["Hyperios air-defence missile launcher", "Tarantula lascannon battery"],
         unitTraits: ["Automated Sentry"]
     }],
     ["Legion Terminators", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
         caf: 4, morale: 3, wounds: 1, tacticalStrength: 6, voidShields: 0,
@@ -755,7 +736,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Bulky", "Deep Strike", "Implacable", "Steadfast"] //and whatever gives invuln
     }],
     ["Leviathan Dreadnought", {
-        unitType: "Walker", scale: 1, advance: 5, charge: 10, march: 10, saves: [
+        unitType: "Walker", scale: 1, advance: 5, charge: 10, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
         ],
         caf: 5, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -764,7 +745,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         requiredWeaponTypes: ["Leviathan siege claw", "Twin-linked volkite calvier"]
     }],
     ["Missile Launcher Legionaries",{
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
@@ -776,12 +757,12 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitType: "Vehicle", scale: 2, saves: [
             {saveType: "Armour", save: 4, arc: "All"}
         ],
-        caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: -8, wounds: 1, tacticalStrength: 0, voidShields: 0,
         weaponTypes: [],
         unitTraits: ["Drop Pod", "Shield Generator (5+)"]
     }],
     ["Plasma Support Legionaries", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
@@ -790,7 +771,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: []
     }],
     ["Rhino", {
-        unitType: "Vehicle", scale: 2, advance: 9, charge: 18, march: 18, saves: [
+        unitType: "Vehicle", scale: 2, advance: 9, charge: 18, saves: [
             {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"}
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
@@ -798,7 +779,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Transport (2)"]
     }],
     ["Scimitar Jetbike", {
-        unitType: "Cavalry", scale: 1, advance: 10, charge: 20, march: 20, saves: [
+        unitType: "Cavalry", scale: 1, advance: 10, charge: 20, saves: [
             {saveType: "Armour", save: 5, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -807,7 +788,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Skimmer"]
     }],
     ["Spartan", {
-        unitType: "Vehicle", scale: 2, advance: 8, charge: 16, march: 16, saves: [
+        unitType: "Vehicle", scale: 2, advance: 8, charge: 16, saves: [
             {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}
         ],
         caf: 2, morale: 3, wounds: 2, tacticalStrength: 2, voidShields: 0,
@@ -817,7 +798,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         unitTraits: ["Assault Transport (5)"]
     }],
     ["Tactical Legionaries", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, march: 15, saves: [
+        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,

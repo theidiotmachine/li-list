@@ -4,6 +4,7 @@ export const AuxiliaFormationTypes = [
     "Solar Auxilia Mechanised Infantry Sub-Cohort",
     "Solar Auxilia Pioneer Company",
     "Solar Auxilia Sub-Cohort",
+    "Solar Auxilia Super-Heavy Company",
 ] as const;
 export type AuxiliaFormationType = (typeof AuxiliaFormationTypes)[number];
 
@@ -11,6 +12,8 @@ export type AuxiliaDetachmentType =
     "Auxilia Aethon Heavy Sentinel Patrol" |
     "Auxilia Arvus Lighter" |
     "Auxilia Avenger Strike Fighter Squadron" |
+    "Auxilia Cyclops Detachment" |
+    "Auxilia Dracosan Detachment" |
     "Auxilia Lasrifle Tercio" |
     "Auxilia Lightning Fighter Squadron" |
     "Auxilia Marauder Bomber Squadron" |
@@ -37,6 +40,8 @@ export const AllAuxiliaModelTypes = [
     "Auxiliaries with Flamers",
     "Avenger Strike Fighter",
     "Charonite Ogryns",
+    "Cyclops",
+    "Dracosan",
     "Leman Russ Tank",
     "Lightning Fighter",
     "Malcador Tank",

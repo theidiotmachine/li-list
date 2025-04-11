@@ -1,4 +1,6 @@
-export type WeaponType = 
+export type WeaponType =
+    "Acastus autocannon" |
+    "Acastus lascannon" |
     "Acheron pattern flame cannon" |
     "Aiolus missile launcher" |
     "Anvilus autocannon battery" |
@@ -22,6 +24,7 @@ export type WeaponType =
     "Leviathan storm cannon" |
     "In-built twin-linked bolter" |
     "In-built twin-linked heavy bolters" |
+    "Ion gauntlet shield" |
     "Laser destroyer array" |
     "Legion bolters" |
     "Leviathan siege claw" |
@@ -45,6 +48,7 @@ export type WeaponType =
     "Reaper chainsword" |
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
+    "Shock lance" |
     "Sponson Mounted lascannon" |
     "Sponson mounted laser destroyers" |
     "Sponson Mounted quad lascannon" |
@@ -54,6 +58,7 @@ export type WeaponType =
     "Thermal cannon" |
     "Thunderstrike gauntlet" |
     "Turret Mounted twin bolter" |
+    "Twin magna lascannon" |
     "Twin-linked bolters" |
     "Twin-linked lascannon" |
     "Twin-linked volkite calvier" |

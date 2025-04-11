@@ -83,7 +83,6 @@ export default function Unit(props: PageProps) {
               <td class="w-16">Scale</td>
               <td class="w-16">Advance</td>
               <td class="w-16">Charge</td>
-              <td class="w-16">March</td>
               {saveHeaders}
               <td class="w-16">CAF</td>
               <td class="w-16">Morale</td>
@@ -97,7 +96,6 @@ export default function Unit(props: PageProps) {
               <td>{stats.scale}</td>
               <td>{(stats.advance)?(stats.advance+'"'): ""}</td>
               <td>{(stats.charge)?(stats.charge+'"'): ""}</td>
-              <td>{(stats.march)?(stats.march+'"'): ""}</td>
               {saves}
               <td>{(stats.caf >= 0)?("+" + stats.caf.toString()):stats.caf}</td>
               <td>

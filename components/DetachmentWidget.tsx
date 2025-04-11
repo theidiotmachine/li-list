@@ -5,13 +5,15 @@ import { DetachmentValidity } from "./DetachmentValidity.tsx";
 import { ModelLoadoutWidget } from "./ModelLoadoutWidget.tsx";
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { ArmyListName, Detachment, ModelGroup } from "../game/types.ts";
+import { Allegiance, ArmyListName, Detachment, FormationType, ModelGroup } from "../game/types.ts";
 
 interface DetachmentWidgetProps {
     uuid: string;
     armyListName: ArmyListName;
+    formationType: FormationType;
     detachmentIndex: number;
     detachment: Detachment;
+    allegiance: Allegiance  | "";
 }
 
 export function DetachmentWidget(props: DetachmentWidgetProps) {
@@ -92,7 +94,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                                         hidden={(openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}>
                                         {props.detachment.modelGroups[i].modelLoadoutGroups.map((x, j)=>
                                             <ModelLoadoutWidget key={j} uuid={props.uuid} armyListName={props.armyListName}
-                                            detachmentIndex={props.detachmentIndex}
+                                            formationType={props.formationType} detachmentIndex={props.detachmentIndex} 
                                             modelType={u.modelType} detachmentType={detachmentType}
                                             modelLoadoutGroup={x} modelLoadoutGroupIndex={j} groupSize={x.number} 
                                             numModelLoadoutGroups={props.detachment.modelGroups[i].modelLoadoutGroups.length}/>
@@ -118,7 +120,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
             <div class="col-span-4 col-start-2 row-start-2 md:col-start-3 md:row-start-1 md:col-span-3 border-b-2 border-gray-400">
                 <DetachmentTypeSelect 
                     uuid = {props.uuid} detachmentIndex = {props.detachmentIndex} slot = {props.detachment.slot}
-                    armyListName={props.armyListName}/>
+                    armyListName={props.armyListName} allegiance={props.allegiance}/>
             </div>
             
             <div class="col-span-1 col-start-6 justify-self-end md:text-lg bg-gray-100 border-b-2 border-gray-400">

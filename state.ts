@@ -1,5 +1,5 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadout, ModelGroup, Army, Formation, Allegiance } from "./game/types.ts";
+import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, unitHasTrait } from "./game/types.ts";
 import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
@@ -10,7 +10,7 @@ export type ChangeFormationArmyList = (uuid: string, armyListName: ArmyListName 
 export type ChangeFormationType = (uuid: string, formationType: FormationType | "") => void;
 export type ChangeDetachmentType = (uuid: string, detachmentIndex: number, detachmentType: DetachmentType | "") => void;
 export type ChangeModelNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, num: number) => void;
-export type ChangeModelLoadout = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, modelLoadoutSlotIndex: number, loadout: string) => void;
+export type ChangeModelLoadout = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, modelLoadoutSlotName: string, loadout: string) => void;
 export type AddModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
 export type RemoveModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number) => void;
 export type ChangeModelLoadoutGroupNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, number: number) => void;
@@ -64,7 +64,7 @@ export type AppStateType = {
     close: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
 };
 
-function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadout) {
+function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadoutGroup) {
     //find the value of loadout each slot option, sum them, and multiply by the number in the group
     return modelLoadoutGroup.number * modelLoadoutGroup.modelLoadoutSlots.reduce((p2, m2) => p2 + m2.modelLoadout.points, 0)
 }
@@ -182,66 +182,70 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
             let walkerModels = 0;
 
             for(let i = 0; i < detachment.modelGroups.length; ++i) {
-                const m = detachment.modelGroups[i];
-                const shapeIdx = c.modelGroupShapes.findIndex(x=>x.modelType == m.modelType);
+                const modelGroup = detachment.modelGroups[i];
+                const shapeIdx = c.modelGroupShapes.findIndex(x=>x.modelType == modelGroup.modelType);
                 if(shapeIdx == -1)
                     continue;
                 const shape = c.modelGroupShapes[shapeIdx];
-                if(shape.minModels != undefined && m.number < shape.minModels)
-                    return { valid: false, error: "Too few models in group", data: m.modelType + ". Min: " + shape.minModels };
-                if(shape.maxModels != undefined && m.number > shape.maxModels)
-                    return { valid: false, error: "Too many models in group", data: m.modelType  + ". Max: " + shape.maxModels  };
-                if(shape.possibleModelGroupQuantities.findIndex(x=>x.num == m.number) == -1) {
-                    console.log("Invalid number of models in group", m.number, shape.possibleModelGroupQuantities);
+                if(shape.minModels != undefined && modelGroup.number < shape.minModels)
+                    return { valid: false, error: "Too few models in group", data: modelGroup.modelType + ". Min: " + shape.minModels };
+                if(shape.maxModels != undefined && modelGroup.number > shape.maxModels)
+                    return { valid: false, error: "Too many models in group", data: modelGroup.modelType  + ". Max: " + shape.maxModels  };
+                if(shape.possibleModelGroupQuantities.findIndex(x=>x.num == modelGroup.number) == -1) {
+                    console.log("Invalid number of models in group", modelGroup.number, shape.possibleModelGroupQuantities);
                     const possibleModelNumbers = shape.possibleModelGroupQuantities.map(m=>m.num.toString());
-                    return { valid: false, error: "Invalid number of models in group", data: m.modelType + ". Could be: " + 
+                    return { valid: false, error: "Invalid number of models in group", data: modelGroup.modelType + ". Could be: " + 
                         possibleModelNumbers.join(", ")
                      };
                 }
 
-                const stats = getStatsForModelType(m.modelType);
+                const stats = getStatsForModelType(modelGroup.modelType);
+                const extraTraits = modelGroup.modelLoadoutGroups.flatMap((t)=>t.modelLoadoutSlots.flatMap(u=>u.modelLoadout.unitTraits??[]));
+                const unitTraits = stats?.unitTraits??[];
+                const traits = unitTraits.concat(extraTraits);
 
                 //don't include dedicated detachments for the purposes of validation
-                if(!shape.dedicatedTransport) {
-                    numModels += m.number;
+                if(shape.dedicatedTransport === undefined || shape.dedicatedTransport === false) {
+                    numModels += modelGroup.number;
                     if(stats) {
                         if(stats.unitType == "Walker")
-                            walkerModels += m.number;
-                        else {
-                            const isBulky = stats.unitTraits.findIndex((x)=>x==="Bulky" || x==="Jump Packs") !== -1;
+                            walkerModels += modelGroup.number;
+                        else if(stats.unitType == "Infantry") {
+                            const isBulky = traits.findIndex((x)=>x==="Bulky" || x==="Jump Packs") !== -1;
                             if(isBulky) 
-                                bulkyModels += m.number;
+                                bulkyModels += modelGroup.number;
                             else
-                                slimModels += m.number;
-                        }
+                                slimModels += modelGroup.number;
+                        } else if (stats.unitType == "Vehicle" && unitHasTrait(stats, "Compact"))
+                            bulkyModels += modelGroup.number;
                     }
-                } else if(m.number > 0) {
+                } else if(modelGroup.number > 0) {
                     //okay, figure out the transport capacity of dedicated transports
                     if(stats) {
                         //eww
-                        const transportTrait = stats.unitTraits.find((x)=>x.startsWith("Transport"));
+                        const transportTrait = traits.find((x)=>x.startsWith("Transport"));
                         if(transportTrait) {
                             const matches = transportTrait.match(/Transport \(([0-9])\)/);
                             const transportCapacity = parseInt(matches![1]);
-                            for(let i = 0; i < m.number; ++i)
+                            for(let i = 0; i < modelGroup.number; ++i)
                                 transports.push(
                                     {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: false, bulkyIs: 0}
                                 );
                         } else {
-                            const assaultTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Assault Transport"));
+                            const assaultTransportTrait = traits.find((x)=>x.startsWith("Assault Transport"));
                             if(assaultTransportTrait) {
                                 const matches = /Assault Transport \(([0-9])\)/.exec(assaultTransportTrait);
                                 const transportCapacity = parseInt(matches![1]);
-                                for(let i = 0; i < m.number; ++i)
+                                for(let i = 0; i < modelGroup.number; ++i)
                                     transports.push(
                                         {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: true, bulkyIs: 2}
                                     );
                             } else {
-                                const largeTransportTrait = stats.unitTraits.find((x)=>x.startsWith("Large Transport") || x.startsWith("Large Assault Transport"));
+                                const largeTransportTrait = traits.find((x)=>x.startsWith("Large Transport") || x.startsWith("Large Assault Transport"));
                                 if(largeTransportTrait) { 
                                     const matches = /.* Transport \(([0-9])\)/.exec(largeTransportTrait);
                                     const transportCapacity = parseInt(matches![1]);
-                                    for(let i = 0; i < m.number; ++i)
+                                    for(let i = 0; i < modelGroup.number; ++i)
                                         transports.push(
                                             {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: true, takesBulky: true, bulkyIs: 1}
                                         );
@@ -339,6 +343,12 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
                     return { valid: false, error: "Only one of these detachments should be present" };
             }
         }
+    }
+
+    if(formationShape.customValidation != undefined) {
+        const validationState = formationShape.customValidation(formation, detachmentIndex);
+        if(validationState.error)
+            return validationState;
     }
 
     return { valid: true };
@@ -621,7 +631,7 @@ function createAppState(): AppStateType {
                 newFormation.detachments[detachmentIndex].modelGroups = config.modelGroupShapes
                     .filter((x) => (x.formationType === undefined) || (x.formationType === newFormation.formationType))
                     .map((x) => {
-                        let modelLoadoutGroups: ModelLoadout[] = [];
+                        let modelLoadoutGroups: ModelLoadoutGroup[] = [];
                         if(x.modelLoadoutSlots.length > 0) {
                             modelLoadoutGroups = [{
                                 number: x.possibleModelGroupQuantities[0].num, modelLoadoutSlots: x.modelLoadoutSlots.map(
@@ -668,7 +678,7 @@ function createAppState(): AppStateType {
     };
 
     const changeModelLoadout: ChangeModelLoadout = (
-        uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, modelLoadoutSlotIndex: number, loadout: string
+        uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, modelLoadoutSlotName: string, loadout: string
     ) => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
@@ -689,6 +699,9 @@ function createAppState(): AppStateType {
 
         const config = getDetachmentConfigurationForDetachmentType(newFormation.armyListName, detachmentType);
         const c = config?.modelGroupShapes.find((x)=>x.modelType == modelType);
+        const modelLoadoutSlotIndex = c?.modelLoadoutSlots.findIndex(s=>s.name === modelLoadoutSlotName);
+        if(modelLoadoutSlotIndex===undefined || modelLoadoutSlotIndex === -1)
+            return;
         const l = c?.modelLoadoutSlots[modelLoadoutSlotIndex].possibleModelLoadouts.find((m)=>m.loadout === loadout);
         if(l === undefined)
             return;
@@ -721,7 +734,7 @@ function createAppState(): AppStateType {
         if(c === undefined)
             return;
 
-        const newModelLoadoutGroup: ModelLoadout = 
+        const newModelLoadoutGroup: ModelLoadoutGroup = 
             {number: 0, modelLoadoutSlots: c.modelLoadoutSlots.map((y)=>
                 {return {name: y.name, modelLoadout: y.possibleModelLoadouts[0]}}
             ), points: -1};

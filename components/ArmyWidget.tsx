@@ -3,7 +3,6 @@ import { AppState } from "../islands/App.tsx";
 import { FormationWidget } from "./FormationWidget.tsx";
 import { ArmyPrimaryArmyListSelect } from "./ArmyPrimaryArmyListSelect.tsx";
 import { ArmyAllegianceSelect } from "./ArmyAllegianceSelect.tsx";
-import { ArmyValidity } from "./ArmyValidity.tsx";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { LoadState } from "../state.ts";
 
@@ -67,7 +66,7 @@ export function ArmyWidget(props: ArmyWidgetProps) {
                     </div>
                 
                     <div>
-                        {army.value.formations.map((x) => FormationWidget({formation: x})) }
+                        {army.value.formations.map((x) => FormationWidget({formation: x, allegiance: army.value.allegiance})) }
                     </div>               
                 </div>
             )

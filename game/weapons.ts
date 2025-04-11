@@ -2,6 +2,24 @@ import { WeaponStats } from "./types.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 const weapons = new Map<WeaponType, WeaponStats>([
+    ["Acastus autocannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 3, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        },
+    ]}],
+    ["Acastus lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        },
+    ]}],
     ["Acheron pattern flame cannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 8, dice: 3, hit: 4, 
             infAndCav: {modifier: -2, wounds: 1},
@@ -178,6 +196,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1},
             traits: ["Light", "Point Defence"]
+        }
+    ]}],
+    ["Ion gauntlet shield", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 2, hit: 5,
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: [], voidShields: 1
         }
     ]}],
     ["Kheres assault cannon", {arc: "All", weaponStatsAtRange: [
@@ -384,6 +411,9 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light", "Point Defence"]
         }
     ]}],
+    ["Shock lance", {arc: "Melee", weaponStatsAtRange: [
+        {traits: ["Reach", "Rend"]},
+    ]}],
     ["Sponson Mounted lascannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -460,6 +490,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             walker: {modifier: 0, wounds: 1}, traits: ["Assault", "Light", "Point Defence"]},
         {minRange: 4, maxRange: 8, dice: 1, hit: 5, infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1}, traits: ["Assault", "Light", "Point Defence"]}
+    ]}],
+    ["Twin magna lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 25, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -2, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
     ]}],
     ["Twin-linked bolters", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 2, hit: 5, infAndCav: {modifier: 0, wounds: 1},

@@ -11,7 +11,7 @@ interface ModelLoadoutSelectProps{
     modelType: ModelType;
     detachmentType: DetachmentType;
     modelLoadoutGroupIndex: number;
-    modelLoadoutSlotIndex: number;
+    modelLoadoutSlotName: string;
 }
 
 export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
@@ -22,10 +22,17 @@ export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
     if(modelOptions == undefined)
         return <div></div>
         
-    const slot = modelOptions.modelLoadoutSlots[props.modelLoadoutSlotIndex];
+    const slot = modelOptions.modelLoadoutSlots.find((s)=>s.name == props.modelLoadoutSlotName);
+    if(slot === undefined) return <div>No model loadout</div>
     return <select class="w-44 md:w-72 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white bg-opacity-0"
-        onInput={(e)=> changeModelLoadout(props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotIndex, e.currentTarget.value)}>
-        {slot.possibleModelLoadouts.map((x,i)=><option class="bg-white bg-opacity-0" key={i} selected={props.loadout.loadout == x.loadout}>{x.loadout}</option>)} 
+        onInput={
+            (e)=> changeModelLoadout(
+                props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotName, e.currentTarget.value
+            )
+        }>
+        {slot.possibleModelLoadouts.map((x,i)=>
+            <option class="bg-white bg-opacity-0" key={i} selected={props.loadout.loadout == x.loadout}>{x.loadout}</option>
+        )} 
     </select>
     
 }

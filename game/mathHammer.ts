@@ -1,5 +1,5 @@
 import { getStatsForModelType } from "./lists.ts";
-import { Arc, ModelType, SaveType, Stats, weaponHasTrait, WeaponStats, WeaponStatsAtRange } from "./types.ts";
+import { Arc, ModelType, SaveType, Stats, unitHasTrait, weaponHasTrait, weaponHasTraitLike, WeaponStats, WeaponStatsAtRange } from "./types.ts";
 import { getWeaponStats } from "./weapons.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
@@ -126,8 +126,13 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc)
         if(armourSaveModifier == undefined)
             return {damageFraction: 0, wounds: 0, saveType: "Armour"};
     }
+
+    const targetSaves = targetStats.saves;
+    if(unitHasTrait(targetStats, "Explorer Adaptation") && (weaponHasTrait(wsar, "Barrage") || weaponHasTraitLike(wsar, "Blast ("))) {
+        targetSaves.push({save: 6, saveType: "Invuln", arc: "All"});
+    }
     
-    const armourSave = targetStats.saves.find((s)=>s.saveType == "Armour" && (s.arc == "All" || s.arc == targetArc));
+    const armourSave = targetSaves.find((s)=>s.saveType == "Armour" && (s.arc == "All" || s.arc == targetArc));
     if(armourSave != undefined) {
         bestSave = armourSave.save;
         
@@ -136,7 +141,7 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc)
         bestSaveType = "Armour";
     }
 
-    const ionSave = targetStats.saves.find((s)=>s.saveType == "Ion Shield" && (s.arc == "All" || s.arc == targetArc));
+    const ionSave = targetSaves.find((s)=>s.saveType == "Ion Shield" && (s.arc == "All" || s.arc == targetArc));
     if(ionSave != undefined) {
         const ionShieldModifier = wsar.ionShield;
         if(ionShieldModifier != undefined) {
@@ -149,7 +154,7 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc)
         }
     }
 
-    const jinkSave = targetStats.saves.find((s)=>s.saveType == "Jink" && (s.arc == "All" || s.arc == targetArc));
+    const jinkSave = targetSaves.find((s)=>s.saveType == "Jink" && (s.arc == "All" || s.arc == targetArc));
     if(jinkSave != undefined) {
         if(jinkSave.save < bestSave) {
             bestSave = jinkSave.save;
@@ -157,7 +162,7 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc)
         }
     }
 
-    const invulnSave = targetStats.saves.find((s)=>s.saveType == "Invuln" && (s.arc == "All" || s.arc == targetArc));
+    const invulnSave = targetSaves.find((s)=>s.saveType == "Invuln" && (s.arc == "All" || s.arc == targetArc));
     if(invulnSave != undefined) {
         if(invulnSave.save < bestSave) {
             bestSave = invulnSave.save;

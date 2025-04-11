@@ -1,9 +1,9 @@
-import { getAuxiliaDetachmentConfigurationForDetachmentType, getAuxiliaDetachmentTypesForSlot, getShapeForAuxiliaFormationType } from "./auxiliaList.ts";
-import { AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaFormationTypes } from "./auxiliaTypes.ts";
+import { getAuxiliaDetachmentConfigurationForDetachmentType, getAuxiliaDetachmentTypesForSlot, getShapeForAuxiliaFormationType, getStatsForAuxiliaModelType } from "./auxiliaList.ts";
+import { AllAuxiliaModelTypes, AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaFormationTypes, AuxiliaModelType } from "./auxiliaTypes.ts";
 import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentType, getLegionDetachmentTypesForSlot, getShapeForLegionFormationType } from "./legionList.ts";
 import { AllLegionModelTypes, LegionDetachmentType, LegionFormationType, LegionFormationTypes, LegionModelType } from "./legionTypes.ts";
 import { getShapeForStrategicAssetFormationType, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentType, getStrategicAssetDetachmentTypesForSlot } from "./strategicAssetList.ts";
-import { AllStrategicAssetModelTypes, ArmyListName, DetachmentConfiguration, DetachmentType, FormationShape, FormationSlot, FormationType, ModelType, Stats, StrategicAssetDetachmentType, StrategicAssetFormationType, StrategicAssetFormationTypes } from "./types.ts";
+import { Allegiance, AllStrategicAssetModelTypes, ArmyListName, DetachmentConfiguration, DetachmentType, FormationShape, FormationSlot, FormationType, ModelType, Stats, StrategicAssetDetachmentType, StrategicAssetFormationType, StrategicAssetFormationTypes } from "./types.ts";
 
 
 const formationTypesForArmyListName: Map<ArmyListName, FormationType[]> = new Map([
@@ -33,14 +33,14 @@ export function getShapeForFormationType(armyListName: ArmyListName | "", format
     }
 }
 
-export function getDetachmentTypesForSlot(armyListName: ArmyListName, slot: FormationSlot): DetachmentType[] {
+export function getDetachmentTypesForSlot(armyListName: ArmyListName, slot: FormationSlot, allegiance: Allegiance | ""): DetachmentType[] {
     switch(armyListName) {
         case "Legions Astartes":
             return getLegionDetachmentTypesForSlot(slot);
         case "Solar Auxilia":
             return getAuxiliaDetachmentTypesForSlot(slot);
         case "Strategic Asset":
-            return getStrategicAssetDetachmentTypesForSlot(slot);
+            return getStrategicAssetDetachmentTypesForSlot(slot, allegiance);
     }
 }
 
@@ -61,5 +61,8 @@ export function getStatsForModelType(modelType: ModelType): Stats | undefined {
     }
     if(AllStrategicAssetModelTypes.findIndex(a=>a==modelType) != -1) {
         return getStatsForStrategicAssetModelType(modelType as LegionModelType);
+    }
+    if(AllAuxiliaModelTypes.findIndex(a=>a==modelType) != -1) {
+        return getStatsForAuxiliaModelType(modelType as AuxiliaModelType);
     }
 }

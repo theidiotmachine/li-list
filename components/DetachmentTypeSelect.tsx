@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { ArmyListName, DetachmentType, Formation, FormationSlot } from "../game/types.ts";
+import { Allegiance, ArmyListName, DetachmentType, Formation, FormationSlot } from "../game/types.ts";
 import { getDetachmentTypesForSlot } from "../game/lists.ts";
 
 interface UnitTypeSelectProps {
@@ -8,13 +8,14 @@ interface UnitTypeSelectProps {
     armyListName: ArmyListName;
     detachmentIndex: number;
     slot: FormationSlot;
+    allegiance: Allegiance  | "";
 };
 
 export function DetachmentTypeSelect(props: UnitTypeSelectProps) {
     const { army, changeDetachmentType } = useContext(AppState);
 
     const unitTypesForSlot = [""];
-    unitTypesForSlot.push(...getDetachmentTypesForSlot(props.armyListName, props.slot));
+    unitTypesForSlot.push(...getDetachmentTypesForSlot(props.armyListName, props.slot, props.allegiance));
 
     const formation = army.value.formations.find((f: Formation)=>f.uuid == props.uuid);
     const detachment = formation?.detachments[props.detachmentIndex];
