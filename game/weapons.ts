@@ -160,6 +160,13 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT"]
         }
     ]}],
+    ["Hull Mounted heavy bolter", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 2, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Light", "Point Defence"]
+        }
+    ]}],
     ["Hull Mounted heavy bolters", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 2, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -206,6 +213,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: -1, wounds: 1},
             traits: [], voidShields: 1
         }
+    ]}],
+    ["Omega plasma array", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 1, hit: 4, 
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: ["Accurate"], voidShields: 1
+        },
     ]}],
     ["Kheres assault cannon", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 10, dice: 1, hit: 5, 
@@ -347,6 +363,24 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT"]
         }
     ]}],
+    ["Predator cannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 18, dice: 2, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        }
+    ]}],
+    ["Predator lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
+    ]}],
     ["Quad launcher", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 16, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -413,6 +447,13 @@ const weapons = new Map<WeaponType, WeaponStats>([
     ]}],
     ["Shock lance", {arc: "Melee", weaponStatsAtRange: [
         {traits: ["Reach", "Rend"]},
+    ]}],
+    ["Sponson Mounted heavy bolters", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 2, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Light", "Point Defence"]
+        }
     ]}],
     ["Sponson Mounted lascannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
@@ -498,6 +539,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: -3, wounds: 1},
             ionShield: {modifier: -2, wounds: 1},
             traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
+    ]}],
+    ["Twin-linked accelerator autocannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 3, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Tracking"], voidShields: 1
         },
     ]}],
     ["Twin-linked bolters", {arc: "All", weaponStatsAtRange: [

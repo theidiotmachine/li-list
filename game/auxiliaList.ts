@@ -49,7 +49,6 @@ const tankCommanderValidation = (formation: Formation, detachmentIndex: number):
 }
 
 const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
-    //todo tank commander
     [ "Solar Auxilia Armoured Company", { 
         customValidation: tankCommanderValidation,
         slotRequirements: [

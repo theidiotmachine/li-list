@@ -17,6 +17,7 @@ export type WeaponType =
     "Hekaton siege claw" |
     "Heavy stubber" |
     "Hellfire plasma cannonade" |
+    "Hull Mounted heavy bolter" |
     "Hull Mounted heavy bolters" |
     "Hull Mounted lascannon" |
     "Hyperios air-defence missile launcher" |
@@ -34,12 +35,15 @@ export type WeaponType =
     "Multi-melta" |
     "Meltagun" |
     "Nose Mounted heavy flamer" |
+    "Omega plasma array" |
     "Phased plasma-fusil" |
     "Pintle Mounted havoc launcher" |
     "Pintle Mounted multi-melta" |
     "Pintle Mounted twin bolter" |
     "Plasma cannon" |
     "Plasma guns" |
+    "Predator cannon" |
+    "Predator lascannon" |
     "Quad launcher" |
     "Questoris-avenger gatling cannon" |
     "Rapid-fire battlecannon" |
@@ -49,6 +53,7 @@ export type WeaponType =
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
     "Shock lance" |
+    "Sponson Mounted heavy bolters" |
     "Sponson Mounted lascannon" |
     "Sponson mounted laser destroyers" |
     "Sponson Mounted quad lascannon" |
@@ -58,6 +63,7 @@ export type WeaponType =
     "Thermal cannon" |
     "Thunderstrike gauntlet" |
     "Turret Mounted twin bolter" |
+    "Twin-linked accelerator autocannon" |
     "Twin magna lascannon" |
     "Twin-linked bolters" |
     "Twin-linked lascannon" |

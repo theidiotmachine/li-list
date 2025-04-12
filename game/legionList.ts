@@ -370,7 +370,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0, weaponTypes: ["Sponson Mounted lascannon"]}, 
-                {loadout: "Heavy bolters", points: 0/*, weaponTypes: ["Sponson Mounted heavy bolters"]*/},
+                {loadout: "Heavy bolters", points: 0, weaponTypes: ["Sponson Mounted heavy bolters"]},
             ]}
         ], possibleModelGroupQuantities: [
             {num: 3, points: 115}, {num: 4, points: 115+35}, {num: 5, points: 115+35+35},
@@ -385,8 +385,8 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
                 {loadout: "Omega plasma array", points: 0}
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Lascannon", points: 0}, 
-                {loadout: "Heavy bolters", points: 0}
+                {loadout: "Lascannon", points: 0, weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", points: 0, weaponTypes: ["Sponson Mounted heavy bolters"]}
             ]}
         ], possibleModelGroupQuantities: [
             {num: 2, points: 105}, {num: 3, points: 105+40}, {num: 4, points: 105+70},
@@ -405,7 +405,8 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
                 {loadout: "Kratos autocannon", points: 0}
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Lascannon", points: 0}, {loadout: "Heavy bolters", points: 0}
+                {loadout: "Lascannon", points: 0, weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", points: 0, weaponTypes: ["Sponson Mounted heavy bolters"]}
             ]}
         ], possibleModelGroupQuantities: [
             {num: 2, points: 150}, {num: 3, points: 150+60}, {num: 4, points: 150+110},
@@ -710,6 +711,15 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         requiredWeaponTypes: ["Twin-linked bolters", "Twin plasma guns"],
         unitTraits: []
     }],
+    ["Legion Predator", {
+        unitType: "Vehicle", scale: 2, advance: 9, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: ["Predator cannon", "Predator lascannon", "Sponson Mounted heavy bolters", "Sponson Mounted lascannon"],
+        unitTraits: []
+    }],
     ["Legion Rapier", {
         unitType: "Infantry", scale: 1, advance: 4, charge: 8, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
@@ -717,6 +727,16 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
         weaponTypes: ["Laser destroyer array", "Quad launcher"],
         unitTraits: ["Bulky"]
+    }],
+    ["Legion Sicaran", {
+        unitType: "Vehicle", scale: 2, advance: 10, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        weaponTypes: ["Twin-linked accelerator autocannon", "Omega plasma array", "Sponson Mounted heavy bolters", "Sponson Mounted lascannon"],
+        unitTraits: [],
+        requiredWeaponTypes: ["Hull Mounted heavy bolter"]
     }],
     ["Legion Tarantula", {
         unitType: "Infantry", scale: 1, advance: 0, charge: 0, saves: [
