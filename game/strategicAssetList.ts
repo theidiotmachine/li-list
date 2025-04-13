@@ -479,8 +479,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 7, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: [],//TODO
-        requiredWeaponTypes: [],//TODO
+        modelLoadoutSlots: [],//TODO
         unitTraits: ["Blessed Auto-simulacra", "Independent"],
     }],
     ["Acastus Knight Porphyrion", {
@@ -489,8 +488,19 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 7, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Acastus autocannon", "Acastus lascannon", "Twin magna lascannon"],//TODO
-        requiredWeaponTypes: ["Twin magna lascannon"],//TODO
+        modelLoadoutSlots: [
+            {name: "Body", possibleModelLoadouts: [
+                {loadout: "Acastus lascannon"}, 
+                {loadout: "Acastus autocannon"},
+            ]},
+            {name: "Carapace", possibleModelLoadouts: [
+                {loadout: "Ironstorm missile pod"}, 
+                {loadout: "Helios defence missiles"},
+            ]},
+            {name: "", possibleModelLoadouts: [
+                {loadout: "Twin magna lascannon"}
+            ]},
+        ],
         unitTraits: ["Blessed Auto-simulacra", "Independent"],
     }],
     ["Cerastus Knight Atrapos", {
@@ -499,8 +509,11 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 3, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 11, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Atrapos lascutter", "Graviton singularity cannon"],
-        requiredWeaponTypes: ["Atrapos lascutter", "Graviton singularity cannon"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Atrapos lascutter", "Graviton singularity cannon"]}
+            ]},
+        ],
         unitTraits: ["Furious Charge", "Independent", "Macro-extinction Targeting Protocols", "Nimble"]
     }],
     ["Knight Acheron", {
@@ -509,8 +522,11 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 11, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Acheron pattern flame cannon", "Reaper chainfist", "In-built twin-linked heavy bolters"],
-        requiredWeaponTypes: ["Acheron pattern flame cannon", "Reaper chainfist", "In-built twin-linked heavy bolters"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Acheron pattern flame cannon", "Reaper chainfist", "In-built twin-linked heavy bolters"]}
+            ]},
+        ],
         unitTraits: ["Furious Charge", "Independent", "Nimble"]
     }],
     ["Knight Castigator", {
@@ -519,8 +535,11 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 11, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Castigator pattern bolt cannon", "Tempest warblade"],
-        requiredWeaponTypes: ["Castigator pattern bolt cannon", "Tempest warblade"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Castigator pattern bolt cannon", "Tempest warblade"]}
+            ]},
+        ],
         unitTraits: ["Furious Charge", "Independent", "Nimble"]
     }],
     ["Knight Crusader", {
@@ -529,8 +548,19 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Heavy stubber", "Questoris-avenger gatling cannon", "Rapid-fire battlecannon", "Rocket pods", "Thermal cannon"],
-        requiredWeaponTypes: ["Heavy stubber", "Thermal cannon"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Heavy stubber", "Thermal cannon"]}
+            ]},
+            {name: "Carapace", possibleModelLoadouts: [
+                {loadout: "Nothing", weaponTypes: []}, 
+                {loadout: "Rocket pods"},
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Questoris-avenger gatling cannon"}, 
+                {loadout: "Rapid-fire battlecannon"},
+            ]}
+        ],
         unitTraits: ["Independent", "Nimble"]
     }],
     ["Knight Errant", {
@@ -539,8 +569,19 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Heavy stubber", "Reaper chainsword", "Rocket pods", "Thermal cannon", "Thunderstrike gauntlet"],
-        requiredWeaponTypes: ["Heavy stubber", "Thermal cannon"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Heavy stubber", "Thermal cannon"]}
+            ]},
+            {name: "Carapace", possibleModelLoadouts: [
+                {loadout: "Nothing", weaponTypes: []}, 
+                {loadout: "Rocket pods"},
+            ]},
+            {name: "Close combat", possibleModelLoadouts: [
+                {loadout: "Reaper chainsword"}, 
+                {loadout: "Thunderstrike gauntlet"},
+            ]},
+        ],
         unitTraits: ["Independent", "Nimble"]
     }],
     ["Knight Gallant", {
@@ -549,8 +590,19 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Meltagun", "Reaper chainsword", "Rocket pods", "Thunderstrike gauntlet"],
-        requiredWeaponTypes: ["Meltagun", "Thermal cannon"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Meltagun", "Thunderstrike gauntlet"]}
+            ]},
+            {name: "Carapace", possibleModelLoadouts: [
+                {loadout: "Nothing", weaponTypes: []}, 
+                {loadout: "Rocket pods"},
+            ]},
+            {name: "Close combat 2", possibleModelLoadouts: [
+                {loadout: "Reaper chainsword"}, 
+                {loadout: "Thunderstrike gauntlet"},
+            ]},
+        ],
         unitTraits: ["Independent", "Nimble"]
     }],
     ["Knight Lancer", {
@@ -559,8 +611,11 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 3, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 11, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Shock lance", "Ion gauntlet shield"],
-        requiredWeaponTypes: ["Shock lance", "Ion gauntlet shield"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Shock lance", "Ion gauntlet shield"],}
+            ]},
+        ],
         unitTraits: ["Furious Charge", "Independent", "Nimble"]
     }],
     ["Knight Magaera", {
@@ -569,8 +624,11 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Hekaton siege claw", "Lightning cannon", "Phased plasma-fusil"],
-        requiredWeaponTypes: ["Hekaton siege claw", "Lightning cannon", "Phased plasma-fusil"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Hekaton siege claw", "Lightning cannon", "Phased plasma-fusil"],}
+            ]},
+        ],
         unitTraits: ["Blessed Auto-simulacra", "Independent", "Ionic Flare Shield", "Nimble"]
     }],
     ["Knight Paladin", {
@@ -579,8 +637,19 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        requiredWeaponTypes: ["Heavy stubber", "Rapid-fire battlecannon"],
-        weaponTypes: ["Heavy stubber", "Rapid-fire battlecannon", "Reaper chainsword", "Rocket pods", "Thunderstrike gauntlet"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Heavy stubber", "Rapid-fire battlecannon"]}
+            ]},
+            {name: "Carapace", possibleModelLoadouts: [
+                {loadout: "Nothing", weaponTypes: []}, 
+                {loadout: "Rocket pods"},
+            ]},
+            {name: "Close combat", possibleModelLoadouts: [
+                {loadout: "Reaper chainsword"}, 
+                {loadout: "Thunderstrike gauntlet"},
+            ]},
+        ],
         unitTraits: ["Independent", "Nimble"]
     }],
     ["Knight Styrix", {
@@ -589,8 +658,11 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Graviton gun", "Hekaton siege claw", "Volkite chieorovile"],
-        requiredWeaponTypes: ["Graviton gun", "Hekaton siege claw", "Volkite chieorovile"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Graviton gun", "Hekaton siege claw", "Volkite chieorovile"]}
+            ]}
+        ],
         unitTraits: ["Blessed Auto-simulacra", "Independent", "Ionic Flare Shield", "Nimble"]
     }],
     ["Knight Warden", {
@@ -599,8 +671,19 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
         caf: 8, morale: 2, wounds: 3, tacticalStrength: 1, voidShields: 0,
-        weaponTypes: ["Questoris-avenger gatling cannon", "Meltagun", "Reaper chainsword", "Rocket pods", "Thunderstrike gauntlet"],
-        requiredWeaponTypes: ["Questoris-avenger gatling cannon", "Meltagun"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Questoris-avenger gatling cannon", "Meltagun"]}
+            ]},
+            {name: "Carapace", possibleModelLoadouts: [
+                {loadout: "Nothing", weaponTypes: []}, 
+                {loadout: "Rocket pods"},
+            ]},
+            {name: "Close combat", possibleModelLoadouts: [
+                {loadout: "Reaper chainsword"}, 
+                {loadout: "Thunderstrike gauntlet"},
+            ]},
+        ],
         unitTraits: ["Independent", "Nimble"]
     }],
 
@@ -611,8 +694,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 10, wounds: 4, tacticalStrength: 0, voidShields: 2,
-        weaponTypes: [], //TODO,
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO,
         unitTraits: ["Agile", "Infiltrate"],
     }],
     ["Reaver Battle Titan", {
@@ -621,7 +703,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 12, wounds: 5, tacticalStrength: 0, voidShields: 4,
-        weaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],
     ["Warbringer Nemesis Titan", {
@@ -630,8 +712,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 12, wounds: 5, tacticalStrength: 0, voidShields: 6,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],
     ["Warhound Titan", {
@@ -640,7 +721,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 10, wounds: 4, tacticalStrength: 0, voidShields: 2,
-        weaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Agile"],
     }],
     ["Warlord Battle Titan", {
@@ -649,8 +730,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 14, wounds: 6, tacticalStrength: 0, voidShields: 6,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],
     ["Warlord-Sinister", {
@@ -659,8 +739,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 14, wounds: 6, tacticalStrength: 0, voidShields: 6,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Dread Aura (8)", "Loyalist", "Nechrotechnica"],
     }],
     ["Warmaster Titan", {
@@ -669,8 +748,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 2, arc: "Rear"},
         ],
         caf: 18, wounds: 7, tacticalStrength: 0, voidShields: 12,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],
     ["Warmaster Iconoclast", {
@@ -679,8 +757,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 2, arc: "Rear"},
         ],
         caf: 18, wounds: 7, tacticalStrength: 0, voidShields: 12,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],
 ]);

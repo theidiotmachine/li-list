@@ -215,8 +215,8 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
         {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
             modelLoadoutSlots: [{
                 name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+                    {loadout: "Hull Mounted twin lascannon", points: 0},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5},
             ]}
         ], possibleModelGroupQuantities: [
             //p128 - max transport size is 8
@@ -228,8 +228,8 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
         {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
             modelLoadoutSlots: [{
                 name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+                    {loadout: "Hull Mounted twin lascannon", points: 0},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5},
             ]}
         ], possibleModelGroupQuantities: [
             //p128 - max transport size is 8
@@ -256,8 +256,8 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
         {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
             modelLoadoutSlots: [{
                 name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+                    {loadout: "Hull Mounted twin lascannon", points: 0},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5},
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
@@ -271,8 +271,8 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
         {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
             modelLoadoutSlots: [{
                 name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+                    {loadout: "Hull Mounted twin lascannon", points: 0},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5},
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
@@ -285,8 +285,8 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
         {modelType: "Dracosan", dedicatedTransport: true, formationType: "Solar Auxilia Mechanised Infantry Sub-Cohort",
             modelLoadoutSlots: [{
                 name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
+                    {loadout: "Hull Mounted twin lascannon", points: 0},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5},
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
@@ -566,8 +566,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO,
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Forward Deployment"]
     }],
     ["Auxilia Commander", {
@@ -576,8 +575,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Invuln", save: 6, arc: "All"},
         ],
         caf: 3, morale: 2, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Solar Auxilia HQ (10)"]
     }],
     ["Auxilia Rapier", {
@@ -585,8 +583,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Bulky", "Chain of Command"],
     }],
     ["Auxilia Tarantula", {
@@ -594,8 +591,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: -3, wounds: 1, tacticalStrength: 0, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Automated Sentry"],
     }],
     ["Auxiliaries", {
@@ -603,8 +599,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 7, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Chain of Command", "Line"]
     }],
     ["Charonite Ogryns", {
@@ -612,8 +607,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 3, morale: 4, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Furious Charge"]
     }],
     ["Cyclops", {
@@ -621,8 +615,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Compact", "Remote Controlled Detonation"]
     }],
     ["Dracosan", {
@@ -630,8 +623,12 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 2, arc: "All"},
         ],
         caf: 2, morale: 4, wounds:1, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Hull Mounted twin lascannon", unitTraits: ["Transport (4)"]},
+                {loadout: "Hull Mounted demolisher cannon", unitTraits: ["Transport (2)"]},
+            ]}
+        ], 
         unitTraits: ["Explorer Adaptation"]
     }],
     ["Tactical Command", {
@@ -639,8 +636,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Commander", "Inspire (8)", "Solar Auxilia HQ (6)"]
     }],
     ["Veletarii", {
@@ -648,8 +644,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 1, morale: 4, wounds: 1, tacticalStrength: 6, voidShields: 0,
-        weaponTypes: [], //TODO
-        requiredWeaponTypes: [], //TODO
+        modelLoadoutSlots: [], //TODO
         unitTraits: ["Steadfast"]
     }],
 ]);

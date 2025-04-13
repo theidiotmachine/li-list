@@ -303,7 +303,12 @@ export function shoot(
             namedWeaponStats.push({weaponType: wt, weaponStats: weaponStats});
     };
 
-    shooterStats?.requiredWeaponTypes?.forEach(recordStats);
+    shooterStats?.modelLoadoutSlots.forEach((slot)=>{
+        //if the name is empty, it's required
+        if(slot.name == "")
+            slot.possibleModelLoadouts[0].weaponTypes?.forEach(recordStats);
+    });
+
     additionalShooterWeapons.forEach(recordStats);
 
     const targetStats = getStatsForModelType(targetModelType);

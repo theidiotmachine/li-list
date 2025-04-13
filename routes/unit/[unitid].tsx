@@ -1,7 +1,8 @@
 import { PageProps } from "$fresh/server.ts";
-import { ModelType, Save, SaveModifier, Stats, UnitTrait, WeaponStatsAtRange, WeaponTrait } from "../../game/types.ts";
+import { ModelType, Save, SaveModifier, Stats, UnitTrait, WeaponStats, WeaponStatsAtRange, WeaponTrait } from "../../game/types.ts";
 import { getStatsForModelType } from "../../game/lists.ts";
 import { getWeaponStats } from "../../game/weapons.ts";
+import { WeaponType } from "../../game/weaponTypes.ts";
 
 
 function formatSaveModifier(saveModifier: SaveModifier): string {
@@ -28,48 +29,60 @@ function hasWeaponTrait(wsar: WeaponStatsAtRange, trait: WeaponTrait): boolean {
   return wsar.traits.findIndex((t)=>t===trait) != -1
 }
 
+function tableRowForWSAR(wt: WeaponType, w: WeaponStats, wsar: WeaponStatsAtRange, i: number, j: number, unitTraits: UnitTrait[]): JSX.Element {
+  return <tr key={"b"+i+j} class="even:bg-gray-50 odd:bg-white">
+      <td>{(i==0)?wt:""}</td>
+      <td>{w.arc}</td>
+      <td>
+        {(wsar.minRange !=undefined)?(wsar.minRange.toString() + '" - ' + wsar.maxRange?.toString() + '"'):("")}
+      </td>
+      <td>{wsar.dice}</td>
+      <td>
+        {(wsar.hit != undefined)?(wsar.hit.toString() + "+"):""}
+        <span class="text-xs">{hasWeaponTrait(wsar, "Accurate") ? " Reroll misses" : ""}</span>
+        <span class="text-xs">{hasWeaponTrait(wsar, "Barrage") ? " Barrage" : ""}</span>
+        <span class="text-xs">{hasWeaponTrait(wsar, "Skyfire") ? " Skyfire" : ""}</span>
+        <span class="text-xs">{hasWeaponTrait(wsar, "Tracking") ? " Reroll misses vs flyers" : ""}</span>
+        <span class="text-xs">{hasWeaponTrait(wsar, "Rapid Fire") ? " Nat 6 is +1 hit" : ""}</span>
+      </td>
+      <td>{(wsar.infAndCav)?(formatSaveModifier(wsar.infAndCav)):""}</td>
+      <td>
+        {(wsar.walker)?(formatSaveModifier(wsar.walker)):""}
+      </td>
+      <td>
+        {(wsar.vShvKT)?(formatSaveModifier(wsar.vShvKT)):""}
+        <span class="text-xs">{hasWeaponTrait(wsar, "Armourbane") ? " Reroll successes" : ""}</span>
+      </td>
+      <td>{(wsar.ionShield)?(formatSaveModifier(wsar.ionShield)):""}</td>
+      <td>{(wsar.voidShields)?("-" + wsar.voidShields + "VS"):""}</td>
+      <td>{(wsar.structure)?(formatSaveModifier(wsar.structure)):""}</td>
+      <td>{wsar.traits.join(", ")}</td>
+      <td>{unitTraits.join(", ")}</td>
+    </tr>
+}
+
 export default function Unit(props: PageProps) {
   const modelType = decodeURIComponent(props.params.unitid) as ModelType;
   const stats = getStatsForModelType(modelType);
   if(stats) {
     const saveHeaders = stats.saves.map((s,i)=><td key={"a"+i} class="w-16">{(s.arc=="All"?"":(s.arc+" ")) + s.saveType}</td>);
     const saves = stats.saves.map((s, i)=>formatSave(s, i, stats));
-    const weapons = stats.weaponTypes.flatMap((wt, j)=> {
-        const w = getWeaponStats(wt);
-        if(w === undefined)
-          return <tr></tr>;
+    const weapons = stats.modelLoadoutSlots.flatMap((wt, j) => {
+      return wt.possibleModelLoadouts.flatMap((ml)=>{
+        const unitTraits = ml.unitTraits??[];
+        const weaponTypes = ml.weaponTypes??[ml.loadout] as WeaponType[];
+        return weaponTypes.flatMap((wt)=>{
+          const w = getWeaponStats(wt);
+          if(w === undefined)
+            return <tr></tr>;
 
-        return w.weaponStatsAtRange.map((wsar, i)=>{
-          return <tr key={"b"+i+j} class="even:bg-gray-50 odd:bg-white">
-            <td>{(i==0)?wt:""}</td>
-            <td>{w.arc}</td>
-            <td>
-              {(wsar.minRange !=undefined)?(wsar.minRange.toString() + '" - ' + wsar.maxRange?.toString() + '"'):("")}
-            </td>
-            <td>{wsar.dice}</td>
-            <td>
-              {(wsar.hit != undefined)?(wsar.hit.toString() + "+"):""}
-              <span class="text-xs">{hasWeaponTrait(wsar, "Accurate") ? " Reroll misses" : ""}</span>
-              <span class="text-xs">{hasWeaponTrait(wsar, "Barrage") ? " Barrage" : ""}</span>
-              <span class="text-xs">{hasWeaponTrait(wsar, "Skyfire") ? " Skyfire" : ""}</span>
-              <span class="text-xs">{hasWeaponTrait(wsar, "Tracking") ? " Reroll misses vs flyers" : ""}</span>
-              <span class="text-xs">{hasWeaponTrait(wsar, "Rapid Fire") ? " Nat 6 is +1 hit" : ""}</span>
-            </td>
-            <td>{(wsar.infAndCav)?(formatSaveModifier(wsar.infAndCav)):""}</td>
-            <td>
-              {(wsar.walker)?(formatSaveModifier(wsar.walker)):""}
-            </td>
-            <td>
-              {(wsar.vShvKT)?(formatSaveModifier(wsar.vShvKT)):""}
-              <span class="text-xs">{hasWeaponTrait(wsar, "Armourbane") ? " Reroll successes" : ""}</span>
-            </td>
-            <td>{(wsar.ionShield)?(formatSaveModifier(wsar.ionShield)):""}</td>
-            <td>{(wsar.voidShields)?("-" + wsar.voidShields + "VS"):""}</td>
-            <td>{(wsar.structure)?(formatSaveModifier(wsar.structure)):""}</td>
-            <td>{wsar.traits.join(", ")}</td>
-          </tr>
-        })}
-      );
+          return w.weaponStatsAtRange.map((wsar, i)=>{
+            return tableRowForWSAR(wt, w, wsar, i, j, unitTraits);
+          });
+        });
+      });
+    });
+
     return <div class="flex flex-row justify-center mt-8"><div>
       <h1 class="text-xl">{modelType}</h1>
       <div>
@@ -109,6 +122,16 @@ export default function Unit(props: PageProps) {
         </table>
       </div>
       
+      <ul>
+      {stats.modelLoadoutSlots.map((smlfs, i) => {
+        return <li class="text-sm" key={i}>
+          {smlfs.possibleModelLoadouts.map((l)=>{
+            return l.weaponTypes?.join(", ")??l.loadout
+          }).join(" or ")}
+        </li>
+      })}
+      </ul>
+
       <div>
       <table class="border-collapse border text-sm">
           <thead>

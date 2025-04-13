@@ -1,5 +1,5 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, unitHasTrait, ArmyValidationState } from "./game/types.ts";
+import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, unitHasTrait, ArmyValidationState, Stats } from "./game/types.ts";
 import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
@@ -169,11 +169,61 @@ function calcArmyPoints(formations: Formation[], primaryArmyListName: ArmyListNa
     }, {
         points: 0, alliedPoints: 0, primaryPoints: 0
     });
-    console.log(out)
     return out;
 }
 
+type TransportData = {
+    capacity: number;
+    remainingCapacity: number;
+    takesWalkers: boolean;
+    takesBulky: boolean;
+    bulkyIs: number
+};
 
+function calculateTransportData(stats: Stats, modelGroup: ModelGroup, transports: TransportData[]) {
+    const unitTraits = stats.unitTraits;
+    
+    for(const mlg of modelGroup.modelLoadoutGroups) {
+        let traits = unitTraits;
+        const numberModels = mlg.number;
+        for(const slot of mlg.modelLoadoutSlots) {
+            const statsSlot = stats.modelLoadoutSlots.find((s)=>s.name == slot.name);
+            const statsLoadout = statsSlot?.possibleModelLoadouts.find((s)=>s.loadout == slot.modelLoadout.loadout);
+            traits = traits.concat(statsLoadout?.unitTraits??[]);
+        }
+        const transportTrait = traits.find((x) => x.startsWith("Transport"));
+        if (transportTrait) {
+            const matches = transportTrait.match(/Transport \(([0-9])\)/);
+            const transportCapacity = parseInt(matches![1]);
+            for (let i = 0; i < numberModels; ++i)
+            transports.push(
+                { capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: false, bulkyIs: 0 }
+            );
+        } else {
+            const assaultTransportTrait = traits.find((x) => x.startsWith("Assault Transport"));
+            if (assaultTransportTrait) {
+            const matches = /Assault Transport \(([0-9])\)/.exec(assaultTransportTrait);
+            const transportCapacity = parseInt(matches![1]);
+            for (let i = 0; i < numberModels; ++i)
+                transports.push(
+                { capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: true, bulkyIs: 2 }
+                );
+            } else {
+                const largeTransportTrait = traits.find((x) => x.startsWith("Large Transport") || x.startsWith("Large Assault Transport"));
+                if (largeTransportTrait) {
+                    const matches = /.* Transport \(([0-9])\)/.exec(largeTransportTrait);
+                    const transportCapacity = parseInt(matches![1]);
+                    for (let i = 0; i < numberModels; ++i)
+                    transports.push(
+                        { capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: true, takesBulky: true, bulkyIs: 1 }
+                    );
+                }
+            }
+        }
+    }
+
+  
+}
 
 function calcDetachmentValidation(formation: Formation, detachmentIndex: number, formationShape: FormationShape): DetachmentValidationState {
     const detachment = formation.detachments[detachmentIndex];
@@ -187,13 +237,7 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
         if( c ) {
             let numModels = 0;
 
-            type TransportData = {
-                capacity: number;
-                remainingCapacity: number;
-                takesWalkers: boolean;
-                takesBulky: boolean;
-                bulkyIs: number
-            };
+            
             const transports: TransportData[] = [];
 
             let slimModels = 0;
@@ -218,18 +262,16 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
                 }
 
                 const stats = getStatsForModelType(modelGroup.modelType);
-                const extraTraits = modelGroup.modelLoadoutGroups.flatMap((t)=>t.modelLoadoutSlots.flatMap(u=>u.modelLoadout.unitTraits??[]));
-                const unitTraits = stats?.unitTraits??[];
-                const traits = unitTraits.concat(extraTraits);
-
+                
                 //don't include dedicated detachments for the purposes of validation
                 if(shape.dedicatedTransport === undefined || shape.dedicatedTransport === false) {
+                    const unitTraits = stats?.unitTraits??[];
                     numModels += modelGroup.number;
                     if(stats) {
                         if(stats.unitType == "Walker")
                             walkerModels += modelGroup.number;
                         else if(stats.unitType == "Infantry") {
-                            const isBulky = traits.findIndex((x)=>x==="Bulky" || x==="Jump Packs") !== -1;
+                            const isBulky = unitTraits.findIndex((x)=>x==="Bulky" || x==="Jump Packs") !== -1;
                             if(isBulky) 
                                 bulkyModels += modelGroup.number;
                             else
@@ -240,36 +282,7 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
                 } else if(modelGroup.number > 0) {
                     //okay, figure out the transport capacity of dedicated transports
                     if(stats) {
-                        //eww
-                        const transportTrait = traits.find((x)=>x.startsWith("Transport"));
-                        if(transportTrait) {
-                            const matches = transportTrait.match(/Transport \(([0-9])\)/);
-                            const transportCapacity = parseInt(matches![1]);
-                            for(let i = 0; i < modelGroup.number; ++i)
-                                transports.push(
-                                    {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: false, bulkyIs: 0}
-                                );
-                        } else {
-                            const assaultTransportTrait = traits.find((x)=>x.startsWith("Assault Transport"));
-                            if(assaultTransportTrait) {
-                                const matches = /Assault Transport \(([0-9])\)/.exec(assaultTransportTrait);
-                                const transportCapacity = parseInt(matches![1]);
-                                for(let i = 0; i < modelGroup.number; ++i)
-                                    transports.push(
-                                        {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: true, bulkyIs: 2}
-                                    );
-                            } else {
-                                const largeTransportTrait = traits.find((x)=>x.startsWith("Large Transport") || x.startsWith("Large Assault Transport"));
-                                if(largeTransportTrait) { 
-                                    const matches = /.* Transport \(([0-9])\)/.exec(largeTransportTrait);
-                                    const transportCapacity = parseInt(matches![1]);
-                                    for(let i = 0; i < modelGroup.number; ++i)
-                                        transports.push(
-                                            {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: true, takesBulky: true, bulkyIs: 1}
-                                        );
-                                }
-                            }
-                        }
+                        calculateTransportData(stats, modelGroup, transports);
                     }
                 }
             }
@@ -371,6 +384,8 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
 
     return { valid: true };
 }
+
+
 
 //recalc all points and validations
 function refreshFormation(newFormation: Formation) {

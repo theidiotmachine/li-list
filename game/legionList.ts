@@ -154,9 +154,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         {modelType: "Command Squad", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]},
         {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0, weaponTypes: ["Pintle Mounted twin bolter"]}, 
-                {loadout: "Havoc launcher", points: 2, weaponTypes: ["Pintle Mounted havoc launcher"]},
-                {loadout: "Multi-melta", points: 4, weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Twin-linked bolter", points: 0}, 
+                {loadout: "Havoc launcher", points: 2},
+                {loadout: "Multi-melta", points: 4},
             ]},
         ], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 10}, 
@@ -189,9 +189,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0, weaponTypes: ["Pintle Mounted twin bolter"]}, 
-                {loadout: "Havoc launcher", points: 2, weaponTypes: ["Pintle Mounted havoc launcher"]},
-                {loadout: "Multi-melta", points: 4, weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Twin-linked bolter", points: 0}, 
+                {loadout: "Havoc launcher", points: 2},
+                {loadout: "Multi-melta", points: 4},
             ]},
         ], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
@@ -213,9 +213,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0, weaponTypes: ["Pintle Mounted twin bolter"]}, 
-                {loadout: "Havoc launcher", points: 2, weaponTypes: ["Pintle Mounted havoc launcher"]},
-                {loadout: "Multi-melta", points: 4, weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Twin-linked bolter", points: 0}, 
+                {loadout: "Havoc launcher", points: 2},
+                {loadout: "Multi-melta", points: 4},
             ]},
         ], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
@@ -237,9 +237,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0, weaponTypes: ["Pintle Mounted twin bolter"]}, 
-                {loadout: "Havoc launcher", points: 2, weaponTypes: ["Pintle Mounted havoc launcher"]},
-                {loadout: "Multi-melta", points: 4, weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Twin-linked bolter", points: 0}, 
+                {loadout: "Havoc launcher", points: 2},
+                {loadout: "Multi-melta", points: 4},
             ]},
         ], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
@@ -369,8 +369,8 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
                 {loadout: "Predator cannon", points: 0},
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Lascannon", points: 0, weaponTypes: ["Sponson Mounted lascannon"]}, 
-                {loadout: "Heavy bolters", points: 0, weaponTypes: ["Sponson Mounted heavy bolters"]},
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0},
             ]}
         ], possibleModelGroupQuantities: [
             {num: 3, points: 115}, {num: 4, points: 115+35}, {num: 5, points: 115+35+35},
@@ -385,8 +385,8 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
                 {loadout: "Omega plasma array", points: 0}
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Lascannon", points: 0, weaponTypes: ["Sponson Mounted lascannon"]}, 
-                {loadout: "Heavy bolters", points: 0, weaponTypes: ["Sponson Mounted heavy bolters"]}
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
             ]}
         ], possibleModelGroupQuantities: [
             {num: 2, points: 105}, {num: 3, points: 105+40}, {num: 4, points: 105+70},
@@ -405,8 +405,8 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
                 {loadout: "Kratos autocannon", points: 0}
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Lascannon", points: 0, weaponTypes: ["Sponson Mounted lascannon"]}, 
-                {loadout: "Heavy bolters", points: 0, weaponTypes: ["Sponson Mounted heavy bolters"]}
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
             ]}
         ], possibleModelGroupQuantities: [
             {num: 2, points: 150}, {num: 3, points: 150+60}, {num: 4, points: 150+110},
@@ -483,8 +483,8 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         modelGroupShapes: [
             {modelType: "Land Speeder", modelLoadoutSlots: [
                 {name: "Guns", possibleModelLoadouts: [
-                    {loadout: "Plasma cannon and heavy bolter", points: 0, weaponTypes: ["Plasma cannon", "Heavy bolter"]}, 
-                    {loadout: "Nose mounted heavy flamer and multi-melta", points: 0, weaponTypes: ["Multi-melta", "Nose Mounted heavy flamer"]},
+                    {loadout: "Plasma cannon and heavy bolter", points: 0}, 
+                    {loadout: "Nose mounted heavy flamer and multi-melta", points: 0},
                 ]},
             ], possibleModelGroupQuantities: [
                 {num: 2, points: 30}, {num: 4, points: 30+30}, {num: 6, points: 30+60}
@@ -493,7 +493,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
     ["Legion Javelin Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
         {modelType: "Javelin", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Lascannon", points: 0, weaponTypes: ["Sponson Mounted lascannon"]}, {loadout: "Cyclone missile launcher", points: 2}
+                {loadout: "Lascannon", points: 0}, {loadout: "Cyclone missile launcher", points: 2}
             ]}
         ], possibleModelGroupQuantities: [
             {num: 2, points: 33}, {num: 4, points: 33+33}, {num: 6, points: 33+66}
@@ -619,8 +619,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"}
         ],
         caf: 3, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: ["Bolt pistols"],
-        requiredWeaponTypes: ["Bolt pistols"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Bolt pistols"]}
+            ]},
+        ],
         unitTraits: ["Jump Packs"] //counts as Bulky
     }],
     ["Contemptor Dreadnought", {
@@ -628,8 +631,15 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
         caf: 5, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        weaponTypes: ["In-built twin-linked bolter", "Kheres assault cannon", "Twin-linked lascannon"],
-        requiredWeaponTypes: ["In-built twin-linked bolter"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["In-built twin-linked bolter"]}
+            ]},
+            {name: "Primary", possibleModelLoadouts:[
+                {loadout: "Kheres assault cannon"},
+                {loadout: "Twin-linked lascannon"},
+            ]},
+        ],
         unitTraits: ["Armoured"],
     }],
     ["Command Squad", {
@@ -637,8 +647,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
         caf: 4, morale: 2, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: ["Combi bolters"],
-        requiredWeaponTypes: ["Combi bolters"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Combi bolters"]}
+            ]},
+        ],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Medicae"] //and whatever gives them invuln
     }],
     ["Deathstorm Drop Pod", {
@@ -646,8 +659,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}
         ],
         caf: -8, wounds: 1, tacticalStrength: 0, voidShields: 0,
-        weaponTypes: ["Deathstorm missile launcher"],
-        requiredWeaponTypes: ["Deathstorm missile launcher"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Deathstorm missile launcher"]}
+            ]},
+        ],
         unitTraits: ["Drop Pod", "Orbital Assault"]
     }],
     ["Deredeo Dreadnought", {
@@ -655,8 +671,15 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        weaponTypes: ["Aiolus missile launcher", "Anvilus autocannon battery", "Hellfire plasma cannonade", "Sarcophagus mounted weapon"],
-        requiredWeaponTypes: ["Sarcophagus mounted weapon", "Aiolus missile launcher"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Sarcophagus mounted weapon", "Aiolus missile launcher"]}
+            ]},
+            {name: "Primary", possibleModelLoadouts:[
+                {loadout: "Hellfire plasma cannonade"},
+                {loadout: "Anvilus autocannonbattery"},
+            ]}
+        ],
         unitTraits: ["Armoured", "Tracking Array"],
     }],
     ["Dreadnought Drop Pod", {
@@ -664,7 +687,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}
         ],
         caf: -8, wounds: 1, tacticalStrength: 0, voidShields: 0,
-        weaponTypes: [],
+        modelLoadoutSlots: [],
         unitTraits: ["Drop Pod", "Large Transport (2)"]
     }],
     ["Drop Pod", {
@@ -672,8 +695,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}
         ],
         caf: -3, wounds: 1, tacticalStrength: 0, voidShields: 0,
-        weaponTypes: ["Turret Mounted twin bolter"],
-        requiredWeaponTypes: ["Turret Mounted twin bolter"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Turret Mounted twin bolter"]}
+            ]},
+        ],
         unitTraits: ["Drop Pod", "Transport (2)"]
     }],
     ["Javelin", {
@@ -681,8 +707,15 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        weaponTypes: ["Cyclone missile launcher", "Nose Mounted heavy flamer", "Sponson Mounted lascannon"],
-        requiredWeaponTypes: ["Nose Mounted heavy flamer"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Nose Mounted heavy flamer"]}
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Cyclone missile launcher"}
+            ]}
+        ],
         unitTraits: ["Skimmer"]
     }],
     ["Land Speeder", {
@@ -690,7 +723,12 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        weaponTypes: ["Heavy bolter", "Multi-melta", "Nose Mounted heavy flamer", "Plasma cannon"],
+        modelLoadoutSlots: [
+            {name: "Guns", possibleModelLoadouts: [
+                {loadout: "Plasma cannon and heavy bolter", weaponTypes: ["Plasma cannon", "Heavy bolter"]}, 
+                {loadout: "Nose mounted heavy flamer and multi-melta", weaponTypes: ["Multi-melta", "Nose Mounted heavy flamer"]},
+            ]},
+        ],
         unitTraits: ["Skimmer"]
     }],
     ["Land Raider", {
@@ -698,8 +736,15 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: ["Pintle Mounted multi-melta", "Sponson Mounted twin-linked lascannon"],
-        requiredWeaponTypes: ["Sponson Mounted twin-linked lascannon"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Sponson Mounted twin-linked lascannon"]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+            ]},
+        ],
         unitTraits: ["Assault Transport (2)", "Forward Deployment"]
     }],
     ["Legion Outrider", {
@@ -707,8 +752,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        weaponTypes: ["Twin-linked bolters", "Twin plasma guns"],
-        requiredWeaponTypes: ["Twin-linked bolters", "Twin plasma guns"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes:  ["Twin-linked bolters", "Twin plasma guns"],}
+            ]}
+        ],
         unitTraits: []
     }],
     ["Legion Predator", {
@@ -717,7 +765,16 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "Front"},
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: ["Predator cannon", "Predator lascannon", "Sponson Mounted heavy bolters", "Sponson Mounted lascannon"],
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Predator lascannon"}, 
+                {loadout: "Predator cannon"},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]}
+        ],
         unitTraits: []
     }],
     ["Legion Rapier", {
@@ -725,7 +782,12 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: ["Laser destroyer array", "Quad launcher"],
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts:[
+                {loadout: "Laser destroyer array"},
+                {loadout: "Quad launcher"},
+            ]},
+        ],
         unitTraits: ["Bulky"]
     }],
     ["Legion Sicaran", {
@@ -734,16 +796,32 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "Front"},
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: ["Twin-linked accelerator autocannon", "Omega plasma array", "Sponson Mounted heavy bolters", "Sponson Mounted lascannon"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes:  ["Hull Mounted heavy bolter"],}
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Twin-linked accelerator autocannon"}, 
+                {loadout: "Omega plasma array"}
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]}
+            ]}
+        ],
         unitTraits: [],
-        requiredWeaponTypes: ["Hull Mounted heavy bolter"]
     }],
     ["Legion Tarantula", {
         unitType: "Infantry", scale: 1, move: 0, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: -3, wounds: 1, tacticalStrength: 0, voidShields: 0,
-        weaponTypes: ["Hyperios air-defence missile launcher", "Tarantula lascannon battery"],
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts:[
+                {loadout: "Hyperios air-defence missile launcher"},
+                {loadout: "Tarantula lascannon battery"},
+            ]},
+        ],
         unitTraits: ["Automated Sentry"]
     }],
     ["Legion Terminators", {
@@ -751,8 +829,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
         caf: 4, morale: 3, wounds: 1, tacticalStrength: 6, voidShields: 0,
-        weaponTypes: ["Combi bolters"],
-        requiredWeaponTypes: ["Combi bolters"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Combi bolters"]}
+            ]},
+        ],
         unitTraits: ["Bulky", "Deep Strike", "Implacable", "Steadfast"] //and whatever gives invuln
     }],
     ["Leviathan Dreadnought", {
@@ -760,17 +841,27 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
         ],
         caf: 5, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        weaponTypes: ["Cyclonic melta lance", "Leviathan siege claw", "Leviathan storm cannon", "Twin-linked volkite calvier" ],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Leviathan siege claw", "Twin-linked volkite calvier"]}
+            ]},
+            {name: "Primary", possibleModelLoadouts:[
+                {loadout: "Cyclonic melta lance"},
+                {loadout: "Leviathan storm cannon"},
+            ]},
+        ],
         unitTraits: ["Armoured"],
-        requiredWeaponTypes: ["Leviathan siege claw", "Twin-linked volkite calvier"]
     }],
     ["Missile Launcher Legionaries",{
         unitType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: ["Missile launchers"],
-        requiredWeaponTypes: ["Missile launchers"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Missile launchers"]}
+            ]},
+        ],
         unitTraits: []
     }],
     ["Palisade Drop Pod" , {
@@ -778,7 +869,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "All"}
         ],
         caf: -8, wounds: 1, tacticalStrength: 0, voidShields: 0,
-        weaponTypes: [],
+        modelLoadoutSlots: [],
         unitTraits: ["Drop Pod", "Shield Generator (5+)"]
     }],
     ["Plasma Support Legionaries", {
@@ -786,8 +877,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: ["Plasma guns"],
-        requiredWeaponTypes: ["Plasma guns"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Plasma guns"]}
+            ]},
+        ],
         unitTraits: []
     }],
     ["Rhino", {
@@ -795,7 +889,13 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"}
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: ["Pintle Mounted havoc launcher", "Pintle Mounted multi-melta", "Pintle Mounted twin bolter"],
+        modelLoadoutSlots: [
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Twin-linked bolter", weaponTypes: ["Pintle Mounted twin bolter"]}, 
+                {loadout: "Havoc launcher", weaponTypes: ["Pintle Mounted havoc launcher"]},
+                {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+            ]},
+        ],
         unitTraits: ["Transport (2)"]
     }],
     ["Scimitar Jetbike", {
@@ -803,8 +903,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        weaponTypes: ["Scimitar heavy bolter"],
-        requiredWeaponTypes: ["Scimitar heavy bolter"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Scimitar heavy bolter"]}
+            ]},
+        ],
         unitTraits: ["Skimmer"]
     }],
     ["Spartan", {
@@ -812,9 +915,20 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}
         ],
         caf: 2, morale: 3, wounds: 2, tacticalStrength: 2, voidShields: 0,
-        weaponTypes: ["Hull Mounted heavy bolters", "Hull Mounted lascannon", 
-            "Pintle Mounted multi-melta",
-            "Sponson mounted laser destroyers", "Sponson Mounted quad lascannon" ],
+        modelLoadoutSlots: [
+            {name: "Sponson mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon"}, 
+                {loadout: "Laser destroyers"},
+            ]},
+            {name: "Hull mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolters"}, 
+                {loadout: "Lascannon"},
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Multi-melta"},
+            ]},
+        ],
         unitTraits: ["Assault Transport (5)"]
     }],
     ["Tactical Legionaries", {
@@ -822,8 +936,11 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        weaponTypes: ["Legion bolters"],
-        requiredWeaponTypes: ["Legion bolters"],
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Legion bolters"]}
+            ]},
+        ],
         unitTraits: []
     }],
 ]);

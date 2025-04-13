@@ -17,9 +17,11 @@ export type WeaponType =
     "Hekaton siege claw" |
     "Heavy stubber" |
     "Hellfire plasma cannonade" |
+    "Hull Mounted demolisher cannon" |
     "Hull Mounted heavy bolter" |
     "Hull Mounted heavy bolters" |
     "Hull Mounted lascannon" |
+    "Hull Mounted twin lascannon" |
     "Hyperios air-defence missile launcher" |
     "Kheres assault cannon" |
     "Leviathan storm cannon" |

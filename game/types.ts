@@ -139,18 +139,12 @@ export type ModelLoadoutForSlot = {
     //abstract name for the loadout
     loadout: string;
     points: number;
-    //use this if the loadout is not an actual weaponType
-    weaponTypes?: WeaponType[];
-    //some loadouts change the traits for the unit
-    unitTraits?: UnitTrait[];
 }
 
 //a part of the model which can have a different weapon slotted in
 export type ModelLoadoutSlot = {
     name: string;
     modelLoadout: ModelLoadoutForSlot;
-    //yes I know this breaks a load of rules. Used for Tank Commanders
-    notAWeapon?: boolean;
 }
 
 export type ModelGroupQuantity = {
@@ -371,6 +365,24 @@ export type WeaponStats = {
     weaponStatsAtRange: WeaponStatsAtRange[];
 };
 
+//a set of weapons which can be put in a slot
+export type StatsModelLoadoutForSlot = {
+    //abstract name for the loadout
+    loadout: string;
+    //use this if the loadout is not an actual weaponType
+    weaponTypes?: WeaponType[];
+    //some loadouts change the traits for the unit
+    unitTraits?: UnitTrait[];
+}
+
+//a part of the model which can have a different weapon slotted in
+export type StatsModelLoadoutSlot = {
+    name: string;
+    possibleModelLoadouts: StatsModelLoadoutForSlot[];
+    //yes I know this breaks a load of rules. Used for Tank Commanders
+    notAWeapon?: boolean;
+}
+
 export type Stats = {
     unitType: UnitType;
     scale: Scale;
@@ -382,8 +394,10 @@ export type Stats = {
     voidShields: number;
     tacticalStrength: number;
     unitTraits: UnitTrait[];
-
+    modelLoadoutSlots: StatsModelLoadoutSlot[];
+    /*
     weaponTypes: WeaponType[];
 
     requiredWeaponTypes?: WeaponType[];
+    */
 }

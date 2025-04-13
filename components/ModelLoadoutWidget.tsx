@@ -4,7 +4,7 @@ import { ModelLoadoutSelect } from "./ModelLoadoutSelect.tsx";
 import { NumModelLoadoutSelect } from "./NumModelLoadoutSelect.tsx";
 import { AppState } from "../islands/App.tsx";
 import { DelButton } from "./DelButton.tsx";
-import { getDetachmentConfigurationForDetachmentType } from "../game/lists.ts";
+import { getDetachmentConfigurationForDetachmentType, getStatsForModelType } from "../game/lists.ts";
 
 interface ModelLoadoutWidgetProps {
     uuid: string;
@@ -27,12 +27,17 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
     if(filteredModelLoadoutSlotShapes == undefined)
         return <div>No data</div>
 
+    const stats = getStatsForModelType(props.modelType);
+
     return <div class="grid grid-cols-[20%_8%_25%_47%] gap-0">
         <div class="col-span-1 col-start-1 order-2 justify-self-end flex"> 
             <a href={"/hammer?shooterModelType="+props.modelType + "&"
                 + props.modelLoadoutGroup.modelLoadoutSlots.flatMap((x,i) => {
-                    const slot = modelOptions?.modelLoadoutSlots[i];
-                    const mlfs = slot?.possibleModelLoadouts.find((y) => y.loadout == x.modelLoadout.loadout);
+                    //const slot = modelOptions?.modelLoadoutSlots[i];
+                    const statsSlot = stats?.modelLoadoutSlots.find((s)=>s.name == x.name);
+                    if(statsSlot === undefined)
+                        return [];
+                    const mlfs = statsSlot.possibleModelLoadouts.find((y) => y.loadout == x.modelLoadout.loadout);
                     if(mlfs?.weaponTypes === undefined)
                         return ["additionalShooterWeapon="+mlfs?.loadout];
                     return mlfs?.weaponTypes?.map((y) => "additionalShooterWeapon="+y)

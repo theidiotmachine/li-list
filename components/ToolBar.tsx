@@ -10,7 +10,7 @@ export function ToolBar(props: ToolBarProps) {
 
     return <div class={props.class}>
         <button class="bg-gray-200 p-1"
-            onClick={(e) => {
+            onClick={() => {
             const menu = document.getElementById("menu");
             if (menu) {
                 if (menu.classList.contains("hidden")) {

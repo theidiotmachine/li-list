@@ -160,6 +160,17 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT"]
         }
     ]}],
+    ["Hull Mounted demolisher cannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 1, hit: 4, 
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -3, wounds: 1},
+            traits: ["Demolisher", "Ignores Cover"]
+        }
+    ]}],
     ["Hull Mounted heavy bolter", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 2, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -181,6 +192,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: -1, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Anti-tank"], voidShields: 1
+        },
+    ]}],
+    ["Hull Mounted twin lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
     ]}],
     ["Hyperios air-defence missile launcher", {arc: "All", weaponStatsAtRange: [

@@ -6,7 +6,6 @@ import { ArmyAllegianceSelect } from "./ArmyAllegianceSelect.tsx";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { LoadState } from "../state.ts";
 import { ArmyValidity, ArmyValidityText } from "./ArmyValidity.tsx";
-import { triggerAsyncId } from "node:async_hooks";
 import { Allegiance, ArmyListName } from "../game/types.ts";
 
 
