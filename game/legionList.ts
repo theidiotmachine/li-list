@@ -85,6 +85,20 @@ const formationShapes = new Map<LegionFormationType, FormationShape>([
         {   slot: "Support",        slotRequirementType: "Optional"                 },
         {   slot: "Support",        slotRequirementType: "Optional"                 },
     ] } ],
+    //TDOT
+    ["Legion Heavy Assault Spearhead", { slotRequirements: [
+        {   slot: "Legion Terminators", slotRequirementType: "Required"             },
+        {   slot: "Legion Terminators", slotRequirementType: "Required"             },
+        {   slot: "Legion Heavy Assault Spearhead Support Compulsory", displayName: "Support",
+            slotRequirementType: "Required"                 },
+        {   slot: "Legion Heavy Assault Spearhead Support Compulsory", displayName: "Support",
+            slotRequirementType: "Required"                 },
+        {   slot: "Battle Tank",    slotRequirementType: "Optional"                 },
+        {   slot: "Battle Tank",    slotRequirementType: "Optional"                 },
+        {   slot: "Air Support",    slotRequirementType: "Optional"                 },
+        {   slot: "Heavy Armour",   slotRequirementType: "Optional"                 },
+        {   slot: "Heavy Armour",   slotRequirementType: "Optional"                 },
+    ]}]
 ])
 
 export function getShapeForLegionFormationType(formationType: LegionFormationType | ""): FormationShape {
@@ -113,6 +127,12 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
         "Legion Kratos Squadron"
     ] ],
     [ "HQ", [ "Legion Command" ] ],
+    ["Legion Heavy Assault Spearhead Support Compulsory", [
+        "Legion Dreadnought Talon",
+        "Legion Terminator Detachment", 
+        "Leviathan Siege Dreadnought Detachment",
+    ]],
+    ["Legion Terminators", ["Legion Terminator Detachment"]],
     [ "Light Armour", [] ],
     [ "Sky-hunter Phalanx Vanguard Compulsory", [
         "Legion Javelin Squadron",
@@ -266,7 +286,20 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 150}
         ]}
     ]}],
-    ["Legion Terminator Detachment", {modelGroupShapes: [
+    ["Legion Terminator Detachment", { customValidation: (detachment: Detachment): DetachmentValidationState => {
+        if(detachment.slot == "Legion Heavy Assault Spearhead Support Compulsory" 
+            || detachment.slot == "Legion Terminators") {
+                const landRaiders = detachment.modelGroups.find((s)=>s.modelType == "Land Raider");
+                const numLandRaiders = landRaiders?.modelLoadoutGroups.reduce((p, s)=>p + s.number, 0)??0;
+                const spartans = detachment.modelGroups.find((s)=>s.modelType == "Spartan");
+                const numSpartans = spartans?.modelLoadoutGroups.reduce((p, s)=>p + s.number, 0)??0;
+                if(numLandRaiders + numSpartans == 0) {
+                    return {valid: false, error: "Need more dedicated transports", data: "must be in a dedicated transport"}
+                }
+            }
+            return {valid: true}
+        },
+        modelGroupShapes: [
         {modelType: "Legion Terminators", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 50}, {num: 4+2, points: 50+15}, {num: 4+4, points: 50+30},
         ]},
@@ -275,6 +308,30 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
+        ]},
+        {modelType: "Land Raider", dedicatedTransport: true, formationType: "Legion Heavy Assault Spearhead", modelLoadoutSlots: [
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Multi-melta", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [ 
+            {num: 0, points: 0}, {num: 4, points: 4*40}, {num: 6, points: 6*40}, {num: 8, points: 8*40}, 
+        ]},
+        {modelType: "Spartan", dedicatedTransport: true, formationType: "Legion Heavy Assault Spearhead", modelLoadoutSlots: [
+            {name: "Sponson mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", points: 0}, 
+                {loadout: "Laser destroyers", points: 0},
+            ]},
+            {name: "Hull mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolters", points: 0}, 
+                {loadout: "Lascannon", points: 2},
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Multi-melta", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 2, points: 2*80}, {num: 3, points: 4*80}, {num: 4, points: 4*80}, 
         ]}
     ]}],
     ["Legion Rapier Battery Detachment", {minModels: 2, maxModels: 8, modelGroupShapes: [

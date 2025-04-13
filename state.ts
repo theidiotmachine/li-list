@@ -295,7 +295,7 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
             if(transports.length > 0) {
                 //work down from walkers to slims
                 while(walkerModels > 0) {
-                    const transport = transports.find((x)=>x.takesWalkers && x.remainingCapacity > 0);
+                    const transport = transports.find((x)=>x.takesWalkers && x.remainingCapacity >= 2);
                     if(transport === undefined)
                         return { valid: false, error: "Need more dedicated transports", data: "remaining walkers: " + walkerModels};
 
@@ -317,10 +317,10 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
 
                 //now bulky
                 while(bulkyModels > 0) {
-                    const transport = transports.find((x)=>x.takesBulky && x.remainingCapacity > 0);
-                    if(transport === undefined)
+                    const transport = transports.find((x)=>x.takesBulky && x.remainingCapacity >= x.bulkyIs);
+                    if(transport === undefined) 
                         return { valid: false, error: "Need more dedicated transports", data: "remaining bulky models: " + bulkyModels};
-
+                    
                     const bulkyLoad = bulkyModels * transport.bulkyIs;
                     if(transport.remainingCapacity >= bulkyLoad) {
                         transport.remainingCapacity -= bulkyLoad;

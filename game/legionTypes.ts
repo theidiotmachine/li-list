@@ -4,6 +4,7 @@ export const LegionFormationTypes = [
     "Legion Demi-Company",
     "Legion Drop Pod Assault",
     "Legion Garrison Force",
+    "Legion Heavy Assault Spearhead",
     "Legion Sky-hunter Phalanx",
 ] as const;
 export type LegionFormationType = (typeof LegionFormationTypes)[number];

@@ -125,9 +125,15 @@ export default function Unit(props: PageProps) {
       <ul>
       {stats.modelLoadoutSlots.map((smlfs, i) => {
         return <li class="text-sm" key={i}>
-          {smlfs.possibleModelLoadouts.map((l)=>{
-            return l.weaponTypes?.join(", ")??l.loadout
-          }).join(" or ")}
+          {(smlfs.possibleModelLoadouts.length == 2 && smlfs.possibleModelLoadouts[0].weaponTypes?.length == 0)
+          ?("Optional " + smlfs.possibleModelLoadouts[1].loadout)
+          :(
+            smlfs.possibleModelLoadouts.map((l)=>{
+              if(l.weaponTypes !== undefined && l.weaponTypes.length == 0)
+                return "Nothing";
+              return l.weaponTypes?.join(", ")??l.loadout
+            }).join(" or ")
+          )}
         </li>
       })}
       </ul>

@@ -63,6 +63,8 @@ export type FormationSlot =
     "Heavy Armour" | 
     "HQ" | 
     "Knight" |
+    "Legion Heavy Assault Spearhead Support Compulsory" |
+    "Legion Terminators" |
     "Light Armour" |
     "Sky-hunter Phalanx Vanguard Compulsory" | //This just makes it easier. It can't have bikes
     "Solar Auxilia Armoured Company Compulsory Battle Tank" |
