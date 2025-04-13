@@ -29,7 +29,7 @@ function hasWeaponTrait(wsar: WeaponStatsAtRange, trait: WeaponTrait): boolean {
   return wsar.traits.findIndex((t)=>t===trait) != -1
 }
 
-function tableRowForWSAR(wt: WeaponType, w: WeaponStats, wsar: WeaponStatsAtRange, i: number, j: number, unitTraits: UnitTrait[]): JSX.Element {
+function tableRowForWSAR(wt: WeaponType, w: WeaponStats, wsar: WeaponStatsAtRange, i: number, j: number, unitTraits: UnitTrait[]) {
   return <tr key={"b"+i+j} class="even:bg-gray-50 odd:bg-white">
       <td>{(i==0)?wt:""}</td>
       <td>{w.arc}</td>
