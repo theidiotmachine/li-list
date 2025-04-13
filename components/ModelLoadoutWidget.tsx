@@ -32,7 +32,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
     return <div class="grid grid-cols-[20%_8%_25%_47%] gap-0">
         <div class="col-span-1 col-start-1 order-2 justify-self-end flex"> 
             <a href={"/hammer?shooterModelType="+props.modelType + "&"
-                + props.modelLoadoutGroup.modelLoadoutSlots.flatMap((x,i) => {
+                + props.modelLoadoutGroup.modelLoadoutSlots.flatMap((x) => {
                     //const slot = modelOptions?.modelLoadoutSlots[i];
                     const statsSlot = stats?.modelLoadoutSlots.find((s)=>s.name == x.name);
                     if(statsSlot === undefined)
@@ -74,7 +74,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
         {filteredModelLoadoutSlotShapes.map((x,i) => {
             const loadout = props.modelLoadoutGroup.modelLoadoutSlots.find((t)=>t.name == x.name);
             if(loadout == undefined)
-                return <div>No data</div>
+                return <div key={"s"+i}>No data</div>
 
             return <div key={"s"+i} class = {"col-start-4 col-span-1 row-start-"+(i+1)+" order-"+(4+i*2)}>
                 <ModelLoadoutSelect key={i} 

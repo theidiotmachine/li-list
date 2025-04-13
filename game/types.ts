@@ -314,6 +314,8 @@ export type WeaponTrait =
     "Anti-tank" |
     "Barrage" |
     "Blast (3\")" |
+    "Bunker Buster" |
+    "Co-axial" |
     "Collapsing Singularity" |
     "Deflagrate" |
     "Demolisher" |

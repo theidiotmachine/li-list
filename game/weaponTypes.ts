@@ -6,8 +6,9 @@ export type WeaponType =
     "Anvilus autocannon battery" |
     "Atrapos lascutter" |
     "Bolt pistols" |
-    "Combi bolters" |
     "Castigator pattern bolt cannon" |
+    "Co-axial autocannon" |
+    "Combi bolters" |
     "Cyclonic melta lance" |
     "Cyclone missile launcher" |
     "Deathstorm missile launcher" |
@@ -24,6 +25,9 @@ export type WeaponType =
     "Hull Mounted twin lascannon" |
     "Hyperios air-defence missile launcher" |
     "Kheres assault cannon" |
+    "Kratos autocannon" |
+    "Kratos battlecannon" |
+    "Kratos lascannon" |
     "Leviathan storm cannon" |
     "In-built twin-linked bolter" |
     "In-built twin-linked heavy bolters" |
@@ -35,6 +39,7 @@ export type WeaponType =
     "Lightning cannon" |
     "Missile launchers" |
     "Multi-melta" |
+    "Melta blastgun" |
     "Meltagun" |
     "Nose Mounted heavy flamer" |
     "Omega plasma array" |

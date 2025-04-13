@@ -33,7 +33,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     if(props.uuid != "" && armyLoadState.value == LoadState.Loaded) {
         name = army.value.name;
         maxPoints = army.value.maxPoints;
-        alliedPoints = army.value.maxPoints;
+        alliedPoints = army.value.alliedPoints;
         points = army.value.points;
         enabled = true;
         allegiance = army.value.allegiance;

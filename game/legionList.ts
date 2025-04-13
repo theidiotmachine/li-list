@@ -747,6 +747,32 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         ],
         unitTraits: ["Assault Transport (2)", "Forward Deployment"]
     }],
+    ["Legion Kratos", {
+        unitType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 3, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "Co-axial autocannon"}, 
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Kratos battlecannon"}, 
+                {loadout: "Melta blastgun"},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolters"]},
+                {loadout: "Kratos lascannon"}, 
+                {loadout: "Kratos autocannon"}, 
+            ]}
+        ],
+        unitTraits: []
+    }],
     ["Legion Outrider", {
         unitType: "Cavalry", scale: 1, move: 10, saves: [
             {saveType: "Armour", save: 5, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}

@@ -75,6 +75,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT", "Rapid Fire", "Shieldbane"]
         }
     ]}],
+    ["Co-axial autocannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Co-axial", "Light AT"]
+        },
+    ]}],
     ["Combi bolters", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 2, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -252,6 +261,40 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT", "Rapid Fire"], voidShields: 1
         },
     ]}],
+    ["Kratos autocannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Light AT"]
+        },
+    ]}],
+    ["Kratos battlecannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 10, dice: 1, hit: 4,
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -4, wounds: 1},
+            vShvKT: {modifier: -4, wounds: 1},
+            ionShield: {modifier: -2, wounds: 1},
+            traits: ["Anti-tank", "Armourbane"], voidShields: 1
+        },
+        {minRange: 0, maxRange: 20, dice: 2, hit: 4,
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: [], voidShields: 1
+        }
+    ]}],
+    ["Kratos lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
+    ]}],
     ["Laser destroyer array", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 15, dice: 2, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -308,6 +351,16 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: -1, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Anti-tank"], voidShields: 1
+        }
+    ]}],
+    ["Melta blastgun", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 8, dice: 1, hit: 4, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -4, wounds: 1},
+            vShvKT: {modifier: -4, wounds: 1},
+            ionShield: {modifier: -2, wounds: 1},
+            structure: {modifier: -8, wounds: 1},
+            traits: ["Anti-tank", "Armourbane", "Bunker Buster"], voidShields: 1
         }
     ]}],
     ["Meltagun", {arc: "Front", weaponStatsAtRange: [
