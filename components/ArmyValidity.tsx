@@ -1,14 +1,27 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
+import { Army } from "../game/types.ts";
 
-export function ArmyValidity() {
-    const { army } = useContext(AppState);
-    for(const formation of army.value.formations) {
-        for(const detachment of formation.detachments) {
-            if(!detachment.validationState.valid) 
-                return <img src="/alert-clean.svg" class="inline"/>
-        }
-    }
+interface ArmyValidityProps{
+    army: Army;
+}
 
-    return <span></span>
+export function ArmyValidity(props: ArmyValidityProps) {
+    if(props.army.validationState.valid) 
+        return <span></span>
+    return <img src="/alert-clean.svg" class="inline h-6"/>
+}
+
+interface ArmyValidityTextProps {
+    army: Army;
+    class: string
+};
+
+export function ArmyValidityText(props: ArmyValidityTextProps) {
+    if(props.army.validationState.valid) 
+        return <div></div>
+    let errorText = props.army.validationState.error;
+    if(props.army.validationState.data) 
+        errorText += ", " + props.army.validationState.data;
+    return <div class={props.class + " text-red-600 italic"}>{errorText}</div>
 }

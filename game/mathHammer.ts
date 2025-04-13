@@ -258,8 +258,6 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: Arc, 
     if(ssr.wsar.dice == undefined || typeof(ssr.wsar.dice) == "string")
         return undefined;
 
-    console.log(ssr);
-
     let outTable: ShootResultOutcome[] = [{fraction: 1, wounds: 0}];
     for(let i = 0; i < ssr.wsar.dice; ++i) {
 
@@ -280,7 +278,6 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: Arc, 
     }
 
     outTable = outTable.filter((t, i)=>i === 0 || t.fraction > 0);
-    console.log("outTable ", outTable)
 
     return {
         weaponType: ssr.weaponType,

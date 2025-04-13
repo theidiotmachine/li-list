@@ -155,6 +155,7 @@ const detachmentTypesForSlot = new Map<FormationSlot, AuxiliaDetachmentType[]>([
         "Auxilia Thunderbolt Squadron",
     ] ],
     [ "Artillery", [
+        "Auxilia Basilisk Battery",
         "Auxilia Medusa Battery"
     ] ], 
     [ "Auxilia Lasrifle", [ "Auxilia Lasrifle Tercio" ] ],
@@ -561,7 +562,7 @@ export function getAuxiliaDetachmentConfigurationForDetachmentType(detachmentTyp
 
 const statsForModelType = new Map<AuxiliaModelType, Stats>([
     ["Aethon Heavy Sentinel", {
-        unitType: "Walker", scale: 2, advance: 7, charge: 14, saves: [
+        unitType: "Walker", scale: 2, move: 7, saves: [
             {saveType: "Armour", save: 4, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -570,7 +571,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Forward Deployment"]
     }],
     ["Auxilia Commander", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+        unitType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 6, arc: "All"},
             {saveType: "Invuln", save: 6, arc: "All"},
         ],
@@ -580,7 +581,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Solar Auxilia HQ (10)"]
     }],
     ["Auxilia Rapier", {
-        unitType: "Infantry", scale: 1, advance: 4, charge: 8, saves:[
+        unitType: "Infantry", scale: 1, move: 4, saves:[
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 5, voidShields: 0,
@@ -589,7 +590,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Bulky", "Chain of Command"],
     }],
     ["Auxilia Tarantula", {
-        unitType: "Infantry", scale: 1, advance: 0, charge: 0, saves:[
+        unitType: "Infantry", scale: 1, move: 0, saves:[
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: -3, wounds: 1, tacticalStrength: 0, voidShields: 0,
@@ -598,7 +599,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Automated Sentry"],
     }],
     ["Auxiliaries", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+        unitType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 7, voidShields: 0,
@@ -607,7 +608,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Chain of Command", "Line"]
     }],
     ["Charonite Ogryns", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+        unitType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 3, morale: 4, wounds: 1, tacticalStrength: 5, voidShields: 0,
@@ -616,7 +617,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Furious Charge"]
     }],
     ["Cyclops", {
-        unitType: "Vehicle", scale: 2, advance: 9, charge: 18, saves: [
+        unitType: "Vehicle", scale: 2, move: 9, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
@@ -625,7 +626,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Compact", "Remote Controlled Detonation"]
     }],
     ["Dracosan", {
-        unitType: "Vehicle", scale: 2, advance: 8, charge: 16, saves: [
+        unitType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 2, arc: "All"},
         ],
         caf: 2, morale: 4, wounds:1, tacticalStrength: 2, voidShields: 0,
@@ -634,7 +635,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Explorer Adaptation"]
     }],
     ["Tactical Command", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+        unitType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
@@ -643,7 +644,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         unitTraits: ["Commander", "Inspire (8)", "Solar Auxilia HQ (6)"]
     }],
     ["Veletarii", {
-        unitType: "Infantry", scale: 1, advance: 5, charge: 10, saves: [
+        unitType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 1, morale: 4, wounds: 1, tacticalStrength: 6, voidShields: 0,

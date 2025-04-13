@@ -21,6 +21,17 @@ export type DetachmentValidationState = {
     data?: string,
 };
 
+export type ArmyValidationError = 
+    "Detachments invalid" |
+    "Too many points" |
+    "Too many points on allied detachments"
+;
+export type ArmyValidationState = {
+    valid: boolean,
+    error?: ArmyValidationError,
+    data?: string,
+};
+
 export const Allegiances = [
     "Loyalist",
     "Traitor"
@@ -163,8 +174,6 @@ export type ModelGroupShape = {
     formationType?: FormationType;
 }
 
-
-
 //A group of models with a particular loadout
 export type ModelLoadoutGroup = {
     number: number;
@@ -209,8 +218,11 @@ export type Army = {
     formations: Formation[];
     maxPoints: number;
     points: number;
+    alliedPoints: number;
+    primaryPoints: number;
     uuid: string;
     name: string;
+    validationState: ArmyValidationState;
 };
 
 export type DetachmentConfiguration = {
@@ -362,8 +374,7 @@ export type WeaponStats = {
 export type Stats = {
     unitType: UnitType;
     scale: Scale;
-    advance?: number;
-    charge?: number;
+    move?: number;
     saves: Save[];
     caf: number;
     morale?: number;

@@ -1,7 +1,7 @@
 import { DetachmentTypeSelect } from "./DetachmentTypeSelect.tsx";
 import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType } from "../game/lists.ts";
 import { NumModelSelect } from "./NumModelSelect.tsx";
-import { DetachmentValidity } from "./DetachmentValidity.tsx";
+import { DetachmentValidityIcon, DetachmentValidityText } from "./DetachmentValidity.tsx";
 import { ModelLoadoutWidget } from "./ModelLoadoutWidget.tsx";
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
@@ -115,7 +115,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
     return <div class="mb-1 mt-1">
         <div class="grid grid-cols-[20%_8%_22%_20%_20%_10%] gap-0 ">
             <div class="col-span-2 font-medium text-lg bg-gray-100 border-b-2 border-gray-400">
-                <DetachmentValidity detachment={props.detachment}/>{slotDisplayName}
+                <DetachmentValidityIcon detachment={props.detachment}/>{slotDisplayName}
             </div> 
             <div class="col-span-4 col-start-2 row-start-2 md:col-start-3 md:row-start-1 md:col-span-3 border-b-2 border-gray-400">
                 <DetachmentTypeSelect 
@@ -126,6 +126,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
             <div class="col-span-1 col-start-6 justify-self-end md:text-lg bg-gray-100 border-b-2 border-gray-400">
                 {props.detachment.points}
             </div>
+            <DetachmentValidityText class="col-span-6" detachment={props.detachment}/>
         </div>
         {modelGroups}
     </div>

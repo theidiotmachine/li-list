@@ -81,8 +81,7 @@ export default function Unit(props: PageProps) {
             <tr class="border-b-2 border-gray-400 font-bold bg-gray-100">
               <td class="w-32">Type</td>
               <td class="w-16">Scale</td>
-              <td class="w-16">Advance</td>
-              <td class="w-16">Charge</td>
+              <td class="w-16">Move</td>
               {saveHeaders}
               <td class="w-16">CAF</td>
               <td class="w-16">Morale</td>
@@ -94,8 +93,7 @@ export default function Unit(props: PageProps) {
             <tr class="even:bg-gray-50 odd:bg-white">
               <td>{stats.unitType}</td>
               <td>{stats.scale}</td>
-              <td>{(stats.advance)?(stats.advance+'"'): ""}</td>
-              <td>{(stats.charge)?(stats.charge+'"'): ""}</td>
+              <td>{(stats.move)?(stats.move+'"'): ""}</td>
               {saves}
               <td>{(stats.caf >= 0)?("+" + stats.caf.toString()):stats.caf}</td>
               <td>
@@ -127,6 +125,7 @@ export default function Unit(props: PageProps) {
               <td class="w-16">Void Shield</td>
               <td class="w-16">Struct</td>
               <td class="w-32">Traits</td>
+              <td class="w-32">Unit Traits</td>
             </tr>
           </thead>
           <tbody >

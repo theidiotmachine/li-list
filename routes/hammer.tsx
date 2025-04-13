@@ -54,7 +54,6 @@ export default function Hammer(props: PageProps) {
     }
 
     const additionalShooterWeapons = (props.url.searchParams.getAll("additionalShooterWeapon") ?? []) as WeaponType[];
-    console.log("additionalShooterWeapons", additionalShooterWeapons);
 
     const targetModelType: ModelType = (props.url.searchParams.get("targetModelType") ?? "Plasma Support Legionaries") as ModelType;
 

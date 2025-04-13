@@ -1,5 +1,5 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, unitHasTrait } from "./game/types.ts";
+import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, unitHasTrait, ArmyValidationState } from "./game/types.ts";
 import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
@@ -152,9 +152,28 @@ function calcFormationPoints(formation: Formation) {
     return formation.detachments.reduce((p, d) => p + d.points, 0);
 }
 
-function calcArmyPoints(formations: Formation[]) {
-    return formations.reduce((p, d) => p + d.points, 0);
+type ArmyPoints = {
+    points: number;
+    alliedPoints: number;
+    primaryPoints: number;
 }
+
+function calcArmyPoints(formations: Formation[], primaryArmyListName: ArmyListName | ""): ArmyPoints {
+    const out = formations.reduce((p, d) => {
+        if(d.armyListName == primaryArmyListName)
+            p.primaryPoints += d.points;
+        else
+            p.alliedPoints += d.points;
+        p.points += d.points;
+        return p
+    }, {
+        points: 0, alliedPoints: 0, primaryPoints: 0
+    });
+    console.log(out)
+    return out;
+}
+
+
 
 function calcDetachmentValidation(formation: Formation, detachmentIndex: number, formationShape: FormationShape): DetachmentValidationState {
     const detachment = formation.detachments[detachmentIndex];
@@ -192,7 +211,6 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
                 if(shape.maxModels != undefined && modelGroup.number > shape.maxModels)
                     return { valid: false, error: "Too many models in group", data: modelGroup.modelType  + ". Max: " + shape.maxModels  };
                 if(shape.possibleModelGroupQuantities.findIndex(x=>x.num == modelGroup.number) == -1) {
-                    console.log("Invalid number of models in group", modelGroup.number, shape.possibleModelGroupQuantities);
                     const possibleModelNumbers = shape.possibleModelGroupQuantities.map(m=>m.num.toString());
                     return { valid: false, error: "Invalid number of models in group", data: modelGroup.modelType + ". Could be: " + 
                         possibleModelNumbers.join(", ")
@@ -379,10 +397,29 @@ function refreshFormation(newFormation: Formation) {
     newFormation.points = calcFormationPoints(newFormation);
 }
 
+function calcArmyValidation(army: Army): ArmyValidationState {
+    for(const formation of army.formations) {
+        for(const detachment of formation.detachments) {
+            if(!detachment.validationState.valid) 
+                return { valid: false, error: "Detachments invalid" };
+        }
+    }
+    if(army.points > army.maxPoints)
+        return { valid: false, error: "Too many points" };
+
+    if(army.alliedPoints > army.maxPoints * 0.3)
+        return { valid: false, error: "Too many points on allied detachments" };
+
+    return { valid: true };
+}
+
 function createAppState(): AppStateType {
     const newArmy = {
-        formations: [], points: 0, uuid: crypto.randomUUID(), name: "", maxPoints: 0, primaryArmyListName: "" as ArmyListName | "",
-        allegiance: "" as Allegiance | ""
+        formations: [], points: 0, alliedPoints: 0,
+        primaryPoints: 0,
+        uuid: crypto.randomUUID(), name: "", maxPoints: 0, primaryArmyListName: "" as ArmyListName | "",
+        allegiance: "" as Allegiance | "",
+        validationState: { valid: true },
     };
     const undoStack= signal<Army[]>([newArmy]);
     const undoIndex = signal<number>(0);
@@ -479,7 +516,10 @@ function createAppState(): AppStateType {
     const makeNewArmy = () => {
         const newArmy = {
             formations: [], points: 0, uuid: crypto.randomUUID(), name: "", maxPoints: 0, 
-            primaryArmyListName: "" as ArmyListName | "", allegiance: "" as Allegiance | ""
+            primaryArmyListName: "" as ArmyListName | "", allegiance: "" as Allegiance | "",
+            alliedPoints: 0,
+            primaryPoints: 0,
+            validationState: { valid: true },
         };
         undoStack.value = [newArmy];
         undoIndex.value = 0;
@@ -519,6 +559,11 @@ function createAppState(): AppStateType {
     const changeArmyMaxPoints = (value: number) => {
         const newArmy = {...army.value};
         newArmy.maxPoints = value;
+        const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
+        newArmy.points = points.points
+        newArmy.alliedPoints = points.alliedPoints;
+        newArmy.primaryPoints = points.primaryPoints;
+        newArmy.validationState = calcArmyValidation(newArmy);
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
         save();
@@ -527,6 +572,12 @@ function createAppState(): AppStateType {
     const changeArmyAllegiance = (allegiance: Allegiance | "") => {
         const newArmy = {...army.value};
         newArmy.allegiance = allegiance;
+        const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
+        newArmy.points = points.points
+        newArmy.alliedPoints = points.alliedPoints;
+        newArmy.primaryPoints = points.primaryPoints;
+        newArmy.validationState = calcArmyValidation(newArmy);
+
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
         save();
@@ -535,7 +586,15 @@ function createAppState(): AppStateType {
     const changePrimaryArmyListName = (armyListName: ArmyListName | "") => {
         const newArmy = {...army.value};
         newArmy.primaryArmyListName = armyListName;
+        const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
+        newArmy.points = points.points
+        newArmy.alliedPoints = points.alliedPoints;
+        newArmy.primaryPoints = points.primaryPoints;
+        newArmy.validationState = calcArmyValidation(newArmy);
+
         pushOntoUndoStack(newArmy);
+
+
         army.value = newArmy;
         save();
     }
@@ -547,7 +606,11 @@ function createAppState(): AppStateType {
         newArmy.formations = newArmy.formations.slice();
         newArmy.formations[formationIdx] = newFormation;
         newFormation.breakPoint = calcFormationBreakPoint(newFormation);
-        newArmy.points = calcArmyPoints(newArmy.formations);
+        const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
+        newArmy.points = points.points
+        newArmy.alliedPoints = points.alliedPoints;
+        newArmy.primaryPoints = points.primaryPoints;
+        newArmy.validationState = calcArmyValidation(newArmy);
 
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
@@ -560,7 +623,11 @@ function createAppState(): AppStateType {
         const newArmy = {...army.value};
         newArmy.formations = newArmy.formations.slice();
         newArmy.formations.push({armyListName: "", formationType: "", points: 0, detachments:[], uuid, breakPoint: 0});
-        newArmy.points = calcArmyPoints(newArmy.formations);
+        const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
+        newArmy.points = points.points
+        newArmy.alliedPoints = points.alliedPoints;
+        newArmy.primaryPoints = points.primaryPoints;
+        newArmy.validationState = calcArmyValidation(newArmy);
 
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
@@ -570,7 +637,11 @@ function createAppState(): AppStateType {
         const newArmy = {...army.value};
 
         newArmy.formations = newArmy.formations.filter((elem: Formation) => elem.uuid != uuid)
-        newArmy.points = calcArmyPoints(newArmy.formations);
+        const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
+        newArmy.points = points.points
+        newArmy.alliedPoints = points.alliedPoints;
+        newArmy.primaryPoints = points.primaryPoints;
+        newArmy.validationState = calcArmyValidation(newArmy);
 
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
