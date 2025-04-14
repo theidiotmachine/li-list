@@ -615,14 +615,19 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [
+            {name: "Charge", possibleModelLoadouts: [
+                {loadout: "Demolition charge"},
+                {loadout: "Incineration charge"},
+            ]}
+        ], 
         unitTraits: ["Compact", "Remote Controlled Detonation"]
     }],
     ["Dracosan", {
         unitType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 2, arc: "All"},
         ],
-        caf: 2, morale: 4, wounds:1, tacticalStrength: 2, voidShields: 0,
+        caf: 2, morale: 4, wounds: 1, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts: [
                 {loadout: "Hull Mounted twin lascannon", unitTraits: ["Transport (4)"]},
@@ -631,6 +636,22 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         ], 
         unitTraits: ["Explorer Adaptation"]
     }],
+    ["Malcador Infernus", {
+        unitType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 1, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Malcador inferno gun"]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
     ["Tactical Command", {
         unitType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 6, arc: "All"},
@@ -638,6 +659,22 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
         modelLoadoutSlots: [], //TODO
         unitTraits: ["Commander", "Inspire (8)", "Solar Auxilia HQ (6)"]
+    }],
+    ["Valdor", {
+        unitType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 1, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Neutron beam laser"]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
+            ]},
+        ], //TODO
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
     ["Veletarii", {
         unitType: "Infantry", scale: 1, move: 5, saves: [

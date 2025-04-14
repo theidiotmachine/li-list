@@ -322,6 +322,7 @@ export type WeaponTrait =
     "Deflagrate" |
     "Demolisher" |
     "Engine Killer (1)" |
+    "Firestorm" |
     "Graviton Pulse" |
     "Ignores Cover" |
     "Light" |
@@ -333,6 +334,7 @@ export type WeaponTrait =
     "Rend" |
     "Saturation Fire" |
     "Shieldbane" |
+    "Shock Pulse" |
     "Skyfire" | 
     "Tracking" |
     "Wrecker (1)" |

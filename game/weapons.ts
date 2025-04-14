@@ -121,6 +121,17 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT", "Limited", "Saturation Fire"]
         }
     ]}],
+    ["Demolition charge", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 1, dice: 1, hit: 3, 
+            infAndCav:{modifier: -1, wounds: 1}, 
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            structure: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            traits: ["Blast (3\")", "Demolisher"]
+        }
+    ]}],
     ["Graviton gun", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, 
             infAndCav:{modifier: -1, wounds: 1}, 
@@ -234,6 +245,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light", "Point Defence"]
         }
     ]}],
+    ["Incineration charge", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 1, dice: 1, hit: 3, 
+            infAndCav:{modifier: -1, wounds: 1}, 
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Blast (3\")", "Ignores Cover", "Light AT"]
+        }
+    ]}], 
     ["Ion gauntlet shield", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 2, hit: 5,
             infAndCav: {modifier: -2, wounds: 1},
@@ -261,7 +281,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT", "Rapid Fire"], voidShields: 1
         },
     ]}],
-    ["Kratos autocannon", {arc: "All", weaponStatsAtRange: [
+    ["Kratos autocannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
             infAndCav: {modifier: -1, wounds: 1},
             walker: {modifier: -1, wounds: 1},
@@ -339,6 +359,33 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Blast (3\")"], voidShields: 1
         }
     ]}],
+    ["Malcador autocannon sponsons", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        },
+    ]}],
+    ["Malcador inferno gun", {arc: "Front", weaponStatsAtRange: [
+        {hit: 4, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Firestorm", "Light AT"],
+        }
+    ]}],
+    ["Malcador lascannon sponsons", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        },
+    ]}], 
     ["Missile launchers", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 20, dice: 2, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -381,6 +428,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Anti-tank"], voidShields: 1
         }
     ]}],
+    ["Neutron beam laser", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: ["Shock Pulse"], voidShields: 2
+        },
+    ]}], 
     ["Nose Mounted heavy flamer", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 4, infAndCav: {modifier: 0, wounds: 1},
         walker: {modifier: 0, wounds: 1}, traits: ["Ignores Cover", "Light", "Point Defence"]}

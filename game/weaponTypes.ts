@@ -12,6 +12,7 @@ export type WeaponType =
     "Cyclonic melta lance" |
     "Cyclone missile launcher" |
     "Deathstorm missile launcher" |
+    "Demolition charge" |
     "Graviton gun" |
     "Graviton singularity cannon" |
     "Heavy bolter" |
@@ -31,16 +32,21 @@ export type WeaponType =
     "Leviathan storm cannon" |
     "In-built twin-linked bolter" |
     "In-built twin-linked heavy bolters" |
+    "Incineration charge" |
     "Ion gauntlet shield" |
     "Laser destroyer array" |
     "Legion bolters" |
     "Leviathan siege claw" |
     "Leviathan storm cannon" |
     "Lightning cannon" |
+    "Malcador inferno gun" |
+    "Malcador autocannon sponsons" |
+    "Malcador lascannon sponsons" |
     "Missile launchers" |
     "Multi-melta" |
     "Melta blastgun" |
     "Meltagun" |
+    "Neutron beam laser" |
     "Nose Mounted heavy flamer" |
     "Omega plasma array" |
     "Phased plasma-fusil" |
