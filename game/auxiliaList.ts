@@ -673,7 +673,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
             ]},
-        ], //TODO
+        ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
     ["Veletarii", {

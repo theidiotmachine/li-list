@@ -19,8 +19,8 @@ const ResultTable = (props: HammerResultTableProps) => {
         </thead>
         <tbody>
 
-        {props.resultTable.map((ssr)=>{
-            return <tr><td>{ssr.wounds}</td><td>{Math.round(ssr.fraction*10000)/100}</td></tr>
+        {props.resultTable.map((ssr, i)=>{
+            return <tr key={i}><td>{ssr.wounds}</td><td>{Math.round(ssr.fraction*10000)/100}</td></tr>
         })}
         </tbody>
     </table>
@@ -55,13 +55,13 @@ export default function Hammer(props: PageProps) {
 
     const additionalShooterWeapons = (props.url.searchParams.getAll("additionalShooterWeapon") ?? []) as WeaponType[];
 
-    const targetModelType: ModelType = (props.url.searchParams.get("targetModelType") ?? "Plasma Support Legionaries") as ModelType;
+    const targetModelType: ModelType = (props.url.searchParams.get("targetModelType") ?? "Tactical Legionaries") as ModelType;
 
     const targetArc = (props.url.searchParams.get("targetArc") ?? "Front") as Arc;
     const rangeString = (props.url.searchParams.get("range") ?? "8");
     const range = parseInt(rangeString);
 
-    const haveTargetStats = getStatsForModelType(targetModelType)!=undefined;
+    const haveTargetStats = getStatsForModelType(targetModelType) != undefined;
 
     const shootResults = shoot(
         shooterModelType, additionalShooterWeapons, targetModelType, targetArc, range

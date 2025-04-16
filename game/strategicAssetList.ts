@@ -83,7 +83,7 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
             {modelType: "Acastus Knight Asterius", modelLoadoutSlots: [
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 250+20}, {num: 2, points: 250+250+20*2}
-            ]},
+            ], independentModels: true},
             {modelType: "Acastus Knight Porphyrion", modelLoadoutSlots: [
                 {name: "Body", possibleModelLoadouts: [
                     {loadout: "Acastus lascannon", points: 0}, 
@@ -95,7 +95,7 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
                 ]}
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 250}, {num: 2, points: 250+250}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Armiger", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chain-cleaver", points: 0}, 
@@ -134,16 +134,16 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
         modelGroupShapes: [
             {modelType: "Cerastus Knight Atrapos", modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 215+20}, {num: 2, points: 215+200+20*2}, {num: 3, points: 215+390+20*3}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Acheron", modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 215}, {num: 2, points: 215+200}, {num: 3, points: 215+390}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Castigator", modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 215}, {num: 2, points: 215+200}, {num: 3, points: 215+390}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Lancer", modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 215}, {num: 2, points: 215+200}, {num: 3, points: 215+390}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Armiger", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chain-cleaver", points: 0}, 
@@ -190,7 +190,7 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
                 ]}
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Errant", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chainsword", points: 0}, 
@@ -202,7 +202,7 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
                 ]}
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Gallant", modelLoadoutSlots: [
                 {name: "Close combat 2", possibleModelLoadouts: [
                     {loadout: "Reaper chainsword", points: 0}, 
@@ -214,11 +214,11 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
                 ]}
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Magaera", modelLoadoutSlots: [
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180+15}, {num: 2, points: 180+180+15*2}, {num: 3, points: 180+340+15*3}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Paladin", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chainsword", points: 0}, 
@@ -230,11 +230,11 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
                 ]}
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Styrix", modelLoadoutSlots: [
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180+15}, {num: 2, points: 180+180+15*2}, {num: 3, points: 180+340+15*3}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Warden", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chainsword", points: 0}, 
@@ -246,7 +246,7 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
                 ]}
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
-            ]},
+            ], independentModels: true},
             {modelType: "Knight Armiger", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chain-cleaver", points: 0}, 

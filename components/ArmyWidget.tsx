@@ -30,6 +30,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     let enabled = false
     let allegiance: Allegiance | "" = "";
     let primaryArmyListName: ArmyListName | "" = "";
+    let activations = 0;
     if(props.uuid != "" && armyLoadState.value == LoadState.Loaded) {
         name = army.value.name;
         maxPoints = army.value.maxPoints;
@@ -38,6 +39,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
         enabled = true;
         allegiance = army.value.allegiance;
         primaryArmyListName = army.value.primaryArmyListName;
+        activations = army.value.activations;
     } 
 
     return <div class={"grid grid-cols-[10%_20%_20%_20%_20%_10%] gap-y-2 w-[500px] md:w-[800px] bg-white mx-8" + " " + props.class}>
@@ -48,8 +50,8 @@ export function ArmyHeader(props: ArmyHeaderProps) {
                 }}/>
         </div>
         
-        <div class="col-span-2 col-start-4 text-lg">
-            Allied: {alliedPoints} / {maxPoints*0.3}
+        <div class="col-span-2 col-start-4 ">
+            Activations: {activations} Allied: {alliedPoints}/{maxPoints*0.3}
         </div>
 
         <div class="col-span-1 col-start-6 justify-self-end text-lg md:text-xl flex flex-row">
@@ -66,15 +68,15 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             />
         </div>
 
-        <div class="row-start-2 col-start-1 col-span-2">
+        <div class="col-start-1 col-span-2 hide-on-scroll">
             <ArmyAllegianceSelect allegiance={allegiance} enabled={enabled}/>
         </div>
 
-        <div class="row-start-2 col-start-4">
+        <div class="col-start-4 col-span-2 hide-on-scroll">
             <ArmyPrimaryArmyListSelect primaryArmyListName={primaryArmyListName} enabled={enabled}/>
         </div>
 
-        <div class="row-start-3 col-start-1 col-span-4 flex">
+        <div class="col-start-1 col-span-4 flex">
             <ArmyValidity army={army.value}/>
             <ArmyValidityText army={army.value} class=""/>
         </div>
@@ -98,7 +100,24 @@ export function ArmyWidget(props: ArmyWidgetProps) {
         army.value = JSON.parse(props.armyAsJson);
 
     return(
-        <div class="flex flex-row justify-center"> {
+        <div class="flex flex-row justify-center overflow-x-scroll h-screen" onScroll={(e)=>{
+                const k = e.target as HTMLElement;
+                if(k.scrollTop > 80){
+                    const elems = document.getElementsByClassName("hide-on-scroll");
+                    for(const elem of elems) {
+                        if (!elem.classList.contains("hidden")) {
+                            elem.classList.add("hidden");
+                        }
+                    }
+                } else {
+                    const elems = document.getElementsByClassName("hide-on-scroll");
+                    for(const elem of elems) {
+                        if (elem.classList.contains("hidden")) {
+                            elem.classList.remove("hidden");
+                        }
+                    }
+                }
+            }}> {
             (props.uuid != "" && armyLoadState.value != LoadState.Loaded) 
             ?
             (<h1 class={props.class}>Loading...</h1>)
@@ -110,7 +129,9 @@ export function ArmyWidget(props: ArmyWidgetProps) {
                     </div>               
 
                     <div class="row-start-5 col-span-7 col-start-1 w-[500px] md:w-[800px]">
-                        <button type="button" class="text-lg md:text-xl w-full text-centre bg-gray-200 mb-4" onClick={() => addFormation()}>New Formation</button>
+                        <button type="button" class="text-lg md:text-xl w-full text-centre bg-gray-200 mb-4" 
+                            onClick={() => addFormation()}
+                        >New Formation</button>
                     </div>
 
                 </div>

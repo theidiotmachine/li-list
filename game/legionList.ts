@@ -194,7 +194,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
     ["Legion Tactical Detachment", {maxModels: 12, modelGroupShapes: [
         {modelType: "Tactical Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 35}, {num: 6, points: 35+12}, {num: 8, points: 35+12*2}, {num: 10, points: 35+12*3}, {num: 12, points: 35+12*4},
-        ]},
+        ], unitTraits: ["Independent"]},
         {modelType: "Assault Marines", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 12}, {num: 4, points: 24}, {num: 6, points: 36}, {num: 8, points: 48},
         ]},
@@ -456,8 +456,8 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
                 {loadout: "Kratos battlecannon", points: 0}, 
                 {loadout: "Melta blastgun", points: 0}
             ]},
-            {name: "Secondary", possibleModelLoadouts: [
-                {loadout: "Hull-mounted heavy bolters", points: 0}, 
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolters"], points: 0},
                 {loadout: "Kratos lascannon", points: 0},
                 {loadout: "Kratos autocannon", points: 0}
             ]},
@@ -758,6 +758,24 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             ]},
         ],
         unitTraits: ["Drop Pod", "Transport (2)"]
+    }],
+    ["Fire Raptor", {
+        unitType: "Vehicle", scale: 2, move: 25, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Avenger bolt cannon", "Tempest rockets"]}
+            ]},
+            {name: "Turrets", possibleModelLoadouts: [
+                {loadout: "Quad heavy bolter batteries"}, 
+                {loadout: "Lascannon batteries"},
+                {loadout: "Gravis autocannon batteries"},
+            ]},
+        ],
+        unitTraits: ["Flyer", "Hover"]
     }],
     ["Javelin", {
         unitType: "Cavalry", scale: 1, move: 10, saves: [

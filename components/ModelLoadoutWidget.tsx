@@ -33,7 +33,6 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
         <div class="col-span-1 col-start-1 order-2 justify-self-end flex"> 
             <a href={"/hammer?shooterModelType="+props.modelType + "&"
                 + props.modelLoadoutGroup.modelLoadoutSlots.flatMap((x) => {
-                    //const slot = modelOptions?.modelLoadoutSlots[i];
                     const statsSlot = stats?.modelLoadoutSlots.find((s)=>s.name == x.name);
                     if(statsSlot === undefined)
                         return [];

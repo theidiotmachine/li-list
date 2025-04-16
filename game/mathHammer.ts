@@ -72,12 +72,17 @@ const saveDiceTable = [
 ];
 
 function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | undefined {
-    //TODO flyers
     if(wsar.hit == undefined)
         return undefined;
 
-    if(weaponHasTrait(wsar, "Rapid Fire")) {
-        const hitFraction = hitDiceTable[wsar.hit+1];
+    let hit = wsar.hit;
+    if(unitHasTrait(targetStats, "Flyer")) {
+        if(!weaponHasTrait(wsar, "Skyfire"))
+            hit = 6;
+    }
+
+    if(weaponHasTrait(wsar, "Rapid Fire") || (unitHasTrait(targetStats, "Flyer") && weaponHasTrait(wsar, "Tracking"))) {
+        const hitFraction = hitDiceTable[hit+1];
         const superHitFraction = hitDiceTable[6];
         const missFraction = 1 - (hitFraction + superHitFraction);
         return {resultTable: [
@@ -87,7 +92,7 @@ function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | un
         ]};
     }
 
-    let hitFraction = hitDiceTable[wsar.hit];
+    let hitFraction = hitDiceTable[hit];
     
     if(weaponHasTrait(wsar, "Accurate")) {
         //the miss gets a second bite of the cherry
@@ -305,8 +310,12 @@ export function shoot(
 
     shooterStats?.modelLoadoutSlots.forEach((slot)=>{
         //if the name is empty, it's required
-        if(slot.name == "")
-            slot.possibleModelLoadouts[0].weaponTypes?.forEach(recordStats);
+        if(slot.name == "") {
+            if(slot.possibleModelLoadouts[0].weaponTypes != undefined)
+                slot.possibleModelLoadouts[0].weaponTypes.forEach(recordStats);
+            else
+                recordStats(slot.possibleModelLoadouts[0].loadout as WeaponType);
+        }
     });
 
     additionalShooterWeapons.forEach(recordStats);

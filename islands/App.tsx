@@ -12,7 +12,7 @@ export type AppProps = {
 
 export default function App(props: AppProps) {
   return (
-    <div className="App">
+    <div className="App" >
       <AppState.Provider value={state}>
         <div class="flex flex-col">
           <div class="flex flex-row fixed w-full">

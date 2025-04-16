@@ -5,6 +5,7 @@ export type WeaponType =
     "Aiolus missile launcher" |
     "Anvilus autocannon battery" |
     "Atrapos lascutter" |
+    "Avenger bolt cannon" |
     "Bolt pistols" |
     "Castigator pattern bolt cannon" |
     "Co-axial autocannon" |
@@ -13,6 +14,7 @@ export type WeaponType =
     "Cyclone missile launcher" |
     "Deathstorm missile launcher" |
     "Demolition charge" |
+    "Gravis autocannon batteries" |
     "Graviton gun" |
     "Graviton singularity cannon" |
     "Heavy bolter" |
@@ -34,6 +36,7 @@ export type WeaponType =
     "In-built twin-linked heavy bolters" |
     "Incineration charge" |
     "Ion gauntlet shield" |
+    "Lascannon batteries" |
     "Laser destroyer array" |
     "Legion bolters" |
     "Leviathan siege claw" |
@@ -57,6 +60,7 @@ export type WeaponType =
     "Plasma guns" |
     "Predator cannon" |
     "Predator lascannon" |
+    "Quad heavy bolter batteries" |
     "Quad launcher" |
     "Questoris-avenger gatling cannon" |
     "Rapid-fire battlecannon" |
@@ -72,6 +76,7 @@ export type WeaponType =
     "Sponson Mounted quad lascannon" |
     "Sponson Mounted twin-linked lascannon" |
     "Tarantula lascannon battery" |
+    "Tempest rockets" |
     "Tempest warblade" |
     "Thermal cannon" |
     "Thunderstrike gauntlet" |

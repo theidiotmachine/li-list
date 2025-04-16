@@ -1,6 +1,6 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, unitHasTrait, ArmyValidationState, Stats } from "./game/types.ts";
-import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
+import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, unitHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "./game/types.ts";
+import { getDetachmentConfigurationForDetachmentType, getDetachmentTypesForSlot, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
 
@@ -22,8 +22,6 @@ export enum LoadState{
     Loading,
     Loaded,
 }
-
-
 
 export type AppStateType = {
     army: Signal<Army>; 
@@ -152,6 +150,56 @@ function calcFormationPoints(formation: Formation) {
     return formation.detachments.reduce((p, d) => p + d.points, 0);
 }
 
+function calcFormationActivations(formation: Formation) {
+    return formation.detachments.reduce((a, d) => {
+        let hasDedicatedTransports = false;
+        let hasIndependentModels = false;
+        let independentModels = 0;
+        let independentModelGroups = 0;
+        let hasNormalModelGroup = false;
+        if(formation.armyListName != "" && d.detachmentType != ""){
+            const c = getDetachmentConfigurationForDetachmentType(formation.armyListName, d.detachmentType);
+            for(const mg of d.modelGroups) {
+                if(mg.number > 0) {
+                    const mgs = c.modelGroupShapes.find((t)=>t.modelType == mg.modelType);
+                    if(mgs != undefined) {
+                        //dedicated transports get their own activation
+                        if(mgs.dedicatedTransport)
+                            hasDedicatedTransports = true;
+                        //knights get a special rule where every knight model is independent
+                        else if(mgs.independentModels) {
+                            hasIndependentModels = true;
+                            independentModels += mg.number;
+                        } else { 
+                            //the unit could be Independent through its own stats, or through stats it acquired
+                            //from the Detachment. If it is, record it as independent
+                            const stats = getStatsForModelType(mg.modelType);
+                            if((mgs.unitTraits != undefined && mgs.unitTraits.findIndex((t)=>t == "Independent") != -1)
+                                || (stats != undefined && unitHasTrait(stats, "Independent"))
+                            ) {
+                                independentModelGroups += 1;
+                            } else {
+                                hasNormalModelGroup = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        if(hasIndependentModels) {
+            //if the models are independent then any 'normal' groups get rolled up into the
+            //activations of the independent ones. I honestly don't think they will ever have
+            //dedicated transports, but I guess you never know
+            return a + independentModels + independentModelGroups + (hasDedicatedTransports?1:0);
+        } else {
+            //if there are no independent models, then there is the base group plus all the 
+            //independent groups, plus the dedicated transports
+            return a + (hasNormalModelGroup?1:0) + independentModelGroups + (hasDedicatedTransports?1:0);
+        }
+    }, 0);
+}
+
 type ArmyPoints = {
     points: number;
     alliedPoints: number;
@@ -236,7 +284,6 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
         const c = getDetachmentConfigurationForDetachmentType(formation.armyListName, detachment.detachmentType);
         if( c ) {
             let numModels = 0;
-
             
             const transports: TransportData[] = [];
 
@@ -385,8 +432,6 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
     return { valid: true };
 }
 
-
-
 //recalc all points and validations
 function refreshFormation(newFormation: Formation) {
     const formationShape = getShapeForFormationType(newFormation.armyListName, newFormation.formationType);
@@ -406,10 +451,11 @@ function refreshFormation(newFormation: Formation) {
                     y.points = calcModelGroupPoints(newFormation.armyListName, y, x.detachmentType);
             })
             x.validationState = calcDetachmentValidation(newFormation, i, formationShape);
-            x.points = calcDetachmentPoints(x);
+            x.points = calcDetachmentPoints(x);            
         }
     );
     newFormation.points = calcFormationPoints(newFormation);
+    newFormation.activations = calcFormationActivations(newFormation);
 }
 
 function calcArmyValidation(army: Army): ArmyValidationState {
@@ -428,6 +474,31 @@ function calcArmyValidation(army: Army): ArmyValidationState {
     return { valid: true };
 }
 
+function calcArmyActivations(army: Army): number {
+    return army.formations.reduce((p, f)=>p+f.activations, 0);
+}
+
+//Given a configuration, create the default loadout for a detachment. That means choosing the first 
+//option in each loadout shape
+function getDefaultModelGroupsForDetachment(config: DetachmentConfiguration, formationType: FormationType) {
+    return config.modelGroupShapes
+        .filter((x) => (x.formationType === undefined) || (x.formationType === formationType))
+        .map((x) => {
+            let modelLoadoutGroups: ModelLoadoutGroup[] = [];
+            if(x.modelLoadoutSlots.length > 0) {
+                modelLoadoutGroups = [{
+                    number: x.possibleModelGroupQuantities[0].num, modelLoadoutSlots: x.modelLoadoutSlots.map(
+                        (y)=>{return{name: y.name, modelLoadout: y.possibleModelLoadouts[0]}}
+                    ), points: -1
+                }];
+            }
+            return {
+                modelType: x.modelType, number: x.possibleModelGroupQuantities[0].num, points: -1,
+                modelLoadoutGroups: modelLoadoutGroups, unitTraits: x.unitTraits ?? []
+            };
+        });
+}
+
 function createAppState(): AppStateType {
     const newArmy = {
         formations: [], points: 0, alliedPoints: 0,
@@ -435,6 +506,7 @@ function createAppState(): AppStateType {
         uuid: crypto.randomUUID(), name: "", maxPoints: 0, primaryArmyListName: "" as ArmyListName | "",
         allegiance: "" as Allegiance | "",
         validationState: { valid: true },
+        activations: 0,
     };
     const undoStack= signal<Army[]>([newArmy]);
     const undoIndex = signal<number>(0);
@@ -535,6 +607,7 @@ function createAppState(): AppStateType {
             alliedPoints: 0,
             primaryPoints: 0,
             validationState: { valid: true },
+            activations: 0
         };
         undoStack.value = [newArmy];
         undoIndex.value = 0;
@@ -579,6 +652,8 @@ function createAppState(): AppStateType {
         newArmy.alliedPoints = points.alliedPoints;
         newArmy.primaryPoints = points.primaryPoints;
         newArmy.validationState = calcArmyValidation(newArmy);
+        newArmy.activations = calcArmyActivations(newArmy);
+
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
         save();
@@ -592,6 +667,7 @@ function createAppState(): AppStateType {
         newArmy.alliedPoints = points.alliedPoints;
         newArmy.primaryPoints = points.primaryPoints;
         newArmy.validationState = calcArmyValidation(newArmy);
+        newArmy.activations = calcArmyActivations(newArmy);
 
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
@@ -606,9 +682,9 @@ function createAppState(): AppStateType {
         newArmy.alliedPoints = points.alliedPoints;
         newArmy.primaryPoints = points.primaryPoints;
         newArmy.validationState = calcArmyValidation(newArmy);
+        newArmy.activations = calcArmyActivations(newArmy);
 
         pushOntoUndoStack(newArmy);
-
 
         army.value = newArmy;
         save();
@@ -626,7 +702,7 @@ function createAppState(): AppStateType {
         newArmy.alliedPoints = points.alliedPoints;
         newArmy.primaryPoints = points.primaryPoints;
         newArmy.validationState = calcArmyValidation(newArmy);
-
+        newArmy.activations = calcArmyActivations(newArmy);
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
         save();
@@ -637,12 +713,13 @@ function createAppState(): AppStateType {
 
         const newArmy = {...army.value};
         newArmy.formations = newArmy.formations.slice();
-        newArmy.formations.push({armyListName: "", formationType: "", points: 0, detachments:[], uuid, breakPoint: 0});
+        newArmy.formations.push({armyListName: "", formationType: "", points: 0, detachments:[], uuid, breakPoint: 0, activations: 0});
         const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
         newArmy.points = points.points
         newArmy.alliedPoints = points.alliedPoints;
         newArmy.primaryPoints = points.primaryPoints;
         newArmy.validationState = calcArmyValidation(newArmy);
+        newArmy.activations = calcArmyActivations(newArmy);
 
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
@@ -657,6 +734,7 @@ function createAppState(): AppStateType {
         newArmy.alliedPoints = points.alliedPoints;
         newArmy.primaryPoints = points.primaryPoints;
         newArmy.validationState = calcArmyValidation(newArmy);
+        newArmy.activations = calcArmyActivations(newArmy);
 
         pushOntoUndoStack(newArmy);
         army.value = newArmy;
@@ -692,9 +770,23 @@ function createAppState(): AppStateType {
         newFormation.formationType = formationType;
         
         const formationShape = getShapeForFormationType(newFormation.armyListName, formationType);
-        newFormation.detachments = formationShape.slotRequirements.map((s)=>{return {
-            slot: s.slot, modelGroups: [], points: 0, detachmentType: "", validationState: {valid: true}
-        }});
+        newFormation.detachments = formationShape.slotRequirements.map((s) => {
+            //fill in anything which we have no options on
+            if(s.slotRequirementType == "Required" && newFormation.armyListName != "") {
+                const dtfs = getDetachmentTypesForSlot(newFormation.armyListName, s.slot, army.value.allegiance);
+                const config = getDetachmentConfigurationForDetachmentType(newFormation.armyListName, dtfs[0]);
+                if(dtfs.length == 1 && newFormation.formationType != "") {
+                    return {
+                        slot: s.slot, modelGroups: getDefaultModelGroupsForDetachment(config, newFormation.formationType), 
+                        points: 0, detachmentType: dtfs[0], validationState: {valid: true}
+                    }        
+                }
+            }
+
+            return {
+                slot: s.slot, modelGroups: [], points: 0, detachmentType: "", validationState: {valid: true}
+            }
+        });
 
         setFormationAtIdx(newFormation, formationIdx);
     };
@@ -713,23 +805,8 @@ function createAppState(): AppStateType {
 
         if(newFormation.armyListName != "" && detachmentType != "") {
             const config = getDetachmentConfigurationForDetachmentType(newFormation.armyListName, detachmentType);
-            if(config?.modelGroupShapes) {
-                newFormation.detachments[detachmentIndex].modelGroups = config.modelGroupShapes
-                    .filter((x) => (x.formationType === undefined) || (x.formationType === newFormation.formationType))
-                    .map((x) => {
-                        let modelLoadoutGroups: ModelLoadoutGroup[] = [];
-                        if(x.modelLoadoutSlots.length > 0) {
-                            modelLoadoutGroups = [{
-                                number: x.possibleModelGroupQuantities[0].num, modelLoadoutSlots: x.modelLoadoutSlots.map(
-                                    (y)=>{return{name: y.name, modelLoadout: y.possibleModelLoadouts[0]}}
-                                ), points: -1
-                            }];
-                        }
-                        return {
-                            modelType: x.modelType, number: x.possibleModelGroupQuantities[0].num, points: -1,
-                            modelLoadoutGroups: modelLoadoutGroups
-                        };
-                    });
+            if(newFormation.formationType != "" && config?.modelGroupShapes) {
+                newFormation.detachments[detachmentIndex].modelGroups = getDefaultModelGroupsForDetachment(config, newFormation.formationType);
             }
         } else {
             newFormation.detachments[detachmentIndex].modelGroups = [];

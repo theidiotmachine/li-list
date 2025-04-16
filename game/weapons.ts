@@ -58,6 +58,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Engine Killer (1)", "Rend", "Wrecker (3)"]
         }
     ]}],
+    ["Avenger bolt cannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 5, hit: 5,
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Skyfire"]
+        }
+    ]}],
     ["Bolt pistols", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -131,6 +140,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             voidShields: 1,
             traits: ["Blast (3\")", "Demolisher"]
         }
+    ]}],
+    ["Gravis autocannon batteries", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 3, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        },
     ]}],
     ["Graviton gun", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, 
@@ -290,7 +308,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Accurate", "Light AT"]
         },
     ]}],
-    ["Kratos battlecannon", {arc: "Front", weaponStatsAtRange: [
+    ["Kratos battlecannon", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 10, dice: 1, hit: 4,
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: -4, wounds: 1},
@@ -313,6 +331,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: -1, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
+    ]}],
+    ["Lascannon batteries", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
         },
     ]}],
     ["Laser destroyer array", {arc: "All", weaponStatsAtRange: [
@@ -510,6 +537,13 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
     ]}],
+    ["Quad heavy bolter batteries", , {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 4, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Light", "Point Defence", "Skyfire"]
+        }
+    ]}],
     ["Quad launcher", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 16, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -602,7 +636,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
     ]}],
-    ["Sponson Mounted quad lascannon", {arc: "All", weaponStatsAtRange: [
+    ["Sponson Mounted quad lascannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 22, dice: 2, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: -1, wounds: 1},
@@ -631,6 +665,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
     ]}],
     ["Tempest warblade", {arc: "Melee", weaponStatsAtRange: [
         {traits: ["Rend"]},
+    ]}],
+    ["Tempest rockets", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 35, dice: 1, hit: 2, 
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 2},
+            ionShield: {modifier: -1, wounds: 2},
+            traits: ["Skyfire"], voidShields: 1
+        },
     ]}],
     ["Thermal cannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 3, 

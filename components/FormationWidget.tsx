@@ -26,6 +26,7 @@ export function FormationWidget(props: FormationWidgetProps) {
             <div class="col-start-3"><FormationTypeSelect uuid={props.formation.uuid}/> </div>
             <div class="col-start-4 justify-self-end text-lg md:text-xl">{props.formation.points}</div>
             <div class="row-start-2 col-start-2 col-span-1 md:text-lg">Breakpoint: {props.formation.breakPoint}</div>
+            <div class="row-start-2 col-start-3 col-span-1 md:text-lg">Activations: {props.formation.activations}</div>
         </div>
         { 
         (props.formation.armyListName == "") ?

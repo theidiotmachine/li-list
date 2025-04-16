@@ -168,6 +168,10 @@ export type ModelGroupShape = {
     modelLoadoutSlots: ModelLoadoutSlotShape[];
     dedicatedTransport?: boolean;
     formationType?: FormationType;
+    //mostly for 'Independent' sub parts of a detachment
+    unitTraits?: UnitTrait[];
+    //Knights have a special rule where every model in the unit is independent
+    independentModels?: true;
 }
 
 //A group of models with a particular loadout
@@ -189,6 +193,8 @@ export type ModelGroup = {
 
     //calculated
     points: number;
+
+    unitTraits: UnitTrait[];
 };
 
 export type Detachment = {
@@ -206,6 +212,7 @@ export type Formation = {
     detachments: Detachment[];
     uuid: string;
     breakPoint: number;
+    activations: number;
 };
 
 export type Army = {
@@ -219,6 +226,7 @@ export type Army = {
     uuid: string;
     name: string;
     validationState: ArmyValidationState;
+    activations: number;
 };
 
 export type DetachmentConfiguration = {
@@ -281,8 +289,10 @@ export type UnitTrait =
     "Dread Aura (8)" |
     "Drop Pod" |
     "Explorer Adaptation" |
+    "Flyer" |
     "Forward Deployment" |
     "Furious Charge" |
+    "Hover" |
     "Implacable" |
     "Independent" |
     "Infiltrate" |
