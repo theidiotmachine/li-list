@@ -537,7 +537,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
     ]}],
-    ["Quad heavy bolter batteries", , {arc: "Front", weaponStatsAtRange: [
+    ["Quad heavy bolter batteries", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 4, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1},
