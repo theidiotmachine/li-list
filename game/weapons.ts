@@ -147,7 +147,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             walker: {modifier: -1, wounds: 1},
             vShvKT: {modifier: 0, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
-            traits: ["Light AT"]
+            traits: ["Light AT", "Skyfire"]
         },
     ]}],
     ["Graviton gun", {arc: "Front", weaponStatsAtRange: [
@@ -339,7 +339,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             walker: {modifier: -1, wounds: 1},
             vShvKT: {modifier: -1, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
-            traits: ["Anti-tank"], voidShields: 1
+            traits: ["Anti-tank", "Skyfire"], voidShields: 1
         },
     ]}],
     ["Laser destroyer array", {arc: "All", weaponStatsAtRange: [
