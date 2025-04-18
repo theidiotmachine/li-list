@@ -3,6 +3,7 @@ export type WeaponType =
     "Acastus lascannon" |
     "Acheron pattern flame cannon" |
     "Aiolus missile launcher" |
+    "Annihiliator twin lascannon" |
     "Anvilus autocannon battery" |
     "Archeotech pistols" |
     "Arcus missile launcher" |
@@ -17,7 +18,11 @@ export type WeaponType =
     "Cyclonic melta lance" |
     "Cyclone missile launcher" |
     "Deathstorm missile launcher" |
+    "Demolisher cannon" |
     "Demolition charge" |
+    "Executioner plasma cannon" |
+    "Exterminator autocannon" |
+    "Flamers" |
     "Gravis autocannon batteries" |
     "Graviton gun" |
     "Graviton singularity cannon" |

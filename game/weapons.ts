@@ -38,6 +38,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Skyfire"], voidShields: 1
         }
     ]}],
+    ["Annihiliator twin lascannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Accurate", "Anti-tank"], voidShields: 1
+        },
+    ]}],
     ["Anvilus autocannon battery", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
             infAndCav: {modifier: -1, wounds: 1},
@@ -172,6 +181,17 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT", "Limited", "Saturation Fire"]
         }
     ]}],
+    ["Demolisher cannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 1, hit: 4, 
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -3, wounds: 1},
+            traits: ["Demolisher", "Ignores Cover"]
+        }
+    ]}],
     ["Demolition charge", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 1, dice: 1, hit: 3, 
             infAndCav:{modifier: -1, wounds: 1}, 
@@ -183,6 +203,31 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Blast (3\")", "Demolisher"]
         }
     ]}],
+    ["Executioner plasma cannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 2, hit: 4, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        }
+    ]}],
+    ["Exterminator autocannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 3, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        }
+    ]}],
+    ["Flamers", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1}, 
+            traits: ["Ignores Cover", "Light"]
+        }
+    ]}], 
     ["Gravis autocannon batteries", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 16, dice: 3, hit: 5, 
             infAndCav: {modifier: -1, wounds: 1},
@@ -623,7 +668,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT"]
         }
     ]}],
-    ["Predator lascannon", {arc: "Front", weaponStatsAtRange: [
+    ["Predator lascannon", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: -1, wounds: 1},

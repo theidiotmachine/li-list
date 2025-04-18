@@ -286,11 +286,11 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
             {num: 0, points: 0}, {num: 2, points: 12}, {num: 4, points: 12*2}, {num: 6, points: 12*3},
             {num: 8, points: 12*4}, {num: 10, points: 12*5}, {num: 12, points: 12*6}
         ]},
-        {modelType: "Veletarii", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Veletarii", modelLoadoutSlots: [], unitTraits: ["Independent"], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 12}, {num: 4, points: 12*2}, {num: 6, points: 12*3},
             {num: 8, points: 12*4}, {num: 10, points: 12*5}, {num: 12, points: 12*6}
         ]},
-        {modelType: "Charonite Ogryns", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Charonite Ogryns", modelLoadoutSlots: [], unitTraits: ["Independent"], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 15*2}, {num: 6, points: 15*3},
             {num: 8, points: 15*4}, {num: 10, points: 15*5}, {num: 12, points: 15*6}
         ]},
@@ -369,6 +369,9 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
                 {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
             ]},
             {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Leman Russ Spearhead", notAWeapon: true, possibleModelLoadouts: [
                 {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
@@ -626,6 +629,70 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
             {num: 1, points: 120}, {num: 2, points: 120+110}, {num: 3, points: 120+220},
         ]}
     ]}],
+    ["Leman Russ Executioner Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
+        {modelType: "Leman Russ Executioner", modelLoadoutSlots: [
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Leman Russ Spearhead", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
+            {num: 4+6, points: 175+220}, 
+        ]}
+    ]}],
+    ["Leman Russ Demolisher Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
+        {modelType: "Leman Russ Demolisher", modelLoadoutSlots: [
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Leman Russ Spearhead", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
+            {num: 4+6, points: 175+220}, 
+        ]}
+    ]}],
+    ["Leman Russ Annihilator Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
+        {modelType: "Leman Russ Annihilator", modelLoadoutSlots: [
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Leman Russ Spearhead", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
+            {num: 4+6, points: 175+220}, 
+        ]}
+    ]}],
+    ["Leman Russ Exterminator Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
+        {modelType: "Leman Russ Exterminator", modelLoadoutSlots: [
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Leman Russ Spearhead", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
+            {num: 4+6, points: 175+220}, 
+        ]}
+    ]}],
 ]);
 
 export function getAuxiliaDetachmentConfigurationForDetachmentType(detachmentType: AuxiliaDetachmentType): DetachmentConfiguration {
@@ -675,7 +742,19 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 7, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name: "", possibleModelLoadouts: [{
+            loadout: "", weaponTypes: ["Auxilia lasrifles"]
+        }]}],
+        unitTraits: ["Chain of Command", "Line"]
+    }],
+    ["Auxiliaries with Flamers", {
+        unitType: "Infantry", scale: 1, move: 5, saves: [
+            {saveType: "Armour", save: 6, arc: "All"},
+        ],
+        caf: 0, morale: 4, wounds: 1, tacticalStrength: 7, voidShields: 0,
+        modelLoadoutSlots: [{name: "", possibleModelLoadouts: [{
+            loadout: "", weaponTypes: ["Flamers"]
+        }]}],
         unitTraits: ["Chain of Command", "Line"]
     }],
     ["Charonite Ogryns", {
@@ -712,6 +791,74 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             ]}
         ], 
         unitTraits: ["Explorer Adaptation"]
+    }],
+    ["Leman Russ Annihilator", {
+        unitType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Annihiliator twin lascannon"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
+                {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Leman Russ Executioner", {
+        unitType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Executioner plasma cannon"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
+                {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Leman Russ Exterminator", {
+        unitType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Exterminator autocannon"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
+                {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Leman Russ Demolisher", {
+        unitType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Demolisher cannon"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
+                {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
     ["Malcador Infernus", {
         unitType: "Vehicle", scale: 2, move: 8, saves: [
