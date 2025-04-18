@@ -343,6 +343,7 @@ export type WeaponTrait =
     "Rapid Fire" |
     "Reach" |
     "Rend" |
+    "Ripple Fire" |
     "Saturation Fire" |
     "Shieldbane" |
     "Shock Pulse" |

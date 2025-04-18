@@ -84,7 +84,7 @@ const formationShapes = new Map<LegionFormationType, FormationShape>([
         {   slot: "Air Support",    slotRequirementType: "Optional"                 },
         {   slot: "Support",        slotRequirementType: "Optional"                 },
         {   slot: "Support",        slotRequirementType: "Optional"                 },
-    ] } ],
+    ]}],
     //TDOT
     ["Legion Heavy Assault Spearhead", { slotRequirements: [
         {   slot: "Legion Terminators", slotRequirementType: "Required"             },
@@ -98,6 +98,16 @@ const formationShapes = new Map<LegionFormationType, FormationShape>([
         {   slot: "Air Support",    slotRequirementType: "Optional"                 },
         {   slot: "Heavy Armour",   slotRequirementType: "Optional"                 },
         {   slot: "Heavy Armour",   slotRequirementType: "Optional"                 },
+    ]}],
+    ["Legion Subterranean Assault", { slotRequirements: [
+        {   slot: "HQ",             slotRequirementType: "Required"                 },
+        {   slot: "Support",        slotRequirementType: "Required"                 },
+        {   slot: "Core",           slotRequirementType: "Required"                 },
+        {   slot: "Core",           slotRequirementType: "Required"                 },
+        {   slot: "Support",        slotRequirementType: "Optional"                 },
+        {   slot: "Support",        slotRequirementType: "Optional"                 },
+        {   slot: "Core",           slotRequirementType: "Optional"                 },
+        {   slot: "Core",           slotRequirementType: "Optional"                 },
     ]}]
 ])
 
@@ -120,6 +130,8 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
     ] ],
     [ "Battle Tank", [
         "Legion Predator Squadron",
+        "Legion Sicaran Arcus Squadron",
+        "Legion Sicaran Punisher Squadron",
         "Legion Sicaran Squadron",
     ] ],
     [ "Core", [ "Legion Tactical Detachment" ] ],  
@@ -133,7 +145,7 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
         "Leviathan Siege Dreadnought Detachment",
     ]],
     ["Legion Terminators", ["Legion Terminator Detachment"]],
-    [ "Light Armour", [] ],
+    [ "Light Armour", [ "Legion Sabre Squadron" ] ],
     [ "Sky-hunter Phalanx Vanguard Compulsory", [
         "Legion Javelin Squadron",
         "Legion Land Speeder Squadron",
@@ -189,6 +201,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 1, points: 6}
+        ]},
+        {modelType: "Legion Termite", dedicatedTransport: true, formationType: "Legion Subterranean Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 18}
         ]}
     ]}],
     ["Legion Tactical Detachment", {maxModels: 12, modelGroupShapes: [
@@ -225,6 +240,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}, {num: 5, points: 6*5}, {num: 6, points: 6*6}
+        ]},
+        {modelType: "Legion Termite", dedicatedTransport: true, formationType: "Legion Subterranean Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}, {num: 5, points: 18*5}, {num: 6, points: 18*6}
         ]}
     ]}],
     ["Legion Plasma Gun Support Detachment", {modelGroupShapes: [
@@ -249,6 +267,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
+        ]},
+        {modelType: "Legion Termite", dedicatedTransport: true, formationType: "Legion Subterranean Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}
         ]}
     ]}],
     ["Legion Missile Launcher Support Detachment", {modelGroupShapes: [
@@ -273,6 +294,9 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         ]},
         {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
+        ]},
+        {modelType: "Legion Termite", dedicatedTransport: true, formationType: "Legion Subterranean Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}
         ]}
     ]}],
     ["Legion Assault Detachment", {modelGroupShapes: [
@@ -664,6 +688,43 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 2, points: 32}, {num: 2+2, points: 32+32}, {num: 2+4, points: 32+64}
         ]},
     ]}],
+    //TDOT
+    ["Legion Sicaran Punisher Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelType: "Sicaran Punisher", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 2, points: 110}, {num: 3, points: 110+50}, {num: 4, points: 110+100},
+            {num: 5, points: 110+100+50}, {num: 6, points: 110+200} 
+        ]}
+    ]}],
+    ["Legion Sicaran Arcus Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelType: "Sicaran Arcus", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 2, points: 115}, {num: 3, points: 115+60}, {num: 4, points: 115+110},
+            {num: 5, points: 115+110+60}, {num: 6, points: 115+220} 
+        ]}
+    ]}],
+    ["Legion Sabre Squadron", {minModels: 4, maxModels: 8, modelGroupShapes: [
+        {modelType: "Sabre", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Hull Mounted neutron blaster", points: 0}, 
+                {loadout: "Hull Mounted Anvilus autocannon", points: 0}
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", points: 0}, 
+                {loadout: "Multi-melta", points: 0}
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 4, points: 120}, {num: 6, points: 120+55}, {num: 8, points: 120+110},
+        ]}
+    ]}],
 ]);
     
 export function getLegionDetachmentConfigurationForDetachmentType(detachmentType: DetachmentType): DetachmentConfiguration {
@@ -999,6 +1060,27 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         ],
         unitTraits: ["Transport (2)"]
     }],
+    ["Sabre", {
+        unitType: "Vehicle", scale: 2, move: 11, saves: [
+            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Armour", save: 5, arc: "Front"},
+        ],
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [{
+                loadout: "", weaponTypes: ["Sabre missiles"]
+            }]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Hull Mounted neutron blaster"}, 
+                {loadout: "Hull Mounted Anvilus autocannon"}
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
+                {loadout: "Multi-melta", weaponTypes: ["Hull mounted multi-melta"]}
+            ]},
+        ],
+        unitTraits: []
+    }],
     ["Scimitar Jetbike", {
         unitType: "Cavalry", scale: 1, move: 10, saves: [
             {saveType: "Armour", save: 5, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
@@ -1010,6 +1092,40 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             ]},
         ],
         unitTraits: ["Skimmer"]
+    }],
+    ["Sicaran Arcus", {
+        unitType: "Vehicle", scale: 2, move: 10, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Arcus missile launcher", "Hull Mounted heavy bolter"],}
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]}
+            ]}
+        ],
+        unitTraits: [],
+    }],
+    ["Sicaran Punisher", {
+        unitType: "Vehicle", scale: 2, move: 10, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes:  ["Hull Mounted heavy bolter", "Punisher rotary cannon"],}
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]}
+            ]}
+        ],
+        unitTraits: [],
     }],
     ["Spartan", {
         unitType: "Vehicle", scale: 2, move: 8, saves: [

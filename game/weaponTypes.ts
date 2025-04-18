@@ -4,6 +4,7 @@ export type WeaponType =
     "Acheron pattern flame cannon" |
     "Aiolus missile launcher" |
     "Anvilus autocannon battery" |
+    "Arcus missile launcher" |
     "Atrapos lascutter" |
     "Avenger bolt cannon" |
     "Bolt pistols" |
@@ -21,10 +22,13 @@ export type WeaponType =
     "Hekaton siege claw" |
     "Heavy stubber" |
     "Hellfire plasma cannonade" |
+    "Hull Mounted Anvilus autocannon" |
     "Hull Mounted demolisher cannon" |
     "Hull Mounted heavy bolter" |
     "Hull Mounted heavy bolters" |
     "Hull Mounted lascannon" |
+    "Hull mounted multi-melta" |
+    "Hull Mounted neutron blaster" |
     "Hull Mounted twin lascannon" |
     "Hyperios air-defence missile launcher" |
     "Kheres assault cannon" |
@@ -60,13 +64,16 @@ export type WeaponType =
     "Plasma guns" |
     "Predator cannon" |
     "Predator lascannon" |
+    "Punisher rotary cannon" |
     "Quad heavy bolter batteries" |
     "Quad launcher" |
     "Questoris-avenger gatling cannon" |
     "Rapid-fire battlecannon" |
+    "Ripple fire" |
     "Rocket pods" |
     "Reaper chainfist" |
     "Reaper chainsword" |
+    "Sabre missiles" |
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
     "Shock lance" |

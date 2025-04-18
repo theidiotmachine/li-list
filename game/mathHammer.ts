@@ -72,6 +72,7 @@ const saveDiceTable = [
 ];
 
 function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | undefined {
+    //TODO Ripple Fire
     if(wsar.hit == undefined)
         return undefined;
 

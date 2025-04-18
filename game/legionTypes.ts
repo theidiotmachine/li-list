@@ -6,6 +6,7 @@ export const LegionFormationTypes = [
     "Legion Garrison Force",
     "Legion Heavy Assault Spearhead",
     "Legion Sky-hunter Phalanx",
+    "Legion Subterranean Assault",
 ] as const;
 export type LegionFormationType = (typeof LegionFormationTypes)[number];
 
@@ -28,7 +29,10 @@ export type LegionDetachmentType =
     "Legion Predator Squadron" |
     "Legion Rapier Battery Detachment" |
     "Legion Rhino Detachment" |
+    "Legion Sabre Squadron" |
     "Legion Scimitar Jetbike Squadron" |
+    "Legion Sicaran Arcus Squadron" |
+    "Legion Sicaran Punisher Squadron" |
     "Legion Sicaran Squadron" |
     "Legion Siege Dreadnought Detachment" |
     "Legion Spartan Detachment" |
@@ -60,13 +64,17 @@ export const AllLegionModelTypes = [
     "Legion Sicaran",
     "Legion Tarantula",
     "Legion Terminators",
+    "Legion Termite",
     "Leviathan Dreadnought",
     "Missile Launcher Legionaries", //renamed from "Missile Launcher Heavy Support Legionaries" because come on
     "Outrider",
     "Palisade Drop Pod",
     "Plasma Support Legionaries",
     "Rhino",
+    "Sabre",
     "Scimitar Jetbike",
+    "Sicaran Arcus",
+    "Sicaran Punisher",
     "Spartan",
     "Storm Eagle",
     "Tactical Legionaries",
