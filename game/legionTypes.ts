@@ -74,3 +74,25 @@ export const AllLegionModelTypes = [
     "Xiphon Interceptor"
 ] as const;
 export type LegionModelType = (typeof AllLegionModelTypes)[number];
+
+export const AllLegionNames = [
+    "Dark Angels",
+    "Emperor's Children",
+    "Iron Warriors",
+    "White Scars",
+    "Space Wolves",
+    "Imperial Fists",
+    "Night Lords",
+    "Blood Angels",
+    "Iron Hands",
+    "World Eaters",
+    "Ultramarines",
+    "Death Guard",
+    "Thousand Sons",
+    "Sons of Horus",
+    "Word Bearers",
+    "Salamanders",
+    "Raven Guard",
+    "Alpha Legion"
+] as const;
+export type LegionName = (typeof AllLegionNames)[number];

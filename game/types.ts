@@ -1,5 +1,5 @@
 import { AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaModelType } from "./auxiliaTypes.ts";
-import { LegionDetachmentType, LegionFormationType, LegionModelType } from "./legionTypes.ts";
+import { LegionDetachmentType, LegionFormationType, LegionModelType, LegionName } from "./legionTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 export type DetachmentValidationError = 
@@ -213,6 +213,7 @@ export type Formation = {
     uuid: string;
     breakPoint: number;
     activations: number;
+    legionName?: LegionName | "";
 };
 
 export type Army = {

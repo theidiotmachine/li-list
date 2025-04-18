@@ -5,6 +5,7 @@ import { AppState } from "../islands/App.tsx";
 import { FormationTypeSelect } from "./FormationTypeSelect.tsx";
 import { FormationArmyListSelect } from "./FormationArmyListSelect.tsx";
 import { DelButton } from "./DelButton.tsx";
+import { FormationLegionNameListSelect } from "./FormationLegionNameSelect.tsx";
 
 interface FormationWidgetProps {
     formation: Formation;
@@ -13,9 +14,10 @@ interface FormationWidgetProps {
 
 export function FormationWidget(props: FormationWidgetProps) {
     const { removeFormation } = useContext(AppState);
+    const isLegion = props.formation.armyListName == "Legions Astartes";
     //
     return <div class="mb-6 mt-6 md:mb-8 md:mt-8">
-        <div class ="grid grid-cols-[6%_42%_42%_10%] gap-0">
+        <div class ="grid grid-cols-[6%_42%_42%_10%] gap-y-1 gap-x-0">
             <div class="col-span-1">
                 <DelButton hidden={false} onClick={() => removeFormation(props.formation.uuid)}></DelButton>
             </div>
@@ -25,8 +27,20 @@ export function FormationWidget(props: FormationWidgetProps) {
             
             <div class="col-start-3"><FormationTypeSelect uuid={props.formation.uuid}/> </div>
             <div class="col-start-4 justify-self-end text-lg md:text-xl">{props.formation.points}</div>
-            <div class="row-start-2 col-start-2 col-span-1 md:text-lg">Breakpoint: {props.formation.breakPoint}</div>
-            <div class="row-start-2 col-start-3 col-span-1 md:text-lg">Activations: {props.formation.activations}</div>
+            {(isLegion)?
+                (<FormationLegionNameListSelect uuid={props.formation.uuid} 
+                    class = "row-start-2 col-start-2 col-span-1 md:text-lg"
+                    legionName={props.formation.legionName??""}/>)
+                :(<div class="hidden"></div>)
+            }
+
+            <div class={"col-start-2 col-span-1 md:text-lg " + ((isLegion)?"row-start-3" : "row-start-2")}>
+                Breakpoint: {props.formation.breakPoint}
+            </div>
+            <div class={"col-start-3 col-span-1 md:text-lg " + ((isLegion)?"row-start-3" : "row-start-2")}>
+                Activations: {props.formation.activations}
+            </div>
+            
         </div>
         { 
         (props.formation.armyListName == "") ?

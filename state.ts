@@ -3,6 +3,7 @@ import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName,
 import { getDetachmentConfigurationForDetachmentType, getDetachmentTypesForSlot, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
+import { LegionName } from "./game/legionTypes.ts";
 
 export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
@@ -33,6 +34,7 @@ export type AppStateType = {
     addFormation: AddFormation;
     removeFormation: RemoveFormation;
     changeFormationArmyList: ChangeFormationArmyList;
+    changeFormationLegionName: (uuid: string, legionName: LegionName) => void;
     changeFormationType: ChangeFormationType;
     changeDetachmentType: ChangeDetachmentType;
     changeModelNumber: ChangeModelNumber;
@@ -753,6 +755,26 @@ function createAppState(): AppStateType {
         newFormation.armyListName = armyListName;
         newFormation.formationType = "";
         newFormation.detachments = [];
+        if(armyListName == "Legions Astartes") {
+            newFormation.legionName = "";
+        } else {
+            delete newFormation.legionName;
+        } 
+
+        setFormationAtIdx(newFormation, formationIdx);
+    }
+
+    const changeFormationLegionName = (uuid: string, legionName: LegionName) => {
+        const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
+        if(formationIdx === -1)
+            return;
+
+        if(army.value.formations[formationIdx].legionName == legionName)
+            return;
+
+        const newFormation = structuredClone(army.value.formations[formationIdx])
+
+        newFormation.legionName = legionName;
 
         setFormationAtIdx(newFormation, formationIdx);
     }
@@ -949,7 +971,7 @@ function createAppState(): AppStateType {
     };
 
     return {army, makeNewArmy, changeArmyName, changeArmyMaxPoints, changePrimaryArmyListName, changeArmyAllegiance,
-        addFormation, removeFormation, changeFormationArmyList, 
+        addFormation, removeFormation, changeFormationArmyList, changeFormationLegionName,
         changeFormationType, changeDetachmentType, changeModelNumber, 
         changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
         armiesLoadState, armyLoadState, saves, refreshSaves, load, deleteSave, canCloneArmy, cloneArmy,

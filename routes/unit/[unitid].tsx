@@ -3,6 +3,7 @@ import { ModelType, Save, SaveModifier, Stats, UnitTrait, WeaponStats, WeaponSta
 import { getStatsForModelType } from "../../game/lists.ts";
 import { getWeaponStats } from "../../game/weapons.ts";
 import { WeaponType } from "../../game/weaponTypes.ts";
+import { quote } from "../../game/quotes.ts";
 
 
 function formatSaveModifier(saveModifier: SaveModifier): string {
@@ -65,7 +66,7 @@ export default function Unit(props: PageProps) {
   const modelType = decodeURIComponent(props.params.unitid) as ModelType;
   const stats = getStatsForModelType(modelType);
   if(stats) {
-    const saveHeaders = stats.saves.map((s,i)=><td key={"a"+i} class="w-16">{(s.arc=="All"?"":(s.arc+" ")) + s.saveType}</td>);
+    const saveHeaders = stats.saves.map((s,i)=><td key={"a"+i} class="md:w-16">{(s.arc=="All"?"":(s.arc+" ")) + s.saveType}</td>);
     const saves = stats.saves.map((s, i)=>formatSave(s, i, stats));
     const weapons = stats.modelLoadoutSlots.flatMap((wt, j) => {
       return wt.possibleModelLoadouts.flatMap((ml)=>{
@@ -142,7 +143,7 @@ export default function Unit(props: PageProps) {
       <table class="border-collapse border text-sm">
           <thead>
             <tr class="border-b-2 border-gray-400 font-bold bg-gray-100">
-              <td class="w-32">Name</td>
+              <td class="w-16 md:w-32">Name</td>
               <td class="w-16">Arc</td>
               <td class="w-16">Range</td>
               <td class="w-16">D6</td>
@@ -161,6 +162,11 @@ export default function Unit(props: PageProps) {
             {weapons}
           </tbody>
         </table>
+        <div class="mt-8">
+        {(Math.random() > 0.8)?(
+          quote().map((s, i)=><div key={"q"+i}class="italic text-xs text-center">{s}</div>)
+          ):<div></div>}
+        </div>
       </div>
     </div></div>
   } else {
