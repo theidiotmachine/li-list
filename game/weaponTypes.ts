@@ -4,9 +4,11 @@ export type WeaponType =
     "Acheron pattern flame cannon" |
     "Aiolus missile launcher" |
     "Anvilus autocannon battery" |
+    "Archeotech pistols" |
     "Arcus missile launcher" |
     "Ardex mega-bolters" |
     "Atrapos lascutter" |
+    "Auxilia lasrifles" |
     "Avenger bolt cannon" |
     "Bolt pistols" |
     "Castigator pattern bolt cannon" |
@@ -103,6 +105,7 @@ export type WeaponType =
     "Twin-linked volkite calvier" |
     "Twin plasma guns" |
     "Volcano cannon" |
+    "Volkite chargers" |
     "Volkite chieorovile"
 ;
 

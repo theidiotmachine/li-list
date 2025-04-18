@@ -647,7 +647,11 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Invuln", save: 6, arc: "All"},
         ],
         caf: 3, morale: 2, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Archeotech pistols", "Volkite chargers"]}
+            ]}
+        ],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Solar Auxilia HQ (10)"]
     }],
     ["Auxilia Rapier", {
@@ -784,7 +788,9 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name: "", possibleModelLoadouts: [{
+            loadout: "", weaponTypes: ["Auxilia lasrifles"]
+        }]}],
         unitTraits: ["Commander", "Inspire (8)", "Solar Auxilia HQ (6)"]
     }],
     ["Valdor", {

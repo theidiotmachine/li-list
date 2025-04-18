@@ -47,6 +47,13 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Accurate", "Light AT"]
         },
     ]}],
+    ["Archeotech pistols", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 1, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            traits: ["Accurate", "Light"]
+        }
+    ]}],
     ["Arcus missile launcher", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 16, dice: 2, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -84,6 +91,13 @@ const weapons = new Map<WeaponType, WeaponStats>([
             voidShields: 1,
             structure: {modifier: -4, wounds: 1},
             traits: ["Engine Killer (1)", "Rend", "Wrecker (3)"]
+        }
+    ]}],
+    ["Auxilia lasrifles", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 10, dice: 1, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Light"]
         }
     ]}],
     ["Avenger bolt cannon", {arc: "Front", weaponStatsAtRange: [
@@ -889,6 +903,13 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: -2, wounds: 3},
             traits: ["Engine Killer (2)"], voidShields: 1
         },
+    ]}],
+    ["Volkite chargers", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 8, dice: 1, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Deflagrate", "Light"]
+        }
     ]}],
     ["Volkite chieorovile", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 3, 
