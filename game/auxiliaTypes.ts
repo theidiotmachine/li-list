@@ -1,10 +1,12 @@
 export const AuxiliaFormationTypes = [
     "Solar Auxilia Armoured Company",
     "Solar Auxilia Artillery Company",
+    "Solar Auxilia Leman Russ Spearhead",
     "Solar Auxilia Mechanised Infantry Sub-Cohort",
     "Solar Auxilia Pioneer Company",
     "Solar Auxilia Sub-Cohort",
     "Solar Auxilia Super-Heavy Company",
+    "Solar Auxilia Titan Hunter Company",
 ] as const;
 export type AuxiliaFormationType = (typeof AuxiliaFormationTypes)[number];
 
@@ -22,7 +24,10 @@ export type AuxiliaDetachmentType =
     "Auxilia Medusa Battery" |
     "Auxilia Ogryn Charonite Section" |
     "Auxilia Rapier Battery" |
+    "Auxilia Shadowsword Squadron" |
+    "Auxilia Stormblade Squadron" |
     "Auxilia Stormhammer Squadron" |
+    "Auxilia Stormsword Squadron" |
     "Auxilia Super-Heavy Tank Squadron" |
     "Auxilia Tactical Command Detachment" | 
     "Auxilia Tarantula Battery" |
@@ -30,6 +35,10 @@ export type AuxiliaDetachmentType =
     "Auxilia Valdor Squadron" |
     "Auxilia Veletaris Storm Section" |
     "Legate Commander Detachment" |
+    "Leman Russ Annihilator Squadron" |
+    "Leman Russ Demolisher Squadron" |
+    "Leman Russ Executioner Squadron" |
+    "Leman Russ Exterminator Squadron" |
     "Leman Russ Strike Squadron" |
     "Malcador Tank Squadron"
 ;
@@ -57,7 +66,10 @@ export const AllAuxiliaModelTypes = [
     "Marauder Destroyer", 
     "Marauder Pathfinder", 
     "Medusa",
+    "Shadowsword",
+    "Stormblade",
     "Stormhammer",
+    "Stormsword",
     "Tactical Command",
     "Thunderbolt Fighter",
     "Valdor",

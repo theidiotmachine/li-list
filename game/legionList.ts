@@ -166,7 +166,8 @@ const detachmentTypesForSlot = new Map<FormationSlot, LegionDetachmentType[]>([
         "Legion Drop Pod Detachment",
         "Legion Land Raider Detachment",
         "Legion Rhino Detachment",
-        "Legion Spartan Detachment"
+        "Legion Spartan Detachment",
+        "Legion Termite Detachment",
     ] ], 
     [ "Vanguard", [
         "Legion Javelin Squadron",
@@ -355,7 +356,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
                 {loadout: "Multi-melta", points: 5},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 2*80}, {num: 3, points: 4*80}, {num: 4, points: 4*80}, 
+            {num: 0, points: 0}, {num: 2, points: 2*80}, {num: 3, points: 3*80}, {num: 4, points: 4*80}, 
         ]}
     ]}],
     ["Legion Rapier Battery Detachment", {minModels: 2, maxModels: 8, modelGroupShapes: [
@@ -596,7 +597,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             ]},
         ], possibleModelGroupQuantities: [
             //p128 - max transport size is 8
-            {num: 1, points: 80}, {num: 2, points: 2*80}, {num: 3, points: 4*80}, {num: 4, points: 4*80}, 
+            {num: 1, points: 80}, {num: 2, points: 2*80}, {num: 3, points: 3*80}, {num: 4, points: 4*80}, 
             {num: 5, points: 5*80}, {num: 6, points: 6*80}, {num: 7, points: 7*80}, {num: 8, points: 8*80}, 
         ]}
     ]}],
@@ -626,7 +627,7 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
                 ]},
             ], possibleModelGroupQuantities: [
                 //p128 - max transport size is 8
-                {num: 1, points: 40}, {num: 2, points: 2*40}, {num: 3, points: 4*40}, {num: 4, points: 4*40}, 
+                {num: 1, points: 40}, {num: 2, points: 2*40}, {num: 3, points: 3*40}, {num: 4, points: 4*40}, 
                 {num: 5, points: 5*40}, {num: 6, points: 6*40}, {num: 7, points: 7*40}, {num: 8, points: 8*40}, 
             ]}
     ]}],
@@ -648,12 +649,12 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         modelGroupShapes:[
         {modelType: "Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 1, points: 6}, {num: 2, points: 2*6}, {num: 3, points: 4*6}, {num: 4, points: 4*6}, 
+            {num: 1, points: 6}, {num: 2, points: 2*6}, {num: 3, points: 3*6}, {num: 4, points: 4*6}, 
             {num: 5, points: 5*6}, {num: 6, points: 6*6}, {num: 7, points: 7*6}, {num: 8, points: 8*6}, 
         ]},
         {modelType: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 0, points: 0}, {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 4*32}, {num: 4, points: 4*32}, 
+            {num: 0, points: 0}, {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 3*32}, {num: 4, points: 4*32}, 
             {num: 5, points: 5*32}, {num: 6, points: 6*32}, {num: 7, points: 7*32}, {num: 8, points: 8*32}, 
         ]},
     ]}],
@@ -674,12 +675,12 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
         modelGroupShapes:[
         {modelType: "Dreadnought Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 1, points: 7}, {num: 2, points: 2*7}, {num: 3, points: 4*7}, {num: 4, points: 4*7}, 
+            {num: 1, points: 7}, {num: 2, points: 2*7}, {num: 3, points: 3*7}, {num: 4, points: 4*7}, 
             {num: 5, points: 5*7}, {num: 6, points: 6*7}, {num: 7, points: 7*7}, {num: 8, points: 8*7}, 
         ]},
         {modelType: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 0, points: 0}, {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 4*32}, {num: 4, points: 4*32}, 
+            {num: 0, points: 0}, {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 3*32}, {num: 4, points: 4*32}, 
             {num: 5, points: 5*32}, {num: 6, points: 6*32}, {num: 7, points: 7*32}, {num: 8, points: 8*32}, 
         ]},
     ]}],
@@ -725,6 +726,13 @@ const detachmentConfigurationForDetachmentType: Map<DetachmentType, DetachmentCo
             {num: 4, points: 120}, {num: 6, points: 120+55}, {num: 8, points: 120+110},
         ]}
     ]}],
+    ["Legion Termite Detachment", {modelGroupShapes: [
+        {modelType: "Termite", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            //p128 - max transport size is 8
+            {num: 1, points: 18}, {num: 2, points: 2*18}, {num: 3, points: 3*18}, {num: 4, points: 4*18}, 
+            {num: 5, points: 5*18}, {num: 6, points: 6*18}, {num: 7, points: 7*18}, {num: 8, points: 8*18}, 
+        ]}
+    ]}]
 ]);
     
 export function getLegionDetachmentConfigurationForDetachmentType(detachmentType: DetachmentType): DetachmentConfiguration {
@@ -1079,7 +1087,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
                 {loadout: "Multi-melta", weaponTypes: ["Hull mounted multi-melta"]}
             ]},
         ],
-        unitTraits: []
+        unitTraits: ["Nimble"]
     }],
     ["Scimitar Jetbike", {
         unitType: "Cavalry", scale: 1, move: 10, saves: [
@@ -1160,6 +1168,18 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         ],
         unitTraits: []
     }],
+    ["Termite", {
+        unitType: "Vehicle", scale: 2, move: 5, saves: [
+            {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"}
+        ],
+        caf: 1, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Termite twin-linked bolters"]}, 
+            ]},
+        ],
+        unitTraits: ["Deep Strike", "Transport (2)"]
+    }]
 ]);
 
 export function getStatsForLegionModelType(modelType: LegionModelType): Stats | undefined {

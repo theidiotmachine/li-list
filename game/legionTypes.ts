@@ -39,6 +39,7 @@ export type LegionDetachmentType =
     "Legion Storm Eagle Squadron" |
     "Legion Tactical Detachment"| 
     "Legion Tarantula Battery" |
+    "Legion Termite Detachment" |
     "Legion Terminator Detachment" |
     "Legion Thunderhawk Gunship" |
     "Legion Xiphon Interceptor Squadron" |
@@ -78,6 +79,7 @@ export const AllLegionModelTypes = [
     "Spartan",
     "Storm Eagle",
     "Tactical Legionaries",
+    "Termite",
     "Thunderhawk Gunship",
     "Xiphon Interceptor"
 ] as const;

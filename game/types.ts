@@ -57,6 +57,7 @@ export type FormationSlot =
     "Air Support" | 
     "Artillery" | 
     "Auxilia Lasrifle" |
+    "Auxilia Shadowsword" |
     "Bastion" | 
     "Battle Tank" | 
     "Core" | 
@@ -65,6 +66,7 @@ export type FormationSlot =
     "Knight" |
     "Legion Heavy Assault Spearhead Support Compulsory" |
     "Legion Terminators" |
+    "Leman Russ" |
     "Light Armour" |
     "Sky-hunter Phalanx Vanguard Compulsory" | //This just makes it easier. It can't have bikes
     "Solar Auxilia Armoured Company Compulsory Battle Tank" |
@@ -333,6 +335,7 @@ export type WeaponTrait =
     "Deflagrate" |
     "Demolisher" |
     "Engine Killer (1)" |
+    "Engine Killer (2)" |
     "Firestorm" |
     "Graviton Pulse" |
     "Ignores Cover" |

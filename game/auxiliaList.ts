@@ -81,6 +81,17 @@ const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
         {   slot: "Bastion",            slotRequirementType: "Optional"                 },
         {   slot: "Bastion",            slotRequirementType: "Optional"                 },
     ]}],
+    ["Solar Auxilia Leman Russ Spearhead", {
+        customValidation: tankCommanderValidation,
+        slotRequirements: [
+            {   slot: "Leman Russ",     slotRequirementType: "Required"                 },
+            {   slot: "Leman Russ",     slotRequirementType: "Required"                 },
+            {   slot: "Leman Russ",     slotRequirementType: "Required"                 },
+            {   slot: "Light Armour",   slotRequirementType: "Optional"                 },
+            {   slot: "Battle Tank",    slotRequirementType: "Optional"                 },
+            {   slot: "Heavy Armour",   slotRequirementType: "Optional"                 },
+            {   slot: "Air Support",    slotRequirementType: "Optional"                 },
+    ]}],
     ["Solar Auxilia Mechanised Infantry Sub-Cohort", {slotRequirements: [
         {   slot: "HQ",                 slotRequirementType: "Required"                 },
         {   slot: "Support",            slotRequirementType: "Required"                 },
@@ -140,6 +151,21 @@ const formationShapes = new Map<AuxiliaFormationType, FormationShape>([
         {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
         {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
     ]}],
+    [ "Solar Auxilia Titan Hunter Company", {
+        customValidation: tankCommanderValidation,
+        slotRequirements: [
+        {   slot: "Auxilia Shadowsword", 
+            slotRequirementType: "Required"
+        },
+        {   slot: "Auxilia Shadowsword", 
+            slotRequirementType: "Required"
+        },
+        {   slot: "Auxilia Shadowsword", 
+            slotRequirementType: "Required"
+        },
+        {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
+        {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
+    ]}]
 ])
 
 export function getShapeForAuxiliaFormationType(formationType: AuxiliaFormationType | ""): FormationShape {
@@ -154,33 +180,48 @@ const detachmentTypesForSlot = new Map<FormationSlot, AuxiliaDetachmentType[]>([
         "Auxilia Marauder Bomber Squadron",
         "Auxilia Thunderbolt Squadron",
     ] ],
-    [ "Artillery", [
+    ["Artillery", [
         "Auxilia Basilisk Battery",
         "Auxilia Medusa Battery"
-    ] ], 
-    [ "Auxilia Lasrifle", [ "Auxilia Lasrifle Tercio" ] ],
-    [ "Bastion", [
+    ]], 
+    ["Auxilia Lasrifle", ["Auxilia Lasrifle Tercio"]],
+    ["Auxilia Shadowsword", ["Auxilia Shadowsword Squadron"]],
+    ["Bastion", [
         "Auxilia Rapier Battery",
         "Auxilia Tarantula Battery",
-    ] ],
-    [ "Battle Tank", [
+    ]],
+    ["Battle Tank",[
         "Auxilia Malcador Infernus Squadron",
         "Auxilia Valdor Squadron",
+        "Leman Russ Annihilator Squadron",
+        "Leman Russ Demolisher Squadron",
+        "Leman Russ Executioner Squadron",
+        "Leman Russ Exterminator Squadron",
         "Leman Russ Strike Squadron",
         "Malcador Tank Squadron",
-    ] ],
-    [ "Core", [ 
+    ]],
+    ["Core", [ 
         "Auxilia Lasrifle Tercio"
-    ] ],  
-    [ "Heavy Armour", [
+    ]],  
+    ["Heavy Armour", [
+        "Auxilia Shadowsword Squadron",
+        "Auxilia Stormblade Squadron",
         "Auxilia Stormhammer Squadron",
+        "Auxilia Stormsword Squadron",
         "Auxilia Super-Heavy Tank Squadron"
-    ] ],
+    ]],
     ["HQ", [ 
         "Auxilia Tactical Command Detachment",
         "Legate Commander Detachment",
     ]],
     ["Light Armour", []],
+    ["Leman Russ", [
+        "Leman Russ Annihilator Squadron",
+        "Leman Russ Demolisher Squadron",
+        "Leman Russ Executioner Squadron",
+        "Leman Russ Exterminator Squadron",
+        "Leman Russ Strike Squadron",
+    ]],
     ["Solar Auxilia Armoured Company Compulsory Battle Tank", [
         "Auxilia Malcador Infernus Squadron",
         "Auxilia Valdor Squadron",
@@ -554,6 +595,37 @@ const detachmentConfigurationForDetachmentType: Map<AuxiliaDetachmentType, Detac
             ]
         }
     ]}],
+    //TDOT
+    ["Auxilia Shadowsword Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
+        {modelType: "Shadowsword", modelLoadoutSlots: [
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]},
+            {name: "Tank Commander", formationType: "Solar Auxilia Titan Hunter Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 140}, {num: 2, points: 140+130}, {num: 3, points: 140+260},
+        ]}
+    ]}],
+    ["Auxilia Stormsword Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
+        {modelType: "Stormsword", modelLoadoutSlots: [
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
+        ]}
+    ]}],
+    ["Auxilia Stormblade Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
+        {modelType: "Stormsword", modelLoadoutSlots: [
+            {name: "Tank Commander", formationType: "Solar Auxilia Armoured Company", notAWeapon: true, possibleModelLoadouts: [
+                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 120}, {num: 2, points: 120+110}, {num: 3, points: 120+220},
+        ]}
+    ]}],
 ]);
 
 export function getAuxiliaDetachmentConfigurationForDetachmentType(detachmentType: AuxiliaDetachmentType): DetachmentConfiguration {
@@ -625,7 +697,8 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
     }],
     ["Dracosan", {
         unitType: "Vehicle", scale: 2, move: 8, saves: [
-            {saveType: "Armour", save: 2, arc: "All"},
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 2, morale: 4, wounds: 1, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
@@ -639,7 +712,7 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
     ["Malcador Infernus", {
         unitType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 3, arc: "Rear"},
+            {saveType: "Armour", save: 4, arc: "Rear"},
         ],
         caf: 1, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
@@ -648,6 +721,60 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Shadowsword", {
+        unitType: "Super-heavy vehicle", scale: 3, move: 6, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Hull Mounted heavy bolter turret",
+                    "Lascannon sponson turrets",
+                    "Shadowsword heavy bolter sponsons",
+                    "Volcano cannon"
+                ]},
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Stormblade", {
+        unitType: "Super-heavy vehicle", scale: 3, move: 6, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Hull Mounted heavy bolter turret",
+                    "Lascannon sponson turrets",
+                    "Plasma blastgun",
+                    "Stormsword heavy bolter sponsons",
+                ]},
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Stormsword", {
+        unitType: "Super-heavy vehicle", scale: 3, move: 6, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Hull Mounted heavy bolter turret",
+                    "Lascannon sponson turrets",
+                    "Stormsword heavy bolter sponsons",
+                    "Stormsword siege cannon",
+                ]},
             ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]

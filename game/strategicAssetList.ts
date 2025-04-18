@@ -694,7 +694,16 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 10, wounds: 4, tacticalStrength: 0, voidShields: 2,
-        modelLoadoutSlots: [], //TODO,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Ardex mega-bolters"]}
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Conversion beam dissipator"}, //TODO
+                {loadout: "Neutron laser"}, //TODO
+                {loadout: "Volcanon cannon"},
+            ]},
+        ],
         unitTraits: ["Agile", "Infiltrate"],
     }],
     ["Reaver Battle Titan", {
@@ -721,7 +730,34 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 10, wounds: 4, tacticalStrength: 0, voidShields: 2,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name: "Left", possibleModelLoadouts: [
+            {loadout: "Conversion beam dissolutor"}, //TODO
+            {loadout: "Graviton eradicator"}, //TODO
+            {loadout: "Incisor pattern melta lance"}, //TODO
+            {loadout: "Inferno gun"}, //TODO
+            {loadout: "Natrix shock lance"}, //TODO
+            {loadout: "Plasma blastgun"},
+            {loadout: "Turbo-laser destructor"}, //TODO
+            {loadout: "Ursus claw"}, //TODO
+            {loadout: "Volkite eradicator"}, //TODO
+            {loadout: "Vulcan mega-bolter"}, //TODO
+            {loadout: "Warhound shudder missiles"}, //TODO,
+            {loadout: "Warhound swarmer missiles"}, //TODO
+        ]},
+        {name: "Right", possibleModelLoadouts: [
+            {loadout: "Conversion beam dissolutor"}, //TODO
+            {loadout: "Graviton eradicator"}, //TODO
+            {loadout: "Incisor pattern melta lance"}, //TODO
+            {loadout: "Inferno gun"}, //TODO
+            {loadout: "Natrix shock lance"}, //TODO
+            {loadout: "Plasma blastgun"},
+            {loadout: "Turbo-laser destructor"}, //TODO
+            {loadout: "Ursus claw"}, //TODO
+            {loadout: "Volkite eradicator"}, //TODO
+            {loadout: "Vulcan mega-bolter"}, //TODO
+            {loadout: "Warhound shudder missiles"}, //TODO,
+            {loadout: "Warhound swarmer missiles"}, //TODO
+        ]}],
         unitTraits: ["Agile"],
     }],
     ["Warlord Battle Titan", {

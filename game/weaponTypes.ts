@@ -5,6 +5,7 @@ export type WeaponType =
     "Aiolus missile launcher" |
     "Anvilus autocannon battery" |
     "Arcus missile launcher" |
+    "Ardex mega-bolters" |
     "Atrapos lascutter" |
     "Avenger bolt cannon" |
     "Bolt pistols" |
@@ -25,6 +26,7 @@ export type WeaponType =
     "Hull Mounted Anvilus autocannon" |
     "Hull Mounted demolisher cannon" |
     "Hull Mounted heavy bolter" |
+    "Hull Mounted heavy bolter turret" |
     "Hull Mounted heavy bolters" |
     "Hull Mounted lascannon" |
     "Hull mounted multi-melta" |
@@ -41,6 +43,7 @@ export type WeaponType =
     "Incineration charge" |
     "Ion gauntlet shield" |
     "Lascannon batteries" |
+    "Lascannon sponson turrets" |
     "Laser destroyer array" |
     "Legion bolters" |
     "Leviathan siege claw" |
@@ -60,6 +63,7 @@ export type WeaponType =
     "Pintle Mounted havoc launcher" |
     "Pintle Mounted multi-melta" |
     "Pintle Mounted twin bolter" |
+    "Plasma blastgun" |
     "Plasma cannon" |
     "Plasma guns" |
     "Predator cannon" |
@@ -76,15 +80,19 @@ export type WeaponType =
     "Sabre missiles" |
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
+    "Shadowsword heavy bolter sponsons" |
     "Shock lance" |
     "Sponson Mounted heavy bolters" |
     "Sponson Mounted lascannon" |
     "Sponson mounted laser destroyers" |
     "Sponson Mounted quad lascannon" |
     "Sponson Mounted twin-linked lascannon" |
+    "Stormsword heavy bolter sponsons" |
+    "Stormsword siege cannon" |
     "Tarantula lascannon battery" |
     "Tempest rockets" |
     "Tempest warblade" |
+    "Termite twin-linked bolters" |
     "Thermal cannon" |
     "Thunderstrike gauntlet" |
     "Turret Mounted twin bolter" |
@@ -94,6 +102,7 @@ export type WeaponType =
     "Twin-linked lascannon" |
     "Twin-linked volkite calvier" |
     "Twin plasma guns" |
+    "Volcano cannon" |
     "Volkite chieorovile"
 ;
 
