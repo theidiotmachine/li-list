@@ -282,7 +282,7 @@ function calculateTransportData(stats: Stats, modelGroup: ModelGroup, transports
 //If this detachment is a commander, is it valid?
 function calcDetachmentCommanderValidation(formation: Formation, detachmentIndex: number, detachment: Detachment, stats: Stats | undefined): DetachmentValidationState {
     if(stats != undefined && statsHasTrait(stats, "Commander")) {
-        if(detachment.attachedDetachmentIndex === -1) {
+        if(detachment.attachedDetachmentIndex != undefined) {
             //Command validations. There must be max one, and 
             //if it could be attached to a detachment it is
             for(let i = 0; i < formation.detachments.length; ++i) {
@@ -292,10 +292,10 @@ function calcDetachmentCommanderValidation(formation: Formation, detachmentIndex
                 if(otherDetachment.modelGroups.length > 0) {
                     const otherStats = getStatsForModelType(otherDetachment.modelGroups[0].modelType);
                     if(otherStats != undefined) {
-                        if(otherStats?.detachmentType == stats.detachmentType)
-                            return {valid: false, error: "Commander not attached to detachment"}
                         if(statsHasTrait(otherStats, "Commander"))
                             return {valid: false, error: "Multiple Commanders in Formation"}
+                        if(detachment.attachedDetachmentIndex == -1 && otherStats?.detachmentType == stats.detachmentType)
+                            return {valid: false, error: "Commander not attached to detachment"}
                     }
                 }
             }

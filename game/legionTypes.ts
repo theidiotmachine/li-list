@@ -13,6 +13,7 @@ export type LegionFormationType = (typeof LegionFormationTypes)[number];
 export type LegionDetachmentName = 
     "Legion Assault Detachment" | 
     "Legion Command" | 
+    "Legion Kratos Commander" | 
     "Legion Kratos Squadron" | 
     "Legion Deathstorm Drop Pod Battery" |
     "Legion Deredeo Dreadnought Detachment" |
@@ -26,12 +27,14 @@ export type LegionDetachmentName =
     "Legion Missile Launcher Support Detachment" |
     "Legion Outrider Squadron" |
     "Legion Plasma Gun Support Detachment" |
+    "Legion Predator Commander" |
     "Legion Predator Squadron" |
     "Legion Rapier Battery Detachment" |
     "Legion Rhino Detachment" |
     "Legion Sabre Squadron" |
     "Legion Scimitar Jetbike Squadron" |
     "Legion Sicaran Arcus Squadron" |
+    "Legion Sicaran Commander" |
     "Legion Sicaran Punisher Squadron" |
     "Legion Sicaran Squadron" |
     "Legion Siege Dreadnought Detachment" |
@@ -56,6 +59,7 @@ export const AllLegionModelTypes = [
     "Drop Pod",
     "Fire Raptor",
     "Javelin",
+    "Kratos Commander",
     "Land Raider",
     "Land Speeder",
     "Legion Kratos",
@@ -71,10 +75,12 @@ export const AllLegionModelTypes = [
     "Outrider",
     "Palisade Drop Pod",
     "Plasma Support Legionaries",
+    "Predator Commander",
     "Rhino",
     "Sabre",
     "Scimitar Jetbike",
     "Sicaran Arcus",
+    "Sicaran Commander",
     "Sicaran Punisher",
     "Spartan",
     "Storm Eagle",

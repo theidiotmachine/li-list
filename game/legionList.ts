@@ -128,17 +128,25 @@ const detachmentNamesForSlot = new Map<FormationSlot, LegionDetachmentName[]>([
         "Legion Deredeo Dreadnought Detachment",
         "Legion Tarantula Battery",
     ] ],
-    [ "Battle Tank", [
+    ["Battle Tank", [
+        "Legion Predator Commander",
         "Legion Predator Squadron",
         "Legion Sicaran Arcus Squadron",
+        "Legion Sicaran Commander",
         "Legion Sicaran Punisher Squadron",
         "Legion Sicaran Squadron",
-    ] ],
-    [ "Core", [ "Legion Tactical Detachment" ] ],  
-    [ "Heavy Armour", [
+    ]],
+    ["Core", ["Legion Tactical Detachment"]],  
+    ["Heavy Armour", [
+        "Legion Kratos Commander",
         "Legion Kratos Squadron"
-    ] ],
-    [ "HQ", [ "Legion Command" ] ],
+    ]],
+    ["HQ", [ 
+        "Legion Command",
+        "Legion Kratos Commander",
+        "Legion Predator Commander",
+        "Legion Sicaran Commander"
+    ]],
     ["Legion Heavy Assault Spearhead Support Compulsory", [
         "Legion Dreadnought Talon",
         "Legion Terminator Detachment", 
@@ -732,7 +740,54 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 1, points: 18}, {num: 2, points: 2*18}, {num: 3, points: 3*18}, {num: 4, points: 4*18}, 
             {num: 5, points: 5*18}, {num: 6, points: 6*18}, {num: 7, points: 7*18}, {num: 8, points: 8*18}, 
         ]}
-    ]}]
+    ]}],
+    ["Legion Predator Commander", {minModels: 1, maxModels: 1, modelGroupShapes: [
+        {modelType: "Predator Commander", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Predator lascannon", points: 0}, 
+                {loadout: "Predator cannon", points: 0},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0},
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 60}
+        ]}
+    ]}],
+    ["Legion Sicaran Commander", {minModels: 1, maxModels: 1, modelGroupShapes: [
+        {modelType: "Sicaran Commander", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Twin-linked accelerator autocannon", points: 0}, 
+                {loadout: "Omega plasma array", points: 0}
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 70}
+        ]}
+    ]}],
+    ["Legion Kratos Commander", {minModels: 1, maxModels: 1, modelGroupShapes: [
+        {modelType: "Kratos Commander", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Kratos battlecannon", points: 0}, 
+                {loadout: "Melta blastgun", points: 0}
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolters"], points: 0},
+                {loadout: "Kratos lascannon", points: 0},
+                {loadout: "Kratos autocannon", points: 0}
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
+            ]}
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 100}
+        ]}
+    ]}],
 ]);
     
 export function getLegionDetachmentConfigurationForDetachmentName(detachmentName: DetachmentName): DetachmentConfiguration {
@@ -861,6 +916,33 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             ]}
         ],
         unitTraits: ["Skimmer"]
+    }],
+    ["Kratos Commander", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 3, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "Co-axial autocannon"}, 
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Kratos battlecannon"}, 
+                {loadout: "Melta blastgun"},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolters"]},
+                {loadout: "Kratos lascannon"}, 
+                {loadout: "Kratos autocannon"}, 
+            ]}
+        ],
+        unitTraits: ["Commander", "Inspire (8)", "Master Tactician"]
     }],
     ["Land Speeder", {
         detachmentType: "Cavalry", scale: 1, move: 10, saves: [
@@ -1054,6 +1136,25 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         ],
         unitTraits: []
     }],
+    ["Predator Commander", {
+        detachmentType: "Vehicle", scale: 2, move: 9, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 3, morale: 2, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Predator lascannon"}, 
+                {loadout: "Predator cannon"},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]}
+        ],
+        unitTraits: ["Commander", "Inspire (8)", "Master Tactician"]
+    }],
     ["Rhino", {
         detachmentType: "Vehicle", scale: 2, move: 9, saves: [
             {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"}
@@ -1117,6 +1218,28 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             ]}
         ],
         unitTraits: [],
+    }],
+    ["Sicaran Commander", {
+        detachmentType: "Vehicle", scale: 2, move: 10, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Invuln", save: 6, arc: "Front"},
+        ],
+        caf: 3, morale: 2, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes:  ["Hull Mounted heavy bolter"],}
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Twin-linked accelerator autocannon"}, 
+                {loadout: "Omega plasma array"}
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]}
+            ]}
+        ],
+        unitTraits: ["Commander", "Inspire (8)", "Master Tactician"],
     }],
     ["Sicaran Punisher", {
         detachmentType: "Vehicle", scale: 2, move: 10, saves: [
