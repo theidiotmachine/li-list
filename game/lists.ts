@@ -1,9 +1,9 @@
-import { getAuxiliaDetachmentConfigurationForDetachmentType, getAuxiliaDetachmentTypesForSlot, getShapeForAuxiliaFormationType, getStatsForAuxiliaModelType } from "./auxiliaList.ts";
-import { AllAuxiliaModelTypes, AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaFormationTypes, AuxiliaModelType } from "./auxiliaTypes.ts";
-import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentType, getLegionDetachmentTypesForSlot, getShapeForLegionFormationType } from "./legionList.ts";
-import { AllLegionModelTypes, LegionDetachmentType, LegionFormationType, LegionFormationTypes, LegionModelType } from "./legionTypes.ts";
-import { getShapeForStrategicAssetFormationType, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentType, getStrategicAssetDetachmentTypesForSlot } from "./strategicAssetList.ts";
-import { Allegiance, AllStrategicAssetModelTypes, ArmyListName, DetachmentConfiguration, DetachmentType, FormationShape, FormationSlot, FormationType, ModelType, Stats, StrategicAssetDetachmentType, StrategicAssetFormationType, StrategicAssetFormationTypes } from "./types.ts";
+import { getAuxiliaDetachmentConfigurationForDetachmentName, getAuxiliaDetachmentNamesForSlot, getShapeForAuxiliaFormationType, getStatsForAuxiliaModelType } from "./auxiliaList.ts";
+import { AllAuxiliaModelTypes, AuxiliaDetachmentName, AuxiliaFormationType, AuxiliaFormationTypes, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentName, getLegionDetachmentNamesForSlot, getShapeForLegionFormationType } from "./legionList.ts";
+import { AllLegionModelTypes, LegionDetachmentName, LegionFormationType, LegionFormationTypes, LegionModelType } from "./legionTypes.ts";
+import { getShapeForStrategicAssetFormationType, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
+import { Allegiance, AllStrategicAssetModelTypes, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationType, ModelType, Stats, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetFormationTypes } from "./types.ts";
 
 
 const formationTypesForArmyListName: Map<ArmyListName, FormationType[]> = new Map([
@@ -33,25 +33,25 @@ export function getShapeForFormationType(armyListName: ArmyListName | "", format
     }
 }
 
-export function getDetachmentTypesForSlot(armyListName: ArmyListName, slot: FormationSlot, allegiance: Allegiance | ""): DetachmentType[] {
+export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: FormationSlot, allegiance: Allegiance | ""): DetachmentName[] {
     switch(armyListName) {
         case "Legions Astartes":
-            return getLegionDetachmentTypesForSlot(slot);
+            return getLegionDetachmentNamesForSlot(slot);
         case "Solar Auxilia":
-            return getAuxiliaDetachmentTypesForSlot(slot);
+            return getAuxiliaDetachmentNamesForSlot(slot);
         case "Strategic Asset":
-            return getStrategicAssetDetachmentTypesForSlot(slot, allegiance);
+            return getStrategicAssetDetachmentNamesForSlot(slot, allegiance);
     }
 }
 
-export function getDetachmentConfigurationForDetachmentType(armyListName: ArmyListName, detachmentType: DetachmentType): DetachmentConfiguration {
+export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyListName, detachmentName: DetachmentName): DetachmentConfiguration {
     switch(armyListName) {
         case "Legions Astartes":
-            return getLegionDetachmentConfigurationForDetachmentType(detachmentType as LegionDetachmentType);
+            return getLegionDetachmentConfigurationForDetachmentName(detachmentName as LegionDetachmentName);
         case "Solar Auxilia":
-            return getAuxiliaDetachmentConfigurationForDetachmentType(detachmentType as AuxiliaDetachmentType);
+            return getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName as AuxiliaDetachmentName);
         case "Strategic Asset":
-            return getStrategicAssetDetachmentConfigurationForDetachmentType(detachmentType as StrategicAssetDetachmentType);
+            return getStrategicAssetDetachmentConfigurationForDetachmentName(detachmentName as StrategicAssetDetachmentName);
     }
 }
 

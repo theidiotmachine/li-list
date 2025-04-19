@@ -1,4 +1,4 @@
-import { Allegiance, Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, Stats, StrategicAssetDetachmentType, StrategicAssetFormationType, StrategicAssetModelType } from "./types.ts";
+import { Allegiance, Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, Stats, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetModelType } from "./types.ts";
 
 const formationShapes = new Map<StrategicAssetFormationType, FormationShape>([
     [ "Knight Household Lance", { slotRequirements: [
@@ -13,29 +13,29 @@ export function getShapeForStrategicAssetFormationType(formationType: StrategicA
     if(formationType == "") return { slotRequirements: [] };
     return formationShapes.get(formationType) ?? { slotRequirements: [] };
 }
-type DetachmentTypeData = {
-    detachmentType: StrategicAssetDetachmentType;
+type DetachmentNameData = {
+    detachmentName: StrategicAssetDetachmentName;
     allegiance?: Allegiance;
 }
 
-const detachmentTypesForSlot = new Map<FormationSlot, DetachmentTypeData[]>([
+const detachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
     [ "Knight", [ 
-        { detachmentType: "Acastus Knight Banner" },
-        { detachmentType: "Cerastus Knight Banner" },
-        { detachmentType: "Questoris Knight Banner" },
+        { detachmentName: "Acastus Knight Banner" },
+        { detachmentName: "Cerastus Knight Banner" },
+        { detachmentName: "Questoris Knight Banner" },
     ] ],
     [ "Titan", [
-        { detachmentType: "Dire Wolf Heavy Scout Titan" },
-        { detachmentType: "Reaver Battle Titan" },
-        { detachmentType: "Warhound Hunting Pack" },
-        { detachmentType: "Warbringer Nemesis Titan" },
-        { detachmentType: "Warlord Battle Titan" },
-        { detachmentType: "Warlord-Sinister Battle Titan", allegiance: "Loyalist" },
+        { detachmentName: "Dire Wolf Heavy Scout Titan" },
+        { detachmentName: "Reaver Battle Titan" },
+        { detachmentName: "Warhound Hunting Pack" },
+        { detachmentName: "Warbringer Nemesis Titan" },
+        { detachmentName: "Warlord Battle Titan" },
+        { detachmentName: "Warlord-Sinister Battle Titan", allegiance: "Loyalist" },
     ]]
 ]);
 
-export function getStrategicAssetDetachmentTypesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentType[] {
-    return (detachmentTypesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentType);
+export function getStrategicAssetDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
+    return (detachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
 }
 
 const validateTalons = (detachment: Detachment): DetachmentValidationState => {
@@ -57,7 +57,7 @@ const validateTalons = (detachment: Detachment): DetachmentValidationState => {
     return {valid: true}
 };
 
-const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType, DetachmentConfiguration> = new Map([
+const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName, DetachmentConfiguration> = new Map([
     ["Acastus Knight Banner", {minModels: 1, 
         customValidation: (detachment: Detachment): DetachmentValidationState => {
             //max 2 knights
@@ -469,12 +469,12 @@ const detachmentConfigurationForDetachmentType: Map<StrategicAssetDetachmentType
     ]}]
 ]);
 
-export function getStrategicAssetDetachmentConfigurationForDetachmentType(detachmentType: StrategicAssetDetachmentType): DetachmentConfiguration {
-    return detachmentConfigurationForDetachmentType.get(detachmentType) ?? {modelGroupShapes: []}
+export function getStrategicAssetDetachmentConfigurationForDetachmentName(detachmentName: StrategicAssetDetachmentName): DetachmentConfiguration {
+    return detachmentConfigurationForDetachmentName.get(detachmentName) ?? {modelGroupShapes: []}
 }
 const statsForModelType = new Map<StrategicAssetModelType, Stats>([
     ["Acastus Knight Asterius", {
-        unitType: "Knight", scale: 4, move: 6, saves: [
+        detachmentType: "Knight", scale: 4, move: 6, saves: [
             {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -483,7 +483,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Blessed Auto-simulacra", "Independent"],
     }],
     ["Acastus Knight Porphyrion", {
-        unitType: "Knight", scale: 4, move: 6, saves: [
+        detachmentType: "Knight", scale: 4, move: 6, saves: [
             {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -504,7 +504,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Blessed Auto-simulacra", "Independent"],
     }],
     ["Cerastus Knight Atrapos", {
-        unitType: "Knight", scale: 4, move: 9, saves: [
+        detachmentType: "Knight", scale: 4, move: 9, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 3, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -517,7 +517,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Furious Charge", "Independent", "Macro-extinction Targeting Protocols", "Nimble"]
     }],
     ["Knight Acheron", {
-        unitType: "Knight", scale: 4, move: 9, saves: [
+        detachmentType: "Knight", scale: 4, move: 9, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -530,7 +530,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Furious Charge", "Independent", "Nimble"]
     }],
     ["Knight Castigator", {
-        unitType: "Knight", scale: 4, move: 9, saves: [
+        detachmentType: "Knight", scale: 4, move: 9, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -543,7 +543,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Furious Charge", "Independent", "Nimble"]
     }],
     ["Knight Crusader", {
-        unitType: "Knight", scale: 4, move: 8, saves: [
+        detachmentType: "Knight", scale: 4, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -564,7 +564,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Independent", "Nimble"]
     }],
     ["Knight Errant", {
-        unitType: "Knight", scale: 4, move: 8, saves: [
+        detachmentType: "Knight", scale: 4, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -585,7 +585,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Independent", "Nimble"]
     }],
     ["Knight Gallant", {
-        unitType: "Knight", scale: 4, move: 8, saves: [
+        detachmentType: "Knight", scale: 4, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -606,7 +606,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Independent", "Nimble"]
     }],
     ["Knight Lancer", {
-        unitType: "Knight", scale: 4, move: 9, saves: [
+        detachmentType: "Knight", scale: 4, move: 9, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 3, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -619,7 +619,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Furious Charge", "Independent", "Nimble"]
     }],
     ["Knight Magaera", {
-        unitType: "Knight", scale: 4, move: 8, saves: [
+        detachmentType: "Knight", scale: 4, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -632,7 +632,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Blessed Auto-simulacra", "Independent", "Ionic Flare Shield", "Nimble"]
     }],
     ["Knight Paladin", {
-        unitType: "Knight", scale: 4, move: 8, saves: [
+        detachmentType: "Knight", scale: 4, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -653,7 +653,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Independent", "Nimble"]
     }],
     ["Knight Styrix", {
-        unitType: "Knight", scale: 4, move: 8, saves: [
+        detachmentType: "Knight", scale: 4, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -666,7 +666,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Blessed Auto-simulacra", "Independent", "Ionic Flare Shield", "Nimble"]
     }],
     ["Knight Warden", {
-        unitType: "Knight", scale: 4, move: 8, saves: [
+        detachmentType: "Knight", scale: 4, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"}, 
             {saveType: "Ion Shield", save: 4, arc: "Front"}, {saveType: "Invuln", save: 6, arc: "Front"}
         ],
@@ -689,7 +689,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
 
     //Titans
     ["Dire Wolf Titan", {
-        unitType: "Titan", scale: 5, move: 7, saves: [
+        detachmentType: "Titan", scale: 5, move: 7, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
@@ -707,7 +707,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Agile", "Infiltrate"],
     }],
     ["Reaver Battle Titan", {
-        unitType: "Titan", scale: 5, move: 6, saves: [
+        detachmentType: "Titan", scale: 5, move: 6, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
@@ -716,7 +716,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: [],
     }],
     ["Warbringer Nemesis Titan", {
-        unitType: "Titan", scale: 5, move: 5, saves: [
+        detachmentType: "Titan", scale: 5, move: 5, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
@@ -725,7 +725,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: [],
     }],
     ["Warhound Titan", {
-        unitType: "Titan", scale: 5, move: 7, saves: [
+        detachmentType: "Titan", scale: 5, move: 7, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
@@ -761,7 +761,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Agile"],
     }],
     ["Warlord Battle Titan", {
-        unitType: "Titan", scale: 5, move: 10, saves: [
+        detachmentType: "Titan", scale: 5, move: 10, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
@@ -770,7 +770,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: [],
     }],
     ["Warlord-Sinister", {
-        unitType: "Titan", scale: 5, move: 10, saves: [
+        detachmentType: "Titan", scale: 5, move: 10, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
@@ -779,7 +779,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: ["Dread Aura (8)", "Loyalist", "Nechrotechnica"],
     }],
     ["Warmaster Titan", {
-        unitType: "Titan", scale: 5, move: 5, saves: [
+        detachmentType: "Titan", scale: 5, move: 5, saves: [
             {saveType: "Armour", save: 1, arc: "Front"},
             {saveType: "Armour", save: 2, arc: "Rear"},
         ],
@@ -788,7 +788,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
         unitTraits: [],
     }],
     ["Warmaster Iconoclast", {
-        unitType: "Titan", scale: 5, move: 6, saves: [
+        detachmentType: "Titan", scale: 5, move: 6, saves: [
             {saveType: "Armour", save: 1, arc: "Front"},
             {saveType: "Armour", save: 2, arc: "Rear"},
         ],

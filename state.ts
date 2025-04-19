@@ -1,6 +1,6 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentType, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, unitHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "./game/types.ts";
-import { getDetachmentConfigurationForDetachmentType, getDetachmentTypesForSlot, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
+import { DetachmentName, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "./game/types.ts";
+import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
 import { LegionName } from "./game/legionTypes.ts";
@@ -9,7 +9,6 @@ export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
 export type ChangeFormationArmyList = (uuid: string, armyListName: ArmyListName | "") => void;
 export type ChangeFormationType = (uuid: string, formationType: FormationType | "") => void;
-export type ChangeDetachmentType = (uuid: string, detachmentIndex: number, detachmentType: DetachmentType | "") => void;
 export type ChangeModelNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, num: number) => void;
 export type ChangeModelLoadout = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, modelLoadoutSlotName: string, loadout: string) => void;
 export type AddModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
@@ -36,7 +35,8 @@ export type AppStateType = {
     changeFormationArmyList: ChangeFormationArmyList;
     changeFormationLegionName: (uuid: string, legionName: LegionName) => void;
     changeFormationType: ChangeFormationType;
-    changeDetachmentType: ChangeDetachmentType;
+    changeDetachmentName: (uuid: string, detachmentIndex: number, detachmentName: DetachmentName | "") => void;
+    changeDetachmentAttachment: (uuid: string, detachmentIndex: number, attachedDetachmentIndex: number) => void;
     changeModelNumber: ChangeModelNumber;
     changeModelLoadout: ChangeModelLoadout;
     addModelLoadoutGroup: AddModelLoadoutGroup;
@@ -57,7 +57,7 @@ export type AppStateType = {
     canCloneArmy: Signal<boolean>;
     cloneArmy: () => void;
 
-    //ui
+    //ui -- open and close the model group editor
     openState: Signal<Map<string, boolean>>;
     getKey: (uuid: string, detachmentIndex: number, modelType: ModelType) => string;
     open: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
@@ -69,9 +69,9 @@ function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadoutGroup) {
     return modelLoadoutGroup.number * modelLoadoutGroup.modelLoadoutSlots.reduce((p2, m2) => p2 + m2.modelLoadout.points, 0)
 }
 
-function calcModelGroupPoints(armyListName: ArmyListName, modelGroup: ModelGroup, detachmentType: DetachmentType) {
+function calcModelGroupPoints(armyListName: ArmyListName, modelGroup: ModelGroup, detachmentName: DetachmentName) {
     //add up the points for the models and the loadouts. Model points require looking up.
-    const config = getDetachmentConfigurationForDetachmentType(armyListName, detachmentType);
+    const config = getDetachmentConfigurationForDetachmentName(armyListName, detachmentName);
     const c = config?.modelGroupShapes.find((x)=>x.modelType == modelGroup.modelType);
     const points = c?.possibleModelGroupQuantities.find((m)=>m.num == modelGroup.number)?.points ?? 0;
     return modelGroup.modelLoadoutGroups.reduce((p, m) => p + m.points, 0) + points;
@@ -120,9 +120,9 @@ function calcDetachmentPoints(detachment: Detachment) {
 */
 function calcFormationBreakPoint(formation: Formation): number {
     const wounds = formation.detachments.reduce((p, d) => {
-        if(formation.armyListName == "" || d.detachmentType == "")
+        if(formation.armyListName == "" || d.detachmentName == "")
             return p;
-        const config = getDetachmentConfigurationForDetachmentType(formation.armyListName, d.detachmentType);
+        const config = getDetachmentConfigurationForDetachmentName(formation.armyListName, d.detachmentName);
         if(config === undefined)
             return p;
 
@@ -134,7 +134,7 @@ function calcFormationBreakPoint(formation: Formation): number {
 
             let woundsPerModel = 1;
             if(stats !== undefined) {
-                if(stats.unitType == "Knight" || stats.unitType == "Titan")
+                if(stats.detachmentType == "Knight" || stats.detachmentType == "Titan")
                     woundsPerModel = stats.wounds;
                 if(c.dedicatedTransport)
                     woundsPerModel = 0;
@@ -154,13 +154,19 @@ function calcFormationPoints(formation: Formation) {
 
 function calcFormationActivations(formation: Formation) {
     return formation.detachments.reduce((a, d) => {
+        //attached detachments don't activate independently
+        const isAttachedDetachment = d.attachedDetachmentIndex != undefined && d.attachedDetachmentIndex != -1;
+        if(isAttachedDetachment)
+            return a + 0;
+
         let hasDedicatedTransports = false;
         let hasIndependentModels = false;
         let independentModels = 0;
         let independentModelGroups = 0;
         let hasNormalModelGroup = false;
-        if(formation.armyListName != "" && d.detachmentType != ""){
-            const c = getDetachmentConfigurationForDetachmentType(formation.armyListName, d.detachmentType);
+        
+        if(formation.armyListName != "" && d.detachmentName != ""){
+            const c = getDetachmentConfigurationForDetachmentName(formation.armyListName, d.detachmentName);
             for(const mg of d.modelGroups) {
                 if(mg.number > 0) {
                     const mgs = c.modelGroupShapes.find((t)=>t.modelType == mg.modelType);
@@ -177,7 +183,7 @@ function calcFormationActivations(formation: Formation) {
                             //from the Detachment. If it is, record it as independent
                             const stats = getStatsForModelType(mg.modelType);
                             if((mgs.unitTraits != undefined && mgs.unitTraits.findIndex((t)=>t == "Independent") != -1)
-                                || (stats != undefined && unitHasTrait(stats, "Independent"))
+                                || (stats != undefined && statsHasTrait(stats, "Independent"))
                             ) {
                                 independentModelGroups += 1;
                             } else {
@@ -271,8 +277,54 @@ function calculateTransportData(stats: Stats, modelGroup: ModelGroup, transports
             }
         }
     }
+}
 
-  
+//If this detachment is a commander, is it valid?
+function calcDetachmentCommanderValidation(formation: Formation, detachmentIndex: number, detachment: Detachment, stats: Stats | undefined): DetachmentValidationState {
+    if(stats != undefined && statsHasTrait(stats, "Commander")) {
+        if(detachment.attachedDetachmentIndex === -1) {
+            //Command validations. There must be max one, and 
+            //if it could be attached to a detachment it is
+            for(let i = 0; i < formation.detachments.length; ++i) {
+                if(i === detachmentIndex) 
+                    continue;
+                const otherDetachment = formation.detachments[i];
+                if(otherDetachment.modelGroups.length > 0) {
+                    const otherStats = getStatsForModelType(otherDetachment.modelGroups[0].modelType);
+                    if(otherStats != undefined) {
+                        if(otherStats?.detachmentType == stats.detachmentType)
+                            return {valid: false, error: "Commander not attached to detachment"}
+                        if(statsHasTrait(otherStats, "Commander"))
+                            return {valid: false, error: "Multiple Commanders in Formation"}
+                    }
+                }
+            }
+        }
+    }
+    return {valid: true}
+}
+
+type ModelNumbersForDetachment = {
+    numModels: number;
+    walkerModels: number;
+    bulkyModels: number;
+    slimModels: number;
+};
+function recordModelNumbersForModelGroup(out: ModelNumbersForDetachment, modelGroup: ModelGroup, stats: Stats | undefined): void {
+    const unitTraits = stats?.unitTraits??[];
+    out.numModels += modelGroup.number;
+    if(stats) {
+        if(stats.detachmentType == "Walker")
+            out.walkerModels += modelGroup.number;
+        else if(stats.detachmentType == "Infantry") {
+            const isBulky = unitTraits.findIndex((x)=>x==="Bulky" || x==="Jump Packs") !== -1;
+            if(isBulky) 
+                out.bulkyModels += modelGroup.number;
+            else
+                out.slimModels += modelGroup.number;
+        } else if (stats.detachmentType == "Vehicle" && statsHasTrait(stats, "Compact"))
+            out.bulkyModels += modelGroup.number;
+    }
 }
 
 function calcDetachmentValidation(formation: Formation, detachmentIndex: number, formationShape: FormationShape): DetachmentValidationState {
@@ -282,141 +334,157 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
         return { valid: false, error: "Required detachment missing" };
     }
         
-    if(formation.armyListName != "" && detachment.detachmentType != "") {
-        const c = getDetachmentConfigurationForDetachmentType(formation.armyListName, detachment.detachmentType);
-        if( c ) {
-            let numModels = 0;
+    if(formation.armyListName != "" && detachment.detachmentName != "") {
+        const c = getDetachmentConfigurationForDetachmentName(formation.armyListName, detachment.detachmentName);
+        const modelNumbersForDetachment: ModelNumbersForDetachment = {
+            numModels: 0,
+            slimModels: 0,
+            bulkyModels: 0,
+            walkerModels: 0
+        };
+        
+        const transports: TransportData[] = [];
+
+        for(let i = 0; i < detachment.modelGroups.length; ++i) {
+            const modelGroup = detachment.modelGroups[i];
+            const shapeIdx = c.modelGroupShapes.findIndex(x=>x.modelType == modelGroup.modelType);
+            if(shapeIdx == -1)
+                continue;
+            const shape = c.modelGroupShapes[shapeIdx];
+            if(shape.minModels != undefined && modelGroup.number < shape.minModels)
+                return {valid: false, error: "Too few models in group", data: modelGroup.modelType + ". Min: " + shape.minModels};
+            if(shape.maxModels != undefined && modelGroup.number > shape.maxModels)
+                return {valid: false, error: "Too many models in group", data: modelGroup.modelType  + ". Max: " + shape.maxModels};
+            if(shape.possibleModelGroupQuantities.findIndex(x=>x.num == modelGroup.number) == -1) {
+                const possibleModelNumbers = shape.possibleModelGroupQuantities.map(m=>m.num.toString());
+                return {valid: false, error: "Invalid number of models in group", data: modelGroup.modelType + ". Could be: " + 
+                    possibleModelNumbers.join(", ")
+                };
+            }
+
+            const stats = getStatsForModelType(modelGroup.modelType);
+
+            const commanderValidation = calcDetachmentCommanderValidation(formation, detachmentIndex, detachment, stats);
+            if(!commanderValidation.valid)
+                return commanderValidation;
             
-            const transports: TransportData[] = [];
-
-            let slimModels = 0;
-            let bulkyModels = 0;
-            let walkerModels = 0;
-
-            for(let i = 0; i < detachment.modelGroups.length; ++i) {
-                const modelGroup = detachment.modelGroups[i];
-                const shapeIdx = c.modelGroupShapes.findIndex(x=>x.modelType == modelGroup.modelType);
-                if(shapeIdx == -1)
-                    continue;
-                const shape = c.modelGroupShapes[shapeIdx];
-                if(shape.minModels != undefined && modelGroup.number < shape.minModels)
-                    return { valid: false, error: "Too few models in group", data: modelGroup.modelType + ". Min: " + shape.minModels };
-                if(shape.maxModels != undefined && modelGroup.number > shape.maxModels)
-                    return { valid: false, error: "Too many models in group", data: modelGroup.modelType  + ". Max: " + shape.maxModels  };
-                if(shape.possibleModelGroupQuantities.findIndex(x=>x.num == modelGroup.number) == -1) {
-                    const possibleModelNumbers = shape.possibleModelGroupQuantities.map(m=>m.num.toString());
-                    return { valid: false, error: "Invalid number of models in group", data: modelGroup.modelType + ". Could be: " + 
-                        possibleModelNumbers.join(", ")
-                     };
+            //scoop up numbers of models
+            if(shape.dedicatedTransport === undefined || shape.dedicatedTransport === false) {
+                //not a transport, so could go in a transport
+                recordModelNumbersForModelGroup(modelNumbersForDetachment, modelGroup, stats);
+            } else if(modelGroup.number > 0) {
+                //okay, figure out the transport capacity of dedicated transports
+                if(stats) {
+                    calculateTransportData(stats, modelGroup, transports);
                 }
-
-                const stats = getStatsForModelType(modelGroup.modelType);
-                
-                //don't include dedicated detachments for the purposes of validation
-                if(shape.dedicatedTransport === undefined || shape.dedicatedTransport === false) {
-                    const unitTraits = stats?.unitTraits??[];
-                    numModels += modelGroup.number;
-                    if(stats) {
-                        if(stats.unitType == "Walker")
-                            walkerModels += modelGroup.number;
-                        else if(stats.unitType == "Infantry") {
-                            const isBulky = unitTraits.findIndex((x)=>x==="Bulky" || x==="Jump Packs") !== -1;
-                            if(isBulky) 
-                                bulkyModels += modelGroup.number;
-                            else
-                                slimModels += modelGroup.number;
-                        } else if (stats.unitType == "Vehicle" && unitHasTrait(stats, "Compact"))
-                            bulkyModels += modelGroup.number;
-                    }
-                } else if(modelGroup.number > 0) {
-                    //okay, figure out the transport capacity of dedicated transports
-                    if(stats) {
-                        calculateTransportData(stats, modelGroup, transports);
-                    }
-                }
-            }
-
-            if(c.maxModels !== undefined && c.maxModels < numModels)
-                return { valid: false, error: "Too many models in detachment", data: "max " + c.maxModels}
-            if(c.minModels !== undefined && c.minModels > numModels)
-                return { valid: false, error: "Too few models in detachment", data: "min " + c.minModels}
-
-            if(transports.length > 0) {
-                //work down from walkers to slims
-                while(walkerModels > 0) {
-                    const transport = transports.find((x)=>x.takesWalkers && x.remainingCapacity >= 2);
-                    if(transport === undefined)
-                        return { valid: false, error: "Need more dedicated transports", data: "remaining walkers: " + walkerModels};
-
-                    const walkerLoad = walkerModels * 2;
-                    if(transport.remainingCapacity >= walkerLoad) {
-                        transport.remainingCapacity -= walkerLoad;
-                        break;
-                    }
-
-                    if(transport.remainingCapacity % 2 == 0) {
-                        walkerModels -= transport.remainingCapacity / 2;
-                        transport.remainingCapacity = 0;
-                    } else {
-                        const numToLoad = Math.floor(transport.remainingCapacity / 2);
-                        transport.remainingCapacity -= numToLoad * 2;
-                        walkerModels -= numToLoad; 
-                    }
-                }
-
-                //now bulky
-                while(bulkyModels > 0) {
-                    const transport = transports.find((x)=>x.takesBulky && x.remainingCapacity >= x.bulkyIs);
-                    if(transport === undefined) 
-                        return { valid: false, error: "Need more dedicated transports", data: "remaining bulky models: " + bulkyModels};
-                    
-                    const bulkyLoad = bulkyModels * transport.bulkyIs;
-                    if(transport.remainingCapacity >= bulkyLoad) {
-                        transport.remainingCapacity -= bulkyLoad;
-                        break;
-                    }
-
-                    if(transport.remainingCapacity % transport.bulkyIs == 0) {
-                        bulkyModels -= transport.remainingCapacity / transport.bulkyIs;
-                        transport.remainingCapacity = 0;
-                    } else {
-                        const numToLoad = Math.floor(transport.remainingCapacity / transport.bulkyIs);
-                        transport.remainingCapacity -= numToLoad * transport.bulkyIs;
-                        bulkyModels -= numToLoad; 
-                    }
-                }
-
-                //finally, slim
-                while(slimModels > 0) {
-                    const transport = transports.find((x)=>x.remainingCapacity > 0);
-                    if(transport === undefined)
-                        return { valid: false, error: "Need more dedicated transports", data: "remaining models: " + slimModels};
-                    if(transport.remainingCapacity >= slimModels) {
-                        transport.remainingCapacity -= slimModels;
-                        break;
-                    }
-                    slimModels -= transport.remainingCapacity;
-                    transport.remainingCapacity = 0;
-                }
-
-                //okay now make sure we're not overprovisioned
-                const transport = transports.find((x)=>x.remainingCapacity == x.capacity);
-                if(transport !== undefined)
-                    return { valid: false, error: "Too many dedicated transports"};
-            }
-
-            if(c.customValidation !== undefined){
-                const validationState = c.customValidation(detachment);
-                if(validationState.error)
-                    return validationState;
             }
         }
+
+        if(c.maxModels !== undefined && c.maxModels < modelNumbersForDetachment.numModels)
+            return {valid: false, error: "Too many models in detachment", data: "max " + c.maxModels}
+        if(c.minModels !== undefined && c.minModels > modelNumbersForDetachment.numModels)
+            return {valid: false, error: "Too few models in detachment", data: "min " + c.minModels}
+
+        //okay now we need to get any attached detachment numbers
+        const attachedDetachment = formation.detachments.find((f)=>f.attachedDetachmentIndex == detachmentIndex);
+        if(attachedDetachment != null) {
+            for(let i = 0; i < attachedDetachment.modelGroups.length; ++i) {
+                const attachedModelGroup = attachedDetachment.modelGroups[i];
+                if(attachedDetachment.detachmentName == "")
+                    continue;
+                const attachedConfiguration = getDetachmentConfigurationForDetachmentName(formation.armyListName, attachedDetachment.detachmentName);
+                const attachedShape = attachedConfiguration.modelGroupShapes.find(x=>x.modelType == attachedModelGroup.modelType);
+                if(attachedShape == undefined)
+                    continue;
+                const attachedStats = getStatsForModelType(attachedModelGroup.modelType);
+                //scoop up numbers of models that are attached
+                if(attachedShape.dedicatedTransport === undefined || attachedShape.dedicatedTransport === false) {
+                    recordModelNumbersForModelGroup(modelNumbersForDetachment, attachedModelGroup, attachedStats);
+                } else if(attachedModelGroup.number > 0) {
+                    //okay, figure out the transport capacity of dedicated transports
+                    if(attachedStats) {
+                        calculateTransportData(attachedStats, attachedModelGroup, transports);
+                    }
+                }
+            }
+        }
+
+        if(transports.length > 0 && (detachment.attachedDetachmentIndex == undefined || detachment.attachedDetachmentIndex == -1)) {
+            //work down from walkers to slims
+            while(modelNumbersForDetachment.walkerModels > 0) {
+                const transport = transports.find((x)=>x.takesWalkers && x.remainingCapacity >= 2);
+                if(transport === undefined)
+                    return {valid: false, error: "Need more dedicated transports", data: "remaining walkers: " + modelNumbersForDetachment.walkerModels};
+
+                const walkerLoad = modelNumbersForDetachment.walkerModels * 2;
+                if(transport.remainingCapacity >= walkerLoad) {
+                    transport.remainingCapacity -= walkerLoad;
+                    break;
+                }
+
+                if(transport.remainingCapacity % 2 == 0) {
+                    modelNumbersForDetachment.walkerModels -= transport.remainingCapacity / 2;
+                    transport.remainingCapacity = 0;
+                } else {
+                    const numToLoad = Math.floor(transport.remainingCapacity / 2);
+                    transport.remainingCapacity -= numToLoad * 2;
+                    modelNumbersForDetachment.walkerModels -= numToLoad; 
+                }
+            }
+
+            //now bulky
+            while(modelNumbersForDetachment.bulkyModels > 0) {
+                const transport = transports.find((x)=>x.takesBulky && x.remainingCapacity >= x.bulkyIs);
+                if(transport === undefined) 
+                    return {valid: false, error: "Need more dedicated transports", data: "remaining bulky models: " + modelNumbersForDetachment.bulkyModels};
+                
+                const bulkyLoad = modelNumbersForDetachment.bulkyModels * transport.bulkyIs;
+                if(transport.remainingCapacity >= bulkyLoad) {
+                    transport.remainingCapacity -= bulkyLoad;
+                    break;
+                }
+
+                if(transport.remainingCapacity % transport.bulkyIs == 0) {
+                    modelNumbersForDetachment.bulkyModels -= transport.remainingCapacity / transport.bulkyIs;
+                    transport.remainingCapacity = 0;
+                } else {
+                    const numToLoad = Math.floor(transport.remainingCapacity / transport.bulkyIs);
+                    transport.remainingCapacity -= numToLoad * transport.bulkyIs;
+                    modelNumbersForDetachment.bulkyModels -= numToLoad; 
+                }
+            }
+
+            //finally, slim
+            while(modelNumbersForDetachment.slimModels > 0) {
+                const transport = transports.find((x)=>x.remainingCapacity > 0);
+                if(transport === undefined)
+                    return {valid: false, error: "Need more dedicated transports", data: "remaining models: " + modelNumbersForDetachment.slimModels};
+                if(transport.remainingCapacity >= modelNumbersForDetachment.slimModels) {
+                    transport.remainingCapacity -= modelNumbersForDetachment.slimModels;
+                    break;
+                }
+                modelNumbersForDetachment.slimModels -= transport.remainingCapacity;
+                transport.remainingCapacity = 0;
+            }
+
+            //okay now make sure we're not overprovisioned
+            const transport = transports.find((x)=>x.remainingCapacity == x.capacity);
+            if(transport !== undefined)
+                return {valid: false, error: "Too many dedicated transports"};
+        }
+
+        if(c.customValidation !== undefined){
+            const validationState = c.customValidation(detachment);
+            if(validationState.error)
+                return validationState;
+        }
+
         if(slotRequirements.slotRequirementType == "One Of" && slotRequirements.oneOfGroup !== undefined) {
             const g = slotRequirements.oneOfGroup;
             for (let i = 0; i < formation.detachments.length; i++) {
                 if(i == detachmentIndex)
                     continue;
-                if(formation.detachments[i].detachmentType != "" 
+                if(formation.detachments[i].detachmentName != "" 
                     && formationShape.slotRequirements[i].slotRequirementType == "One Of" 
                     && formationShape.slotRequirements[i].oneOfGroup == g
                 )
@@ -447,10 +515,10 @@ function refreshFormation(newFormation: Formation) {
                 y.modelLoadoutGroups.forEach((z)=>{
                     z.points = calcModelLoadoutGroupPoints(z);
                 });
-                if(x.detachmentType == "" || newFormation.armyListName == "")
+                if(x.detachmentName == "" || newFormation.armyListName == "")
                     y.points = 0;
                 else
-                    y.points = calcModelGroupPoints(newFormation.armyListName, y, x.detachmentType);
+                    y.points = calcModelGroupPoints(newFormation.armyListName, y, x.detachmentName);
             })
             x.validationState = calcDetachmentValidation(newFormation, i, formationShape);
             x.points = calcDetachmentPoints(x);            
@@ -482,7 +550,7 @@ function calcArmyActivations(army: Army): number {
 
 //Given a configuration, create the default loadout for a detachment. That means choosing the first 
 //option in each loadout shape
-function getDefaultModelGroupsForDetachment(config: DetachmentConfiguration, formationType: FormationType) {
+function getDefaultModelGroupsForDetachment(config: DetachmentConfiguration, formationType: FormationType): ModelGroup[] {
     return config.modelGroupShapes
         .filter((x) => (x.formationType === undefined) || (x.formationType === formationType))
         .map((x) => {
@@ -494,10 +562,11 @@ function getDefaultModelGroupsForDetachment(config: DetachmentConfiguration, for
                     ), points: -1
                 }];
             }
-            return {
+            const out = {
                 modelType: x.modelType, number: x.possibleModelGroupQuantities[0].num, points: -1,
                 modelLoadoutGroups: modelLoadoutGroups, unitTraits: x.unitTraits ?? []
-            };
+            };    
+            return out;
         });
 }
 
@@ -795,45 +864,70 @@ function createAppState(): AppStateType {
         newFormation.detachments = formationShape.slotRequirements.map((s) => {
             //fill in anything which we have no options on
             if(s.slotRequirementType == "Required" && newFormation.armyListName != "") {
-                const dtfs = getDetachmentTypesForSlot(newFormation.armyListName, s.slot, army.value.allegiance);
-                const config = getDetachmentConfigurationForDetachmentType(newFormation.armyListName, dtfs[0]);
+                const dtfs = getDetachmentNamesForSlot(newFormation.armyListName, s.slot, army.value.allegiance);
+                const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, dtfs[0]);
                 if(dtfs.length == 1 && newFormation.formationType != "") {
-                    return {
+                    const out: Detachment = {
                         slot: s.slot, modelGroups: getDefaultModelGroupsForDetachment(config, newFormation.formationType), 
-                        points: 0, detachmentType: dtfs[0], validationState: {valid: true}
-                    }        
+                        points: 0, detachmentName: dtfs[0], validationState: {valid: true}
+                    };
+                    if(out.modelGroups.length > 0) {
+                        const stats = getStatsForModelType(out.modelGroups[0].modelType);
+                        if(stats && statsHasTrait(stats, "Commander"))
+                            out.attachedDetachmentIndex = -1;
+                    }
+                    return out;
                 }
             }
 
             return {
-                slot: s.slot, modelGroups: [], points: 0, detachmentType: "", validationState: {valid: true}
+                slot: s.slot, modelGroups: [], points: 0, detachmentName: "", validationState: {valid: true}
             }
         });
 
         setFormationAtIdx(newFormation, formationIdx);
     };
 
-    const changeDetachmentType: ChangeDetachmentType = (uuid: string, detachmentIndex: number, detachmentType: DetachmentType | "") => {
+    const changeDetachmentName = (uuid: string, detachmentIndex: number, detachmentName: DetachmentName | "") => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
             return;
 
-        if(army.value.formations[formationIdx].detachments[detachmentIndex].detachmentType == detachmentType)
+        if(army.value.formations[formationIdx].detachments[detachmentIndex].detachmentName == detachmentName)
             return;
 
         const newFormation = structuredClone(army.value.formations[formationIdx]);
-        newFormation.detachments[detachmentIndex].detachmentType = detachmentType;
+        newFormation.detachments[detachmentIndex].detachmentName = detachmentName;
         newFormation.detachments[detachmentIndex].modelGroups = [];
+        delete newFormation.detachments[detachmentIndex].attachedDetachmentIndex;
 
-        if(newFormation.armyListName != "" && detachmentType != "") {
-            const config = getDetachmentConfigurationForDetachmentType(newFormation.armyListName, detachmentType);
+        if(newFormation.armyListName != "" && detachmentName != "") {
+            const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, detachmentName);
             if(newFormation.formationType != "" && config?.modelGroupShapes) {
                 newFormation.detachments[detachmentIndex].modelGroups = getDefaultModelGroupsForDetachment(config, newFormation.formationType);
+
+                if(newFormation.detachments[detachmentIndex].modelGroups.length > 0) {
+                    const stats = getStatsForModelType(newFormation.detachments[detachmentIndex].modelGroups[0].modelType);
+                    if(stats && statsHasTrait(stats, "Commander"))
+                        newFormation.detachments[detachmentIndex].attachedDetachmentIndex = -1;
+                }
             }
-        } else {
-            newFormation.detachments[detachmentIndex].modelGroups = [];
         }
         
+        setFormationAtIdx(newFormation, formationIdx);
+    };
+
+    const changeDetachmentAttachment = (uuid: string, detachmentIndex: number, attachedDetachmentIndex: number) => {
+        const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
+        if(formationIdx === -1)
+            return;
+
+        if(army.value.formations[formationIdx].detachments[detachmentIndex].attachedDetachmentIndex == attachedDetachmentIndex)
+            return;
+
+        const newFormation = structuredClone(army.value.formations[formationIdx]);
+        newFormation.detachments[detachmentIndex].attachedDetachmentIndex = attachedDetachmentIndex;
+
         setFormationAtIdx(newFormation, formationIdx);
     };
 
@@ -849,8 +943,8 @@ function createAppState(): AppStateType {
         const newFormation = structuredClone(army.value.formations[formationIdx]);
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].number = num;
 
-        const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
-        if(detachmentType === "") {
+        const detachmentName = newFormation.detachments[detachmentIndex].detachmentName;
+        if(detachmentName === "") {
             newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].points = 0;
             newFormation.detachments[detachmentIndex].modelGroups[modelGroupIdx].modelLoadoutGroups = [];
         } else {
@@ -875,14 +969,14 @@ function createAppState(): AppStateType {
 
         const newFormation = structuredClone(army.value.formations[formationIdx]);
 
-        const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
-        if(detachmentType === "")
+        const detachmentName = newFormation.detachments[detachmentIndex].detachmentName;
+        if(detachmentName === "")
             return;
 
         if(newFormation.armyListName == "")
             return;
 
-        const config = getDetachmentConfigurationForDetachmentType(newFormation.armyListName, detachmentType);
+        const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, detachmentName);
         const c = config?.modelGroupShapes.find((x)=>x.modelType == modelType);
         const modelLoadoutSlotIndex = c?.modelLoadoutSlots.findIndex(s=>s.name === modelLoadoutSlotName);
         if(modelLoadoutSlotIndex===undefined || modelLoadoutSlotIndex === -1)
@@ -907,14 +1001,14 @@ function createAppState(): AppStateType {
 
         const newFormation = structuredClone(army.value.formations[formationIdx]);
 
-        const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
-        if(detachmentType === "")
+        const detachmentName = newFormation.detachments[detachmentIndex].detachmentName;
+        if(detachmentName === "")
             return;
 
         if(newFormation.armyListName == "")
             return;
 
-        const config = getDetachmentConfigurationForDetachmentType(newFormation.armyListName, detachmentType);
+        const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, detachmentName);
         const c = config?.modelGroupShapes.find((x)=>x.modelType == modelType);
         if(c === undefined)
             return;
@@ -940,8 +1034,8 @@ function createAppState(): AppStateType {
 
         const newFormation = structuredClone(army.value.formations[formationIdx] );
 
-        const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
-        if(detachmentType === "")
+        const detachmentName = newFormation.detachments[detachmentIndex].detachmentName;
+        if(detachmentName === "")
             return;
 
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups = 
@@ -961,8 +1055,8 @@ function createAppState(): AppStateType {
 
         const newFormation = structuredClone(army.value.formations[formationIdx]);
 
-        const detachmentType = newFormation.detachments[detachmentIndex].detachmentType;
-        if(detachmentType === "")
+        const detachmentName = newFormation.detachments[detachmentIndex].detachmentName;
+        if(detachmentName === "")
             return;
 
         newFormation.detachments[detachmentIndex].modelGroups[modelGroupIndex].modelLoadoutGroups[modelLoadoutGroupIndex].number = number;
@@ -972,7 +1066,7 @@ function createAppState(): AppStateType {
 
     return {army, makeNewArmy, changeArmyName, changeArmyMaxPoints, changePrimaryArmyListName, changeArmyAllegiance,
         addFormation, removeFormation, changeFormationArmyList, changeFormationLegionName,
-        changeFormationType, changeDetachmentType, changeModelNumber, 
+        changeFormationType, changeDetachmentName, changeDetachmentAttachment, changeModelNumber, 
         changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
         armiesLoadState, armyLoadState, saves, refreshSaves, load, deleteSave, canCloneArmy, cloneArmy,
         openState, open, close, getKey

@@ -105,7 +105,7 @@ export default function Unit(props: PageProps) {
           </thead>
           <tbody>
             <tr class="even:bg-gray-50 odd:bg-white">
-              <td>{stats.unitType}</td>
+              <td>{stats.detachmentType}</td>
               <td>{stats.scale}</td>
               <td>{(stats.move)?(stats.move+'"'): ""}</td>
               {saves}

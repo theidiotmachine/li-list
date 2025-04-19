@@ -1,10 +1,10 @@
 import { useContext } from "preact/hooks";
-import { ArmyListName, DetachmentType, FormationType, ModelLoadoutGroup, ModelType } from "../game/types.ts";
+import { ArmyListName, DetachmentName, FormationType, ModelLoadoutGroup, ModelType } from "../game/types.ts";
 import { ModelLoadoutSelect } from "./ModelLoadoutSelect.tsx";
 import { NumModelLoadoutSelect } from "./NumModelLoadoutSelect.tsx";
 import { AppState } from "../islands/App.tsx";
 import { DelButton } from "./DelButton.tsx";
-import { getDetachmentConfigurationForDetachmentType, getStatsForModelType } from "../game/lists.ts";
+import { getDetachmentConfigurationForDetachmentName, getStatsForModelType } from "../game/lists.ts";
 
 interface ModelLoadoutWidgetProps {
     uuid: string;
@@ -13,7 +13,7 @@ interface ModelLoadoutWidgetProps {
     detachmentIndex: number;
     groupSize: number;
     modelType: ModelType;
-    detachmentType: DetachmentType;
+    detachmentName: DetachmentName;
     modelLoadoutGroup: ModelLoadoutGroup;
     modelLoadoutGroupIndex: number;
     numModelLoadoutGroups: number;
@@ -21,7 +21,7 @@ interface ModelLoadoutWidgetProps {
 
 export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
     const { removeModelLoadoutGroup } = useContext(AppState);
-    const config = getDetachmentConfigurationForDetachmentType(props.armyListName, props.detachmentType);
+    const config = getDetachmentConfigurationForDetachmentName(props.armyListName, props.detachmentName);
     const modelOptions = config?.modelGroupShapes.find((x)=>x.modelType == props.modelType);
     const filteredModelLoadoutSlotShapes = modelOptions?.modelLoadoutSlots.filter((t)=>t.formationType==undefined || t.formationType==props.formationType);
     if(filteredModelLoadoutSlotShapes == undefined)
@@ -57,7 +57,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
             
         </div>
         <div class="col-span-1 col-start-2 order-2">
-            <NumModelLoadoutSelect number={props.groupSize} detachmentType={props.detachmentType} modelType={props.modelType}
+            <NumModelLoadoutSelect number={props.groupSize} detachmentName={props.detachmentName} modelType={props.modelType}
             uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} modelLoadoutGroupIndex={props.modelLoadoutGroupIndex}
             />
             
@@ -77,7 +77,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
 
             return <div key={"s"+i} class = {"col-start-4 col-span-1 row-start-"+(i+1)+" order-"+(4+i*2)}>
                 <ModelLoadoutSelect key={i} 
-                    modelType={props.modelType} detachmentType={props.detachmentType} modelLoadoutSlotName={x.name} loadout={loadout.modelLoadout}
+                    modelType={props.modelType} detachmentName={props.detachmentName} modelLoadoutSlotName={x.name} loadout={loadout.modelLoadout}
                     uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} 
                     modelLoadoutGroupIndex={props.modelLoadoutGroupIndex}
                 /></div>})}

@@ -1,11 +1,12 @@
-import { DetachmentTypeSelect } from "./DetachmentTypeSelect.tsx";
-import { getDetachmentConfigurationForDetachmentType, getShapeForFormationType } from "../game/lists.ts";
+import { DetachmentNameSelect } from "./DetachmentNameSelect.tsx";
+import { getDetachmentConfigurationForDetachmentName, getShapeForFormationType } from "../game/lists.ts";
 import { NumModelSelect } from "./NumModelSelect.tsx";
 import { DetachmentValidityIcon, DetachmentValidityText } from "./DetachmentValidity.tsx";
 import { ModelLoadoutWidget } from "./ModelLoadoutWidget.tsx";
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { Allegiance, ArmyListName, Detachment, FormationType, ModelGroup } from "../game/types.ts";
+import { DetachmentAttachmentSelect } from "./DetachmentAttachmentSelect.tsx";
 
 interface DetachmentWidgetProps {
     uuid: string;
@@ -23,9 +24,9 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
     const shape = getShapeForFormationType(props.armyListName, formationType);
 
     let modelGroups = <div></div>;
-    const detachmentType = props.detachment.detachmentType;
-    if(detachmentType != "") {
-        const config = getDetachmentConfigurationForDetachmentType(props.armyListName, detachmentType);
+    const detachmentName = props.detachment.detachmentName;
+    if(detachmentName != "") {
+        const config = getDetachmentConfigurationForDetachmentName(props.armyListName, detachmentName);
         modelGroups = <div> {
             config.modelGroupShapes
                 .filter(u=>u.formationType ===undefined || u.formationType === formationType)
@@ -64,7 +65,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                             ) : (
                                 <div class="col-span-1 col-start-2"><NumModelSelect 
                                     uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} modelType={u.modelType}
-                                    numModels={props.detachment.modelGroups[modelGroupIndex].number} detachmentType={detachmentType}
+                                    numModels={props.detachment.modelGroups[modelGroupIndex].number} detachmentName={detachmentName}
                                 />
                                 </div>
                             )
@@ -95,7 +96,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                                         {props.detachment.modelGroups[i].modelLoadoutGroups.map((x, j)=>
                                             <ModelLoadoutWidget key={j} uuid={props.uuid} armyListName={props.armyListName}
                                             formationType={props.formationType} detachmentIndex={props.detachmentIndex} 
-                                            modelType={u.modelType} detachmentType={detachmentType}
+                                            modelType={u.modelType} detachmentName={detachmentName}
                                             modelLoadoutGroup={x} modelLoadoutGroupIndex={j} groupSize={x.number} 
                                             numModelLoadoutGroups={props.detachment.modelGroups[i].modelLoadoutGroups.length}/>
                                         )}
@@ -109,8 +110,8 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
             } </div>   
     }
 
-    const slotDisplayName = shape.slotRequirements[props.detachmentIndex].displayName ?? props.detachment.slot;
-        
+    const slotDisplayName = (props.detachmentIndex+1).toString() + ": " + (shape.slotRequirements[props.detachmentIndex].displayName ?? props.detachment.slot);
+
     //border-t-2 border-gray-100
     return <div class="mb-1 mt-1">
         <div class="grid grid-cols-[20%_8%_22%_20%_20%_10%] gap-0 ">
@@ -118,7 +119,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                 <DetachmentValidityIcon detachment={props.detachment}/>{slotDisplayName}
             </div> 
             <div class="col-span-4 col-start-2 row-start-2 md:col-start-3 md:row-start-1 md:col-span-3 border-b-2 border-gray-400">
-                <DetachmentTypeSelect 
+                <DetachmentNameSelect 
                     uuid = {props.uuid} detachmentIndex = {props.detachmentIndex} slot = {props.detachment.slot}
                     armyListName={props.armyListName} allegiance={props.allegiance}/>
             </div>
@@ -127,6 +128,14 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                 {props.detachment.points}
             </div>
             <DetachmentValidityText class="col-span-6" detachment={props.detachment}/>
+            {(props.detachment.attachedDetachmentIndex != undefined)?
+                <DetachmentAttachmentSelect 
+                    uuid={props.uuid} detachmentIndex={props.detachmentIndex} detachmentAttachmentIndex={props.detachment.attachedDetachmentIndex}
+                    class="col-start-3"
+                />:
+                <div class="hidden"></div>
+            }
+            
         </div>
         {modelGroups}
     </div>

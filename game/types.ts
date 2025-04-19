@@ -1,5 +1,5 @@
-import { AuxiliaDetachmentType, AuxiliaFormationType, AuxiliaModelType } from "./auxiliaTypes.ts";
-import { LegionDetachmentType, LegionFormationType, LegionModelType, LegionName } from "./legionTypes.ts";
+import { AuxiliaDetachmentName, AuxiliaFormationType, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { LegionDetachmentName, LegionFormationType, LegionModelType, LegionName } from "./legionTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 export type DetachmentValidationError = 
@@ -13,7 +13,9 @@ export type DetachmentValidationError =
     "Invalid loadouts of models in group" |
     "Need more dedicated transports" |
     "Too many dedicated transports" |
-    "Tank Commander rules broken"
+    "Tank Commander rules broken" |
+    "Commander not attached to detachment" |
+    "Multiple Commanders in Formation"
 ;
 export type DetachmentValidationState = {
     valid: boolean,
@@ -91,7 +93,7 @@ export type FormationShape = {
     customValidation?: (Formation: Formation, detachmentIndex: number) => DetachmentValidationState
 }
 
-export type StrategicAssetDetachmentType = 
+export type StrategicAssetDetachmentName = 
     "Acastus Knight Banner" |
     "Cerastus Knight Banner" |
     "Questoris Knight Banner" |
@@ -106,7 +108,7 @@ export type StrategicAssetDetachmentType =
     "Warmaster Iconoclast Titan"
 ;
         
-export type DetachmentType = LegionDetachmentType | AuxiliaDetachmentType | StrategicAssetDetachmentType;
+export type DetachmentName = LegionDetachmentName | AuxiliaDetachmentName | StrategicAssetDetachmentName;
 
 export const AllStrategicAssetModelTypes = [
     "Acastus Knight Asterius",
@@ -136,6 +138,7 @@ export const AllStrategicAssetModelTypes = [
 ];
 export type StrategicAssetModelType = (typeof AllStrategicAssetModelTypes)[number];
 
+//actually called 'Model Name'
 export type ModelType = LegionModelType | AuxiliaModelType | StrategicAssetModelType;
 
 //a set of weapons which can be put in a slot
@@ -201,10 +204,11 @@ export type ModelGroup = {
 
 export type Detachment = {
     slot: FormationSlot;
-    detachmentType: DetachmentType | "";
+    detachmentName: DetachmentName | "";
     modelGroups: ModelGroup[];
     points: number;
     validationState: DetachmentValidationState;
+    attachedDetachmentIndex?: number;
 };
 
 export type Formation = {
@@ -232,6 +236,7 @@ export type Army = {
     activations: number;
 };
 
+//this is a top level box in the lists
 export type DetachmentConfiguration = {
     maxModels?: number,
     minModels?: number,
@@ -239,7 +244,7 @@ export type DetachmentConfiguration = {
     customValidation?: (detachment: Detachment) => DetachmentValidationState
 }
 
-export type UnitType = 
+export type DetachmentType = 
     "Cavalry" |
     "Infantry" |
     "Vehicle" |
@@ -378,7 +383,7 @@ export const weaponHasTraitLike = (wsar: WeaponStatsAtRange, traitString: string
     wsar.traits.findIndex((t)=>t.startsWith(traitString)) != -1
 
 //note this isn't completely correct, as it doesn't take into account the unit traits from loadouts
-export const unitHasTrait = (stats: Stats, trait: UnitTrait): boolean => 
+export const statsHasTrait = (stats: Stats, trait: UnitTrait): boolean => 
     stats.unitTraits.findIndex((t)=>t==trait) != -1
 
 export type WeaponStats = {
@@ -405,7 +410,7 @@ export type StatsModelLoadoutSlot = {
 }
 
 export type Stats = {
-    unitType: UnitType;
+    detachmentType: DetachmentType;
     scale: Scale;
     move?: number;
     saves: Save[];

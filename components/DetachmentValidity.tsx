@@ -17,7 +17,7 @@ interface DetachmentValidityTextProps {
 
 export function DetachmentValidityText(props: DetachmentValidityTextProps) {
     if(props.detachment.validationState.valid) 
-        return <div></div>
+        return <div class="hidden"></div>
     let errorText = props.detachment.validationState.error;
     if(props.detachment.validationState.data) 
         errorText += ", " + props.detachment.validationState.data;

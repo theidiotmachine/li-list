@@ -10,7 +10,7 @@ export const LegionFormationTypes = [
 ] as const;
 export type LegionFormationType = (typeof LegionFormationTypes)[number];
 
-export type LegionDetachmentType = 
+export type LegionDetachmentName = 
     "Legion Assault Detachment" | 
     "Legion Command" | 
     "Legion Kratos Squadron" | 

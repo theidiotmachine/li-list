@@ -10,7 +10,7 @@ export const AuxiliaFormationTypes = [
 ] as const;
 export type AuxiliaFormationType = (typeof AuxiliaFormationTypes)[number];
 
-export type AuxiliaDetachmentType =
+export type AuxiliaDetachmentName =
     "Auxilia Aethon Heavy Sentinel Patrol" |
     "Auxilia Arvus Lighter" |
     "Auxilia Avenger Strike Fighter Squadron" |

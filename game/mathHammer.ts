@@ -1,5 +1,5 @@
 import { getStatsForModelType } from "./lists.ts";
-import { Arc, ModelType, SaveType, Stats, unitHasTrait, weaponHasTrait, weaponHasTraitLike, WeaponStats, WeaponStatsAtRange } from "./types.ts";
+import { Arc, ModelType, SaveType, Stats, statsHasTrait, weaponHasTrait, weaponHasTraitLike, WeaponStats, WeaponStatsAtRange } from "./types.ts";
 import { getWeaponStats } from "./weapons.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
@@ -77,12 +77,12 @@ function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | un
         return undefined;
 
     let hit = wsar.hit;
-    if(unitHasTrait(targetStats, "Flyer")) {
+    if(statsHasTrait(targetStats, "Flyer")) {
         if(!weaponHasTrait(wsar, "Skyfire"))
             hit = 6;
     }
 
-    if(weaponHasTrait(wsar, "Rapid Fire") || (unitHasTrait(targetStats, "Flyer") && weaponHasTrait(wsar, "Tracking"))) {
+    if(weaponHasTrait(wsar, "Rapid Fire") || (statsHasTrait(targetStats, "Flyer") && weaponHasTrait(wsar, "Tracking"))) {
         const hitFraction = hitDiceTable[hit+1];
         const superHitFraction = hitDiceTable[6];
         const missFraction = 1 - (hitFraction + superHitFraction);
@@ -114,16 +114,16 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc)
     let bestSaveType: SaveType = "Armour";
 
     let armourSaveModifier = undefined;
-    if(targetStats.unitType == "Infantry" || targetStats.unitType == "Cavalry") {
+    if(targetStats.detachmentType == "Infantry" || targetStats.detachmentType == "Cavalry") {
         armourSaveModifier = wsar.infAndCav;
         if(armourSaveModifier == undefined)
             return {damageFraction: 0, wounds: 0, saveType: "Armour"};
-    } else if(targetStats.unitType == "Walker") {
+    } else if(targetStats.detachmentType == "Walker") {
         armourSaveModifier = wsar.walker;
         if(armourSaveModifier == undefined)
             return {damageFraction: 0, wounds: 0, saveType: "Armour"};
-    } else if(targetStats.unitType == "Vehicle" || targetStats.unitType == "Super-heavy vehicle" 
-        || targetStats.unitType == "Knight" || targetStats.unitType == "Titan"
+    } else if(targetStats.detachmentType == "Vehicle" || targetStats.detachmentType == "Super-heavy vehicle" 
+        || targetStats.detachmentType == "Knight" || targetStats.detachmentType == "Titan"
     ) {
         armourSaveModifier = wsar.vShvKT;
         if(armourSaveModifier == undefined)
@@ -135,7 +135,7 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc)
     }
 
     const targetSaves = targetStats.saves;
-    if(unitHasTrait(targetStats, "Explorer Adaptation") && (weaponHasTrait(wsar, "Barrage") || weaponHasTraitLike(wsar, "Blast ("))) {
+    if(statsHasTrait(targetStats, "Explorer Adaptation") && (weaponHasTrait(wsar, "Barrage") || weaponHasTraitLike(wsar, "Blast ("))) {
         targetSaves.push({save: 6, saveType: "Invuln", arc: "All"});
     }
     
