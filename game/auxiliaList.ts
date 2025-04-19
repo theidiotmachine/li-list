@@ -347,7 +347,7 @@ const detachmentConfigurationForDetachmentName: Map<AuxiliaDetachmentName, Detac
     ["Auxilia Tarantula Battery", {minModels: 4, maxModels: 8, modelGroupShapes: [
         {modelType: "Auxilia Tarantula", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts:[
-                {loadout: "Tarantula lascannon array", points: 0},
+                {loadout: "Tarantula lascannon battery", points: 0},
                 {loadout: "Hyperios air-defence missile launcher", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
@@ -726,7 +726,11 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name: "Primary", possibleModelLoadouts:[
+            {loadout: "Laser destroyer array"},
+            {loadout: "Quad launcher"},
+            {loadout: "Mole mortar"},
+        ]}],
         unitTraits: ["Bulky", "Chain of Command"],
     }],
     ["Auxilia Tarantula", {
@@ -734,7 +738,10 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 5, arc: "All"},
         ],
         caf: -3, wounds: 1, tacticalStrength: 0, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name: "Primary", possibleModelLoadouts:[
+            {loadout: "Tarantula lascannon battery"},
+            {loadout: "Hyperios air-defence missile launcher"},
+        ]}],
         unitTraits: ["Automated Sentry"],
     }],
     ["Auxiliaries", {
@@ -762,7 +769,9 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 3, morale: 4, wounds: 1, tacticalStrength: 5, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name: "", possibleModelLoadouts: [{
+            loadout: "", weaponTypes: ["Charonite claws"]
+        }]}],
         unitTraits: ["Furious Charge"]
     }],
     ["Cyclops", {
@@ -961,7 +970,9 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
             {saveType: "Armour", save: 6, arc: "All"},
         ],
         caf: 1, morale: 4, wounds: 1, tacticalStrength: 6, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name: "", possibleModelLoadouts: [
+            {loadout: "", weaponTypes: ["Auxilia laspistols", "Power axes"]}
+        ]}],
         unitTraits: ["Steadfast"]
     }],
 ]);

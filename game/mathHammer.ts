@@ -78,6 +78,11 @@ function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | un
 
     let hit = wsar.hit;
     if(statsHasTrait(targetStats, "Flyer")) {
+        //everyone's favourite FAQ: you can't hit flyers with burrowing rounds
+        if(weaponHasTrait(wsar, "Burrowing"))
+            return {resultTable: [
+                {fraction: 1, hits: 0}
+            ]};
         if(!weaponHasTrait(wsar, "Skyfire"))
             hit = 6;
     }
@@ -112,6 +117,10 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc)
     let bestSave = 7;
     let bestWounds = 1;
     let bestSaveType: SaveType = "Armour";
+
+    //also bypasses void shields but we don't have that yet
+    if(weaponHasTrait(wsar, "Burrowing"))
+        targetArc = "Rear";
 
     let armourSaveModifier = undefined;
     if(targetStats.detachmentType == "Infantry" || targetStats.detachmentType == "Cavalry") {

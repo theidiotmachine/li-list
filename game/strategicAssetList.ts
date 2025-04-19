@@ -712,7 +712,31 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 12, wounds: 5, tacticalStrength: 0, voidShields: 4,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name: "Left", possibleModelLoadouts: [
+            {loadout: "Reaver chainfist"}, //TODO
+            {loadout: "Reaver gatling blaster"}, //TODO
+            {loadout: "Reaver laser blaster"}, //TODO
+            {loadout: "Reaver melta cannon"}, //TODO
+            {loadout: "Reaver power fist"}, //TODO
+            {loadout: "Reaver volcano cannon"}, //TODO
+        ]},
+        {name: "Right", possibleModelLoadouts: [
+            {loadout: "Reaver chainfist"}, //TODO
+            {loadout: "Reaver gatling blaster"}, //TODO
+            {loadout: "Reaver laser blaster"}, //TODO
+            {loadout: "Reaver melta cannon"}, //TODO
+            {loadout: "Reaver power fist"}, //TODO
+            {loadout: "Reaver volcano cannon"}, //TODO
+        ]},
+        {name: "Carapace", possibleModelLoadouts: [
+            {loadout: "Reaver apocalypse missile launcher"}, //TODO
+            {loadout: "Reaver Vulcan mega-bolter"}, //TODO
+            {loadout: "Reaver Titan warp missile"}, //TODO
+            {loadout: "Reaver turbo-laser destructor"},
+            {loadout: "Reaver volkite eradicator"}, //TODO
+            {loadout: "Reaver graviton eradicator"}, //TODO
+            {loadout: "Reaver conversion beam dissolutor"}, //TODO
+        ]}],
         unitTraits: [],
     }],
     ["Warbringer Nemesis Titan", {
@@ -737,7 +761,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {loadout: "Inferno gun"}, //TODO
             {loadout: "Natrix shock lance"}, //TODO
             {loadout: "Plasma blastgun"},
-            {loadout: "Turbo-laser destructor"}, //TODO
+            {loadout: "Turbo-laser destructor"},
             {loadout: "Ursus claw"}, //TODO
             {loadout: "Volkite eradicator"}, //TODO
             {loadout: "Vulcan mega-bolter"}, //TODO
@@ -751,7 +775,7 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
             {loadout: "Inferno gun"}, //TODO
             {loadout: "Natrix shock lance"}, //TODO
             {loadout: "Plasma blastgun"},
-            {loadout: "Turbo-laser destructor"}, //TODO
+            {loadout: "Turbo-laser destructor"},
             {loadout: "Ursus claw"}, //TODO
             {loadout: "Volkite eradicator"}, //TODO
             {loadout: "Vulcan mega-bolter"}, //TODO

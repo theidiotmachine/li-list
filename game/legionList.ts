@@ -1279,6 +1279,23 @@ const statsForModelType = new Map<LegionModelType, Stats>([
         ],
         unitTraits: ["Assault Transport (5)"]
     }],
+    ["Storm Eagle", {
+        detachmentType: "Vehicle", scale: 2, move: 25, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Storm Eagle heavy bolter",
+                    "Wing Mounted lascannon",
+                    "Vengance launcher"
+                ]}, 
+            ]},
+        ],
+        unitTraits: ["Assault Transport (5)", "Flyer", "Hover"]
+    }],
     ["Tactical Legionaries", {
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
@@ -1302,7 +1319,38 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             ]},
         ],
         unitTraits: ["Deep Strike", "Transport (2)"]
-    }]
+    }],
+    ["Thunderhawk Gunship", {
+        detachmentType: "Vehicle", scale: 2, move: 25, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Hellstrike missiles",
+                    "Thunderhawk heavy bolters",
+                    "Thunderhawk lascannon",
+                    "Turbo-laser destructor"
+                ]}, 
+            ]},
+        ],
+        unitTraits: ["Assault Transport (5)", "Flyer", "Hover"]
+    }],
+    ["Xiphon Interceptor", {
+        detachmentType: "Vehicle", scale: 2, move: 30, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Xiphon lascannon array", "Xiphon rotary missile launcher"]}, 
+            ]},
+        ],
+        unitTraits: ["Flyer", "Interceptor"]
+    }],
 ]);
 
 export function getStatsForLegionModelType(modelType: LegionModelType): Stats | undefined {

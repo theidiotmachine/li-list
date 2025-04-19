@@ -305,6 +305,7 @@ export type UnitTrait =
     "Independent" |
     "Infiltrate" |
     "Inspire (8)" |
+    "Interceptor" |
     "Ionic Flare Shield" |
     "Jump Packs" |
     "Large Transport (2)" |
@@ -335,6 +336,7 @@ export type WeaponTrait =
     "Barrage" |
     "Blast (3\")" |
     "Bunker Buster" |
+    "Burrowing" |
     "Co-axial" |
     "Collapsing Singularity" |
     "Deflagrate" |

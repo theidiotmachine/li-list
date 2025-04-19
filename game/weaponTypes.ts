@@ -9,10 +9,12 @@ export type WeaponType =
     "Arcus missile launcher" |
     "Ardex mega-bolters" |
     "Atrapos lascutter" |
+    "Auxilia laspistols" |
     "Auxilia lasrifles" |
     "Avenger bolt cannon" |
     "Bolt pistols" |
     "Castigator pattern bolt cannon" |
+    "Charonite claws" |
     "Co-axial autocannon" |
     "Combi bolters" |
     "Cyclonic melta lance" |
@@ -30,6 +32,7 @@ export type WeaponType =
     "Hekaton siege claw" |
     "Heavy stubber" |
     "Hellfire plasma cannonade" |
+    "Hellstrike missiles" |
     "Hull Mounted Anvilus autocannon" |
     "Hull Mounted demolisher cannon" |
     "Hull Mounted heavy bolter" |
@@ -60,6 +63,7 @@ export type WeaponType =
     "Malcador autocannon sponsons" |
     "Malcador lascannon sponsons" |
     "Missile launchers" |
+    "Mole mortar" |
     "Multi-melta" |
     "Melta blastgun" |
     "Meltagun" |
@@ -73,6 +77,7 @@ export type WeaponType =
     "Plasma blastgun" |
     "Plasma cannon" |
     "Plasma guns" |
+    "Power axes" |
     "Predator cannon" |
     "Predator lascannon" |
     "Punisher rotary cannon" |
@@ -84,6 +89,7 @@ export type WeaponType =
     "Rocket pods" |
     "Reaper chainfist" |
     "Reaper chainsword" |
+    "Reaver turbo-laser destructor" |
     "Sabre missiles" |
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
@@ -94,6 +100,7 @@ export type WeaponType =
     "Sponson mounted laser destroyers" |
     "Sponson Mounted quad lascannon" |
     "Sponson Mounted twin-linked lascannon" |
+    "Storm Eagle heavy bolter" |
     "Stormsword heavy bolter sponsons" |
     "Stormsword siege cannon" |
     "Tarantula lascannon battery" |
@@ -101,7 +108,10 @@ export type WeaponType =
     "Tempest warblade" |
     "Termite twin-linked bolters" |
     "Thermal cannon" |
+    "Thunderhawk heavy bolters" |
+    "Thunderhawk lascannon" |
     "Thunderstrike gauntlet" |
+    "Turbo-laser destructor" |
     "Turret Mounted twin bolter" |
     "Twin-linked accelerator autocannon" |
     "Twin magna lascannon" |
@@ -109,8 +119,12 @@ export type WeaponType =
     "Twin-linked lascannon" |
     "Twin-linked volkite calvier" |
     "Twin plasma guns" |
+    "Vengance launcher" |
     "Volcano cannon" |
     "Volkite chargers" |
-    "Volkite chieorovile"
+    "Volkite chieorovile" |
+    "Wing Mounted lascannon" |
+    "Xiphon lascannon array" |
+    "Xiphon rotary missile launcher" 
 ;
 
