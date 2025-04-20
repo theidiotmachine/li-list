@@ -1,7 +1,6 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { Formation } from "../state.ts";
-import { FormationType } from "../game/types.ts";
+import { Formation, FormationName } from "../game/types.ts";
 import { getFormationTypesForArmyListName } from "../game/lists.ts";
 
 interface FormationTypeSelectProps {
@@ -9,16 +8,16 @@ interface FormationTypeSelectProps {
 };
 
 export function FormationTypeSelect(props: FormationTypeSelectProps) {
-    const { army, changeFormationType } = useContext(AppState);
+    const { army, changeFormationName } = useContext(AppState);
     const formation = army.value.formations.find((f: Formation)=>f.uuid == props.uuid)
 
-    const formationType = formation?.formationType ?? "";
+    const formationType = formation?.formationName ?? "";
 
-    let formationTypes: (FormationType | "")[] = [""];
+    let formationTypes: (FormationName | "")[] = [""];
     formationTypes = formationTypes.concat(getFormationTypesForArmyListName(formation?.armyListName ?? ""));
 
     return <select class="w-48 md:w-80 md:text-xl appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" 
-        onInput={(e) => changeFormationType(props.uuid, e.currentTarget.value as FormationType)}>
+        onInput={(e) => changeFormationName(props.uuid, e.currentTarget.value as FormationName)}>
         {formationTypes.map((f, i)=><option key={i} selected={formationType == f}>{f}</option>)}
     </select>
 }

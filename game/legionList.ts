@@ -1,7 +1,7 @@
-import { LegionDetachmentName, LegionFormationType, LegionModelType } from "./legionTypes.ts";
+import { LegionDetachmentName, LegionFormationName, LegionModelType } from "./legionTypes.ts";
 import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment } from "./types.ts";
 
-const formationShapes = new Map<LegionFormationType, FormationShape>([
+const formationShapes = new Map<LegionFormationName, FormationShape>([
     //CRB
     [ "Legion Demi-Company", { slotRequirements: [
         {   slot: "HQ",             slotRequirementType: "Required"                 },
@@ -111,9 +111,9 @@ const formationShapes = new Map<LegionFormationType, FormationShape>([
     ]}]
 ])
 
-export function getShapeForLegionFormationType(formationType: LegionFormationType | ""): FormationShape {
-    if(formationType == "") return { slotRequirements: [] };
-    return formationShapes.get(formationType) ?? { slotRequirements: [] };
+export function getShapeForLegionFormationName(formationName: LegionFormationName | ""): FormationShape {
+    if(formationName == "") return { slotRequirements: [] };
+    return formationShapes.get(formationName) ?? { slotRequirements: [] };
 }
 
 const detachmentNamesForSlot = new Map<FormationSlot, LegionDetachmentName[]>([
@@ -193,7 +193,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     //CRB
     ["Legion Command", {modelGroupShapes: [
         {modelType: "Command Squad", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]},
-        {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
+        {modelType: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "Twin-linked bolter", points: 0}, 
                 {loadout: "Havoc launcher", points: 2},
@@ -202,16 +202,16 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         ], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 10}, 
         ]},
-        {modelType: "Storm Eagle", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 100}, 
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150},
         ]},
-        {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 1, points: 6}
         ]},
-        {modelType: "Legion Termite", dedicatedTransport: true, formationType: "Legion Subterranean Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 1, points: 18}
         ]}
     ]}],
@@ -231,7 +231,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelType: "Plasma Support Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 30}, {num: 6, points: 45}, {num: 8, points: 60},
         ]},
-        {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
+        {modelType: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "Twin-linked bolter", points: 0}, 
                 {loadout: "Havoc launcher", points: 2},
@@ -241,16 +241,16 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
             {num: 4, points: 40}, {num: 5, points: 50}, {num: 6, points: 60}
         ]},
-        {modelType: "Storm Eagle", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 100+200}
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+150}
         ]},
-        {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}, {num: 5, points: 6*5}, {num: 6, points: 6*6}
         ]},
-        {modelType: "Legion Termite", dedicatedTransport: true, formationType: "Legion Subterranean Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}, {num: 5, points: 18*5}, {num: 6, points: 18*6}
         ]}
     ]}],
@@ -258,7 +258,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelType: "Plasma Support Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 35}, {num: 4+2, points: 35+15}, {num: 4+4, points: 35+30},
         ]},
-        {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
+        {modelType: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "Twin-linked bolter", points: 0}, 
                 {loadout: "Havoc launcher", points: 2},
@@ -268,16 +268,16 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
             {num: 4, points: 40},
         ]},
-        {modelType: "Storm Eagle", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
         ]},
-        {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
         ]},
-        {modelType: "Legion Termite", dedicatedTransport: true, formationType: "Legion Subterranean Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}
         ]}
     ]}],
@@ -285,7 +285,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelType: "Missile Launcher Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 40}, {num: 4+2, points: 40+15}, {num: 4+4, points: 40+30},
         ]},
-        {modelType: "Rhino", dedicatedTransport: true, formationType: "Legion Demi-Company", modelLoadoutSlots: [
+        {modelType: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "Twin-linked bolter", points: 0}, 
                 {loadout: "Havoc launcher", points: 2},
@@ -295,16 +295,16 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
             {num: 4, points: 40},
         ]},
-        {modelType: "Storm Eagle", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
         ]},
-        {modelType: "Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
         ]},
-        {modelType: "Legion Termite", dedicatedTransport: true, formationType: "Legion Subterranean Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}
         ]}
     ]}],
@@ -312,10 +312,10 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelType: "Assault Marines", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 30}, {num: 4+2, points: 30+12}, {num: 4+4, points: 30+24},
         ]},
-        {modelType: "Storm Eagle", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 300}, {num: 4, points: 400}
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
         ]}
     ]}],
@@ -336,13 +336,13 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelType: "Legion Terminators", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 50}, {num: 4+2, points: 50+15}, {num: 4+4, points: 50+30},
         ]},
-        {modelType: "Storm Eagle", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 300}, {num: 4, points: 400}
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
         ]},
-        {modelType: "Land Raider", dedicatedTransport: true, formationType: "Legion Heavy Assault Spearhead", modelLoadoutSlots: [
+        {modelType: "Land Raider", dedicatedTransport: true, formationNames: ["Legion Heavy Assault Spearhead"], modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "None", points: 0}, 
                 {loadout: "Multi-melta", points: 5},
@@ -350,7 +350,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         ], possibleModelGroupQuantities: [ 
             {num: 0, points: 0}, {num: 4, points: 4*40}, {num: 6, points: 6*40}, {num: 8, points: 8*40}, 
         ]},
-        {modelType: "Spartan", dedicatedTransport: true, formationType: "Legion Heavy Assault Spearhead", modelLoadoutSlots: [
+        {modelType: "Spartan", dedicatedTransport: true, formationNames: ["Legion Heavy Assault Spearhead"], modelLoadoutSlots: [
             {name: "Sponson mounted", possibleModelLoadouts: [
                 {loadout: "Quad lascannon", points: 0}, 
                 {loadout: "Laser destroyers", points: 0},
@@ -376,10 +376,10 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         ], possibleModelGroupQuantities: [
             {num: 2, points: 40}, {num: 2+2, points: 40+30}, {num: 2+4, points: 40+60}, {num: 2+6, points: 40+90},
         ]},
-        {modelType: "Storm Eagle", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 300}, {num: 4, points: 400}
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
         ]}
     ]}],
@@ -392,10 +392,10 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         ], possibleModelGroupQuantities: [
             {num: 4, points: 75}, {num: 4+2, points: 75+35}, {num: 4+4, points: 75+70},
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 300}
         ]},
-        {modelType: "Dreadnought Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Dreadnought Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 1, points: 7}, {num: 2, points: 7*2}, {num: 3, points: 7*3}, {num: 4, points: 7*4},
             {num: 5, points: 7*5}, {num: 6, points: 7*6}, {num: 7, points: 7*7}, {num: 8, points: 7*8}
         ]}
@@ -420,10 +420,10 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 2, points: 35}, {num: 4, points: 35*2},
             {num: 6, points: 35*3}
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 300}, {num: 3, points: 450}
         ]},
-        {modelType: "Dreadnought Drop Pod", dedicatedTransport: true, formationType: "Legion Drop Pod Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Dreadnought Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 7*4},
             {num: 5, points: 7*5}, {num: 6, points: 7*6}, {num: 7, points: 7*7}, {num: 8, points: 7*8}, 
             {num: 9, points: 7*9}, {num: 10, points: 7*10}
@@ -443,12 +443,12 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelType: "Deredeo Dreadnought", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts:[
                 {loadout: "Hellfire plasma cannonade", points: 0},
-                {loadout: "Anvilus autocannonbattery", points: 0},
+                {loadout: "Anvilus autocannon battery", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
             {num: 4, points: 85}, {num: 4+2, points: 85+40}, {num: 4+4, points: 85+80}
         ]},
-        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationType: "Legion Aerial Assault", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelType: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
         ]}
     ]}],
@@ -858,7 +858,7 @@ const statsForModelType = new Map<LegionModelType, Stats>([
             ]},
             {name: "Primary", possibleModelLoadouts:[
                 {loadout: "Hellfire plasma cannonade"},
-                {loadout: "Anvilus autocannonbattery"},
+                {loadout: "Anvilus autocannon battery"},
             ]}
         ],
         unitTraits: ["Armoured", "Tracking Array"],

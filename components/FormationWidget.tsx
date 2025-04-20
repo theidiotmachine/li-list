@@ -1,5 +1,5 @@
 import { useContext } from "preact/hooks";
-import { Allegiance, Formation, FormationType } from "../game/types.ts";
+import { Allegiance, Formation, FormationName } from "../game/types.ts";
 import { DetachmentTable } from "./DetachmentTable.tsx";
 import { AppState } from "../islands/App.tsx";
 import { FormationTypeSelect } from "./FormationTypeSelect.tsx";
@@ -49,7 +49,7 @@ export function FormationWidget(props: FormationWidgetProps) {
                 armyListName={props.formation.armyListName} detachments={props.formation.detachments} 
                 uuid={props.formation.uuid} allegiance={props.allegiance} 
                 //cast is because the reality is we have a formation type, or we wouldn't be at this point
-                formationType={props.formation.formationType as FormationType}
+                formationType={props.formation.formationName as FormationName}
             />
         }
     </div>

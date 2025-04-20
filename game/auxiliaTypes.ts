@@ -1,4 +1,4 @@
-export const AuxiliaFormationTypes = [
+export const AuxiliaFormationNames = [
     "Solar Auxilia Armoured Company",
     "Solar Auxilia Artillery Company",
     "Solar Auxilia Leman Russ Spearhead",
@@ -8,7 +8,7 @@ export const AuxiliaFormationTypes = [
     "Solar Auxilia Super-Heavy Company",
     "Solar Auxilia Titan Hunter Company",
 ] as const;
-export type AuxiliaFormationType = (typeof AuxiliaFormationTypes)[number];
+export type AuxiliaFormationName = (typeof AuxiliaFormationNames)[number];
 
 export type AuxiliaFormationSlot = 
     "Auxilia Lasrifle" |

@@ -15,6 +15,7 @@ export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps)
         <option value="" selected={props.primaryArmyListName == ""}>Primary Army List</option>
         <option selected={props.primaryArmyListName == "Collegia Titanica"}>Collegia Titanica</option>
         <option selected={props.primaryArmyListName == "Legions Astartes"}>Legions Astartes</option>
+        <option selected={props.primaryArmyListName == "Questoris Familia"}>Questoris Familia</option>
         <option selected={props.primaryArmyListName == "Solar Auxilia"}>Solar Auxilia</option>
     </select>
 }

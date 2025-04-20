@@ -1,6 +1,6 @@
-import { AuxiliaDetachmentName, AuxiliaFormationSlot, AuxiliaFormationType, AuxiliaModelType } from "./auxiliaTypes.ts";
-import { LegionDetachmentName, LegionFormationSlot, LegionFormationType, LegionModelType, LegionName } from "./legionTypes.ts";
-import { CollegiaTitanicaFormationSlot, CollegiaTitanicaFormationType, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetModelType } from "./strategicAssetTypes.ts";
+import { AuxiliaDetachmentName, AuxiliaFormationSlot, AuxiliaFormationName, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { LegionDetachmentName, LegionFormationSlot, LegionFormationName, LegionModelType, LegionName } from "./legionTypes.ts";
+import { CollegiaTitanicaFormationSlot, CollegiaTitanicaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelType, QuestorisFamiliaFormationName, QuestorisFamiliaFormationSlot } from "./strategicAssetTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 export type DetachmentValidationError = 
@@ -44,22 +44,25 @@ export type Allegiance = (typeof Allegiances)[number];
 export const ArmyListNames = [
     "Collegia Titanica",
     "Legions Astartes",
+    "Questoris Familia",
     "Solar Auxilia",
     "Strategic Asset",
 ] as const;
 export type ArmyListName = (typeof ArmyListNames)[number];    
 
-export type FormationType = 
-    AuxiliaFormationType | 
-    CollegiaTitanicaFormationType |
-    LegionFormationType | 
-    StrategicAssetFormationType
+export type FormationName = 
+    AuxiliaFormationName | 
+    CollegiaTitanicaFormationName |
+    LegionFormationName | 
+    QuestorisFamiliaFormationName |
+    StrategicAssetFormationName
 ;
 
 export type FormationSlot = 
     AuxiliaFormationSlot |
     CollegiaTitanicaFormationSlot |
     LegionFormationSlot |
+    QuestorisFamiliaFormationSlot |
     "Air Support" | 
     "Artillery" | 
     "Bastion" | 
@@ -114,7 +117,7 @@ export type ModelGroupQuantity = {
 export type ModelLoadoutSlotShape = {
     name: string;
     possibleModelLoadouts: ModelLoadoutForSlot[];
-    formationType?: FormationType;
+    formationType?: FormationName;
 }
 
 export type ModelGroupShape = {
@@ -124,7 +127,8 @@ export type ModelGroupShape = {
     possibleModelGroupQuantities: ModelGroupQuantity[];
     modelLoadoutSlots: ModelLoadoutSlotShape[];
     dedicatedTransport?: boolean;
-    formationType?: FormationType;
+    //this shape is only available in these formation names:
+    formationNames?: FormationName[];
     //mostly for 'Independent' sub parts of a detachment
     unitTraits?: UnitTrait[];
     //Knights have a special rule where every model in the unit is independent
@@ -165,7 +169,7 @@ export type Detachment = {
 
 export type Formation = {
     armyListName: ArmyListName | "";
-    formationType: FormationType | "";
+    formationName: FormationName | "";
     points: number;
     detachments: Detachment[];
     uuid: string;

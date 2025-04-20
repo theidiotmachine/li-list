@@ -1,5 +1,5 @@
 import { useContext } from "preact/hooks";
-import { ArmyListName, DetachmentName, FormationType, ModelLoadoutGroup, ModelType } from "../game/types.ts";
+import { ArmyListName, DetachmentName, FormationName, ModelLoadoutGroup, ModelType } from "../game/types.ts";
 import { ModelLoadoutSelect } from "./ModelLoadoutSelect.tsx";
 import { NumModelLoadoutSelect } from "./NumModelLoadoutSelect.tsx";
 import { AppState } from "../islands/App.tsx";
@@ -9,7 +9,7 @@ import { getDetachmentConfigurationForDetachmentName, getStatsForModelType } fro
 interface ModelLoadoutWidgetProps {
     uuid: string;
     armyListName: ArmyListName;
-    formationType: FormationType;
+    formationType: FormationName;
     detachmentIndex: number;
     groupSize: number;
     modelType: ModelType;

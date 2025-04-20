@@ -1,16 +1,7 @@
-import { CollegiaTitanicaFormationType, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetModelType } from "./strategicAssetTypes.ts";
+import { CollegiaTitanicaFormationName, QuestorisFamiliaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelType } from "./strategicAssetTypes.ts";
 import { Allegiance, Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, Stats } from "./types.ts";
 
-const strategicAssetFormationShapes = new Map<StrategicAssetFormationType, FormationShape>([
-    ["Knight Household Lance", {slotRequirements: [
-        {   slot: "Knight",     slotRequirementType: "Required" },
-    ]}],
-    ["Legion Support", {slotRequirements: [
-        {   slot: "Titan",      slotRequirementType: "Required" },
-    ]}]
-]);
-
-const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationType, FormationShape>([
+const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, FormationShape>([
     ["Axiom Battleline Maniple", {slotRequirements: [
         {slot: "Warlord", slotRequirementType: "Required"},
         {slot: "Reaver", slotRequirementType: "Required"},
@@ -58,38 +49,45 @@ const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationType, F
     ]}]
 ]);
 
-export function getShapeForStrategicAssetFormationType(formationType: StrategicAssetFormationType | ""): FormationShape {
-    if(formationType == "") return { slotRequirements: [] };
-    return strategicAssetFormationShapes.get(formationType) ?? { slotRequirements: [] };
-}
+const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, FormationShape>([
+    ["Barony Guard Lance", {slotRequirements: [
+        {   slot: "Questoris",     slotRequirementType: "Required" },
+        {   slot: "Questoris",     slotRequirementType: "Required" },
+        {   slot: "Cerastus",      slotRequirementType: "Required" },
+        {   slot: "Cerastus",      slotRequirementType: "Optional" },
+        {   slot: "Questoris",     slotRequirementType: "Optional" },
+        {   slot: "Armiger",       slotRequirementType: "Optional" },
+    ]}],
+]);
 
-export function getShapeForCollegiaTitanicaFormationType(formationType: CollegiaTitanicaFormationType | ""): FormationShape {
+const strategicAssetFormationShapes = new Map<StrategicAssetFormationName, FormationShape>([
+    ["Knight Household Lance", {slotRequirements: [
+        {   slot: "Knight",     slotRequirementType: "Required" },
+    ]}],
+    ["Legion Support", {slotRequirements: [
+        {   slot: "Titan",      slotRequirementType: "Required" },
+    ]}]
+]);
+
+export function getShapeForCollegiaTitanicaFormationName(formationType: CollegiaTitanicaFormationName | ""): FormationShape {
     if(formationType == "") return { slotRequirements: [] };
     return collegiaTitanicaFormationShapes.get(formationType) ?? { slotRequirements: [] };
+}
+
+export function getShapeForQuestorisFamiliaFormationName(formationType: QuestorisFamiliaFormationName | ""): FormationShape {
+    if(formationType == "") return { slotRequirements: [] };
+    return questorisFamiliaFormationShapes.get(formationType) ?? { slotRequirements: [] };
+}
+
+export function getShapeForStrategicAssetFormationName(formationType: StrategicAssetFormationName | ""): FormationShape {
+    if(formationType == "") return { slotRequirements: [] };
+    return strategicAssetFormationShapes.get(formationType) ?? { slotRequirements: [] };
 }
 
 type DetachmentNameData = {
     detachmentName: StrategicAssetDetachmentName;
     allegiance?: Allegiance;
 }
-
-const strategicAssetDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
-    [ "Knight", [ 
-        {detachmentName: "Acastus Knight Banner"},
-        {detachmentName: "Cerastus Knight Banner"},
-        {detachmentName: "Questoris Knight Banner"},
-    ] ],
-    [ "Titan", [
-        {detachmentName: "Dire Wolf Heavy Scout Titan"},
-        {detachmentName: "Reaver Battle Titan"},
-        {detachmentName: "Warhound Hunting Pack"},
-        {detachmentName: "Warbringer Nemesis Titan"},
-        {detachmentName: "Warlord Battle Titan"},
-        {detachmentName: "Warlord-Sinister Battle Titan", allegiance: "Loyalist"},
-        {detachmentName: "Warmaster Heavy Battle Titan"},
-        {detachmentName: "Warmaster Iconoclast Titan"},
-    ]]
-]);
 
 const collegiaTitanicaDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
     ["Dire Wolf",[
@@ -118,12 +116,46 @@ const collegiaTitanicaDetachmentNamesForSlot = new Map<FormationSlot, Detachment
     ]]
 ]);
 
-export function getStrategicAssetDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
-    return (strategicAssetDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
-}
+const questorisFamiliaDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
+    ["Armiger", [
+        {detachmentName: "Armiger Knight Banner"},
+    ]],
+    ["Cerastus", [
+        {detachmentName: "Cerastus Knight Banner"},
+    ]],
+    ["Questoris", [
+        {detachmentName: "Questoris Knight Banner"},
+    ]],
+]);
+
+const strategicAssetDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
+    ["Knight", [ 
+        {detachmentName: "Acastus Knight Banner"},
+        {detachmentName: "Cerastus Knight Banner"},
+        {detachmentName: "Questoris Knight Banner"},
+    ]],
+    ["Titan", [
+        {detachmentName: "Dire Wolf Heavy Scout Titan"},
+        {detachmentName: "Reaver Battle Titan"},
+        {detachmentName: "Warhound Hunting Pack"},
+        {detachmentName: "Warbringer Nemesis Titan"},
+        {detachmentName: "Warlord Battle Titan"},
+        {detachmentName: "Warlord-Sinister Battle Titan", allegiance: "Loyalist"},
+        {detachmentName: "Warmaster Heavy Battle Titan"},
+        {detachmentName: "Warmaster Iconoclast Titan"},
+    ]]
+]);
 
 export function getCollegiaTitanicaDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
     return (collegiaTitanicaDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
+}
+
+export function getQuestorisFamiliaDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
+    return (questorisFamiliaDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
+}
+
+export function getStrategicAssetDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
+    return (strategicAssetDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
 }
 
 const validateTalons = (detachment: Detachment): DetachmentValidationState => {
@@ -191,6 +223,13 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 ]},
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 3, points: 180}
+            ], formationNames: [
+                "Axiom Battleline Maniple",
+                "Corsair Battleline Maniple",
+                "Ferox Light Maniple",
+                "Knight Household Lance",
+                "Lupercal Light Maniple",
+                "Ruptura Battleline Maniple",
             ]},
             {modelType: "Knight Moirax", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
@@ -199,6 +238,33 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 ]},
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 3, points: 200}
+            ], formationNames: [
+                "Axiom Battleline Maniple",
+                "Corsair Battleline Maniple",
+                "Ferox Light Maniple",
+                "Knight Household Lance",
+                "Lupercal Light Maniple",
+                "Ruptura Battleline Maniple",
+            ]},
+        ]
+    }],
+    ["Armiger Knight Banner", {minModels: 3, maxModels: 9,
+        modelGroupShapes: [
+            {modelType: "Knight Armiger", modelLoadoutSlots: [
+                {name: "Close combat", possibleModelLoadouts: [
+                    {loadout: "Reaper chain-cleaver", points: 0}, 
+                    {loadout: "Armiger autocannon", points: 0},
+                ]},
+            ], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 3, points: 180}, {num: 6, points: 180+160}, {num: 9, points: 180+160*2},
+            ]},
+            {modelType: "Knight Moirax", modelLoadoutSlots: [
+                {name: "Close combat", possibleModelLoadouts: [
+                    {loadout: "Armiger lightning locks", points: 0}, 
+                    {loadout: "Volkite veuglaire", points: 0},
+                ]},
+            ], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 3, points: 200}, {num: 6, points: 200+180}, {num: 9, points: 200+180*2}
             ]},
         ]
     }],
@@ -239,6 +305,13 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 ]},
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 3, points: 180}
+            ], formationNames: [
+                "Axiom Battleline Maniple",
+                "Corsair Battleline Maniple",
+                "Ferox Light Maniple",
+                "Knight Household Lance",
+                "Lupercal Light Maniple",
+                "Ruptura Battleline Maniple",
             ]},
             {modelType: "Knight Moirax", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
@@ -247,6 +320,13 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 ]},
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 3, points: 200}
+            ], formationNames: [
+                "Axiom Battleline Maniple",
+                "Corsair Battleline Maniple",
+                "Ferox Light Maniple",
+                "Knight Household Lance",
+                "Lupercal Light Maniple",
+                "Ruptura Battleline Maniple",
             ]},
         ]}
     ],
@@ -342,6 +422,13 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 ]},
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 3, points: 180}
+            ], formationNames: [
+                "Axiom Battleline Maniple",
+                "Corsair Battleline Maniple",
+                "Ferox Light Maniple",
+                "Knight Household Lance",
+                "Lupercal Light Maniple",
+                "Ruptura Battleline Maniple",
             ]},
             {modelType: "Knight Moirax", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
@@ -350,6 +437,13 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 ]},
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 3, points: 200}
+            ], formationNames: [
+                "Axiom Battleline Maniple",
+                "Corsair Battleline Maniple",
+                "Ferox Light Maniple",
+                "Knight Household Lance",
+                "Lupercal Light Maniple",
+                "Ruptura Battleline Maniple",
             ]},
         ]
     }],

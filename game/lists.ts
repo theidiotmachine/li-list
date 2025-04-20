@@ -1,18 +1,19 @@
-import { getAuxiliaDetachmentConfigurationForDetachmentName, getAuxiliaDetachmentNamesForSlot, getShapeForAuxiliaFormationType, getStatsForAuxiliaModelType } from "./auxiliaList.ts";
-import { AllAuxiliaModelTypes, AuxiliaDetachmentName, AuxiliaFormationType, AuxiliaFormationTypes, AuxiliaModelType } from "./auxiliaTypes.ts";
-import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentName, getLegionDetachmentNamesForSlot, getShapeForLegionFormationType } from "./legionList.ts";
-import { AllLegionModelTypes, LegionDetachmentName, LegionFormationType, LegionFormationTypes, LegionModelType } from "./legionTypes.ts";
-import { getCollegiaTitanicaDetachmentNamesForSlot, getShapeForCollegiaTitanicaFormationType, getShapeForStrategicAssetFormationType, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
-import { AllStrategicAssetModelTypes, CollegiaTitanicaFormationType, CollegiaTitanicaFormationTypes, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetFormationTypes, StrategicAssetModelType } from "./strategicAssetTypes.ts";
-import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationType, ModelType, Stats } from "./types.ts";
+import { getAuxiliaDetachmentConfigurationForDetachmentName, getAuxiliaDetachmentNamesForSlot, getShapeForAuxiliaFormationName, getStatsForAuxiliaModelType } from "./auxiliaList.ts";
+import { AllAuxiliaModelTypes, AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaFormationNames, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentName, getLegionDetachmentNamesForSlot, getShapeForLegionFormationName } from "./legionList.ts";
+import { AllLegionModelTypes, LegionDetachmentName, LegionFormationName, LegionFormationNames, LegionModelType } from "./legionTypes.ts";
+import { getCollegiaTitanicaDetachmentNamesForSlot, getQuestorisFamiliaDetachmentNamesForSlot, getShapeForCollegiaTitanicaFormationName, getShapeForQuestorisFamiliaFormationName, getShapeForStrategicAssetFormationName, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
+import { AllStrategicAssetModelTypes, CollegiaTitanicaFormationName, CollegiaTitanicaFormationNames, QuestorisFamiliaFormationName, QuestorisFamiliaFormationNames, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetFormationNames, StrategicAssetModelType } from "./strategicAssetTypes.ts";
+import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelType, Stats } from "./types.ts";
 
 
-const formationTypesForArmyListName: Map<ArmyListName, FormationType[]> = new Map([
+const formationTypesForArmyListName: Map<ArmyListName, FormationName[]> = new Map([
     //yes this is bad, but whatever
-    ["Collegia Titanica", CollegiaTitanicaFormationTypes as unknown as FormationType[]], 
-    ["Legions Astartes", LegionFormationTypes as unknown as FormationType[]], 
-    ["Solar Auxilia", AuxiliaFormationTypes as unknown as FormationType[]],
-    ["Strategic Asset", StrategicAssetFormationTypes as unknown as FormationType[]],
+    ["Collegia Titanica", CollegiaTitanicaFormationNames as unknown as FormationName[]], 
+    ["Legions Astartes", LegionFormationNames as unknown as FormationName[]], 
+    ["Questoris Familia", QuestorisFamiliaFormationNames as unknown as FormationName[]],
+    ["Solar Auxilia", AuxiliaFormationNames as unknown as FormationName[]],
+    ["Strategic Asset", StrategicAssetFormationNames as unknown as FormationName[]],
 ]);
 
 export function getFormationTypesForArmyListName(armyListName: ArmyListName | "") {
@@ -21,19 +22,21 @@ export function getFormationTypesForArmyListName(armyListName: ArmyListName | ""
     return formationTypesForArmyListName.get(armyListName) ?? [];
 }
 
-export function getShapeForFormationType(armyListName: ArmyListName | "", formationType: FormationType | ""): FormationShape {
+export function getShapeForFormationName(armyListName: ArmyListName | "", formationName: FormationName | ""): FormationShape {
     if(armyListName == "") return { slotRequirements: [] };
-    if(formationType == "") return { slotRequirements: [] };
+    if(formationName == "") return { slotRequirements: [] };
 
     switch(armyListName) {
         case "Collegia Titanica":
-            return getShapeForCollegiaTitanicaFormationType(formationType as CollegiaTitanicaFormationType);
+            return getShapeForCollegiaTitanicaFormationName(formationName as CollegiaTitanicaFormationName);
         case "Legions Astartes":
-            return getShapeForLegionFormationType(formationType as LegionFormationType);
+            return getShapeForLegionFormationName(formationName as LegionFormationName);
+        case "Questoris Familia":
+            return getShapeForQuestorisFamiliaFormationName(formationName as QuestorisFamiliaFormationName);
         case "Solar Auxilia":
-            return getShapeForAuxiliaFormationType(formationType as AuxiliaFormationType);
+            return getShapeForAuxiliaFormationName(formationName as AuxiliaFormationName);
         case "Strategic Asset":
-            return getShapeForStrategicAssetFormationType(formationType as StrategicAssetFormationType);
+            return getShapeForStrategicAssetFormationName(formationName as StrategicAssetFormationName);
     }
 }
 
@@ -43,6 +46,8 @@ export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: Form
             return getCollegiaTitanicaDetachmentNamesForSlot(slot, allegiance);
         case "Legions Astartes":
             return getLegionDetachmentNamesForSlot(slot);
+        case "Questoris Familia":
+            return getQuestorisFamiliaDetachmentNamesForSlot(slot, allegiance);
         case "Solar Auxilia":
             return getAuxiliaDetachmentNamesForSlot(slot);
         case "Strategic Asset":
@@ -56,6 +61,7 @@ export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyLi
             return getLegionDetachmentConfigurationForDetachmentName(detachmentName as LegionDetachmentName);
         case "Solar Auxilia":
             return getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName as AuxiliaDetachmentName);
+        case "Questoris Familia":
         case "Strategic Asset":
         case "Collegia Titanica":
             return getStrategicAssetDetachmentConfigurationForDetachmentName(detachmentName as StrategicAssetDetachmentName);

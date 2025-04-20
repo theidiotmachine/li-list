@@ -1,17 +1,17 @@
 import { DetachmentNameSelect } from "./DetachmentNameSelect.tsx";
-import { getDetachmentConfigurationForDetachmentName, getShapeForFormationType } from "../game/lists.ts";
+import { getDetachmentConfigurationForDetachmentName, getShapeForFormationName } from "../game/lists.ts";
 import { NumModelSelect } from "./NumModelSelect.tsx";
 import { DetachmentValidityIcon, DetachmentValidityText } from "./DetachmentValidity.tsx";
 import { ModelLoadoutWidget } from "./ModelLoadoutWidget.tsx";
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { Allegiance, ArmyListName, Detachment, FormationType, ModelGroup } from "../game/types.ts";
+import { Allegiance, ArmyListName, Detachment, FormationName, ModelGroup } from "../game/types.ts";
 import { DetachmentAttachmentSelect } from "./DetachmentAttachmentSelect.tsx";
 
 interface DetachmentWidgetProps {
     uuid: string;
     armyListName: ArmyListName;
-    formationType: FormationType;
+    formationType: FormationName;
     detachmentIndex: number;
     detachment: Detachment;
     allegiance: Allegiance  | "";
@@ -19,9 +19,9 @@ interface DetachmentWidgetProps {
 
 export function DetachmentWidget(props: DetachmentWidgetProps) {
     const { addModelLoadoutGroup, army, open, openState, close, getKey } = useContext(AppState);
-    const formationType = army.value.formations.find(x=>x.uuid == props.uuid)?.formationType ?? "";
+    const formationName = army.value.formations.find(x=>x.uuid == props.uuid)?.formationName ?? "";
 
-    const shape = getShapeForFormationType(props.armyListName, formationType);
+    const shape = getShapeForFormationName(props.armyListName, formationName);
 
     let modelGroups = <div></div>;
     const detachmentName = props.detachment.detachmentName;
@@ -29,7 +29,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
         const config = getDetachmentConfigurationForDetachmentName(props.armyListName, detachmentName);
         modelGroups = <div> {
             config.modelGroupShapes
-                .filter(u=>u.formationType ===undefined || u.formationType === formationType)
+                .filter(u=>u.formationNames === undefined || u.formationNames.findIndex((s)=>s===formationName) != -1)
                 .map((u, i) => {
                     const modelGroupIndex = props.detachment.modelGroups.findIndex((m: ModelGroup) => m.modelType == u.modelType);
                     return <div class={"grid gap-0 grid-cols-[20%_8%_22%_20%_20%_10%] " + ((i%2)?"bg-gray-50":"bg-white")} key={i}>
@@ -111,7 +111,14 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
             } </div>   
     }
 
-    const slotDisplayName = (props.detachmentIndex+1).toString() + ": " + (shape.slotRequirements[props.detachmentIndex].displayName ?? props.detachment.slot);
+    const slotDisplayName = (props.detachmentIndex+1).toString() 
+        + ": " 
+        + (shape.slotRequirements[props.detachmentIndex].displayName ?? props.detachment.slot)
+        //    + ((shape.slotRequirements[props.detachmentIndex].slotRequirementType == "Optional")?" optional": "")
+        //    + ((shape.slotRequirements[props.detachmentIndex].slotRequirementType == "One Of")?(" optional group " + shape.slotRequirements[props.detachmentIndex].oneOfGroup?.toString()): "")
+    ;
+    
+    
 
     //border-t-2 border-gray-100
     return <div class="mb-1 mt-1">

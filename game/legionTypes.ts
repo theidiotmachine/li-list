@@ -1,4 +1,4 @@
-export const LegionFormationTypes = [
+export const LegionFormationNames = [
     "Legion Aerial Assault",
     "Legion Armoured Company",
     "Legion Demi-Company",
@@ -8,7 +8,7 @@ export const LegionFormationTypes = [
     "Legion Sky-hunter Phalanx",
     "Legion Subterranean Assault",
 ] as const;
-export type LegionFormationType = (typeof LegionFormationTypes)[number];
+export type LegionFormationName = (typeof LegionFormationNames)[number];
 
 export type LegionFormationSlot = 
     "Legion Heavy Assault Spearhead Support Compulsory" |

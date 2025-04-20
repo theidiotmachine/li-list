@@ -1,10 +1,4 @@
-export const StrategicAssetFormationTypes = [
-    "Knight Household Lance",
-    "Legion Support",
-] as const;
-export type StrategicAssetFormationType = (typeof StrategicAssetFormationTypes)[number];
-
-export const CollegiaTitanicaFormationTypes = [
+export const CollegiaTitanicaFormationNames = [
     "Axiom Battleline Maniple",
     "Corsair Battleline Maniple",
     "Ferox Light Maniple",
@@ -12,7 +6,18 @@ export const CollegiaTitanicaFormationTypes = [
     "Purgigatus Heavy Maniple",
     "Ruptura Battleline Maniple",
 ] as const;
-export type CollegiaTitanicaFormationType = (typeof CollegiaTitanicaFormationTypes)[number];
+export type CollegiaTitanicaFormationName = (typeof CollegiaTitanicaFormationNames)[number];
+
+export const QuestorisFamiliaFormationNames = [
+    "Barony Guard Lance"
+] as const;
+export type QuestorisFamiliaFormationName = (typeof QuestorisFamiliaFormationNames)[number];
+
+export const StrategicAssetFormationNames = [
+    "Knight Household Lance",
+    "Legion Support",
+] as const;
+export type StrategicAssetFormationName = (typeof StrategicAssetFormationNames)[number];
 
 export type CollegiaTitanicaFormationSlot = 
     "Dire Wolf" |
@@ -23,10 +28,18 @@ export type CollegiaTitanicaFormationSlot =
     "Warmaster"
 ;
 
+export type QuestorisFamiliaFormationSlot = 
+    "Armiger" |
+    "Cerastus" |
+    "Questoris"
+;
+
 export type StrategicAssetDetachmentName = 
     "Acastus Knight Banner" |
     "Cerastus Knight Banner" |
     "Questoris Knight Banner" |
+
+    "Armiger Knight Banner" |
 
     "Dire Wolf Heavy Scout Titan" |
     "Reaver Battle Titan" |

@@ -1,11 +1,11 @@
 import { JSX } from "preact";
 import { DetachmentWidget } from "./DetachmentWidget.tsx";
-import { Allegiance, ArmyListName, Detachment, FormationType } from "../game/types.ts";
+import { Allegiance, ArmyListName, Detachment, FormationName } from "../game/types.ts";
 
 interface DetachmentTableProps extends JSX.HTMLAttributes<HTMLTableElement>{
     uuid: string;
     armyListName: ArmyListName;
-    formationType: FormationType;
+    formationType: FormationName;
     detachments: Detachment[];
     allegiance: Allegiance  | "";
 }

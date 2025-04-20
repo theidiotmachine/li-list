@@ -1,6 +1,6 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentName, FormationType, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "./game/types.ts";
-import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationType, getStatsForModelType } from "./game/lists.ts";
+import { DetachmentName, FormationName, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "./game/types.ts";
+import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationName, getStatsForModelType } from "./game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
 import { LegionName } from "./game/legionTypes.ts";
@@ -8,7 +8,6 @@ import { LegionName } from "./game/legionTypes.ts";
 export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
 export type ChangeFormationArmyList = (uuid: string, armyListName: ArmyListName | "") => void;
-export type ChangeFormationType = (uuid: string, formationType: FormationType | "") => void;
 export type ChangeModelNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, num: number) => void;
 export type ChangeModelLoadout = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, modelLoadoutSlotName: string, loadout: string) => void;
 export type AddModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
@@ -34,7 +33,7 @@ export type AppStateType = {
     removeFormation: RemoveFormation;
     changeFormationArmyList: ChangeFormationArmyList;
     changeFormationLegionName: (uuid: string, legionName: LegionName) => void;
-    changeFormationType: ChangeFormationType;
+    changeFormationName: (uuid: string, formationName: FormationName | "") => void;
     changeDetachmentName: (uuid: string, detachmentIndex: number, detachmentName: DetachmentName | "") => void;
     changeDetachmentAttachment: (uuid: string, detachmentIndex: number, attachedDetachmentIndex: number) => void;
     changeModelNumber: ChangeModelNumber;
@@ -504,7 +503,7 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
 
 //recalc all points and validations
 function refreshFormation(newFormation: Formation) {
-    const formationShape = getShapeForFormationType(newFormation.armyListName, newFormation.formationType);
+    const formationShape = getShapeForFormationName(newFormation.armyListName, newFormation.formationName);
     newFormation.detachments.forEach(
         (x, i) => {
             x.modelGroups.forEach((y)=>{
@@ -550,9 +549,9 @@ function calcArmyActivations(army: Army): number {
 
 //Given a configuration, create the default loadout for a detachment. That means choosing the first 
 //option in each loadout shape
-function getDefaultModelGroupsForDetachment(config: DetachmentConfiguration, formationType: FormationType): ModelGroup[] {
+function getDefaultModelGroupsForDetachment(config: DetachmentConfiguration, formationName: FormationName): ModelGroup[] {
     return config.modelGroupShapes
-        .filter((x) => (x.formationType === undefined) || (x.formationType === formationType))
+        .filter((x) => (x.formationNames === undefined) || (x.formationNames.findIndex((s)=>s == formationName)!=-1))
         .map((x) => {
             let modelLoadoutGroups: ModelLoadoutGroup[] = [];
             if(x.modelLoadoutSlots.length > 0) {
@@ -784,7 +783,7 @@ function createAppState(): AppStateType {
 
         const newArmy = {...army.value};
         newArmy.formations = newArmy.formations.slice();
-        newArmy.formations.push({armyListName: "", formationType: "", points: 0, detachments:[], uuid, breakPoint: 0, activations: 0});
+        newArmy.formations.push({armyListName: "", formationName: "", points: 0, detachments:[], uuid, breakPoint: 0, activations: 0});
         const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
         newArmy.points = points.points
         newArmy.alliedPoints = points.alliedPoints;
@@ -822,7 +821,7 @@ function createAppState(): AppStateType {
         const newFormation = structuredClone(army.value.formations[formationIdx])
 
         newFormation.armyListName = armyListName;
-        newFormation.formationType = "";
+        newFormation.formationName = "";
         newFormation.detachments = [];
         if(armyListName == "Legions Astartes") {
             newFormation.legionName = "";
@@ -848,27 +847,27 @@ function createAppState(): AppStateType {
         setFormationAtIdx(newFormation, formationIdx);
     }
 
-    const changeFormationType: ChangeFormationType = (uuid: string, formationType: FormationType | "") => {
+    const changeFormationName = (uuid: string, formationName: FormationName | "") => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
             return;
 
-        if(army.value.formations[formationIdx].formationType == formationType)
+        if(army.value.formations[formationIdx].formationName == formationName)
             return;
 
         const newFormation = structuredClone(army.value.formations[formationIdx])
 
-        newFormation.formationType = formationType;
+        newFormation.formationName = formationName;
         
-        const formationShape = getShapeForFormationType(newFormation.armyListName, formationType);
+        const formationShape = getShapeForFormationName(newFormation.armyListName, formationName);
         newFormation.detachments = formationShape.slotRequirements.map((s) => {
             //fill in anything which we have no options on
             if(s.slotRequirementType == "Required" && newFormation.armyListName != "") {
                 const dtfs = getDetachmentNamesForSlot(newFormation.armyListName, s.slot, army.value.allegiance);
                 const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, dtfs[0]);
-                if(dtfs.length == 1 && newFormation.formationType != "") {
+                if(dtfs.length == 1 && newFormation.formationName != "") {
                     const out: Detachment = {
-                        slot: s.slot, modelGroups: getDefaultModelGroupsForDetachment(config, newFormation.formationType), 
+                        slot: s.slot, modelGroups: getDefaultModelGroupsForDetachment(config, newFormation.formationName), 
                         points: 0, detachmentName: dtfs[0], validationState: {valid: true}
                     };
                     if(out.modelGroups.length > 0) {
@@ -903,8 +902,8 @@ function createAppState(): AppStateType {
 
         if(newFormation.armyListName != "" && detachmentName != "") {
             const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, detachmentName);
-            if(newFormation.formationType != "" && config?.modelGroupShapes) {
-                newFormation.detachments[detachmentIndex].modelGroups = getDefaultModelGroupsForDetachment(config, newFormation.formationType);
+            if(newFormation.formationName != "" && config?.modelGroupShapes) {
+                newFormation.detachments[detachmentIndex].modelGroups = getDefaultModelGroupsForDetachment(config, newFormation.formationName);
 
                 if(newFormation.detachments[detachmentIndex].modelGroups.length > 0) {
                     const stats = getStatsForModelType(newFormation.detachments[detachmentIndex].modelGroups[0].modelType);
@@ -1066,7 +1065,7 @@ function createAppState(): AppStateType {
 
     return {army, makeNewArmy, changeArmyName, changeArmyMaxPoints, changePrimaryArmyListName, changeArmyAllegiance,
         addFormation, removeFormation, changeFormationArmyList, changeFormationLegionName,
-        changeFormationType, changeDetachmentName, changeDetachmentAttachment, changeModelNumber, 
+        changeFormationName, changeDetachmentName, changeDetachmentAttachment, changeModelNumber, 
         changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
         armiesLoadState, armyLoadState, saves, refreshSaves, load, deleteSave, canCloneArmy, cloneArmy,
         openState, open, close, getKey
