@@ -10,6 +10,15 @@ export const AuxiliaFormationTypes = [
 ] as const;
 export type AuxiliaFormationType = (typeof AuxiliaFormationTypes)[number];
 
+export type AuxiliaFormationSlot = 
+    "Auxilia Lasrifle" |
+    "Auxilia Shadowsword" |
+    "Leman Russ" |
+    "Solar Auxilia Armoured Company Compulsory Battle Tank" |
+    "Solar Auxilia Armoured Company Compulsory Heavy Armour" |
+    "Storm Section"
+;
+
 export type AuxiliaDetachmentName =
     "Auxilia Aethon Heavy Sentinel Patrol" |
     "Auxilia Arvus Lighter" |
@@ -80,3 +89,5 @@ export const AllAuxiliaModelTypes = [
     "Veletarii"
 ] as const;
 export type AuxiliaModelType = (typeof AllAuxiliaModelTypes)[number];
+
+

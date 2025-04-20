@@ -1,41 +1,129 @@
-import { Allegiance, Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, Stats, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetModelType } from "./types.ts";
+import { CollegiaTitanicaFormationType, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetModelType } from "./strategicAssetTypes.ts";
+import { Allegiance, Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, Stats } from "./types.ts";
 
-const formationShapes = new Map<StrategicAssetFormationType, FormationShape>([
-    [ "Knight Household Lance", { slotRequirements: [
+const strategicAssetFormationShapes = new Map<StrategicAssetFormationType, FormationShape>([
+    ["Knight Household Lance", {slotRequirements: [
         {   slot: "Knight",     slotRequirementType: "Required" },
     ]}],
-    [ "Legion Support", { slotRequirements: [
+    ["Legion Support", {slotRequirements: [
         {   slot: "Titan",      slotRequirementType: "Required" },
+    ]}]
+]);
+
+const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationType, FormationShape>([
+    ["Axiom Battleline Maniple", {slotRequirements: [
+        {slot: "Warlord", slotRequirementType: "Required"},
+        {slot: "Reaver", slotRequirementType: "Required"},
+        {slot: "Warhound", slotRequirementType: "Required"},
+        {slot: "Reaver", slotRequirementType: "Optional"},
+        {slot: "Knight", slotRequirementType: "Optional"},
+        {slot: "Knight", slotRequirementType: "Optional"},
+    ]}],
+    ["Corsair Battleline Maniple", {slotRequirements: [
+        {slot: "Reaver", slotRequirementType: "Required"},
+        {slot: "Reaver", slotRequirementType: "Required"},
+        {slot: "Reaver", slotRequirementType: "Optional"},
+        {slot: "Reaver", slotRequirementType: "Optional"},
+        {slot: "Reaver", slotRequirementType: "Optional"},
+        {slot: "Knight", slotRequirementType: "Optional"},
+    ]}],
+    ["Ferox Light Maniple", {slotRequirements: [
+        {slot: "Reaver", slotRequirementType: "Required"},
+        {slot: "Warhound", slotRequirementType: "Required"},
+        {slot: "Reaver", slotRequirementType: "Optional"},
+        {slot: "Dire Wolf", slotRequirementType: "Optional"},
+        {slot: "Knight", slotRequirementType: "Optional"},
+    ]}],
+    ["Lupercal Light Maniple", {slotRequirements: [
+        {slot: "Warhound", slotRequirementType: "Required"},
+        {slot: "Warhound", slotRequirementType: "Required"},
+        {slot: "Dire Wolf", slotRequirementType: "Optional"},
+        {slot: "Dire Wolf", slotRequirementType: "Optional"},
+        {slot: "Knight", slotRequirementType: "Optional"},
+    ]}],
+    ["Purgigatus Heavy Maniple", {slotRequirements: [
+        {slot: "Warmaster", slotRequirementType: "Required"},
+        {slot: "Warmaster", slotRequirementType: "Optional"},
+        {slot: "Warlord", slotRequirementType: "Optional"},
+        {slot: "Warbringer", slotRequirementType: "Optional"},
+        {slot: "Warbringer", slotRequirementType: "Optional"},
+    ]}],
+    ["Ruptura Battleline Maniple", {slotRequirements: [
+        {slot: "Warbringer", slotRequirementType: "Required"},
+        {slot: "Warbringer", slotRequirementType: "Required"},
+        {slot: "Reaver", slotRequirementType: "Optional"},
+        {slot: "Reaver", slotRequirementType: "Optional"},
+        {slot: "Reaver", slotRequirementType: "Optional"},
+        {slot: "Knight", slotRequirementType: "Optional"},
     ]}]
 ]);
 
 export function getShapeForStrategicAssetFormationType(formationType: StrategicAssetFormationType | ""): FormationShape {
     if(formationType == "") return { slotRequirements: [] };
-    return formationShapes.get(formationType) ?? { slotRequirements: [] };
+    return strategicAssetFormationShapes.get(formationType) ?? { slotRequirements: [] };
 }
+
+export function getShapeForCollegiaTitanicaFormationType(formationType: CollegiaTitanicaFormationType | ""): FormationShape {
+    if(formationType == "") return { slotRequirements: [] };
+    return collegiaTitanicaFormationShapes.get(formationType) ?? { slotRequirements: [] };
+}
+
 type DetachmentNameData = {
     detachmentName: StrategicAssetDetachmentName;
     allegiance?: Allegiance;
 }
 
-const detachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
+const strategicAssetDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
     [ "Knight", [ 
-        { detachmentName: "Acastus Knight Banner" },
-        { detachmentName: "Cerastus Knight Banner" },
-        { detachmentName: "Questoris Knight Banner" },
+        {detachmentName: "Acastus Knight Banner"},
+        {detachmentName: "Cerastus Knight Banner"},
+        {detachmentName: "Questoris Knight Banner"},
     ] ],
     [ "Titan", [
-        { detachmentName: "Dire Wolf Heavy Scout Titan" },
-        { detachmentName: "Reaver Battle Titan" },
-        { detachmentName: "Warhound Hunting Pack" },
-        { detachmentName: "Warbringer Nemesis Titan" },
-        { detachmentName: "Warlord Battle Titan" },
-        { detachmentName: "Warlord-Sinister Battle Titan", allegiance: "Loyalist" },
+        {detachmentName: "Dire Wolf Heavy Scout Titan"},
+        {detachmentName: "Reaver Battle Titan"},
+        {detachmentName: "Warhound Hunting Pack"},
+        {detachmentName: "Warbringer Nemesis Titan"},
+        {detachmentName: "Warlord Battle Titan"},
+        {detachmentName: "Warlord-Sinister Battle Titan", allegiance: "Loyalist"},
+        {detachmentName: "Warmaster Heavy Battle Titan"},
+        {detachmentName: "Warmaster Iconoclast Titan"},
+    ]]
+]);
+
+const collegiaTitanicaDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
+    ["Dire Wolf",[
+        {detachmentName: "Dire Wolf Heavy Scout Titan"},
+    ]],
+    ["Knight", [ 
+        {detachmentName: "Acastus Knight Banner"},
+        {detachmentName: "Cerastus Knight Banner"},
+        {detachmentName: "Questoris Knight Banner"},
+    ]],
+    ["Reaver", [
+        {detachmentName: "Reaver Battle Titan"},
+    ]],
+    ["Warbringer", [
+        {detachmentName: "Warbringer Nemesis Titan"},
+    ]],
+    ["Warhound", [
+        {detachmentName: "Warhound Hunting Pack"},
+    ]],
+    ["Warlord", [
+        {detachmentName: "Warlord Battle Titan"},
+    ]],
+    ["Warmaster", [
+        {detachmentName: "Warmaster Heavy Battle Titan"},
+        {detachmentName: "Warmaster Iconoclast Titan"},
     ]]
 ]);
 
 export function getStrategicAssetDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
-    return (detachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
+    return (strategicAssetDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
+}
+
+export function getCollegiaTitanicaDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
+    return (collegiaTitanicaDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
 }
 
 const validateTalons = (detachment: Detachment): DetachmentValidationState => {

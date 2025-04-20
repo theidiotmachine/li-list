@@ -10,6 +10,12 @@ export const LegionFormationTypes = [
 ] as const;
 export type LegionFormationType = (typeof LegionFormationTypes)[number];
 
+export type LegionFormationSlot = 
+    "Legion Heavy Assault Spearhead Support Compulsory" |
+    "Legion Terminators" |
+    "Sky-hunter Phalanx Vanguard Compulsory" //This just makes it easier. It can't have bikes
+;
+
 export type LegionDetachmentName = 
     "Legion Assault Detachment" | 
     "Legion Command" | 

@@ -13,6 +13,7 @@ export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps)
         disabled={!props.enabled}
         onInput={(e) => changePrimaryArmyListName(e.currentTarget.value as ArmyListName)}>
         <option value="" selected={props.primaryArmyListName == ""}>Primary Army List</option>
+        <option selected={props.primaryArmyListName == "Collegia Titanica"}>Collegia Titanica</option>
         <option selected={props.primaryArmyListName == "Legions Astartes"}>Legions Astartes</option>
         <option selected={props.primaryArmyListName == "Solar Auxilia"}>Solar Auxilia</option>
     </select>

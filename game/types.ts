@@ -1,5 +1,6 @@
-import { AuxiliaDetachmentName, AuxiliaFormationType, AuxiliaModelType } from "./auxiliaTypes.ts";
-import { LegionDetachmentName, LegionFormationType, LegionModelType, LegionName } from "./legionTypes.ts";
+import { AuxiliaDetachmentName, AuxiliaFormationSlot, AuxiliaFormationType, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { LegionDetachmentName, LegionFormationSlot, LegionFormationType, LegionModelType, LegionName } from "./legionTypes.ts";
+import { CollegiaTitanicaFormationSlot, CollegiaTitanicaFormationType, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetModelType } from "./strategicAssetTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 export type DetachmentValidationError = 
@@ -41,40 +42,34 @@ export const Allegiances = [
 export type Allegiance = (typeof Allegiances)[number];
 
 export const ArmyListNames = [
+    "Collegia Titanica",
     "Legions Astartes",
     "Solar Auxilia",
     "Strategic Asset",
 ] as const;
 export type ArmyListName = (typeof ArmyListNames)[number];    
 
-export const StrategicAssetFormationTypes = [
-    "Knight Household Lance",
-    "Legion Support",
-] as const;
-export type StrategicAssetFormationType = (typeof StrategicAssetFormationTypes)[number];
-
-export type FormationType = LegionFormationType | AuxiliaFormationType | StrategicAssetFormationType;
+export type FormationType = 
+    AuxiliaFormationType | 
+    CollegiaTitanicaFormationType |
+    LegionFormationType | 
+    StrategicAssetFormationType
+;
 
 export type FormationSlot = 
+    AuxiliaFormationSlot |
+    CollegiaTitanicaFormationSlot |
+    LegionFormationSlot |
     "Air Support" | 
     "Artillery" | 
-    "Auxilia Lasrifle" |
-    "Auxilia Shadowsword" |
     "Bastion" | 
     "Battle Tank" | 
     "Core" | 
     "Heavy Armour" | 
     "HQ" | 
     "Knight" |
-    "Legion Heavy Assault Spearhead Support Compulsory" |
-    "Legion Terminators" |
-    "Leman Russ" |
     "Light Armour" |
-    "Sky-hunter Phalanx Vanguard Compulsory" | //This just makes it easier. It can't have bikes
-    "Solar Auxilia Armoured Company Compulsory Battle Tank" |
-    "Solar Auxilia Armoured Company Compulsory Heavy Armour" |
     "Support" | 
-    "Storm Section" |
     "Titan" |
     "Transport" | 
     "Vanguard" 
@@ -92,51 +87,8 @@ export type FormationShape = {
     slotRequirements: SlotRequirements[];
     customValidation?: (Formation: Formation, detachmentIndex: number) => DetachmentValidationState
 }
-
-export type StrategicAssetDetachmentName = 
-    "Acastus Knight Banner" |
-    "Cerastus Knight Banner" |
-    "Questoris Knight Banner" |
-
-    "Dire Wolf Heavy Scout Titan" |
-    "Reaver Battle Titan" |
-    "Warbringer Nemesis Titan" |
-    "Warhound Hunting Pack" | 
-    "Warlord Battle Titan" |
-    "Warlord-Sinister Battle Titan" |
-    "Warmaster Heavy Battle Titan" |
-    "Warmaster Iconoclast Titan"
-;
         
 export type DetachmentName = LegionDetachmentName | AuxiliaDetachmentName | StrategicAssetDetachmentName;
-
-export const AllStrategicAssetModelTypes = [
-    "Acastus Knight Asterius",
-    "Acastus Knight Porphyrion",
-    "Cerastus Knight Atrapos",
-    "Knight Acheron",
-    "Knight Armiger",
-    "Knight Castigator",
-    "Knight Crusader",
-    "Knight Errant",
-    "Knight Gallant",
-    "Knight Lancer",
-    "Knight Magaera",
-    "Knight Moirax",
-    "Knight Paladin",
-    "Knight Styrix",
-    "Knight Warden",
-
-    "Dire Wolf Titan",
-    "Reaver Battle Titan",
-    "Warbringer Nemesis Titan",
-    "Warhound Titan",
-    "Warlord Battle Titan",
-    "Warlord-Sinister",
-    "Warmaster Titan",
-    "Warmaster Iconoclast"
-];
-export type StrategicAssetModelType = (typeof AllStrategicAssetModelTypes)[number];
 
 //actually called 'Model Name'
 export type ModelType = LegionModelType | AuxiliaModelType | StrategicAssetModelType;

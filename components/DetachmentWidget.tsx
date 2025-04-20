@@ -49,7 +49,8 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                             (u.possibleModelGroupQuantities.length === 1 || u.modelLoadoutSlots.length > 0) ? ( 
                                 <div class="col-span-1 col-start-2 flex items-center">
                                     {props.detachment.modelGroups[modelGroupIndex].number}
-                                    {(u.possibleModelGroupQuantities.length === 1)?<div></div>: 
+                                    {(u.possibleModelGroupQuantities.length === 1 && u.modelLoadoutSlots.length == 0)?
+                                        <div></div>: 
                                         (openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?
                                         <img 
                                             src="/tick-clean.svg" class="w-6 h-6 mr-1 ml-3 cursor-pointer"

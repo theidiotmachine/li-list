@@ -2,12 +2,14 @@ import { getAuxiliaDetachmentConfigurationForDetachmentName, getAuxiliaDetachmen
 import { AllAuxiliaModelTypes, AuxiliaDetachmentName, AuxiliaFormationType, AuxiliaFormationTypes, AuxiliaModelType } from "./auxiliaTypes.ts";
 import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentName, getLegionDetachmentNamesForSlot, getShapeForLegionFormationType } from "./legionList.ts";
 import { AllLegionModelTypes, LegionDetachmentName, LegionFormationType, LegionFormationTypes, LegionModelType } from "./legionTypes.ts";
-import { getShapeForStrategicAssetFormationType, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
-import { Allegiance, AllStrategicAssetModelTypes, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationType, ModelType, Stats, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetFormationTypes } from "./types.ts";
+import { getCollegiaTitanicaDetachmentNamesForSlot, getShapeForCollegiaTitanicaFormationType, getShapeForStrategicAssetFormationType, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
+import { AllStrategicAssetModelTypes, CollegiaTitanicaFormationType, CollegiaTitanicaFormationTypes, StrategicAssetDetachmentName, StrategicAssetFormationType, StrategicAssetFormationTypes, StrategicAssetModelType } from "./strategicAssetTypes.ts";
+import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationType, ModelType, Stats } from "./types.ts";
 
 
 const formationTypesForArmyListName: Map<ArmyListName, FormationType[]> = new Map([
     //yes this is bad, but whatever
+    ["Collegia Titanica", CollegiaTitanicaFormationTypes as unknown as FormationType[]], 
     ["Legions Astartes", LegionFormationTypes as unknown as FormationType[]], 
     ["Solar Auxilia", AuxiliaFormationTypes as unknown as FormationType[]],
     ["Strategic Asset", StrategicAssetFormationTypes as unknown as FormationType[]],
@@ -24,6 +26,8 @@ export function getShapeForFormationType(armyListName: ArmyListName | "", format
     if(formationType == "") return { slotRequirements: [] };
 
     switch(armyListName) {
+        case "Collegia Titanica":
+            return getShapeForCollegiaTitanicaFormationType(formationType as CollegiaTitanicaFormationType);
         case "Legions Astartes":
             return getShapeForLegionFormationType(formationType as LegionFormationType);
         case "Solar Auxilia":
@@ -35,6 +39,8 @@ export function getShapeForFormationType(armyListName: ArmyListName | "", format
 
 export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: FormationSlot, allegiance: Allegiance | ""): DetachmentName[] {
     switch(armyListName) {
+        case "Collegia Titanica":
+            return getCollegiaTitanicaDetachmentNamesForSlot(slot, allegiance);
         case "Legions Astartes":
             return getLegionDetachmentNamesForSlot(slot);
         case "Solar Auxilia":
@@ -51,6 +57,7 @@ export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyLi
         case "Solar Auxilia":
             return getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName as AuxiliaDetachmentName);
         case "Strategic Asset":
+        case "Collegia Titanica":
             return getStrategicAssetDetachmentConfigurationForDetachmentName(detachmentName as StrategicAssetDetachmentName);
     }
 }
@@ -60,7 +67,7 @@ export function getStatsForModelType(modelType: ModelType): Stats | undefined {
         return getStatsForLegionModelType(modelType as LegionModelType);
     }
     if(AllStrategicAssetModelTypes.findIndex(a=>a==modelType) != -1) {
-        return getStatsForStrategicAssetModelType(modelType as LegionModelType);
+        return getStatsForStrategicAssetModelType(modelType as StrategicAssetModelType);
     }
     if(AllAuxiliaModelTypes.findIndex(a=>a==modelType) != -1) {
         return getStatsForAuxiliaModelType(modelType as AuxiliaModelType);
