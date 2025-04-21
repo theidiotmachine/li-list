@@ -51,11 +51,37 @@ const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, F
 
 const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, FormationShape>([
     ["Barony Guard Lance", {slotRequirements: [
-        {   slot: "Questoris",     slotRequirementType: "Required" },
-        {   slot: "Questoris",     slotRequirementType: "Required" },
+        {slot: "Questoris", slotRequirementType: "Required"},
+        {slot: "Questoris", slotRequirementType: "Required"},
+        {slot: "Cerastus", slotRequirementType: "Required"},
+        {slot: "Cerastus", slotRequirementType: "Optional"},
+        {slot: "Questoris", slotRequirementType: "Optional"},
+        {slot: "Armiger", slotRequirementType: "Optional"},
+    ]}],
+    ["Bastion Lance", {slotRequirements: [
+        {slot: "Acastus", slotRequirementType: "Required"},
+        {slot: "Acastus", slotRequirementType: "Required"},
+        {slot: "Questoris", slotRequirementType: "Required"},
+        {slot: "Questoris", slotRequirementType: "Optional"},
+        {slot: "Armiger", slotRequirementType: "Optional"},
+        {slot: "Armiger", slotRequirementType: "Optional"},
+    ]}],
+    ["Bonded Household Lance", {slotRequirements: [
+        {slot: "Mechanicum Questoris", slotRequirementType: "Required", displayName: "Questoris"},
+        {slot: "Mechanicum Questoris", slotRequirementType: "Required", displayName: "Questoris"},
+        {slot: "Mechanicum Questoris", slotRequirementType: "Optional", displayName: "Questoris"},
+        {slot: "Acastus", slotRequirementType: "Optional"},
+        {slot: "Cerastus", slotRequirementType: "Optional"},
+        {slot: "Moirax", slotRequirementType: "Optional", displayName: "Armiger"},
+        {slot: "Moirax", slotRequirementType: "Optional", displayName: "Armiger"},
+    ]}],
+    ["Vanguard Lance", {slotRequirements: [
         {   slot: "Cerastus",      slotRequirementType: "Required" },
-        {   slot: "Cerastus",      slotRequirementType: "Optional" },
+        {   slot: "Cerastus",      slotRequirementType: "Required" },
+        {   slot: "Armiger",       slotRequirementType: "Required" },
         {   slot: "Questoris",     slotRequirementType: "Optional" },
+        {   slot: "Questoris",     slotRequirementType: "Optional" },
+        {   slot: "Armiger",       slotRequirementType: "Optional" },
         {   slot: "Armiger",       slotRequirementType: "Optional" },
     ]}],
 ]);
@@ -117,6 +143,9 @@ const collegiaTitanicaDetachmentNamesForSlot = new Map<FormationSlot, Detachment
 ]);
 
 const questorisFamiliaDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
+    ["Acastus", [
+        {detachmentName: "Acastus Knight Banner"},
+    ]],
     ["Armiger", [
         {detachmentName: "Armiger Knight Banner"},
     ]],
@@ -126,6 +155,12 @@ const questorisFamiliaDetachmentNamesForSlot = new Map<FormationSlot, Detachment
     ["Questoris", [
         {detachmentName: "Questoris Knight Banner"},
     ]],
+    ["Mechanicum Questoris", [
+        {detachmentName: "Bonded Questoris Knight Banner"},
+    ]],
+    ["Moirax", [
+        {detachmentName: "Moirax Knight Banner"},
+    ]]
 ]);
 
 const strategicAssetDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
@@ -268,6 +303,34 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             ]},
         ]
     }],
+    ["Bonded Questoris Knight Banner", {minModels: 1, 
+        customValidation: (detachment: Detachment): DetachmentValidationState => {
+            //max 3 knights
+            const questorisKnights = ["Knight Magaera", "Knight Styrix"];
+            
+            let numQuestorisKnights = 0;
+            for(let i= 0; i < questorisKnights.length; ++i) {
+                const k = detachment.modelGroups.find(m=>m.modelType == questorisKnights[i]);
+                numQuestorisKnights += k?.number ?? 0;
+            }
+            if(numQuestorisKnights > 3)
+                return {valid: false, error: "Too many models in detachment", data: "max 3 Questoris knights"};
+            if(numQuestorisKnights == 0)
+                return {valid: false, error: "Too few models in detachment", data: "min 1 Questoris knight"};
+
+            return validateTalons(detachment);
+        },
+        modelGroupShapes: [
+            {modelType: "Knight Magaera", modelLoadoutSlots: [
+            ], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 1, points: 180+15}, {num: 2, points: 180+180+15*2}, {num: 3, points: 180+340+15*3}
+            ], independentModels: true},
+            {modelType: "Knight Styrix", modelLoadoutSlots: [
+            ], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 1, points: 180+15}, {num: 2, points: 180+180+15*2}, {num: 3, points: 180+340+15*3}
+            ], independentModels: true},
+        ]
+    }],
     ["Cerastus Knight Banner", {minModels: 1, 
         customValidation: (detachment: Detachment): DetachmentValidationState => {
             //max 3 knights
@@ -337,7 +400,10 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             let numQuestorisKnights = 0;
             for(let i= 0; i < questorisKnights.length; ++i) {
                 const k = detachment.modelGroups.find(m=>m.modelType == questorisKnights[i]);
-                numQuestorisKnights += k?.modelLoadoutGroups.reduce((p, g)=> p + g.number, 0) ?? 0;
+                if(questorisKnights[i] == "Knight Magaera" || questorisKnights[i] == "Knight Styrix")
+                    numQuestorisKnights += k?.number ?? 0;
+                else    
+                    numQuestorisKnights += k?.modelLoadoutGroups.reduce((p, g)=> p + g.number, 0) ?? 0;
             }
             if(numQuestorisKnights > 3)
                 return {valid: false, error: "Too many models in detachment", data: "max 3 Questoris knights"};
@@ -444,6 +510,18 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 "Knight Household Lance",
                 "Lupercal Light Maniple",
                 "Ruptura Battleline Maniple",
+            ]},
+        ]
+    }],
+    ["Moirax Knight Banner", {minModels: 3, maxModels: 9,
+        modelGroupShapes: [
+            {modelType: "Knight Moirax", modelLoadoutSlots: [
+                {name: "Close combat", possibleModelLoadouts: [
+                    {loadout: "Armiger lightning locks", points: 0}, 
+                    {loadout: "Volkite veuglaire", points: 0},
+                ]},
+            ], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 3, points: 200}, {num: 6, points: 200+180}, {num: 9, points: 200+180*2}
             ]},
         ]
     }],

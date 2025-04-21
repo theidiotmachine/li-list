@@ -9,7 +9,10 @@ export const CollegiaTitanicaFormationNames = [
 export type CollegiaTitanicaFormationName = (typeof CollegiaTitanicaFormationNames)[number];
 
 export const QuestorisFamiliaFormationNames = [
-    "Barony Guard Lance"
+    "Barony Guard Lance",
+    "Bastion Lance",
+    "Bonded Household Lance",
+    "Vanguard Lance",
 ] as const;
 export type QuestorisFamiliaFormationName = (typeof QuestorisFamiliaFormationNames)[number];
 
@@ -29,18 +32,28 @@ export type CollegiaTitanicaFormationSlot =
 ;
 
 export type QuestorisFamiliaFormationSlot = 
+    "Acastus" |
     "Armiger" |
     "Cerastus" |
-    "Questoris"
+    "Questoris" |
+    "Moirax" |
+    "Mechanicum Questoris"
 ;
 
 export type StrategicAssetDetachmentName = 
+    //general knight detachments
     "Acastus Knight Banner" |
     "Cerastus Knight Banner" |
     "Questoris Knight Banner" |
 
+    //specialised for the familia
     "Armiger Knight Banner" |
+    //this isn't actually a detachment, but it makes it much easier
+    "Moirax Knight Banner" |
+    //this isn't actually a detachment, but it makes it much easier
+    "Bonded Questoris Knight Banner" |
 
+    //titans
     "Dire Wolf Heavy Scout Titan" |
     "Reaver Battle Titan" |
     "Warbringer Nemesis Titan" |
