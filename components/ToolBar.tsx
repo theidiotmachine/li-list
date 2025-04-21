@@ -62,6 +62,7 @@ export function ToolBar(props: ToolBarProps) {
                     encodedPromise.then((encoded)=>{location.href='./export?army='+encoded;})
                 }} class="flex-1 cursor-pointer"> Export PDF</a>
             }
+            <a class="flex-1 cursor-pointer" href="./about">About</a>
             
         </div>
     </div>

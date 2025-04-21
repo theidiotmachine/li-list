@@ -1,9 +1,15 @@
 export default function AboutPage() {
     return (
-      <main>
-        <h1>About</h1>
-        <p>Legion Imperialis list builder.</p>
-        <p>This is not an official Games Workshop product. All names and trademarks are (C) Games Workshop.</p>
-      </main>
+      <div class="flex flex-row justify-center mt-8">
+        <div>
+          <h1 class="text-xl border-b-2 border-gray-400 font-bold bg-gray-100">Legion Imperialis list builder</h1>
+          <p class="m-1">This is not an official Games Workshop website.</p>
+          <p class="m-1">If you want to contact me, mail the idiot machine (all one word) at gmail dot com, or join the London Warhammer Gaming Guild.</p>
+          <p class="m-1">Shout outs to:</p>
+          <p class="m-1"><a href="https://www.meetup.com/the-london-warhammer-gaming-guild/">The London Warhammer Gaming Guild</a></p>
+          <p class="m-1"><a href="https://www.youtube.com/@LItbashing">Litbashing</a></p>
+          <p class="m-1"><a href="https://www.goonhammer.com/author/henryc/">NotThatHenryC at Goonhammer</a></p>
+        </div>
+      </div>
     );
   }
