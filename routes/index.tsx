@@ -10,8 +10,8 @@ export default function Home(props: PageProps) {
   let armyAsJson = "";
   
   if(encodedArmyString != "") {
-    const zippedArmyString = decodeBase64(decodeURIComponent(encodedArmyString));
-    armyAsJson = new TextDecoder().decode(gunzip(zippedArmyString));
+      const zippedArmyString = decodeBase64(decodeURIComponent(encodedArmyString));
+      armyAsJson = new TextDecoder().decode(gunzip(zippedArmyString));
   }
   
   return <App uuid={uuid} armyAsJson={armyAsJson}/>;

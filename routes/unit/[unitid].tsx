@@ -1,11 +1,20 @@
 import { PageProps } from "$fresh/server.ts";
-import { ModelType, Save, SaveModifier, Stats, UnitTrait, WeaponStats, WeaponStatsAtRange, WeaponTrait } from "../../game/types.ts";
+import {
+  ModelType,
+  Save,
+  SaveModifier,
+  Stats,
+  UnitTrait,
+  WeaponStats,
+  WeaponStatsAtRange,
+  WeaponTrait,
+} from "../../game/types.ts";
 import { getStatsForModelType } from "../../game/lists.ts";
 import { getWeaponStats } from "../../game/weapons.ts";
 import { WeaponType } from "../../game/weaponTypes.ts";
 import { quote } from "../../game/quotes.ts";
 
-
+/*
 function formatSaveModifier(saveModifier: SaveModifier): string {
   let out = saveModifier.modifier.toString();
   if(saveModifier.wounds > 1)
@@ -18,7 +27,7 @@ function formatSave(s: Save, i: number, stats: Stats) {
     {s.save.toString() + "+"}
     <span class="text-xs">{((hasUnitTrait(stats,"Armoured") && s.saveType=="Armour") ? " Reroll fails vs Light" : "")}</span>
     <span class="text-xs">{((hasUnitTrait(stats,"Ionic Flare Shield") && s.saveType=="Ion Shield") ? (" " + (s.save-2).toString() + "+ vs Barrage and Blast") : "")}</span>
-    
+
   </td>
 }
 
@@ -122,7 +131,7 @@ export default function Unit(props: PageProps) {
           </tbody>
         </table>
       </div>
-      
+
       <ul>
       {stats.modelLoadoutSlots.map((smlfs, i) => {
         return <li class="text-sm" key={i}>
@@ -171,5 +180,46 @@ export default function Unit(props: PageProps) {
     </div></div>
   } else {
     return <div>No stats for: {modelType}</div>;
+  }
+}
+*/
+
+export default function Unit(props: PageProps) {
+  const modelType = decodeURIComponent(props.params.unitid) as ModelType;
+
+  const stats = getStatsForModelType(modelType);
+  if (stats) {
+    return (
+      <div class="flex flex-row justify-center mt-8">
+        <div>
+          <h1 class="text-xl">{modelType}</h1>
+          <ul>
+            {stats.modelLoadoutSlots.map((smlfs, i) => {
+              return (
+                <li class="text-sm" key={i}>
+                  {(smlfs.possibleModelLoadouts.length == 2 &&
+                      smlfs.possibleModelLoadouts[0].weaponTypes?.length == 0)
+                    ? ("Optional " + smlfs.possibleModelLoadouts[1].loadout)
+                    : (
+                      smlfs.possibleModelLoadouts.map((l) => {
+                        if (
+                          l.weaponTypes !== undefined &&
+                          l.weaponTypes.length == 0
+                        ) {
+                          return "Nothing";
+                        }
+                        return l.weaponTypes?.join(", ") ?? l.loadout;
+                      }).join(" or ")
+                    )}
+                </li>
+              );
+            })}
+          </ul>
+          <div class="text-xs mt-10">Note that due to GW's Ts and Cs, we won't post or display rules or stats</div>
+        </div>
+      </div>
+    );
+  } else {
+    return <div>No data for: {modelType}</div>;
   }
 }

@@ -23,10 +23,7 @@ const genericQuotes = [
 ]
 
 export function quote(): string[] {
-    console.log("quote");
     const indx = Math.floor(Math.random() * genericQuotes.length);
-    console.log(indx);
     const out = genericQuotes[indx];
-    console.log(out)
     return out
 }

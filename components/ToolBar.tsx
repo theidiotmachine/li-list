@@ -6,24 +6,26 @@ export type ToolBarProps = {
     class: string
 };
 export function ToolBar(props: ToolBarProps) {
-    const {undo, redo, makeNewArmy, canUndo, canRedo, canCloneArmy, cloneArmy} = useContext(AppState);
+    const {undo, redo, makeNewArmy, canUndo, canRedo, canCloneArmy, cloneArmy, army} = useContext(AppState);
 
     return <div class={props.class}>
-        <button class="bg-gray-200 p-1"
+        <button type="button" class="bg-gray-200 p-1"
             onClick={() => {
             const menu = document.getElementById("menu");
             if (menu) {
                 if (menu.classList.contains("hidden")) {
                     menu.classList.remove("hidden");
+                    menu.classList.add("flex")
                 } else {
                     menu.classList.add("hidden");
+                    menu.classList.remove("flex");
                 }
                 menu.focus();
             }
         }}
         
         >Menu</button>
-        <div class="absolute flex flex-col hidden bg-gray-200 pl-1 pr-1" id="menu"
+        <div class="absolute flex-col hidden bg-gray-200 pl-1 pr-1" id="menu"
             onBlur={(e) => {
                 const t = (e.target) as HTMLElement;
                 t.classList.add("hidden");
@@ -54,6 +56,13 @@ export function ToolBar(props: ToolBarProps) {
                 <span 
                     class="flex-1 text-gray-500">Redo</span>
             }
+            {   
+                <a onClick={()=>{
+                    const encodedPromise = getEncodedArmy(army.value);
+                    encodedPromise.then((encoded)=>{location.href='./export?army='+encoded;})
+                }} class="flex-1 cursor-pointer"> Export PDF</a>
+            }
+            
         </div>
     </div>
     /*

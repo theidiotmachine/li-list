@@ -24,6 +24,7 @@
     "dexie": "npm:/dexie@4.0.11",
     "dexie/": "npm:/dexie@4.0.11/",
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
+    "pdf-lib": "npm:/pdf-lib@1.17.1",
     "preact": "https://esm.sh/preact@10.22.0",
     "preact/": "https://esm.sh/preact@10.22.0/",
     "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
