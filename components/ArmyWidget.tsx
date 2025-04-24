@@ -4,7 +4,7 @@ import { FormationWidget } from "./FormationWidget.tsx";
 import { ArmyPrimaryArmyListSelect } from "./ArmyPrimaryArmyListSelect.tsx";
 import { ArmyAllegianceSelect } from "./ArmyAllegianceSelect.tsx";
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import { LoadState } from "../state.ts";
+import { LoadState } from "../state/appState.ts";
 import { ArmyValidity, ArmyValidityText } from "./ArmyValidity.tsx";
 import { Allegiance, ArmyListName } from "../game/types.ts";
 

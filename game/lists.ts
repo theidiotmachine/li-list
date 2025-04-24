@@ -1,9 +1,9 @@
 import { getAuxiliaDetachmentConfigurationForDetachmentName, getAuxiliaDetachmentNamesForSlot, getShapeForAuxiliaFormationName, getStatsForAuxiliaModelType } from "./auxiliaList.ts";
-import { AllAuxiliaModelTypes, AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaFormationNames, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { AllAuxiliaModelNames, AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaFormationNames, AuxiliaModelName } from "./auxiliaTypes.ts";
 import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentName, getLegionDetachmentNamesForSlot, getShapeForLegionFormationName } from "./legionList.ts";
-import { AllLegionModelTypes, LegionDetachmentName, LegionFormationName, LegionFormationNames, LegionModelType } from "./legionTypes.ts";
+import { AllLegionModelNames, LegionDetachmentName, LegionFormationName, LegionFormationNames, LegionModelName } from "./legionTypes.ts";
 import { getCollegiaTitanicaDetachmentNamesForSlot, getQuestorisFamiliaDetachmentNamesForSlot, getShapeForCollegiaTitanicaFormationName, getShapeForQuestorisFamiliaFormationName, getShapeForStrategicAssetFormationName, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
-import { AllStrategicAssetModelTypes, CollegiaTitanicaFormationName, CollegiaTitanicaFormationNames, QuestorisFamiliaFormationName, QuestorisFamiliaFormationNames, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetFormationNames, StrategicAssetModelType } from "./strategicAssetTypes.ts";
+import { AllStrategicAssetModelNames, CollegiaTitanicaFormationName, CollegiaTitanicaFormationNames, QuestorisFamiliaFormationName, QuestorisFamiliaFormationNames, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetFormationNames, StrategicAssetModelName } from "./strategicAssetTypes.ts";
 import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelType, Stats } from "./types.ts";
 
 
@@ -69,13 +69,13 @@ export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyLi
 }
 
 export function getStatsForModelType(modelType: ModelType): Stats | undefined {
-    if(AllLegionModelTypes.findIndex(a=>a==modelType) != -1) {
-        return getStatsForLegionModelType(modelType as LegionModelType);
+    if(AllLegionModelNames.findIndex(a=>a==modelType) != -1) {
+        return getStatsForLegionModelType(modelType as LegionModelName);
     }
-    if(AllStrategicAssetModelTypes.findIndex(a=>a==modelType) != -1) {
-        return getStatsForStrategicAssetModelType(modelType as StrategicAssetModelType);
+    if(AllStrategicAssetModelNames.findIndex(a=>a==modelType) != -1) {
+        return getStatsForStrategicAssetModelType(modelType as StrategicAssetModelName);
     }
-    if(AllAuxiliaModelTypes.findIndex(a=>a==modelType) != -1) {
-        return getStatsForAuxiliaModelType(modelType as AuxiliaModelType);
+    if(AllAuxiliaModelNames.findIndex(a=>a==modelType) != -1) {
+        return getStatsForAuxiliaModelType(modelType as AuxiliaModelName);
     }
 }

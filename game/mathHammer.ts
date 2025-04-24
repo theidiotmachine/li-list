@@ -69,6 +69,9 @@ const saveDiceTable = [
     2/6,    //5+
     1/6,    //6+
     0,      //7+
+    0,      //8+
+    0,      //9+
+    0,      //10+
 ];
 
 function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | undefined {

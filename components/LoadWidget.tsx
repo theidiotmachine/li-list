@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { LoadState } from "../state.ts";
+import { LoadState } from "../state/appState.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { DelButton } from "./DelButton.tsx";
 

@@ -1,4 +1,4 @@
-import { AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaModelType } from "./auxiliaTypes.ts";
+import { AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaModelName } from "./auxiliaTypes.ts";
 import { Detachment, DetachmentConfiguration, DetachmentValidationState, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const tankCommanderValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
@@ -699,7 +699,7 @@ export function getAuxiliaDetachmentConfigurationForDetachmentName(detachmentNam
     return detachmentConfigurationForDetachmentName.get(detachmentName) ?? {modelGroupShapes: []}
 }
 
-const statsForModelType = new Map<AuxiliaModelType, Stats>([
+const statsForModelType = new Map<AuxiliaModelName, Stats>([
     ["Aethon Heavy Sentinel", {
         detachmentType: "Walker", scale: 2, move: 7, saves: [
             {saveType: "Armour", save: 4, arc: "All"},
@@ -977,6 +977,6 @@ const statsForModelType = new Map<AuxiliaModelType, Stats>([
     }],
 ]);
 
-export function getStatsForAuxiliaModelType(modelType: AuxiliaModelType): Stats | undefined {
+export function getStatsForAuxiliaModelType(modelType: AuxiliaModelName): Stats | undefined {
     return statsForModelType.get(modelType)
 }

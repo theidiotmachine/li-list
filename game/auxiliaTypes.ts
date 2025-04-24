@@ -52,7 +52,7 @@ export type AuxiliaDetachmentName =
     "Malcador Tank Squadron"
 ;
 
-export const AllAuxiliaModelTypes = [
+export const AllAuxiliaModelNames = [
     "Aethon Heavy Sentinel",
     "Arvus Lighter",
     "Auxilia Commander",
@@ -88,6 +88,6 @@ export const AllAuxiliaModelTypes = [
     "Valdor",
     "Veletarii"
 ] as const;
-export type AuxiliaModelType = (typeof AllAuxiliaModelTypes)[number];
+export type AuxiliaModelName = (typeof AllAuxiliaModelNames)[number];
 
 

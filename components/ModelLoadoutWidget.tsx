@@ -31,20 +31,6 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
 
     return <div class="grid grid-cols-[20%_8%_25%_47%] gap-0">
         <div class="col-span-1 col-start-1 order-2 justify-self-end flex"> 
-            <a href={"/hammer?shooterModelType="+props.modelType + "&"
-                + props.modelLoadoutGroup.modelLoadoutSlots.flatMap((x) => {
-                    const statsSlot = stats?.modelLoadoutSlots.find((s)=>s.name == x.name);
-                    if(statsSlot === undefined)
-                        return [];
-                    const mlfs = statsSlot.possibleModelLoadouts.find((y) => y.loadout == x.modelLoadout.loadout);
-                    if(mlfs?.weaponTypes === undefined)
-                        return ["additionalShooterWeapon="+mlfs?.loadout];
-                    return mlfs?.weaponTypes?.map((y) => "additionalShooterWeapon="+y)
-                }).join("&")
-            } target="_blank" >
-                <img src="/hammer-clean.svg" class="w-6 h-6 mr-1 ml-1 cursor-pointer opacity-5 hover:opacity-100"></img>
-            </a> 
-
             {
                 (props.numModelLoadoutGroups > 1) ?
                 (<div class="">

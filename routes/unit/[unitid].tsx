@@ -193,10 +193,11 @@ export default function Unit(props: PageProps) {
       <div class="flex flex-row justify-center mt-8">
         <div>
           <h1 class="text-xl">{modelType}</h1>
+          <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400 mt-8">Armed with</div>
           <ul>
             {stats.modelLoadoutSlots.map((smlfs, i) => {
               return (
-                <li class="text-sm" key={i}>
+                <li class="" key={i}>
                   {(smlfs.possibleModelLoadouts.length == 2 &&
                       smlfs.possibleModelLoadouts[0].weaponTypes?.length == 0)
                     ? ("Optional " + smlfs.possibleModelLoadouts[1].loadout)
@@ -215,7 +216,13 @@ export default function Unit(props: PageProps) {
               );
             })}
           </ul>
-          <div class="text-xs mt-10">Note that due to GW's Ts and Cs, we won't post or display rules or stats</div>
+          <div class="mt-4">
+            <a class="underline" href={"/hammer?shooter="+encodeURIComponent(modelType)}>Maths hammer</a>
+          </div>
+          <div class="mt-10"></div>
+            <div class="text-xs ">Note that due to <a class="underline" href="https://www.warhammer.com/en-GB/legal#IntellectualPropertyGuidlines">GW's IP guidelines</a>, we won't post or display rules or stats</div>
+            <div class="text-xs ">Please do not complain; being repeatedly punched in the throat sometimes offends</div>
+
         </div>
       </div>
     );

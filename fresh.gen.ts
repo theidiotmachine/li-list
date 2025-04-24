@@ -11,6 +11,7 @@ import * as $index from "./routes/index.tsx";
 import * as $load from "./routes/load.tsx";
 import * as $unit_unitid_ from "./routes/unit/[unitid].tsx";
 import * as $App from "./islands/App.tsx";
+import * as $HammerScenarioIsland from "./islands/HammerScenarioIsland.tsx";
 import * as $LoadIsland from "./islands/LoadIsland.tsx";
 import type { Manifest } from "$fresh/server.ts";
 
@@ -27,6 +28,7 @@ const manifest = {
   },
   islands: {
     "./islands/App.tsx": $App,
+    "./islands/HammerScenarioIsland.tsx": $HammerScenarioIsland,
     "./islands/LoadIsland.tsx": $LoadIsland,
   },
   baseUrl: import.meta.url,

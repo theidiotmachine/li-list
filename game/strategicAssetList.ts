@@ -1,4 +1,4 @@
-import { CollegiaTitanicaFormationName, QuestorisFamiliaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelType } from "./strategicAssetTypes.ts";
+import { CollegiaTitanicaFormationName, QuestorisFamiliaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelName } from "./strategicAssetTypes.ts";
 import { Allegiance, Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, FormationShape>([
@@ -732,7 +732,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
 export function getStrategicAssetDetachmentConfigurationForDetachmentName(detachmentName: StrategicAssetDetachmentName): DetachmentConfiguration {
     return detachmentConfigurationForDetachmentName.get(detachmentName) ?? {modelGroupShapes: []}
 }
-const statsForModelType = new Map<StrategicAssetModelType, Stats>([
+const statsForModelType = new Map<StrategicAssetModelName, Stats>([
     ["Acastus Knight Asterius", {
         detachmentType: "Knight", scale: 4, move: 6, saves: [
             {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"}, 
@@ -1082,6 +1082,6 @@ const statsForModelType = new Map<StrategicAssetModelType, Stats>([
     }],
 ]);
 
-export function getStatsForStrategicAssetModelType(modelType: StrategicAssetModelType): Stats | undefined {
+export function getStatsForStrategicAssetModelType(modelType: StrategicAssetModelName): Stats | undefined {
     return statsForModelType.get(modelType)
 }

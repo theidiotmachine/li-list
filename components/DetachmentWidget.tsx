@@ -34,14 +34,6 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                     const modelGroupIndex = props.detachment.modelGroups.findIndex((m: ModelGroup) => m.modelType == u.modelType);
                     return <div class={"grid gap-0 grid-cols-[20%_8%_22%_20%_20%_10%] " + ((i%2)?"bg-gray-50":"bg-white")} key={i}>
                         <div class="col-span-1 col-start-1 justify-self-end">
-                        {
-                                (u.modelLoadoutSlots.length == 0) ?
-                                <a href={"/hammer?shooterModelType="+props.detachment.modelGroups[i].modelType} target="_blank" >
-                                    <img src="/hammer-clean.svg" class="w-6 h-6 mr-1 ml-1 cursor-pointer opacity-5 hover:opacity-100"></img>
-                                </a>
-                                :
-                                (<div></div>)
-                        }
                         </div>
 
                         {

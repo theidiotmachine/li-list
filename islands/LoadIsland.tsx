@@ -1,4 +1,4 @@
-import state from "../state.ts";
+import state from "../state/appState.ts";
 import { AppState } from "./App.tsx";
 import { LoadWidget } from "../components/LoadWidget.tsx";
 

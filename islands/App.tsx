@@ -1,7 +1,8 @@
 import { createContext } from "preact";
-import state, { type AppStateType } from "../state.ts";
+import state, { type AppStateType } from "../state/appState.ts";
 import { ArmyHeader, ArmyWidget } from "../components/ArmyWidget.tsx";
 import { ToolBar } from "../components/ToolBar.tsx";
+import { HelloWidget } from "../components/HelloWidget.tsx";
 
 export const AppState = createContext<AppStateType>({} as AppStateType);
 
@@ -23,11 +24,8 @@ export default function App(props: AppProps) {
 
           {(props.uuid != "" || props.armyAsJson != "")
             ? <ArmyWidget uuid={props.uuid} armyAsJson={props.armyAsJson} class="mt-4 md:mt-28"/>
-            : (
-              <div class="flex flex-row justify-center mt-28">
-                <div>Make a new army, or load a saved one</div>
-              </div>
-            )}
+            : <HelloWidget/>
+          }
           </div>
       </AppState.Provider>
     </div>

@@ -55,7 +55,7 @@ export type LegionDetachmentName =
     "Leviathan Siege Dreadnought Detachment"
 ;
 
-export const AllLegionModelTypes = [
+export const AllLegionModelNames = [
     "Assault Marines", 
     "Command Squad",
     "Contemptor Dreadnought",
@@ -95,7 +95,7 @@ export const AllLegionModelTypes = [
     "Thunderhawk Gunship",
     "Xiphon Interceptor"
 ] as const;
-export type LegionModelType = (typeof AllLegionModelTypes)[number];
+export type LegionModelName = (typeof AllLegionModelNames)[number];
 
 export const AllLegionNames = [
     "Dark Angels",

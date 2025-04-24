@@ -1,4 +1,4 @@
-import { LegionDetachmentName, LegionFormationName, LegionModelType } from "./legionTypes.ts";
+import { LegionDetachmentName, LegionFormationName, LegionModelName } from "./legionTypes.ts";
 import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment } from "./types.ts";
 
 const formationShapes = new Map<LegionFormationName, FormationShape>([
@@ -794,7 +794,7 @@ export function getLegionDetachmentConfigurationForDetachmentName(detachmentName
     return detachmentConfigurationForDetachmentName.get(detachmentName) ?? {modelGroupShapes: []}
 }
 
-const statsForModelType = new Map<LegionModelType, Stats>([
+const statsForModelType = new Map<LegionModelName, Stats>([
     ["Assault Marines", {
         detachmentType: "Infantry", scale: 1, move: 7, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
@@ -1353,6 +1353,6 @@ const statsForModelType = new Map<LegionModelType, Stats>([
     }],
 ]);
 
-export function getStatsForLegionModelType(modelType: LegionModelType): Stats | undefined {
+export function getStatsForLegionModelType(modelType: LegionModelName): Stats | undefined {
     return statsForModelType.get(modelType)
 }

@@ -1,9 +1,9 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentName, FormationName, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "./game/types.ts";
-import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationName, getStatsForModelType } from "./game/lists.ts";
+import { DetachmentName, FormationName, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "../game/types.ts";
+import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationName, getStatsForModelType } from "../game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
-import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "./storage/storage.ts";
-import { LegionName } from "./game/legionTypes.ts";
+import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "../storage/storage.ts";
+import { LegionName } from "../game/legionTypes.ts";
 
 export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
@@ -650,9 +650,9 @@ function createAppState(): AppStateType {
             undoStack.value = undoStack.value.slice(0, undoIndex.value + 1);
         }
         
-        const newUnodoStack = undoStack.value.slice();
-        newUnodoStack.push(army);
-        undoStack.value = newUnodoStack;
+        const newUndoStack = undoStack.value.slice();
+        newUndoStack.push(army);
+        undoStack.value = newUndoStack;
         undoIndex.value = undoStack.value.length - 1;
     }
 

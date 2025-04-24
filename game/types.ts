@@ -1,6 +1,6 @@
-import { AuxiliaDetachmentName, AuxiliaFormationSlot, AuxiliaFormationName, AuxiliaModelType } from "./auxiliaTypes.ts";
-import { LegionDetachmentName, LegionFormationSlot, LegionFormationName, LegionModelType, LegionName } from "./legionTypes.ts";
-import { CollegiaTitanicaFormationSlot, CollegiaTitanicaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelType, QuestorisFamiliaFormationName, QuestorisFamiliaFormationSlot } from "./strategicAssetTypes.ts";
+import { AuxiliaDetachmentName, AuxiliaFormationSlot, AuxiliaFormationName, AuxiliaModelName, AllAuxiliaModelNames } from "./auxiliaTypes.ts";
+import { LegionDetachmentName, LegionFormationSlot, LegionFormationName, LegionModelName, LegionName, AllLegionModelNames } from "./legionTypes.ts";
+import { CollegiaTitanicaFormationSlot, CollegiaTitanicaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelName, QuestorisFamiliaFormationName, QuestorisFamiliaFormationSlot, AllStrategicAssetModelNames } from "./strategicAssetTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 export type DetachmentValidationError = 
@@ -94,7 +94,13 @@ export type FormationShape = {
 export type DetachmentName = LegionDetachmentName | AuxiliaDetachmentName | StrategicAssetDetachmentName;
 
 //actually called 'Model Name'
-export type ModelType = LegionModelType | AuxiliaModelType | StrategicAssetModelType;
+export type ModelType = LegionModelName | AuxiliaModelName | StrategicAssetModelName;
+
+export const AllModelNames: readonly ModelType[] = [
+    ...(AllLegionModelNames as readonly ModelType[]),
+    ...(AllAuxiliaModelNames as readonly ModelType[]),
+    ...(AllStrategicAssetModelNames as readonly ModelType[])
+];
 
 //a set of weapons which can be put in a slot
 export type ModelLoadoutForSlot = {
@@ -379,9 +385,4 @@ export type Stats = {
     tacticalStrength: number;
     unitTraits: UnitTrait[];
     modelLoadoutSlots: StatsModelLoadoutSlot[];
-    /*
-    weaponTypes: WeaponType[];
-
-    requiredWeaponTypes?: WeaponType[];
-    */
 }

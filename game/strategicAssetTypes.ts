@@ -64,7 +64,7 @@ export type StrategicAssetDetachmentName =
     "Warmaster Iconoclast Titan"
 ;
 
-export const AllStrategicAssetModelTypes = [
+export const AllStrategicAssetModelNames = [
     "Acastus Knight Asterius",
     "Acastus Knight Porphyrion",
     "Cerastus Knight Atrapos",
@@ -90,4 +90,4 @@ export const AllStrategicAssetModelTypes = [
     "Warmaster Titan",
     "Warmaster Iconoclast"
 ];
-export type StrategicAssetModelType = (typeof AllStrategicAssetModelTypes)[number];
+export type StrategicAssetModelName = (typeof AllStrategicAssetModelNames)[number];
