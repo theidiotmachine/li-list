@@ -49,10 +49,7 @@ const AimTable = (props: HammerAimTableProps) => {
 }
 
 export default function Hammer(props: PageProps) {
-    const shooterModelType = props.url.searchParams.get("shooter") ?? "";
-    if(shooterModelType == "") {
-        return <div>Missing shooter model type</div>
-    }
+    const shooterModelType = props.url.searchParams.get("shooter") ?? "Tactical Legionaries";
     const shooterStats = getStatsForModelType(shooterModelType);
     if(shooterStats == undefined) {
         return <div>Missing shooter stats</div>

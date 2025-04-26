@@ -10,7 +10,7 @@ interface FormationLegionNameListSelectProps {
 
 export function FormationLegionNameListSelect(props: FormationLegionNameListSelectProps) {
     const { changeFormationLegionName } = useContext(AppState);
-    return <select class ={"md:text-xl w-48 md:w-80 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right " + props.class}
+    return <select class ={"md:text-xl w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white " + props.class}
         onInput={(e) => changeFormationLegionName(props.uuid, e.currentTarget.value as LegionName)}>
             <option value="" selected={props.legionName == ""}></option>
             {AllLegionNames.map((s, i)=>{

@@ -32,31 +32,28 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                 .filter(u=>u.formationNames === undefined || u.formationNames.findIndex((s)=>s===formationName) != -1)
                 .map((u, i) => {
                     const modelGroupIndex = props.detachment.modelGroups.findIndex((m: ModelGroup) => m.modelType == u.modelType);
-                    return <div class={"grid gap-0 grid-cols-[20%_8%_22%_20%_20%_10%] " + ((i%2)?"bg-gray-50":"bg-white")} key={i}>
-                        <div class="col-span-1 col-start-1 justify-self-end">
-                        </div>
-
+                    return <div class={"grid gap-[1%] grid-cols-[10%_78%_10%] md:grid-cols-[19%_7%_61%_10%] " + ((i%2)?"bg-gray-50":"bg-white")} key={i}>
                         {
                             //if there are no size options, or we manage it from loadouts, just present a number. 
                             (u.possibleModelGroupQuantities.length === 1 || u.modelLoadoutSlots.length > 0) ? ( 
-                                <div class="col-span-1 col-start-2 flex items-center">
+                                <div class="col-start-1 md:col-start-2 flex items-center">
                                     {props.detachment.modelGroups[modelGroupIndex].number}
                                     {(u.possibleModelGroupQuantities.length === 1 && u.modelLoadoutSlots.length == 0)?
                                         <div></div>: 
                                         (openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?
                                         <img 
-                                            src="/tick-clean.svg" class="w-6 h-6 mr-1 ml-3 cursor-pointer"
+                                            src="/tick-clean.svg" class="w-6 h-6 mr-1 ml-1 md:ml-3 cursor-pointer"
                                             onClick={()=>close(props.uuid, props.detachmentIndex, props.detachment.modelGroups[modelGroupIndex].modelType)}
                                         ></img>
                                         :
                                         <img 
-                                            src="/edit-clean.svg" class="w-6 h-6 mr-1 ml-3 cursor-pointer"
+                                            src="/edit-clean.svg" class="w-6 h-6 mr-1 ml-1 md:ml-3 cursor-pointer"
                                             onClick={()=>open(props.uuid, props.detachmentIndex, props.detachment.modelGroups[modelGroupIndex].modelType)}
                                         ></img>
                                     }
                                 </div> 
                             ) : (
-                                <div class="col-span-1 col-start-2"><NumModelSelect 
+                                <div class="col-start-1 md:col-start-2"><NumModelSelect 
                                     uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} modelType={u.modelType}
                                     numModels={props.detachment.modelGroups[modelGroupIndex].number} detachmentName={detachmentName}
                                 />
@@ -64,27 +61,18 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                             )
                         }
 
-                        <div class="col-span-3 col-start-3">
-                            <div class="flex items-center">
+                        <div class="col-start-2 md:col-start-3">
                             <a href={"unit/"+props.detachment.modelGroups[i].modelType} target="_blank" class="hover:underline">
                                 {props.detachment.modelGroups[i].modelType + ((u.dedicatedTransport ? " (dedicated transport)": ""))}
                             </a>
-                            
-                            </div>
                         </div>
 
-                        <div class="col-span-1 col-start-6 justify-self-end">{props.detachment.modelGroups[i].points}</div> 
+                        <div class="col-start-3 md:col-start-4 justify-self-end">{props.detachment.modelGroups[i].points}</div> 
                         {
                             (u.modelLoadoutSlots.length > 0) ? (
-                                <div class="contents" 
-                                    >
-                                    <button type="button" class="w-full text-centre bg-gray-200 row-start-2 col-start-3"
-                                        hidden={(openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}
-                                        onClick={() => addModelLoadoutGroup(props.uuid, props.detachmentIndex, props.detachment.modelGroups[i].modelType)}>
-                                        New Loadout
-                                    </button>
-                                
-                                    <div class="row-start-3 col-span-7"
+                                <div class="contents">
+                                    
+                                    <div class="col-start-1 col-span-4"
                                         hidden={(openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}>
                                         {props.detachment.modelGroups[i].modelLoadoutGroups.map((x, j)=>
                                             <ModelLoadoutWidget key={j} uuid={props.uuid} armyListName={props.armyListName}
@@ -93,7 +81,12 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                                             modelLoadoutGroup={x} modelLoadoutGroupIndex={j} groupSize={x.number} 
                                             numModelLoadoutGroups={props.detachment.modelGroups[i].modelLoadoutGroups.length}/>
                                         )}
-                                </div>
+                                    </div>
+                                    <button type="button" class="w-full text-centre bg-gray-100 col-start-2 md:col-start-3"
+                                        hidden={(openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}
+                                        onClick={() => addModelLoadoutGroup(props.uuid, props.detachmentIndex, props.detachment.modelGroups[i].modelType)}>
+                                        New Loadout
+                                    </button>
                             </div>
                             ) :
                             <div hidden></div>//sigh
@@ -114,24 +107,24 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
 
     //border-t-2 border-gray-100
     return <div class="mb-1 mt-1">
-        <div class="grid grid-cols-[20%_8%_22%_20%_20%_10%] gap-0 ">
-            <div class="col-span-2 font-medium text-lg bg-gray-100 border-b-2 border-gray-400">
+        <div class="grid grid-cols-[90%_10%] md:grid-cols-[20%_70%_10%] gap-0">
+            <div class="font-medium text-lg bg-gray-100">
                 <DetachmentValidityIcon detachment={props.detachment}/>{slotDisplayName}
             </div> 
-            <div class="col-span-4 col-start-2 row-start-2 md:col-start-3 md:row-start-1 md:col-span-3 border-b-2 border-gray-400">
+            <div class="col-start-1 row-start-2 md:col-start-2 md:row-start-1">
                 <DetachmentNameSelect 
                     uuid = {props.uuid} detachmentIndex = {props.detachmentIndex} slot = {props.detachment.slot}
                     armyListName={props.armyListName} allegiance={props.allegiance}/>
             </div>
             
-            <div class="col-span-1 col-start-6 justify-self-end md:text-lg bg-gray-100 border-b-2 border-gray-400">
+            <div class="row-start-1 col-start-2 md:col-start-3 justify-self-end font-medium text-lg bg-gray-100">
                 {props.detachment.points}
             </div>
-            <DetachmentValidityText class="col-span-6" detachment={props.detachment}/>
+            <DetachmentValidityText class="col-start-1 row-start-3 md:col-start-2 md:col-span-2" detachment={props.detachment}/>
             {(props.detachment.attachedDetachmentIndex != undefined)?
                 <DetachmentAttachmentSelect 
                     uuid={props.uuid} detachmentIndex={props.detachmentIndex} detachmentAttachmentIndex={props.detachment.attachedDetachmentIndex}
-                    class="col-start-3"
+                    class="md:col-start-2 col-start-1"
                 />:
                 <div class="hidden"></div>
             }

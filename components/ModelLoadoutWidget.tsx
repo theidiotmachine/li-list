@@ -4,7 +4,7 @@ import { ModelLoadoutSelect } from "./ModelLoadoutSelect.tsx";
 import { NumModelLoadoutSelect } from "./NumModelLoadoutSelect.tsx";
 import { AppState } from "../islands/App.tsx";
 import { DelButton } from "./DelButton.tsx";
-import { getDetachmentConfigurationForDetachmentName, getStatsForModelType } from "../game/lists.ts";
+import { getDetachmentConfigurationForDetachmentName } from "../game/lists.ts";
 
 interface ModelLoadoutWidgetProps {
     uuid: string;
@@ -27,10 +27,8 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
     if(filteredModelLoadoutSlotShapes == undefined)
         return <div>No data</div>
 
-    const stats = getStatsForModelType(props.modelType);
-
-    return <div class="grid grid-cols-[20%_8%_25%_47%] gap-0">
-        <div class="col-span-1 col-start-1 order-2 justify-self-end flex"> 
+    return <div class="grid gap-[1%] grid-cols-[10%_8%_69%_10%] md:grid-cols-[19%_7%_20%_40%_10%]">
+        <div class="col-start-1 order-2 justify-self-end flex"> 
             {
                 (props.numModelLoadoutGroups > 1) ?
                 (<div class="">
@@ -42,7 +40,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
             }
             
         </div>
-        <div class="col-span-1 col-start-2 order-2">
+        <div class="col-start-2 order-2">
             <NumModelLoadoutSelect number={props.groupSize} detachmentName={props.detachmentName} modelType={props.modelType}
             uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} modelLoadoutGroupIndex={props.modelLoadoutGroupIndex}
             />
@@ -52,8 +50,9 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
         {filteredModelLoadoutSlotShapes.map((x,i) => 
             //need these for tailwind to understand the dynamic css:
             //row-start-2 row-start-3 row-start-4 row-start-5
+            //row-start-6 row-start-7 row-start-8 row-start-9
             //order-3 order-4 order-5 order-6 order-7 order-8 order-9 order-10
-            <div key={"n"+i} class = {"col-start-3 col-span-1 row-start-"+(i+1)+" order-"+(3+i*2)}>
+            <div key={"n"+i} class = {"col-start-3 row-start-" + ((i*2)+1) + " md:row-start-"+(i+1)+" order-"+(3+i*2)}>
                 {x.name}
             </div>)}
         {filteredModelLoadoutSlotShapes.map((x,i) => {
@@ -61,7 +60,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
             if(loadout == undefined)
                 return <div key={"s"+i}>No data</div>
 
-            return <div key={"s"+i} class = {"col-start-4 col-span-1 row-start-"+(i+1)+" order-"+(4+i*2)}>
+            return <div key={"s"+i} class = {"col-start-3 md:col-start-4 row-start-" + ((i*2)+2) + " md:row-start-"+(i+1)+" order-"+(4+i*2)}>
                 <ModelLoadoutSelect key={i} 
                     modelType={props.modelType} detachmentName={props.detachmentName} modelLoadoutSlotName={x.name} loadout={loadout.modelLoadout}
                     uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} 

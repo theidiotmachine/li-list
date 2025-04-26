@@ -21,10 +21,10 @@ export function DetachmentNameSelect(props: DetachmentNameSelectProps) {
     const detachment = formation?.detachments[props.detachmentIndex];
     const unit = detachment?.detachmentName;
 
-    const options = detachmentNamesForSlot.map((u, i)=> <option class="bg-gray-100" key={i} selected={unit == u}>{u}</option>);
+    const options = detachmentNamesForSlot.map((u, i)=> <option class="md:bg-gray-100" key={i} selected={unit == u}>{u}</option>);
 
     return <select 
-        class="w-full font-medium md:w-[490px] md:text-lg appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-gray-100" 
+        class="w-full md:font-medium md:text-lg appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white md:bg-gray-100" 
         onInput={(e) => changeDetachmentName(props.uuid, props.detachmentIndex, e.currentTarget.value as DetachmentName | "")}>
         {options}
     </select>

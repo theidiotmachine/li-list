@@ -1,20 +1,15 @@
 import { PageProps } from "$fresh/server.ts";
 import {
   ModelType,
-  Save,
-  SaveModifier,
-  Stats,
-  UnitTrait,
-  WeaponStats,
-  WeaponStatsAtRange,
-  WeaponTrait,
 } from "../../game/types.ts";
 import { getStatsForModelType } from "../../game/lists.ts";
+
+/*
+
 import { getWeaponStats } from "../../game/weapons.ts";
 import { WeaponType } from "../../game/weaponTypes.ts";
 import { quote } from "../../game/quotes.ts";
 
-/*
 function formatSaveModifier(saveModifier: SaveModifier): string {
   let out = saveModifier.modifier.toString();
   if(saveModifier.wounds > 1)
@@ -190,10 +185,10 @@ export default function Unit(props: PageProps) {
   const stats = getStatsForModelType(modelType);
   if (stats) {
     return (
-      <div class="flex flex-row justify-center mt-8">
+      <div class="flex flex-row justify-center mt-8 m-2">
         <div>
           <h1 class="text-xl">{modelType}</h1>
-          <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400 mt-8">Armed with</div>
+          <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400">Armed with</div>
           <ul>
             {stats.modelLoadoutSlots.map((smlfs, i) => {
               return (
@@ -216,7 +211,7 @@ export default function Unit(props: PageProps) {
               );
             })}
           </ul>
-          <div class="mt-4">
+          <div class="mt-4 justify-self-center">
             <a class="underline" href={"/hammer?shooter="+encodeURIComponent(modelType)}>Maths hammer</a>
           </div>
           <div class="mt-10"></div>

@@ -16,14 +16,14 @@ export default function App(props: AppProps) {
     <div className="App" >
       <AppState.Provider value={state}>
         <div class="flex flex-col">
-          <div class="flex flex-row fixed w-full">
-            <ToolBar class="basis-32 grow"/>
-            <ArmyHeader uuid={props.uuid} armyAsJson={props.armyAsJson} class="flex-none"/>
-            <div class="basis-32 grow"/>
+          <div class="flex flex-row fixed w-full gap-0">
+            <ToolBar class="grow md:min-w-8 bg-white"/>
+            <ArmyHeader uuid={props.uuid} armyAsJson={props.armyAsJson} class="md:flex-none flex-grow"/>
+            <div class="grow md:min-w-8 bg-white"></div>
           </div>
 
           {(props.uuid != "" || props.armyAsJson != "")
-            ? <ArmyWidget uuid={props.uuid} armyAsJson={props.armyAsJson} class="mt-4 md:mt-28"/>
+            ? <ArmyWidget uuid={props.uuid} armyAsJson={props.armyAsJson} class="mt-40 md:mt-32"/>
             : <HelloWidget/>
           }
           </div>

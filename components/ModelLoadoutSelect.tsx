@@ -24,7 +24,7 @@ export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
         
     const slot = modelOptions.modelLoadoutSlots.find((s)=>s.name == props.modelLoadoutSlotName);
     if(slot === undefined) return <div>No model loadout</div>
-    return <select class="w-44 md:w-72 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white bg-opacity-0"
+    return <select class="w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white bg-opacity-0"
         onInput={
             (e)=> changeModelLoadout(
                 props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotName, e.currentTarget.value

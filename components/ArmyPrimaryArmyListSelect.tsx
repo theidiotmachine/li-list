@@ -9,7 +9,7 @@ export type ArmyPrimaryArmyListSelectProps = {
 export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps) {
     const { changePrimaryArmyListName } = useContext(AppState);
     
-    return <select class ="text-l md:text-xl w-52 md:w-80 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right" 
+    return <select class ="text-l md:text-xl w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white" 
         disabled={!props.enabled}
         onInput={(e) => changePrimaryArmyListName(e.currentTarget.value as ArmyListName)}>
         <option value="" selected={props.primaryArmyListName == ""}>Primary Army List</option>

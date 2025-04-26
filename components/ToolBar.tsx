@@ -2,13 +2,8 @@ import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { getEncodedArmy } from "../storage/storage.ts";
 
-export type ToolBarProps = {
-    class: string
-};
-export function ToolBar(props: ToolBarProps) {
-    const {undo, redo, makeNewArmy, canUndo, canRedo, canCloneArmy, cloneArmy, army} = useContext(AppState);
+/*
 
-    return <div class={props.class}>
         <button type="button" class="bg-gray-200 p-1"
             onClick={() => {
             const menu = document.getElementById("menu");
@@ -25,44 +20,69 @@ export function ToolBar(props: ToolBarProps) {
         }}
         
         >Menu</button>
-        <div class="absolute flex-col hidden bg-gray-200 pl-1 pr-1" id="menu"
+*/
+export type ToolBarProps = {
+    class: string
+};
+export function ToolBar(props: ToolBarProps) {
+    const {undo, redo, makeNewArmy, canUndo, canRedo, canCloneArmy, cloneArmy, army} = useContext(AppState);
+
+    return <div class={props.class}>
+        <img src="/menu-clean.svg" class="bg-gray-100 p-1 w-8" id="menu-button" onClick={(e) => {
+            const menu = document.getElementById("menu");
+            const menuButton = (e.target as HTMLImageElement);
+            if (menu) {
+                if (menu.classList.contains("hidden")) {
+                    menu.classList.remove("hidden");
+                    menu.classList.add("flex");
+                    menuButton.src = "/cross-clean.svg";
+                } else {
+                    menu.classList.add("hidden");
+                    menu.classList.remove("flex");
+                    menuButton.src = "/menu-clean.svg"
+                }
+                menu.focus();
+            }
+        }}></img>
+        <div class="absolute flex-col hidden bg-gray-100 pl-1 pr-1 h-screen w-32" id="menu"
             onBlur={(e) => {
                 const t = (e.target) as HTMLElement;
                 t.classList.add("hidden");
             }}
         >
             <a onClick={()=>{makeNewArmy()}}
-                class="flex-1 cursor-pointer">New Army</a>
+                class="flex-none cursor-pointer">New Army</a>
             <a href='./load'
-                class="flex-1 cursor-pointer">Load Army</a>
+                class="flex-none cursor-pointer">Load Army</a>
             {(canCloneArmy.value)?
                 <a onClick={()=>{cloneArmy()}}
-                    class="flex-1 cursor-pointer">Clone Army</a>
+                    class="flex-none cursor-pointer">Clone Army</a>
                 :
                 <span 
-                    class="flex-1 text-gray-500">Clone Army</span>
+                    class="flex-none text-gray-500">Clone Army</span>
             }
             {(canUndo.value)?
                 <a onClick={()=>undo()} 
-                    class="flex-1 cursor-pointer">Undo</a>
+                    class="flex-none cursor-pointer">Undo</a>
                 :
                 <span 
-                    class="flex-1 text-gray-500">Undo</span>
+                    class="flex-none text-gray-500">Undo</span>
             }
             {(canRedo.value)?
                 <a onClick={()=>redo()} 
-                    class="flex-1 cursor-pointer">Redo</a>
+                    class="flex-none cursor-pointer">Redo</a>
                 :
                 <span 
-                    class="flex-1 text-gray-500">Redo</span>
+                    class="flex-none text-gray-500">Redo</span>
             }
             {   
                 <a onClick={()=>{
                     const encodedPromise = getEncodedArmy(army.value);
                     encodedPromise.then((encoded)=>{location.href='./export?army='+encoded;})
-                }} class="flex-1 cursor-pointer"> Export PDF</a>
+                }} class="flex-none cursor-pointer"> Export PDF</a>
             }
-            <a class="flex-1 cursor-pointer" href="./about">About</a>
+            <a class="flex-none cursor-pointer" href="./hammer">Hammer</a>
+            <a class="flex-none cursor-pointer" href="./about">About</a>
             
         </div>
     </div>

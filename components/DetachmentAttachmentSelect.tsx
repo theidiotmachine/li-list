@@ -33,7 +33,7 @@ export function DetachmentAttachmentSelect(props: DetachmentAttachmentSelectProp
         possibleDetachmentData.forEach((s)=>detachmentAttachmentsForSlot.push(s));
     }
     return <select
-        class={"w-full md:w-[490px] appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white italic " + props.class} 
+        class={"w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white italic text-sm " + props.class} 
         onInput={(e) => changeDetachmentAttachment(props.uuid, props.detachmentIndex, parseInt(e.currentTarget.value))}>
         {detachmentAttachmentsForSlot.map((s, i)=>{return <option value={s.index.toString()} key={i} selected={props.detachmentAttachmentIndex==s.index}>
             {s.text}
