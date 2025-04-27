@@ -2,6 +2,8 @@ import { getAuxiliaDetachmentConfigurationForDetachmentName, getAuxiliaDetachmen
 import { AllAuxiliaModelNames, AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaFormationNames, AuxiliaModelName } from "./auxiliaTypes.ts";
 import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentName, getLegionDetachmentNamesForSlot, getShapeForLegionFormationName } from "./legionList.ts";
 import { AllLegionModelNames, LegionDetachmentName, LegionFormationName, LegionFormationNames, LegionModelName } from "./legionTypes.ts";
+import { getMechanicumDetachmentConfigurationForDetachmentName, getMechanicumDetachmentNamesForSlot, getShapeForMechanicumFormationName } from "./mechanicumList.ts";
+import { MechanicumDetachmentName, MechanicumFormationName, MechanicumFormationNames } from "./mechanicumTypes.ts";
 import { getCollegiaTitanicaDetachmentNamesForSlot, getQuestorisFamiliaDetachmentNamesForSlot, getShapeForCollegiaTitanicaFormationName, getShapeForQuestorisFamiliaFormationName, getShapeForStrategicAssetFormationName, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
 import { AllStrategicAssetModelNames, CollegiaTitanicaFormationName, CollegiaTitanicaFormationNames, QuestorisFamiliaFormationName, QuestorisFamiliaFormationNames, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetFormationNames, StrategicAssetModelName } from "./strategicAssetTypes.ts";
 import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelType, Stats } from "./types.ts";
@@ -11,6 +13,7 @@ const formationTypesForArmyListName: Map<ArmyListName, FormationName[]> = new Ma
     //yes this is bad, but whatever
     ["Collegia Titanica", CollegiaTitanicaFormationNames as unknown as FormationName[]], 
     ["Legions Astartes", LegionFormationNames as unknown as FormationName[]], 
+    ["Mechanicum Taghmata", MechanicumFormationNames as unknown as FormationName[]],
     ["Questoris Familia", QuestorisFamiliaFormationNames as unknown as FormationName[]],
     ["Solar Auxilia", AuxiliaFormationNames as unknown as FormationName[]],
     ["Strategic Asset", StrategicAssetFormationNames as unknown as FormationName[]],
@@ -31,6 +34,8 @@ export function getShapeForFormationName(armyListName: ArmyListName | "", format
             return getShapeForCollegiaTitanicaFormationName(formationName as CollegiaTitanicaFormationName);
         case "Legions Astartes":
             return getShapeForLegionFormationName(formationName as LegionFormationName);
+        case "Mechanicum Taghmata":
+            return getShapeForMechanicumFormationName(formationName as MechanicumFormationName)
         case "Questoris Familia":
             return getShapeForQuestorisFamiliaFormationName(formationName as QuestorisFamiliaFormationName);
         case "Solar Auxilia":
@@ -46,6 +51,8 @@ export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: Form
             return getCollegiaTitanicaDetachmentNamesForSlot(slot, allegiance);
         case "Legions Astartes":
             return getLegionDetachmentNamesForSlot(slot);
+        case "Mechanicum Taghmata":
+            return getMechanicumDetachmentNamesForSlot(slot, allegiance);
         case "Questoris Familia":
             return getQuestorisFamiliaDetachmentNamesForSlot(slot, allegiance);
         case "Solar Auxilia":
@@ -61,6 +68,8 @@ export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyLi
             return getLegionDetachmentConfigurationForDetachmentName(detachmentName as LegionDetachmentName);
         case "Solar Auxilia":
             return getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName as AuxiliaDetachmentName);
+        case "Mechanicum Taghmata":
+            return getMechanicumDetachmentConfigurationForDetachmentName(detachmentName as MechanicumDetachmentName);
         case "Questoris Familia":
         case "Strategic Asset":
         case "Collegia Titanica":

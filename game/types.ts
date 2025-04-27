@@ -1,5 +1,6 @@
 import { AuxiliaDetachmentName, AuxiliaFormationSlot, AuxiliaFormationName, AuxiliaModelName, AllAuxiliaModelNames } from "./auxiliaTypes.ts";
 import { LegionDetachmentName, LegionFormationSlot, LegionFormationName, LegionModelName, LegionName, AllLegionModelNames } from "./legionTypes.ts";
+import { MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName, MechanicumModelNames, MechanicumSlot } from "./mechanicumTypes.ts";
 import { CollegiaTitanicaFormationSlot, CollegiaTitanicaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelName, QuestorisFamiliaFormationName, QuestorisFamiliaFormationSlot, AllStrategicAssetModelNames } from "./strategicAssetTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
@@ -44,6 +45,7 @@ export type Allegiance = (typeof Allegiances)[number];
 export const ArmyListNames = [
     "Collegia Titanica",
     "Legions Astartes",
+    "Mechanicum Taghmata",
     "Questoris Familia",
     "Solar Auxilia",
     "Strategic Asset",
@@ -54,6 +56,7 @@ export type FormationName =
     AuxiliaFormationName | 
     CollegiaTitanicaFormationName |
     LegionFormationName | 
+    MechanicumFormationName |
     QuestorisFamiliaFormationName |
     StrategicAssetFormationName
 ;
@@ -62,6 +65,7 @@ export type FormationSlot =
     AuxiliaFormationSlot |
     CollegiaTitanicaFormationSlot |
     LegionFormationSlot |
+    MechanicumSlot |
     QuestorisFamiliaFormationSlot |
     "Air Support" | 
     "Artillery" | 
@@ -91,14 +95,15 @@ export type FormationShape = {
     customValidation?: (Formation: Formation, detachmentIndex: number) => DetachmentValidationState
 }
         
-export type DetachmentName = LegionDetachmentName | AuxiliaDetachmentName | StrategicAssetDetachmentName;
+export type DetachmentName = LegionDetachmentName | AuxiliaDetachmentName | MechanicumDetachmentName | StrategicAssetDetachmentName;
 
 //actually called 'Model Name'
-export type ModelType = LegionModelName | AuxiliaModelName | StrategicAssetModelName;
+export type ModelType = LegionModelName | AuxiliaModelName | MechanicumModelName | StrategicAssetModelName;
 
 export const AllModelNames: readonly ModelType[] = [
     ...(AllLegionModelNames as readonly ModelType[]),
     ...(AllAuxiliaModelNames as readonly ModelType[]),
+    ...(MechanicumModelNames as readonly ModelType[]),
     ...(AllStrategicAssetModelNames as readonly ModelType[])
 ];
 

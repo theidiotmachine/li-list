@@ -57,10 +57,15 @@ export type AppStateType = {
     cloneArmy: () => void;
 
     //ui -- open and close the model group editor
-    openState: Signal<Map<string, boolean>>;
-    getKey: (uuid: string, detachmentIndex: number, modelType: ModelType) => string;
-    open: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
-    close: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
+    modelGroupOpenState: Signal<Map<string, boolean>>;
+    getModelGroupKey: (uuid: string, detachmentIndex: number, modelType: ModelType) => string;
+    openModelGroup: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
+    closeModelGroup: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
+
+    //ui -- open and close formations
+    formationClosedState: Signal<Map<string, boolean>>;
+    openFormation: (uuid: string) => void;
+    closeFormation: (uuid: string) => void;
 };
 
 function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadoutGroup) {
@@ -252,7 +257,7 @@ function calculateTransportData(stats: Stats, modelGroup: ModelGroup, transports
             const transportCapacity = parseInt(matches![1]);
             for (let i = 0; i < numberModels; ++i)
             transports.push(
-                { capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: false, bulkyIs: 0 }
+                {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: false, bulkyIs: 0}
             );
         } else {
             const assaultTransportTrait = traits.find((x) => x.startsWith("Assault Transport"));
@@ -261,7 +266,7 @@ function calculateTransportData(stats: Stats, modelGroup: ModelGroup, transports
             const transportCapacity = parseInt(matches![1]);
             for (let i = 0; i < numberModels; ++i)
                 transports.push(
-                { capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: true, bulkyIs: 2 }
+                    {capacity: transportCapacity, remainingCapacity: transportCapacity, takesWalkers: false, takesBulky: true, bulkyIs: 2}
                 );
             } else {
                 const largeTransportTrait = traits.find((x) => x.startsWith("Large Transport") || x.startsWith("Large Assault Transport"));
@@ -581,21 +586,32 @@ function createAppState(): AppStateType {
     const undoStack= signal<Army[]>([newArmy]);
     const undoIndex = signal<number>(0);
     const army = signal<Army>(newArmy);
-    const openState = signal<Map<string, boolean>>(new Map());
-    const getKey = (uuid: string, detachmentIndex: number, modelType: ModelType): string => {
+    const modelGroupOpenState = signal<Map<string, boolean>>(new Map());
+    const getModelGroupKey = (uuid: string, detachmentIndex: number, modelType: ModelType): string => {
         return uuid + ":" + detachmentIndex + ":" + modelType;
     }
-    const open = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
-        const key = getKey(uuid, detachmentIndex, modelType);
-        const newState = structuredClone(openState.value);
+    const openModelGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
+        const key = getModelGroupKey(uuid, detachmentIndex, modelType);
+        const newState = structuredClone(modelGroupOpenState.value);
         newState.set(key, true);
-        openState.value = newState;
+        modelGroupOpenState.value = newState;
     }
-    const close = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
-        const key = getKey(uuid, detachmentIndex, modelType);
-        const newState = structuredClone(openState.value);
+    const closeModelGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
+        const key = getModelGroupKey(uuid, detachmentIndex, modelType);
+        const newState = structuredClone(modelGroupOpenState.value);
         newState.delete(key);
-        openState.value = newState;
+        modelGroupOpenState.value = newState;
+    }
+    const formationClosedState = signal<Map<string, boolean>>(new Map());
+    const openFormation = (uuid: string) => {
+        const newState = structuredClone(formationClosedState.value);
+        newState.delete(uuid);
+        formationClosedState.value = newState;
+    }
+    const closeFormation = (uuid: string) => {
+        const newState = structuredClone(formationClosedState.value);
+        newState.set(uuid, true);
+        formationClosedState.value = newState;
     }
 
     const canUndo = computed(()=>{
@@ -1068,7 +1084,8 @@ function createAppState(): AppStateType {
         changeFormationName, changeDetachmentName, changeDetachmentAttachment, changeModelNumber, 
         changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
         armiesLoadState, armyLoadState, saves, refreshSaves, load, deleteSave, canCloneArmy, cloneArmy,
-        openState, open, close, getKey
+        modelGroupOpenState, openModelGroup, closeModelGroup, getModelGroupKey,
+        openFormation, closeFormation, formationClosedState,
     };
 }
 

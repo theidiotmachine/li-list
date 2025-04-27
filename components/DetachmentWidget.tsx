@@ -18,7 +18,7 @@ interface DetachmentWidgetProps {
 }
 
 export function DetachmentWidget(props: DetachmentWidgetProps) {
-    const { addModelLoadoutGroup, army, open, openState, close, getKey } = useContext(AppState);
+    const { addModelLoadoutGroup, army, openModelGroup: open, modelGroupOpenState: openState, closeModelGroup: close, getModelGroupKey } = useContext(AppState);
     const formationName = army.value.formations.find(x=>x.uuid == props.uuid)?.formationName ?? "";
 
     const shape = getShapeForFormationName(props.armyListName, formationName);
@@ -40,7 +40,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                                     {props.detachment.modelGroups[modelGroupIndex].number}
                                     {(u.possibleModelGroupQuantities.length === 1 && u.modelLoadoutSlots.length == 0)?
                                         <div></div>: 
-                                        (openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?
+                                        (openState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, u.modelType)))?
                                         <img 
                                             src="/tick-clean.svg" class="w-6 h-6 mr-1 ml-1 md:ml-3 cursor-pointer"
                                             onClick={()=>close(props.uuid, props.detachmentIndex, props.detachment.modelGroups[modelGroupIndex].modelType)}
@@ -73,7 +73,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                                 <div class="contents">
                                     
                                     <div class="col-start-1 col-span-4"
-                                        hidden={(openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}>
+                                        hidden={(openState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}>
                                         {props.detachment.modelGroups[i].modelLoadoutGroups.map((x, j)=>
                                             <ModelLoadoutWidget key={j} uuid={props.uuid} armyListName={props.armyListName}
                                             formationType={props.formationType} detachmentIndex={props.detachmentIndex} 
@@ -83,7 +83,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                                         )}
                                     </div>
                                     <button type="button" class="w-full text-centre bg-gray-100 col-start-2 md:col-start-3"
-                                        hidden={(openState.value.has(getKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}
+                                        hidden={(openState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, u.modelType)))?false:true}
                                         onClick={() => addModelLoadoutGroup(props.uuid, props.detachmentIndex, props.detachment.modelGroups[i].modelType)}>
                                         New Loadout
                                     </button>

@@ -123,7 +123,7 @@ export function ArmyWidget(props: ArmyWidgetProps) {
             (<h1 class={props.class}>Loading...</h1>)
             :
             (
-                <div class={"flex flex-col md:w-[800px] w-screen mx-2" }>
+                <div class="flex flex-col md:w-[800px] w-screen mx-2">
                     <div class={"w-full " + props.class}>
                         {army.value.formations.map((x) => FormationWidget({formation: x, allegiance: army.value.allegiance})) }
                     </div>               

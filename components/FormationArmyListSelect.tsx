@@ -4,10 +4,16 @@ import { ArmyListName, Formation } from "../game/types.ts";
 
 interface FormationArmyListSelectProps {
     uuid: string;
+    editable: boolean;
 };
 
 export function FormationArmyListSelect(props: FormationArmyListSelectProps) {
     const { army, changeFormationArmyList } = useContext(AppState);
+
+    if(!props.editable) return <div class ="font-medium text-lg md:text-xl w-full  bg-gray-100 border-b-2 border-gray-400">
+        {army.value.primaryArmyListName}
+    </div>;
+
     const formation = army.value.formations.find((f: Formation)=>f.uuid == props.uuid);
     const formationArmyListName = formation?.armyListName ?? "";
     const primaryArmyListName = army.value.primaryArmyListName;

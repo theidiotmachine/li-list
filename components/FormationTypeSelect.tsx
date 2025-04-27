@@ -5,6 +5,7 @@ import { getFormationTypesForArmyListName } from "../game/lists.ts";
 
 interface FormationTypeSelectProps {
     uuid: string;
+    editable: boolean;
 };
 
 export function FormationTypeSelect(props: FormationTypeSelectProps) {
@@ -12,6 +13,10 @@ export function FormationTypeSelect(props: FormationTypeSelectProps) {
     const formation = army.value.formations.find((f: Formation)=>f.uuid == props.uuid)
 
     const formationType = formation?.formationName ?? "";
+
+    if(!props.editable) return <div class ="w-full md:font-medium md:text-xl md:bg-gray-100 md:border-b-2 border-gray-400 bg-white">
+        {formationType}
+    </div>;
 
     let formationTypes: (FormationName | "")[] = [""];
     formationTypes = formationTypes.concat(getFormationTypesForArmyListName(formation?.armyListName ?? ""));

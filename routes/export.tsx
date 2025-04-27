@@ -1,6 +1,6 @@
 import { decodeBase64 } from "jsr:@std/encoding/base64";
 import { gunzip } from "jsr:@deno-library/compress";
-import { PDFDocument, PDFFont, PDFPage, rgb, StandardFonts } from "pdf-lib";
+import { PageSizes, PDFDocument, PDFFont, PDFPage, rgb, StandardFonts } from "pdf-lib";
 import { Army, Detachment, Formation, ModelGroup } from "../game/types.ts";
 import { Handlers } from "$fresh/server.ts";
 import { getShapeForFormationName } from "../game/lists.ts";
@@ -38,7 +38,7 @@ function decY(y: number, pageData: PageData) {
     const newY = pageData.y - y;
     if(newY < bottomYMargin) {
         drawPageNumber(pageData);
-        pageData.page = pageData.pdfDoc.addPage();
+        pageData.page = pageData.pdfDoc.addPage(PageSizes.A4);
         pageData.pageNumber += 1;
         pageData.y = pageData.height - y - topYMargin;
     } else {
@@ -160,7 +160,7 @@ async function createPdf(army: Army) {
     const italicFont = await pdfDoc.embedFont(StandardFonts.HelveticaOblique);
 
     // Add a page to the PDFDocument
-    const page = pdfDoc.addPage();
+    const page = pdfDoc.addPage(PageSizes.A4);
     const { width, height } = page.getSize()
 
     let y = height - h1FontSize - topYMargin;
