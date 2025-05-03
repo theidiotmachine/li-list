@@ -439,7 +439,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 4, points: 36}, {num: 4+2, points: 36+15}, {num: 4+4, points: 36+30}
         ]},
     ]}],
-    ["Legion Deredeo Dreadnought Detachment", {minModels: 4, maxModels: 6, modelGroupShapes: [
+    ["Legion Deredeo Dreadnought Detachment", {minModels: 4, modelGroupShapes: [
         {modelType: "Deredeo Dreadnought", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts:[
                 {loadout: "Hellfire plasma cannonade", points: 0},

@@ -100,7 +100,7 @@ export function ArmyWidget(props: ArmyWidgetProps) {
         army.value = JSON.parse(props.armyAsJson);
 
     return(
-        <div class="flex flex-row justify-center overflow-x-scroll h-screen " onScroll={(e)=>{
+        <div class="flex flex-row justify-center overflow-x-scroll h-screen" onScroll={(e)=>{
                 const k = e.target as HTMLElement;
                 if(k.scrollTop > 80){
                     const elems = document.getElementsByClassName("hide-on-scroll");

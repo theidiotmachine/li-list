@@ -40,7 +40,7 @@ export function HammerScenario() {
     const {range, changeRange, arc, changeArc, shooter, changeShooter, target, changeTarget, loadouts, newUrl, changed} = useContext(HammerScenarioState);
     const stats = getStatsForModelType(shooter.value);
     
-    return <div class="flex flex-col">
+    return <div class="flex flex-col">  
         <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400">Scenario</div>
         <div class="flex flex-row">
             <label class="font-medium w-32">Shooter</label>
