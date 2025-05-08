@@ -22,6 +22,7 @@ export function FormationArmyListSelect(props: FormationArmyListSelectProps) {
     if(primaryArmyListName == "Collegia Titanica")
         options.push({value: "Collegia Titanica", text: "Collegia Titanica"});
     options.push({value: "Legions Astartes", text: "Legions Astartes"});
+    options.push({value: "Mechanicum Taghmata", text: "Mechanicum Taghmata"});
     if(primaryArmyListName == "Questoris Familia")
         options.push({value: "Questoris Familia", text: "Questoris Familia"});
     options.push({value: "Solar Auxilia", text: "Solar Auxilia"});

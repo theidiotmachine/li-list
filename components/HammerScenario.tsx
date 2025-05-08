@@ -1,8 +1,8 @@
 import { useContext } from "preact/hooks";
 import { HammerScenarioState } from "../islands/HammerScenarioIsland.tsx";
-import { Arc, StatsModelLoadoutForSlot, StatsModelLoadoutSlot } from "../game/types.ts";
+import { SaveArc, StatsModelLoadoutForSlot, StatsModelLoadoutSlot } from "../game/types.ts";
 import { HammerModelNameSelect } from "./HammerModelNameSelect.tsx";
-import { getStatsForModelType } from "../game/lists.ts";
+import { getStatsForModelName } from "../game/lists.ts";
 import { HammerScenarioLoadout } from "../state/hammerScenarioState.ts";
 
 type HammerModelLoadoutSelectProps = {
@@ -38,7 +38,7 @@ function HammerModelLoadoutSlot(props: HammerModelLoadoutSlotProps) {
 
 export function HammerScenario() {
     const {range, changeRange, arc, changeArc, shooter, changeShooter, target, changeTarget, loadouts, newUrl, changed} = useContext(HammerScenarioState);
-    const stats = getStatsForModelType(shooter.value);
+    const stats = getStatsForModelName(shooter.value);
     
     return <div class="flex flex-col">  
         <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400">Scenario</div>
@@ -64,7 +64,7 @@ export function HammerScenario() {
         </div>
         <div class="flex flex-row">
             <label class="font-medium w-32">Target Arc</label>
-            <select class="w-56" onInput={(e) => changeArc(e.currentTarget.value as Arc)}>
+            <select class="w-56" onInput={(e) => changeArc(e.currentTarget.value as SaveArc)}>
                 <option selected={arc.value == "Front"}>Front</option>
                 <option selected={arc.value == "Rear"}>Rear</option>
             </select>

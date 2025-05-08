@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks";
 import { getDetachmentConfigurationForDetachmentName } from "../game/lists.ts";
-import { ArmyListName, DetachmentName, ModelLoadoutForSlot, ModelType } from "../game/types.ts";
+import { ArmyListName, DetachmentName, ModelLoadoutForSlot, ModelName } from "../game/types.ts";
 import { AppState } from "../islands/App.tsx";
 
 interface ModelLoadoutSelectProps{
@@ -8,7 +8,7 @@ interface ModelLoadoutSelectProps{
     uuid: string;
     armyListName: ArmyListName;
     detachmentIndex: number;
-    modelType: ModelType;
+    modelType: ModelName;
     detachmentName: DetachmentName;
     modelLoadoutGroupIndex: number;
     modelLoadoutSlotName: string;
@@ -18,7 +18,7 @@ export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
     const { changeModelLoadout } = useContext(AppState);
     
     const config = getDetachmentConfigurationForDetachmentName(props.armyListName, props.detachmentName);
-    const modelOptions = config?.modelGroupShapes.find((x)=>x.modelType == props.modelType);
+    const modelOptions = config?.modelGroupShapes.find((x)=>x.modelName == props.modelType);
     if(modelOptions == undefined)
         return <div></div>
         

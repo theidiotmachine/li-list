@@ -1,7 +1,7 @@
 import { PageProps } from "$fresh/server.ts";
-import { getStatsForModelType } from "../game/lists.ts";
+import { getStatsForModelName } from "../game/lists.ts";
 import { HitResultOutcome, shoot, ShootResultOutcome } from "../game/mathHammer.ts";
-import { Arc, ModelType } from "../game/types.ts";
+import { ModelName, SaveArc } from "../game/types.ts";
 import { WeaponType } from "../game/weaponTypes.ts";
 import { HammerScenarioIsland } from "../islands/HammerScenarioIsland.tsx";
 
@@ -50,7 +50,7 @@ const AimTable = (props: HammerAimTableProps) => {
 
 export default function Hammer(props: PageProps) {
     const shooterModelType = props.url.searchParams.get("shooter") ?? "Tactical Legionaries";
-    const shooterStats = getStatsForModelType(shooterModelType);
+    const shooterStats = getStatsForModelName(shooterModelType);
     if(shooterStats == undefined) {
         return <div>Missing shooter stats</div>
     }
@@ -82,13 +82,13 @@ export default function Hammer(props: PageProps) {
         }
     }
 
-    const targetModelType: ModelType = (props.url.searchParams.get("target") ?? "Tactical Legionaries") as ModelType;
+    const targetModelType: ModelName = (props.url.searchParams.get("target") ?? "Tactical Legionaries") as ModelName;
 
-    const targetArc = (props.url.searchParams.get("targetArc") ?? "Front") as Arc;
+    const targetArc = (props.url.searchParams.get("targetArc") ?? "Front") as SaveArc;
     const rangeString = (props.url.searchParams.get("range") ?? "8");
     const range = parseInt(rangeString);
 
-    const haveTargetStats = getStatsForModelType(targetModelType) != undefined;
+    const haveTargetStats = getStatsForModelName(targetModelType) != undefined;
     if(!haveTargetStats) {
         return <div>Missing target stats</div>
     }

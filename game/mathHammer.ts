@@ -1,7 +1,7 @@
-import { getStatsForModelType } from "./lists.ts";
-import { Arc, ModelType, SaveType, Stats, statsHasTrait, weaponHasTrait, weaponHasTraitLike, WeaponStats, WeaponStatsAtRange } from "./types.ts";
+import { getStatsForModelName } from "./lists.ts";
+import { SaveArc, ModelName, SaveType, Stats, statsHasTrait } from "./types.ts";
 import { getWeaponStats } from "./weapons.ts";
-import { WeaponType } from "./weaponTypes.ts";
+import { weaponHasTrait, weaponHasTraitLike, WeaponStats, WeaponStatsAtRange, WeaponType } from "./weaponTypes.ts";
 
 type NamedWeaponStats = {
     weaponType: WeaponType;
@@ -116,7 +116,7 @@ function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | un
     ]};
 }
 
-function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc): DamageResult | undefined {
+function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: SaveArc): DamageResult | undefined {
     let bestSave = 7;
     let bestWounds = 1;
     let bestSaveType: SaveType = "Armour";
@@ -196,8 +196,7 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Arc)
     }
 }
 
-function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: Arc, range: number): SingleShootResult | undefined {
-
+function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveArc, range: number): SingleShootResult | undefined {
     type IntermediateShootResult = {
         hitFractions: HitResultOutcome[];
         damageFraction: number;
@@ -310,9 +309,9 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: Arc, 
 }
 
 export function shoot(
-    shooterModelType: ModelType, additionalShooterWeapons: WeaponType[], targetModelType: ModelType, targetArc: Arc, range: number
+    shooterModelType: ModelName, additionalShooterWeapons: WeaponType[], targetModelType: ModelName, targetArc: SaveArc, range: number
 ): ShootResult | undefined {
-    const shooterStats = getStatsForModelType(shooterModelType);
+    const shooterStats = getStatsForModelName(shooterModelType);
     const namedWeaponStats: NamedWeaponStats[] = [];
 
     const recordStats = (wt: WeaponType) => {
@@ -333,7 +332,7 @@ export function shoot(
 
     additionalShooterWeapons.forEach(recordStats);
 
-    const targetStats = getStatsForModelType(targetModelType);
+    const targetStats = getStatsForModelName(targetModelType);
     if(targetStats == undefined) 
         return undefined;
 

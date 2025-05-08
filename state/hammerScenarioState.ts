@@ -1,6 +1,6 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { Arc, ModelType } from "../game/types.ts";
-import { getStatsForModelType } from "../game/lists.ts";
+import { SaveArc, ModelName } from "../game/types.ts";
+import { getStatsForModelName } from "../game/lists.ts";
 
 export type HammerScenarioLoadout = {
     name: string;
@@ -11,14 +11,14 @@ export type HammerScenarioStateType = {
     range: Signal<number>;
     changeRange: (range: number) => void;
 
-    arc: Signal<Arc>;
-    changeArc: (newArc: Arc) => void;
+    arc: Signal<SaveArc>;
+    changeArc: (newArc: SaveArc) => void;
 
-    shooter: Signal<ModelType>;
-    changeShooter: (newModelType: ModelType) => void;
+    shooter: Signal<ModelName>;
+    changeShooter: (newModelType: ModelName) => void;
 
-    target: Signal<ModelType>;
-    changeTarget: (newModelType: ModelType) => void;
+    target: Signal<ModelName>;
+    changeTarget: (newModelType: ModelName) => void;
 
     loadouts: Signal<HammerScenarioLoadout[]>;
     changeLoadout: (newLoadout: HammerScenarioLoadout) => void;
@@ -32,11 +32,11 @@ export function createHammerScenarioState(urlString: string): HammerScenarioStat
     const url = URL.parse(urlString);
 
     const rangeString = (url?.searchParams.get("range") ?? "8");
-    const targetArcString = (url?.searchParams.get("targetArc") ?? "Front") as Arc;
+    const targetArcString = (url?.searchParams.get("targetArc") ?? "Front") as SaveArc;
     const shooterString = url?.searchParams.get("shooter") ?? "Tactical Legionaries";
     const targetString = url?.searchParams.get("target") ?? "Tactical Legionaries";
 
-    const stats = getStatsForModelType(shooterString);
+    const stats = getStatsForModelName(shooterString);
     const loadoutStrings = url?.searchParams.getAll("loadout") ?? [];
     const loadoutsFromUrl = loadoutStrings.map((s)=>{
         const bits = s.split(":");
@@ -63,20 +63,20 @@ export function createHammerScenarioState(urlString: string): HammerScenarioStat
         changed.value = true;
     }
 
-    const arc = signal<Arc>(targetArcString);
-    const changeArc = (newArc: Arc) => {
+    const arc = signal<SaveArc>(targetArcString);
+    const changeArc = (newArc: SaveArc) => {
         arc.value = newArc;
         changed.value = true;
     }
 
-    const shooter = signal<ModelType>(shooterString);
-    const changeShooter = (newModelType: ModelType) => {
+    const shooter = signal<ModelName>(shooterString);
+    const changeShooter = (newModelType: ModelName) => {
         shooter.value = newModelType;
         changed.value = true;
     }
 
-    const target = signal<ModelType>(targetString);
-    const changeTarget = (newModelType: ModelType) => {
+    const target = signal<ModelName>(targetString);
+    const changeTarget = (newModelType: ModelName) => {
         target.value = newModelType;
         changed.value = true;
     }

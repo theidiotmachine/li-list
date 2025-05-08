@@ -1,8 +1,8 @@
 import { PageProps } from "$fresh/server.ts";
 import {
-  ModelType,
+  ModelName,
 } from "../../game/types.ts";
-import { getStatsForModelType } from "../../game/lists.ts";
+import { getStatsForModelName } from "../../game/lists.ts";
 
 /*
 
@@ -180,9 +180,9 @@ export default function Unit(props: PageProps) {
 */
 
 export default function Unit(props: PageProps) {
-  const modelType = decodeURIComponent(props.params.unitid) as ModelType;
+  const modelType = decodeURIComponent(props.params.unitid) as ModelName;
 
-  const stats = getStatsForModelType(modelType);
+  const stats = getStatsForModelName(modelType);
   if (stats) {
     return (
       <div class="flex flex-row justify-center mt-8 m-2">

@@ -2,11 +2,11 @@ import { getAuxiliaDetachmentConfigurationForDetachmentName, getAuxiliaDetachmen
 import { AllAuxiliaModelNames, AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaFormationNames, AuxiliaModelName } from "./auxiliaTypes.ts";
 import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentName, getLegionDetachmentNamesForSlot, getShapeForLegionFormationName } from "./legionList.ts";
 import { AllLegionModelNames, LegionDetachmentName, LegionFormationName, LegionFormationNames, LegionModelName } from "./legionTypes.ts";
-import { getMechanicumDetachmentConfigurationForDetachmentName, getMechanicumDetachmentNamesForSlot, getShapeForMechanicumFormationName } from "./mechanicumList.ts";
-import { MechanicumDetachmentName, MechanicumFormationName, MechanicumFormationNames } from "./mechanicumTypes.ts";
+import { getMechanicumDetachmentConfigurationForDetachmentName, getMechanicumDetachmentNamesForSlot, getShapeForMechanicumFormationName, getStatsForMechanicumModelName } from "./mechanicumList.ts";
+import { MechanicumDetachmentName, MechanicumFormationName, MechanicumFormationNames, MechanicumModelName, MechanicumModelNames } from "./mechanicumTypes.ts";
 import { getCollegiaTitanicaDetachmentNamesForSlot, getQuestorisFamiliaDetachmentNamesForSlot, getShapeForCollegiaTitanicaFormationName, getShapeForQuestorisFamiliaFormationName, getShapeForStrategicAssetFormationName, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
 import { AllStrategicAssetModelNames, CollegiaTitanicaFormationName, CollegiaTitanicaFormationNames, QuestorisFamiliaFormationName, QuestorisFamiliaFormationNames, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetFormationNames, StrategicAssetModelName } from "./strategicAssetTypes.ts";
-import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelType, Stats } from "./types.ts";
+import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelName, Stats } from "./types.ts";
 
 
 const formationTypesForArmyListName: Map<ArmyListName, FormationName[]> = new Map([
@@ -77,14 +77,17 @@ export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyLi
     }
 }
 
-export function getStatsForModelType(modelType: ModelType): Stats | undefined {
-    if(AllLegionModelNames.findIndex(a=>a==modelType) != -1) {
-        return getStatsForLegionModelType(modelType as LegionModelName);
+export function getStatsForModelName(modelName: ModelName): Stats | undefined {
+    if(AllLegionModelNames.findIndex(a=>a==modelName) != -1) {
+        return getStatsForLegionModelType(modelName as LegionModelName);
     }
-    if(AllStrategicAssetModelNames.findIndex(a=>a==modelType) != -1) {
-        return getStatsForStrategicAssetModelType(modelType as StrategicAssetModelName);
+    if(AllStrategicAssetModelNames.findIndex(a=>a==modelName) != -1) {
+        return getStatsForStrategicAssetModelType(modelName as StrategicAssetModelName);
     }
-    if(AllAuxiliaModelNames.findIndex(a=>a==modelType) != -1) {
-        return getStatsForAuxiliaModelType(modelType as AuxiliaModelName);
+    if(AllAuxiliaModelNames.findIndex(a=>a==modelName) != -1) {
+        return getStatsForAuxiliaModelType(modelName as AuxiliaModelName);
+    }
+    if(MechanicumModelNames.findIndex(a=>a==modelName) != -1) {
+        return getStatsForMechanicumModelName(modelName as MechanicumModelName)
     }
 }

@@ -197,7 +197,7 @@ const validateTalons = (detachment: Detachment): DetachmentValidationState => {
     const armigerKnights = ["Knight Armiger", "Knight Moirax"];
     let numArmigerKnights = 0;
     for(let i= 0; i < armigerKnights.length; ++i) {
-        const k = detachment.modelGroups.find(m=>m.modelType == armigerKnights[i]);
+        const k = detachment.modelGroups.find(m=>m.modelName == armigerKnights[i]);
         const num = k?.modelLoadoutGroups.reduce((p, g)=> p + g.number, 0) ?? 0;
         if(num > 3)
             return {valid: false, error: "Too many models in detachment", data: "Max 3 " + armigerKnights[i]};
@@ -219,7 +219,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             const acastusKnights = ["Acastus Knight Asterius", "Acastus Knight Porphyrion"];
             let numAcastusKnights = 0;
             for(let i= 0; i < acastusKnights.length; ++i) {
-                const k = detachment.modelGroups.find(m=>m.modelType == acastusKnights[i]);
+                const k = detachment.modelGroups.find(m=>m.modelName == acastusKnights[i]);
                 if(k === undefined) continue;
                 //stupid asterius is not configurable
                 if(i == 0)
@@ -235,11 +235,11 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             return validateTalons(detachment);
         },
         modelGroupShapes: [
-            {modelType: "Acastus Knight Asterius", modelLoadoutSlots: [
+            {modelName: "Acastus Knight Asterius", modelLoadoutSlots: [
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 250+20}, {num: 2, points: 250+250+20*2}
             ], independentModels: true},
-            {modelType: "Acastus Knight Porphyrion", modelLoadoutSlots: [
+            {modelName: "Acastus Knight Porphyrion", modelLoadoutSlots: [
                 {name: "Body", possibleModelLoadouts: [
                     {loadout: "Acastus lascannon", points: 0}, 
                     {loadout: "Acastus autocannon", points: 0},
@@ -251,7 +251,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 250}, {num: 2, points: 250+250}
             ], independentModels: true},
-            {modelType: "Knight Armiger", modelLoadoutSlots: [
+            {modelName: "Knight Armiger", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chain-cleaver", points: 0}, 
                     {loadout: "Armiger autocannon", points: 0},
@@ -266,7 +266,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 "Lupercal Light Maniple",
                 "Ruptura Battleline Maniple",
             ]},
-            {modelType: "Knight Moirax", modelLoadoutSlots: [
+            {modelName: "Knight Moirax", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Armiger lightning locks", points: 0}, 
                     {loadout: "Volkite veuglaire", points: 0},
@@ -285,7 +285,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
     }],
     ["Armiger Knight Banner", {minModels: 3, maxModels: 9,
         modelGroupShapes: [
-            {modelType: "Knight Armiger", modelLoadoutSlots: [
+            {modelName: "Knight Armiger", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chain-cleaver", points: 0}, 
                     {loadout: "Armiger autocannon", points: 0},
@@ -293,7 +293,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 3, points: 180}, {num: 6, points: 180+160}, {num: 9, points: 180+160*2},
             ]},
-            {modelType: "Knight Moirax", modelLoadoutSlots: [
+            {modelName: "Knight Moirax", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Armiger lightning locks", points: 0}, 
                     {loadout: "Volkite veuglaire", points: 0},
@@ -310,7 +310,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             
             let numQuestorisKnights = 0;
             for(let i= 0; i < questorisKnights.length; ++i) {
-                const k = detachment.modelGroups.find(m=>m.modelType == questorisKnights[i]);
+                const k = detachment.modelGroups.find(m=>m.modelName == questorisKnights[i]);
                 numQuestorisKnights += k?.number ?? 0;
             }
             if(numQuestorisKnights > 3)
@@ -321,11 +321,11 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             return validateTalons(detachment);
         },
         modelGroupShapes: [
-            {modelType: "Knight Magaera", modelLoadoutSlots: [
+            {modelName: "Knight Magaera", modelLoadoutSlots: [
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180+15}, {num: 2, points: 180+180+15*2}, {num: 3, points: 180+340+15*3}
             ], independentModels: true},
-            {modelType: "Knight Styrix", modelLoadoutSlots: [
+            {modelName: "Knight Styrix", modelLoadoutSlots: [
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180+15}, {num: 2, points: 180+180+15*2}, {num: 3, points: 180+340+15*3}
             ], independentModels: true},
@@ -337,7 +337,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             const cerastusKnights = ["Cerastus Knight Atrapos", "Knight Acheron", "Knight Castigator", "Knight Lancer"];
             let numCerastusKnights = 0;
             for(let i= 0; i < cerastusKnights.length; ++i) {
-                const k = detachment.modelGroups.find(m=>m.modelType == cerastusKnights[i]);
+                const k = detachment.modelGroups.find(m=>m.modelName == cerastusKnights[i]);
                 if(k === undefined) continue;
                 numCerastusKnights += k.number;
             }
@@ -349,19 +349,19 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             return validateTalons(detachment);
         },
         modelGroupShapes: [
-            {modelType: "Cerastus Knight Atrapos", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {modelName: "Cerastus Knight Atrapos", modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 215+20}, {num: 2, points: 215+200+20*2}, {num: 3, points: 215+390+20*3}
             ], independentModels: true},
-            {modelType: "Knight Acheron", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {modelName: "Knight Acheron", modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 215}, {num: 2, points: 215+200}, {num: 3, points: 215+390}
             ], independentModels: true},
-            {modelType: "Knight Castigator", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {modelName: "Knight Castigator", modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 215}, {num: 2, points: 215+200}, {num: 3, points: 215+390}
             ], independentModels: true},
-            {modelType: "Knight Lancer", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {modelName: "Knight Lancer", modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 215}, {num: 2, points: 215+200}, {num: 3, points: 215+390}
             ], independentModels: true},
-            {modelType: "Knight Armiger", modelLoadoutSlots: [
+            {modelName: "Knight Armiger", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chain-cleaver", points: 0}, 
                     {loadout: "Armiger autocannon", points: 0},
@@ -376,7 +376,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 "Lupercal Light Maniple",
                 "Ruptura Battleline Maniple",
             ]},
-            {modelType: "Knight Moirax", modelLoadoutSlots: [
+            {modelName: "Knight Moirax", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Armiger lightning locks", points: 0}, 
                     {loadout: "Volkite veuglaire", points: 0},
@@ -399,7 +399,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             const questorisKnights = ["Knight Crusader", "Knight Errant", "Knight Gallant", "Knight Magaera", "Knight Paladin", "Knight Styrix"];
             let numQuestorisKnights = 0;
             for(let i= 0; i < questorisKnights.length; ++i) {
-                const k = detachment.modelGroups.find(m=>m.modelType == questorisKnights[i]);
+                const k = detachment.modelGroups.find(m=>m.modelName == questorisKnights[i]);
                 if(questorisKnights[i] == "Knight Magaera" || questorisKnights[i] == "Knight Styrix")
                     numQuestorisKnights += k?.number ?? 0;
                 else    
@@ -413,7 +413,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             return validateTalons(detachment);
         },
         modelGroupShapes: [
-            {modelType: "Knight Crusader", modelLoadoutSlots: [
+            {modelName: "Knight Crusader", modelLoadoutSlots: [
                 {name: "Carapace", possibleModelLoadouts: [
                     {loadout: "Nothing", points: 0, weaponTypes: []}, 
                     {loadout: "Rocket pods", points: 5},
@@ -425,7 +425,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
             ], independentModels: true},
-            {modelType: "Knight Errant", modelLoadoutSlots: [
+            {modelName: "Knight Errant", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chainsword", points: 0}, 
                     {loadout: "Thunderstrike gauntlet", points: 2},
@@ -437,7 +437,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
             ], independentModels: true},
-            {modelType: "Knight Gallant", modelLoadoutSlots: [
+            {modelName: "Knight Gallant", modelLoadoutSlots: [
                 {name: "Close combat 2", possibleModelLoadouts: [
                     {loadout: "Reaper chainsword", points: 0}, 
                     {loadout: "Thunderstrike gauntlet", points: 2},
@@ -449,11 +449,11 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
             ], independentModels: true},
-            {modelType: "Knight Magaera", modelLoadoutSlots: [
+            {modelName: "Knight Magaera", modelLoadoutSlots: [
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180+15}, {num: 2, points: 180+180+15*2}, {num: 3, points: 180+340+15*3}
             ], independentModels: true},
-            {modelType: "Knight Paladin", modelLoadoutSlots: [
+            {modelName: "Knight Paladin", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chainsword", points: 0}, 
                     {loadout: "Thunderstrike gauntlet", points: 2},
@@ -465,11 +465,11 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
             ], independentModels: true},
-            {modelType: "Knight Styrix", modelLoadoutSlots: [
+            {modelName: "Knight Styrix", modelLoadoutSlots: [
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180+15}, {num: 2, points: 180+180+15*2}, {num: 3, points: 180+340+15*3}
             ], independentModels: true},
-            {modelType: "Knight Warden", modelLoadoutSlots: [
+            {modelName: "Knight Warden", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chainsword", points: 0}, 
                     {loadout: "Thunderstrike gauntlet", points: 2},
@@ -481,7 +481,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             ], possibleModelGroupQuantities: [
                 {num: 0, points: 0}, {num: 1, points: 180}, {num: 2, points: 180+180}, {num: 3, points: 180+340}
             ], independentModels: true},
-            {modelType: "Knight Armiger", modelLoadoutSlots: [
+            {modelName: "Knight Armiger", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Reaper chain-cleaver", points: 0}, 
                     {loadout: "Armiger autocannon", points: 0},
@@ -496,7 +496,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 "Lupercal Light Maniple",
                 "Ruptura Battleline Maniple",
             ]},
-            {modelType: "Knight Moirax", modelLoadoutSlots: [
+            {modelName: "Knight Moirax", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Armiger lightning locks", points: 0}, 
                     {loadout: "Volkite veuglaire", points: 0},
@@ -515,7 +515,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
     }],
     ["Moirax Knight Banner", {minModels: 3, maxModels: 9,
         modelGroupShapes: [
-            {modelType: "Knight Moirax", modelLoadoutSlots: [
+            {modelName: "Knight Moirax", modelLoadoutSlots: [
                 {name: "Close combat", possibleModelLoadouts: [
                     {loadout: "Armiger lightning locks", points: 0}, 
                     {loadout: "Volkite veuglaire", points: 0},
@@ -526,7 +526,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
         ]
     }],
     ["Warhound Hunting Pack", {minModels: 1, modelGroupShapes: [
-        {modelType: "Warhound Titan", modelLoadoutSlots: [
+        {modelName: "Warhound Titan", modelLoadoutSlots: [
             {name: "Left", possibleModelLoadouts: [
                 {loadout: "Conversion beam dissolutor", points: 0},
                 {loadout: "Graviton eradicator", points: 0},
@@ -560,7 +560,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
         ]},
     ]}],
     ["Dire Wolf Heavy Scout Titan", {modelGroupShapes: [
-        {modelType: "Dire Wolf Titan", modelLoadoutSlots: [
+        {modelName: "Dire Wolf Titan", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts: [
                 {loadout: "Conversion beam dissipator", points: 0},
                 {loadout: "Neutron laser", points: 0},
@@ -571,7 +571,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
         ]},
     ]}],
     ["Reaver Battle Titan", {modelGroupShapes: [
-        {modelType: "Reaver Battle Titan", modelLoadoutSlots: [
+        {modelName: "Reaver Battle Titan", modelLoadoutSlots: [
             {name: "Left", possibleModelLoadouts: [
                 {loadout: "Reaver chainfist", points: 0},
                 {loadout: "Reaver gatling blaster", points: 0},
@@ -602,7 +602,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
         ]},
     ]}],
     ["Warbringer Nemesis Titan", {modelGroupShapes: [
-        {modelType: "Warbringer Nemesis Titan", modelLoadoutSlots: [
+        {modelName: "Warbringer Nemesis Titan", modelLoadoutSlots: [
             {name: "Left", possibleModelLoadouts: [
                 {loadout: "Reaver gatling blaster", points: 0},
                 {loadout: "Reaver laser blaster", points: 0},
@@ -624,7 +624,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
         ]},
     ]}],
     ["Warlord Battle Titan", {modelGroupShapes: [
-        {modelType: "Warlord Battle Titan", modelLoadoutSlots: [
+        {modelName: "Warlord Battle Titan", modelLoadoutSlots: [
             {name: "Left", possibleModelLoadouts: [
                 {loadout: "Belicosa volcano cannon", points: 0},
                 {loadout: "Sunfury plasma annihilator", points: 0},
@@ -657,7 +657,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
         ]}
     ]}],
     ["Warlord-Sinister Battle Titan", {modelGroupShapes: [
-        {modelType: "Warlord-Sinister", modelLoadoutSlots: [
+        {modelName: "Warlord-Sinister", modelLoadoutSlots: [
             {name: "Right", possibleModelLoadouts: [
                 {loadout: "Belicosa volcano cannon", points: 0},
                 {loadout: "Sunfury plasma annihilator", points: 0},
@@ -680,7 +680,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
         ]}
     ]}],
     ["Warmaster Heavy Battle Titan", {modelGroupShapes: [
-        {modelType: "Warmaster Titan", modelLoadoutSlots: [
+        {modelName: "Warmaster Titan", modelLoadoutSlots: [
             {name: "Left", possibleModelLoadouts: [
                 {loadout: "Apocalypse missile array", points: 0},
                 {loadout: "Melta cannon", points: 0},
@@ -702,7 +702,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
         ]}
     ]}],
     ["Warmaster Iconoclast Titan", {modelGroupShapes: [
-        {modelType: "Warmaster Iconoclast", modelLoadoutSlots: [
+        {modelName: "Warmaster Iconoclast", modelLoadoutSlots: [
             {name: "Left", possibleModelLoadouts: [
                 {loadout: "Apocalypse missile array", points: 0},
                 {loadout: "Melta cannon", points: 0},
@@ -1082,6 +1082,6 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
     }],
 ]);
 
-export function getStatsForStrategicAssetModelType(modelType: StrategicAssetModelName): Stats | undefined {
-    return statsForModelType.get(modelType)
+export function getStatsForStrategicAssetModelType(modelName: StrategicAssetModelName): Stats | undefined {
+    return statsForModelType.get(modelName)
 }

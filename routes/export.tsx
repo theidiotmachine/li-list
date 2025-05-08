@@ -52,7 +52,7 @@ function writeModelGroup(modelGroup: ModelGroup, pageData: PageData) {
 
     decY(bodyFontSize + gapSize, pageData);
     pageData.page.drawText(
-        modelGroup.number.toString() + "x " + modelGroup.modelType, {size: bodyFontSize, x: xMargin, y: pageData.y}
+        modelGroup.number.toString() + "x " + modelGroup.modelName, {size: bodyFontSize, x: xMargin, y: pageData.y}
     );
     const pointsText = modelGroup.points + " pts"
     const textWidth = pageData.font.widthOfTextAtSize(pointsText, bodyFontSize);

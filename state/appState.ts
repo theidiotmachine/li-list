@@ -1,6 +1,6 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentName, FormationName, ModelType, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "../game/types.ts";
-import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationName, getStatsForModelType } from "../game/lists.ts";
+import { DetachmentName, FormationName, ModelName, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "../game/types.ts";
+import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationName, getStatsForModelName } from "../game/lists.ts";
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "../storage/storage.ts";
 import { LegionName } from "../game/legionTypes.ts";
@@ -8,11 +8,11 @@ import { LegionName } from "../game/legionTypes.ts";
 export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
 export type ChangeFormationArmyList = (uuid: string, armyListName: ArmyListName | "") => void;
-export type ChangeModelNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, num: number) => void;
-export type ChangeModelLoadout = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, modelLoadoutSlotName: string, loadout: string) => void;
-export type AddModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
-export type RemoveModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number) => void;
-export type ChangeModelLoadoutGroupNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, number: number) => void;
+export type ChangeModelNumber = (uuid: string, detachmentIndex: number, modelName: ModelName, num: number) => void;
+export type ChangeModelLoadout = (uuid: string, detachmentIndex: number, modelName: ModelName, modelLoadoutGroupIndex: number, modelLoadoutSlotName: string, loadout: string) => void;
+export type AddModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelName: ModelName) => void;
+export type RemoveModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelName: ModelName, modelLoadoutGroupIndex: number) => void;
+export type ChangeModelLoadoutGroupNumber = (uuid: string, detachmentIndex: number, modelName: ModelName, modelLoadoutGroupIndex: number, number: number) => void;
 export type Undo = () => void;
 export type Redo = () => void;
 
@@ -58,9 +58,9 @@ export type AppStateType = {
 
     //ui -- open and close the model group editor
     modelGroupOpenState: Signal<Map<string, boolean>>;
-    getModelGroupKey: (uuid: string, detachmentIndex: number, modelType: ModelType) => string;
-    openModelGroup: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
-    closeModelGroup: (uuid: string, detachmentIndex: number, modelType: ModelType) => void;
+    getModelGroupKey: (uuid: string, detachmentIndex: number, modelName: ModelName) => string;
+    openModelGroup: (uuid: string, detachmentIndex: number, modelName: ModelName) => void;
+    closeModelGroup: (uuid: string, detachmentIndex: number, modelName: ModelName) => void;
 
     //ui -- open and close formations
     formationClosedState: Signal<Map<string, boolean>>;
@@ -76,7 +76,7 @@ function calcModelLoadoutGroupPoints(modelLoadoutGroup: ModelLoadoutGroup) {
 function calcModelGroupPoints(armyListName: ArmyListName, modelGroup: ModelGroup, detachmentName: DetachmentName) {
     //add up the points for the models and the loadouts. Model points require looking up.
     const config = getDetachmentConfigurationForDetachmentName(armyListName, detachmentName);
-    const c = config?.modelGroupShapes.find((x)=>x.modelType == modelGroup.modelType);
+    const c = config?.modelGroupShapes.find((x)=>x.modelName == modelGroup.modelName);
     const points = c?.possibleModelGroupQuantities.find((m)=>m.num == modelGroup.number)?.points ?? 0;
     return modelGroup.modelLoadoutGroups.reduce((p, m) => p + m.points, 0) + points;
 }
@@ -131,8 +131,8 @@ function calcFormationBreakPoint(formation: Formation): number {
             return p;
 
         return p + d.modelGroups.reduce((p2, mg) => {
-            const stats = getStatsForModelType(mg.modelType);
-            const c = config.modelGroupShapes.find(x=>x.modelType == mg.modelType);
+            const stats = getStatsForModelName(mg.modelName);
+            const c = config.modelGroupShapes.find(x=>x.modelName == mg.modelName);
             if(c === undefined)
                 return p2;
 
@@ -173,7 +173,7 @@ function calcFormationActivations(formation: Formation) {
             const c = getDetachmentConfigurationForDetachmentName(formation.armyListName, d.detachmentName);
             for(const mg of d.modelGroups) {
                 if(mg.number > 0) {
-                    const mgs = c.modelGroupShapes.find((t)=>t.modelType == mg.modelType);
+                    const mgs = c.modelGroupShapes.find((t)=>t.modelName == mg.modelName);
                     if(mgs != undefined) {
                         //dedicated transports get their own activation
                         if(mgs.dedicatedTransport)
@@ -185,7 +185,7 @@ function calcFormationActivations(formation: Formation) {
                         } else { 
                             //the unit could be Independent through its own stats, or through stats it acquired
                             //from the Detachment. If it is, record it as independent
-                            const stats = getStatsForModelType(mg.modelType);
+                            const stats = getStatsForModelName(mg.modelName);
                             if((mgs.unitTraits != undefined && mgs.unitTraits.findIndex((t)=>t == "Independent") != -1)
                                 || (stats != undefined && statsHasTrait(stats, "Independent"))
                             ) {
@@ -294,7 +294,7 @@ function calcDetachmentCommanderValidation(formation: Formation, detachmentIndex
                     continue;
                 const otherDetachment = formation.detachments[i];
                 if(otherDetachment.modelGroups.length > 0) {
-                    const otherStats = getStatsForModelType(otherDetachment.modelGroups[0].modelType);
+                    const otherStats = getStatsForModelName(otherDetachment.modelGroups[0].modelName);
                     if(otherStats != undefined) {
                         if(statsHasTrait(otherStats, "Commander"))
                             return {valid: false, error: "Multiple Commanders in Formation"}
@@ -351,22 +351,22 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
 
         for(let i = 0; i < detachment.modelGroups.length; ++i) {
             const modelGroup = detachment.modelGroups[i];
-            const shapeIdx = c.modelGroupShapes.findIndex(x=>x.modelType == modelGroup.modelType);
+            const shapeIdx = c.modelGroupShapes.findIndex(x=>x.modelName == modelGroup.modelName);
             if(shapeIdx == -1)
                 continue;
             const shape = c.modelGroupShapes[shapeIdx];
             if(shape.minModels != undefined && modelGroup.number < shape.minModels)
-                return {valid: false, error: "Too few models in group", data: modelGroup.modelType + ". Min: " + shape.minModels};
+                return {valid: false, error: "Too few models in group", data: modelGroup.modelName + ". Min: " + shape.minModels};
             if(shape.maxModels != undefined && modelGroup.number > shape.maxModels)
-                return {valid: false, error: "Too many models in group", data: modelGroup.modelType  + ". Max: " + shape.maxModels};
+                return {valid: false, error: "Too many models in group", data: modelGroup.modelName  + ". Max: " + shape.maxModels};
             if(shape.possibleModelGroupQuantities.findIndex(x=>x.num == modelGroup.number) == -1) {
                 const possibleModelNumbers = shape.possibleModelGroupQuantities.map(m=>m.num.toString());
-                return {valid: false, error: "Invalid number of models in group", data: modelGroup.modelType + ". Could be: " + 
+                return {valid: false, error: "Invalid number of models in group", data: modelGroup.modelName + ". Could be: " + 
                     possibleModelNumbers.join(", ")
                 };
             }
 
-            const stats = getStatsForModelType(modelGroup.modelType);
+            const stats = getStatsForModelName(modelGroup.modelName);
 
             const commanderValidation = calcDetachmentCommanderValidation(formation, detachmentIndex, detachment, stats);
             if(!commanderValidation.valid)
@@ -397,10 +397,10 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
                 if(attachedDetachment.detachmentName == "")
                     continue;
                 const attachedConfiguration = getDetachmentConfigurationForDetachmentName(formation.armyListName, attachedDetachment.detachmentName);
-                const attachedShape = attachedConfiguration.modelGroupShapes.find(x=>x.modelType == attachedModelGroup.modelType);
+                const attachedShape = attachedConfiguration.modelGroupShapes.find(x=>x.modelName == attachedModelGroup.modelName);
                 if(attachedShape == undefined)
                     continue;
-                const attachedStats = getStatsForModelType(attachedModelGroup.modelType);
+                const attachedStats = getStatsForModelName(attachedModelGroup.modelName);
                 //scoop up numbers of models that are attached
                 if(attachedShape.dedicatedTransport === undefined || attachedShape.dedicatedTransport === false) {
                     recordModelNumbersForModelGroup(modelNumbersForDetachment, attachedModelGroup, attachedStats);
@@ -494,7 +494,21 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
                 )
                     return { valid: false, error: "Only one of these detachments should be present" };
             }
-        }
+        } else if(slotRequirements.slotRequirementType == "One Of Group" && slotRequirements.oneOfGroup !== undefined 
+            && slotRequirements.oneOfGroupGroup !== undefined) {
+                const g = slotRequirements.oneOfGroup;
+                const gg = slotRequirements.oneOfGroupGroup;
+                for (let i = 0; i < formation.detachments.length; i++) {
+                    if(i == detachmentIndex)
+                        continue;
+                    if(formation.detachments[i].detachmentName != "" 
+                        && formationShape.slotRequirements[i].slotRequirementType == "One Of Group" 
+                        && formationShape.slotRequirements[i].oneOfGroup == g
+                        && formationShape.slotRequirements[i].oneOfGroupGroup != gg
+                    )
+                        return { valid: false, error: "Only one of these detachments should be present" };
+                }   
+            }
     }
 
     if(formationShape.customValidation != undefined) {
@@ -567,7 +581,7 @@ function getDefaultModelGroupsForDetachment(config: DetachmentConfiguration, for
                 }];
             }
             const out = {
-                modelType: x.modelType, number: x.possibleModelGroupQuantities[0].num, points: -1,
+                modelName: x.modelName, number: x.possibleModelGroupQuantities[0].num, points: -1,
                 modelLoadoutGroups: modelLoadoutGroups, unitTraits: x.unitTraits ?? []
             };    
             return out;
@@ -587,17 +601,17 @@ function createAppState(): AppStateType {
     const undoIndex = signal<number>(0);
     const army = signal<Army>(newArmy);
     const modelGroupOpenState = signal<Map<string, boolean>>(new Map());
-    const getModelGroupKey = (uuid: string, detachmentIndex: number, modelType: ModelType): string => {
-        return uuid + ":" + detachmentIndex + ":" + modelType;
+    const getModelGroupKey = (uuid: string, detachmentIndex: number, modelName: ModelName): string => {
+        return uuid + ":" + detachmentIndex + ":" + modelName;
     }
-    const openModelGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
-        const key = getModelGroupKey(uuid, detachmentIndex, modelType);
+    const openModelGroup = (uuid: string, detachmentIndex: number, modelName: ModelName) => {
+        const key = getModelGroupKey(uuid, detachmentIndex, modelName);
         const newState = structuredClone(modelGroupOpenState.value);
         newState.set(key, true);
         modelGroupOpenState.value = newState;
     }
-    const closeModelGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
-        const key = getModelGroupKey(uuid, detachmentIndex, modelType);
+    const closeModelGroup = (uuid: string, detachmentIndex: number, modelName: ModelName) => {
+        const key = getModelGroupKey(uuid, detachmentIndex, modelName);
         const newState = structuredClone(modelGroupOpenState.value);
         newState.delete(key);
         modelGroupOpenState.value = newState;
@@ -887,8 +901,8 @@ function createAppState(): AppStateType {
                         points: 0, detachmentName: dtfs[0], validationState: {valid: true}
                     };
                     if(out.modelGroups.length > 0) {
-                        const stats = getStatsForModelType(out.modelGroups[0].modelType);
-                        if(stats && statsHasTrait(stats, "Commander"))
+                        const stats = getStatsForModelName(out.modelGroups[0].modelName);
+                        if(stats && (statsHasTrait(stats, "Commander") || statsHasTrait(stats, "Attached Deployment")))
                             out.attachedDetachmentIndex = -1;
                     }
                     return out;
@@ -916,15 +930,30 @@ function createAppState(): AppStateType {
         newFormation.detachments[detachmentIndex].modelGroups = [];
         delete newFormation.detachments[detachmentIndex].attachedDetachmentIndex;
 
-        if(newFormation.armyListName != "" && detachmentName != "") {
-            const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, detachmentName);
-            if(newFormation.formationName != "" && config?.modelGroupShapes) {
-                newFormation.detachments[detachmentIndex].modelGroups = getDefaultModelGroupsForDetachment(config, newFormation.formationName);
-
-                if(newFormation.detachments[detachmentIndex].modelGroups.length > 0) {
-                    const stats = getStatsForModelType(newFormation.detachments[detachmentIndex].modelGroups[0].modelType);
-                    if(stats && statsHasTrait(stats, "Commander"))
-                        newFormation.detachments[detachmentIndex].attachedDetachmentIndex = -1;
+        if(newFormation.armyListName != "") {
+            if(detachmentName != "") {
+                const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, detachmentName);
+                if(newFormation.formationName != "" && config?.modelGroupShapes) {
+                    newFormation.detachments[detachmentIndex].modelGroups = getDefaultModelGroupsForDetachment(config, newFormation.formationName);
+    
+                    if(newFormation.detachments[detachmentIndex].modelGroups.length > 0) {
+                        const stats = getStatsForModelName(newFormation.detachments[detachmentIndex].modelGroups[0].modelName);
+                        if(stats && (statsHasTrait(stats, "Commander") || statsHasTrait(stats, "Attached Deployment"))) {
+                            newFormation.detachments[detachmentIndex].attachedDetachmentIndex = -1;
+                        }
+                    }
+                }
+            } else {
+                //clear down any other linked tech priests.
+                const shape = getShapeForFormationName(newFormation.armyListName, newFormation.formationName);
+                if(shape) {
+                    for(let i = 0; i < shape.slotRequirements.length; ++i) {
+                        if(shape.slotRequirements[i].linkedSlotIndex == detachmentIndex) {
+                            newFormation.detachments[i].detachmentName = detachmentName;
+                            newFormation.detachments[i].modelGroups = [];
+                            delete newFormation.detachments[i].attachedDetachmentIndex;
+                        }
+                    }
                 }
             }
         }
@@ -946,12 +975,12 @@ function createAppState(): AppStateType {
         setFormationAtIdx(newFormation, formationIdx);
     };
 
-    const changeModelNumber: ChangeModelNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, num: number) => {
+    const changeModelNumber: ChangeModelNumber = (uuid: string, detachmentIndex: number, modelName: ModelName, num: number) => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
             return;
 
-        const modelGroupIdx = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelType == modelType);
+        const modelGroupIdx = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelName == modelName);
         if(modelGroupIdx === -1)
             return;
 
@@ -972,13 +1001,13 @@ function createAppState(): AppStateType {
     };
 
     const changeModelLoadout: ChangeModelLoadout = (
-        uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, modelLoadoutSlotName: string, loadout: string
+        uuid: string, detachmentIndex: number, modelName: ModelName, modelLoadoutGroupIndex: number, modelLoadoutSlotName: string, loadout: string
     ) => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
             return;
 
-        const modelGroupIdx = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelType == modelType);
+        const modelGroupIdx = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelName == modelName);
         if(modelGroupIdx === -1)
             return;
 
@@ -992,7 +1021,7 @@ function createAppState(): AppStateType {
             return;
 
         const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, detachmentName);
-        const c = config?.modelGroupShapes.find((x)=>x.modelType == modelType);
+        const c = config?.modelGroupShapes.find((x)=>x.modelName == modelName);
         const modelLoadoutSlotIndex = c?.modelLoadoutSlots.findIndex(s=>s.name === modelLoadoutSlotName);
         if(modelLoadoutSlotIndex===undefined || modelLoadoutSlotIndex === -1)
             return;
@@ -1005,12 +1034,12 @@ function createAppState(): AppStateType {
         setFormationAtIdx(newFormation, formationIdx);
     };
 
-    const addModelLoadoutGroup: AddModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType) => {
+    const addModelLoadoutGroup: AddModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelName: ModelName) => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
             return;
 
-        const modelGroupIndex = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelType == modelType);
+        const modelGroupIndex = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelName == modelName);
         if(modelGroupIndex === -1)
             return;
 
@@ -1024,7 +1053,7 @@ function createAppState(): AppStateType {
             return;
 
         const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, detachmentName);
-        const c = config?.modelGroupShapes.find((x)=>x.modelType == modelType);
+        const c = config?.modelGroupShapes.find((x)=>x.modelName == modelName);
         if(c === undefined)
             return;
 
@@ -1038,12 +1067,12 @@ function createAppState(): AppStateType {
         setFormationAtIdx(newFormation, formationIdx);
     };
 
-    const removeModelLoadoutGroup: RemoveModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number) => {
+    const removeModelLoadoutGroup: RemoveModelLoadoutGroup = (uuid: string, detachmentIndex: number, modelName: ModelName, modelLoadoutGroupIndex: number) => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
             return;
 
-        const modelGroupIndex = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelType == modelType);
+        const modelGroupIndex = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelName == modelName);
         if(modelGroupIndex === -1)
             return;
 
@@ -1059,12 +1088,12 @@ function createAppState(): AppStateType {
         setFormationAtIdx(newFormation, formationIdx);
     };
 
-    const changeModelLoadoutGroupNumber: ChangeModelLoadoutGroupNumber = (uuid: string, detachmentIndex: number, modelType: ModelType, modelLoadoutGroupIndex: number, number: number) => {
+    const changeModelLoadoutGroupNumber: ChangeModelLoadoutGroupNumber = (uuid: string, detachmentIndex: number, modelName: ModelName, modelLoadoutGroupIndex: number, number: number) => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
             return;
 
-        const modelGroupIndex = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelType == modelType);
+        const modelGroupIndex = army.value.formations[formationIdx].detachments[detachmentIndex].modelGroups.findIndex((m: ModelGroup) => m.modelName == modelName);
         if(modelGroupIndex === -1)
             return;
 

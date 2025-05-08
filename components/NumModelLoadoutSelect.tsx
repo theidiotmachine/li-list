@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks/";
 import { getDetachmentConfigurationForDetachmentName } from "../game/lists.ts";
-import { ArmyListName, DetachmentName, ModelType } from "../game/types.ts";
+import { ArmyListName, DetachmentName, ModelName } from "../game/types.ts";
 import { AppState } from "../islands/App.tsx";
 import { parseNumber } from "$std/semver/_shared.ts";
 import { Select, SelectOption } from "./Select.tsx";
@@ -12,14 +12,14 @@ interface NumModelLoadoutSelectProps {
     modelLoadoutGroupIndex: number;
     number: number;
     detachmentName: DetachmentName;
-    modelType: ModelType;
+    modelType: ModelName;
 }
 
 export function NumModelLoadoutSelect(props: NumModelLoadoutSelectProps) {
     const { changeModelLoadoutGroupNumber } = useContext(AppState);
     
     const config = getDetachmentConfigurationForDetachmentName(props.armyListName, props.detachmentName);
-    const modelOptions = config?.modelGroupShapes.find((x)=>x.modelType == props.modelType);
+    const modelOptions = config?.modelGroupShapes.find((x)=>x.modelName == props.modelType);
 
     const options: {num: number, points: number}[] = [];
     const pmgq = modelOptions?.possibleModelGroupQuantities;

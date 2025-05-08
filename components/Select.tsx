@@ -29,8 +29,8 @@ export function Select(props: SelectProps) {
 
     useEffect(()=>{
         const thisSelectedIndex = choices.findIndex((s)=>s.props.selected);
-        console.log(thisSelectedIndex);
-        console.log(choices[thisSelectedIndex])
+        //console.log(thisSelectedIndex);
+        //console.log(choices[thisSelectedIndex])
         setSelectedIndex(thisSelectedIndex);
     }
     , [props.children]);
@@ -68,8 +68,11 @@ export function Select(props: SelectProps) {
     }
 
     const close = () => {
-        menu.current.classList.add("hidden");
-        menu.current.classList.remove("flex");
+        if(menu.current) {
+            menu.current.classList.add("hidden");
+            menu.current.classList.remove("flex");
+        }
+        
     }
 
     const toggle = () =>{

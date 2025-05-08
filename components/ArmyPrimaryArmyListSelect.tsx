@@ -15,23 +15,12 @@ export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps)
             changePrimaryArmyListName(e as ArmyListName)
         }}
         disabled={!props.enabled}
-        //selectedValue={props.primaryArmyListName}
     >
         <SelectOption selected={props.primaryArmyListName == ""} optionText="" value="">Choose Primary Army List</SelectOption>
         <SelectOption selected={props.primaryArmyListName == "Collegia Titanica"}>Collegia Titanica</SelectOption>
         <SelectOption selected={props.primaryArmyListName == "Legions Astartes"}>Legions Astartes</SelectOption>
+        <SelectOption selected={props.primaryArmyListName == "Mechanicum Taghmata"}>Mechanicum Taghmata</SelectOption>
         <SelectOption selected={props.primaryArmyListName == "Questoris Familia"}>Questoris Familia</SelectOption>
         <SelectOption selected={props.primaryArmyListName == "Solar Auxilia"}>Solar Auxilia</SelectOption>
     </Select>
-    /*
-    return <select class ="text-l md:text-xl w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white" 
-        disabled={!props.enabled}
-        onInput={(e) => changePrimaryArmyListName(e.currentTarget.value as ArmyListName)}>
-        <option value="" selected={props.primaryArmyListName == ""}>Primary Army List</option>
-        <option selected={props.primaryArmyListName == "Collegia Titanica"}>Collegia Titanica</option>
-        <option selected={props.primaryArmyListName == "Legions Astartes"}>Legions Astartes</option>
-        <option selected={props.primaryArmyListName == "Questoris Familia"}>Questoris Familia</option>
-        <option selected={props.primaryArmyListName == "Solar Auxilia"}>Solar Auxilia</option>
-    </select>
-    */
 }

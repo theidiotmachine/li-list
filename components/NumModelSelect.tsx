@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks/";
 import { getDetachmentConfigurationForDetachmentName } from "../game/lists.ts";
-import { ArmyListName, DetachmentName, ModelType } from "../game/types.ts";
+import { ArmyListName, DetachmentName, ModelName } from "../game/types.ts";
 import { AppState } from "../islands/App.tsx";
 import { parseNumber } from "$std/semver/_shared.ts";
 import { Select, SelectOption } from "./Select.tsx";
@@ -10,7 +10,7 @@ interface NumModelSelectProps {
     armyListName: ArmyListName;
     detachmentIndex: number;
     detachmentName: DetachmentName;
-    modelType: ModelType;
+    modelType: ModelName;
     numModels: number;
 };
 
@@ -18,7 +18,7 @@ export function NumModelSelect(props: NumModelSelectProps) {
     const { changeModelNumber } = useContext(AppState);
 
     const config = getDetachmentConfigurationForDetachmentName(props.armyListName, props.detachmentName);
-    const modelOptions = config?.modelGroupShapes.find((x)=>x.modelType == props.modelType);
+    const modelOptions = config?.modelGroupShapes.find((x)=>x.modelName == props.modelType);
     /*return <select class = "w-8 md:w-10 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white bg-opacity-0" 
         onInput={(e) => changeModelNumber(props.uuid, props.detachmentIndex, props.modelType, parseNumber(e.currentTarget.value, ""))}>
         {modelOptions?.possibleModelGroupQuantities.map((x) => 

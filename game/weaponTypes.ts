@@ -17,6 +17,7 @@ export type WeaponType =
     "Charonite claws" |
     "Co-axial autocannon" |
     "Combi bolters" |
+    "Conversion beamers" |
     "Cyclonic melta lance" |
     "Cyclone missile launcher" |
     "Deathstorm missile launcher" |
@@ -43,6 +44,7 @@ export type WeaponType =
     "Hull Mounted neutron blaster" |
     "Hull Mounted twin lascannon" |
     "Hyperios air-defence missile launcher" |
+    "Karacnos mortar battery" |
     "Kheres assault cannon" |
     "Kratos autocannon" |
     "Kratos battlecannon" |
@@ -52,6 +54,7 @@ export type WeaponType =
     "In-built twin-linked heavy bolters" |
     "Incineration charge" |
     "Ion gauntlet shield" |
+    "Las-locks" |
     "Lascannon batteries" |
     "Lascannon sponson turrets" |
     "Laser destroyer array" |
@@ -59,14 +62,18 @@ export type WeaponType =
     "Leviathan siege claw" |
     "Leviathan storm cannon" |
     "Lightning cannon" |
+    "Lightning guns" |
+    "Lightning locks" |
     "Malcador inferno gun" |
     "Malcador autocannon sponsons" |
     "Malcador lascannon sponsons" |
+    "Maxima bolters" |
     "Missile launchers" |
     "Mole mortar" |
     "Multi-melta" |
     "Melta blastgun" |
     "Meltagun" |
+    "Myrmidon volkites" |
     "Neutron beam laser" |
     "Nose Mounted heavy flamer" |
     "Omega plasma array" |
@@ -95,6 +102,7 @@ export type WeaponType =
     "Scimitar heavy bolter" |
     "Shadowsword heavy bolter sponsons" |
     "Shock lance" |
+    "Shock ram" |
     "Sponson Mounted heavy bolters" |
     "Sponson Mounted lascannon" |
     "Sponson mounted laser destroyers" |
@@ -107,6 +115,7 @@ export type WeaponType =
     "Tempest rockets" |
     "Tempest warblade" |
     "Termite twin-linked bolters" |
+    "Thallax plasma-fusil" |
     "Thermal cannon" |
     "Thunderhawk heavy bolters" |
     "Thunderhawk lascannon" |
@@ -123,8 +132,81 @@ export type WeaponType =
     "Volcano cannon" |
     "Volkite chargers" |
     "Volkite chieorovile" |
+    "Volkite serpenta" |
     "Wing Mounted lascannon" |
     "Xiphon lascannon array" |
     "Xiphon rotary missile launcher" 
 ;
 
+export type WeaponTrait = 
+    "Accurate" |
+    "Armourbane" |
+    "Assault" |
+    "Anti-tank" |
+    "Barrage" |
+    "Blast (3\")" |
+    "Bunker Buster" |
+    "Burrowing" |
+    "Co-axial" |
+    "Collapsing Singularity" |
+    "Deflagrate" |
+    "Demolisher" |
+    "Engine Killer (1)" |
+    "Engine Killer (2)" |
+    "Firestorm" |
+    "Graviton Pulse" |
+    "Ignores Cover" |
+    "Light" |
+    "Light AT" |
+    "Limited" |
+    "Point Defence" |
+    "Rapid Fire" |
+    "Reach" |
+    "Rend" |
+    "Ripple Fire" |
+    "Saturation Fire" |
+    "Shieldbane" |
+    "Shock Pulse" |
+    "Skyfire" | 
+    "Tracking" |
+    "Wrecker (1)" |
+    "Wrecker (2)" |
+    "Wrecker (3)"
+;
+
+export type SaveModifier = {
+    modifier: number;
+    wounds: number;
+}
+
+export type WeaponStatsAtRange = {
+    minRange?: number;
+    maxRange?: number;
+    dice?: number | string;
+    hit?: number;
+    infAndCav?: SaveModifier;
+    walker?: SaveModifier;
+    vShvKT?: SaveModifier;
+    ionShield?: SaveModifier;
+    structure?: SaveModifier;
+    voidShields?: number;
+    traits: WeaponTrait[];
+}
+
+export type WeaponArc =
+    "All" |
+    "Front" |
+    "Melee" |
+    "Rear"
+;
+
+export const weaponHasTrait = (wsar: WeaponStatsAtRange, trait: WeaponTrait): boolean => 
+    wsar.traits.findIndex((t)=>t==trait) != -1
+
+export const weaponHasTraitLike = (wsar: WeaponStatsAtRange, traitString: string): boolean => 
+    wsar.traits.findIndex((t)=>t.startsWith(traitString)) != -1
+
+export type WeaponStats = {
+    arc: WeaponArc;
+    weaponStatsAtRange: WeaponStatsAtRange[];
+};

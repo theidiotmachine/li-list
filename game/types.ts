@@ -2,6 +2,7 @@ import { AuxiliaDetachmentName, AuxiliaFormationSlot, AuxiliaFormationName, Auxi
 import { LegionDetachmentName, LegionFormationSlot, LegionFormationName, LegionModelName, LegionName, AllLegionModelNames } from "./legionTypes.ts";
 import { MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName, MechanicumModelNames, MechanicumSlot } from "./mechanicumTypes.ts";
 import { CollegiaTitanicaFormationSlot, CollegiaTitanicaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelName, QuestorisFamiliaFormationName, QuestorisFamiliaFormationSlot, AllStrategicAssetModelNames } from "./strategicAssetTypes.ts";
+import { CommandAttachment } from "./statsTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 export type DetachmentValidationError = 
@@ -17,7 +18,8 @@ export type DetachmentValidationError =
     "Too many dedicated transports" |
     "Tank Commander rules broken" |
     "Commander not attached to detachment" |
-    "Multiple Commanders in Formation"
+    "Multiple Commanders in Formation" | 
+    "Cortex Controller rules broken"
 ;
 export type DetachmentValidationState = {
     valid: boolean,
@@ -82,12 +84,19 @@ export type FormationSlot =
     "Vanguard" 
 ; 
 
-export type SlotRequirementType = "Required" | "Optional" | "One Of";
+export type SlotRequirementType = 
+    "Required" | "Optional" | "One Of" | "One Of Group" | "Extra Tech-Priest Auxilia"
+;
 export type SlotRequirements = {
     slot: FormationSlot;
     slotRequirementType: SlotRequirementType;
     oneOfGroup?: number;
+    oneOfGroupGroup?: number;
     displayName?: string;
+    //stupid tech priests get extra detachments. This means that they are linked to another slot, 
+    //and when that slot is cleared down, this one needs to be, to.
+    //Linked slot is from child to parent, so this is the slot of the parent 
+    linkedSlotIndex?: number;
 };
 
 export type FormationShape = {
@@ -97,14 +106,13 @@ export type FormationShape = {
         
 export type DetachmentName = LegionDetachmentName | AuxiliaDetachmentName | MechanicumDetachmentName | StrategicAssetDetachmentName;
 
-//actually called 'Model Name'
-export type ModelType = LegionModelName | AuxiliaModelName | MechanicumModelName | StrategicAssetModelName;
+export type ModelName = LegionModelName | AuxiliaModelName | MechanicumModelName | StrategicAssetModelName;
 
-export const AllModelNames: readonly ModelType[] = [
-    ...(AllLegionModelNames as readonly ModelType[]),
-    ...(AllAuxiliaModelNames as readonly ModelType[]),
-    ...(MechanicumModelNames as readonly ModelType[]),
-    ...(AllStrategicAssetModelNames as readonly ModelType[])
+export const AllModelNames: readonly ModelName[] = [
+    ...(AllLegionModelNames as readonly ModelName[]),
+    ...(AllAuxiliaModelNames as readonly ModelName[]),
+    ...(MechanicumModelNames as readonly ModelName[]),
+    ...(AllStrategicAssetModelNames as readonly ModelName[])
 ];
 
 //a set of weapons which can be put in a slot
@@ -132,7 +140,7 @@ export type ModelLoadoutSlotShape = {
 }
 
 export type ModelGroupShape = {
-    modelType: ModelType;
+    modelName: ModelName;
     maxModels?: number,
     minModels?: number,
     possibleModelGroupQuantities: ModelGroupQuantity[];
@@ -143,6 +151,7 @@ export type ModelGroupShape = {
     //mostly for 'Independent' sub parts of a detachment
     unitTraits?: UnitTrait[];
     //Knights have a special rule where every model in the unit is independent
+    //Then Tech-priests get a weird multi-slot thing which is to all intents and purposes the same
     independentModels?: true;
 }
 
@@ -155,9 +164,9 @@ export type ModelLoadoutGroup = {
     points: number;
 };
 
-//A group of models of the same type, e.g. five rhinos
+//A group of models of the same name, e.g. five rhinos
 export type ModelGroup = {
-    modelType: ModelType;
+    modelName: ModelName;
     number: number;
     
     //groups of models with the same loadout, e.g. 1 group with havocs and 1 group with bolters
@@ -231,35 +240,33 @@ export type SaveType =
     "Jink"
 ;
 
-export type Save = {
-    saveType: SaveType;
-    save: number;
-    arc: Arc;
-};
-
-export type Arc =
+export type SaveArc =
     "All" |
     "Front" |
-    "Melee" |
     "Rear"
 ;
 
-export type SaveModifier = {
-    modifier: number;
-    wounds: number;
-}
+export type Save = {
+    saveType: SaveType;
+    save: number;
+    arc: SaveArc;
+};
+
 
 export type UnitTrait = 
     "Agile" |
     "Armoured" |
     "Assault Transport (2)" |
     "Assault Transport (5)" |
+    "Attached Deployment" |
     "Automated Sentry" |
+    "Battlesmith" |
     "Blessed Auto-simulacra" |
     "Bulky" |
     "Chain of Command" |
     "Commander" |
     "Compact" |
+    "Cortex Controller" |
     "Deep Strike" |
     "Dread Aura (8)" |
     "Drop Pod" |
@@ -295,70 +302,13 @@ export type UnitTrait =
     "Transport (4)"
 ;
 
-export type WeaponTrait = 
-    "Accurate" |
-    "Armourbane" |
-    "Assault" |
-    "Anti-tank" |
-    "Barrage" |
-    "Blast (3\")" |
-    "Bunker Buster" |
-    "Burrowing" |
-    "Co-axial" |
-    "Collapsing Singularity" |
-    "Deflagrate" |
-    "Demolisher" |
-    "Engine Killer (1)" |
-    "Engine Killer (2)" |
-    "Firestorm" |
-    "Graviton Pulse" |
-    "Ignores Cover" |
-    "Light" |
-    "Light AT" |
-    "Limited" |
-    "Point Defence" |
-    "Rapid Fire" |
-    "Reach" |
-    "Rend" |
-    "Ripple Fire" |
-    "Saturation Fire" |
-    "Shieldbane" |
-    "Shock Pulse" |
-    "Skyfire" | 
-    "Tracking" |
-    "Wrecker (1)" |
-    "Wrecker (2)" |
-    "Wrecker (3)"
-;
-
-export type WeaponStatsAtRange = {
-    minRange?: number;
-    maxRange?: number;
-    dice?: number | string;
-    hit?: number;
-    infAndCav?: SaveModifier;
-    walker?: SaveModifier;
-    vShvKT?: SaveModifier;
-    ionShield?: SaveModifier;
-    structure?: SaveModifier;
-    voidShields?: number;
-    traits: WeaponTrait[];
-}
-
-export const weaponHasTrait = (wsar: WeaponStatsAtRange, trait: WeaponTrait): boolean => 
-    wsar.traits.findIndex((t)=>t==trait) != -1
-
-export const weaponHasTraitLike = (wsar: WeaponStatsAtRange, traitString: string): boolean => 
-    wsar.traits.findIndex((t)=>t.startsWith(traitString)) != -1
-
 //note this isn't completely correct, as it doesn't take into account the unit traits from loadouts
 export const statsHasTrait = (stats: Stats, trait: UnitTrait): boolean => 
     stats.unitTraits.findIndex((t)=>t==trait) != -1
 
-export type WeaponStats = {
-    arc: Arc;
-    weaponStatsAtRange: WeaponStatsAtRange[];
-};
+//note this isn't completely correct, as it doesn't take into account the unit traits from loadouts
+export const statsHasTraitLike = (stats: Stats, traitString: string): boolean => 
+    stats.unitTraits.findIndex((t)=>t.startsWith(traitString)) != -1
 
 //a set of weapons which can be put in a slot
 export type StatsModelLoadoutForSlot = {
@@ -390,4 +340,5 @@ export type Stats = {
     tacticalStrength: number;
     unitTraits: UnitTrait[];
     modelLoadoutSlots: StatsModelLoadoutSlot[];
+    commandAttachment?: CommandAttachment;
 }

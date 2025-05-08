@@ -1,7 +1,7 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { Formation } from "../game/types.ts";
-import { getStatsForModelType } from "../game/lists.ts";
+import { Formation, statsHasTraitLike } from "../game/types.ts";
+import { getStatsForModelName } from "../game/lists.ts";
 
 interface DetachmentAttachmentSelectProps {
     uuid: string;
@@ -16,18 +16,34 @@ export function DetachmentAttachmentSelect(props: DetachmentAttachmentSelectProp
     
     const detachmentAttachmentsForSlot = [{text: "No attached Detachment", index: -1}];
     if(formation !== undefined) {
-        const stats = getStatsForModelType(formation?.detachments[props.detachmentIndex].modelGroups[0].modelType);
-        //you can attach to a detachment which isn't this one, if being filled, and has the same detachment type
+        const stats = getStatsForModelName(formation?.detachments[props.detachmentIndex].modelGroups[0].modelName);
+        const commandAttachment = stats?.commandAttachment ?? "SameType";
+        
+        //you can attach to a detachment which isn't this one, is being filled, and fits the attachment alg
         const possibleDetachmentData = formation?.detachments.map((s, i)=>{
             if(i == props.detachmentIndex)
                 return {text: "", index: -1};
             if(s.modelGroups.length == 0)
                 return {text: "", index: -1};
-            const thisStats = getStatsForModelType(s.modelGroups[0].modelType);
+            const thisStats = getStatsForModelName(s.modelGroups[0].modelName);
             if(thisStats == undefined)
                 return {text: "", index: -1};
-            if(thisStats.detachmentType == stats?.detachmentType)
-                return {text: "Attached to Detachment " + (i+1).toString() + ", " + s.detachmentName, index: i};
+            switch(commandAttachment) {
+                case "SameType": {
+                    if(thisStats.detachmentType == stats?.detachmentType)
+                        return {text: "Attached to Detachment " + (i+1).toString() + ", " + s.detachmentName, index: i};
+                    break;
+                }
+                case "MechanicumHQ": {
+                    if((thisStats.detachmentType == "Infantry" || thisStats.detachmentType == "Cavalry" 
+                        || thisStats.detachmentType == "Walker" || thisStats.detachmentType == "Vehicle")
+                    && statsHasTraitLike(thisStats, "Cybernetica Cortex")) {
+                        return {text: "Attached to Detachment " + (i+1).toString() + ", " + s.detachmentName, index: i};
+                    }
+                    break;
+                }
+            }
+            
             return {text: "", index: -1};
         }).filter((s)=>s.index != -1);
         possibleDetachmentData.forEach((s)=>detachmentAttachmentsForSlot.push(s));
