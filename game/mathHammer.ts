@@ -116,6 +116,7 @@ function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | un
     ]};
 }
 
+//todo "Neutron-flux", "Armourbane", "Shred"
 function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: SaveArc): DamageResult | undefined {
     let bestSave = 7;
     let bestWounds = 1;

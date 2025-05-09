@@ -6,9 +6,11 @@ export type WeaponType =
     "Annihiliator twin lascannon" |
     "Anvilus autocannon battery" |
     "Archeotech pistols" |
+    "Arc blasters" |
     "Arcus missile launcher" |
     "Ardex mega-bolters" |
     "Atrapos lascutter" |
+    "Autocannon" |
     "Auxilia laspistols" |
     "Auxilia lasrifles" |
     "Avenger bolt cannon" |
@@ -28,7 +30,9 @@ export type WeaponType =
     "Flamers" |
     "Gravis autocannon batteries" |
     "Graviton gun" |
+    "Graviton hammers" |
     "Graviton singularity cannon" |
+    "Graviton ram" |
     "Heavy bolter" |
     "Hekaton siege claw" |
     "Heavy stubber" |
@@ -43,13 +47,16 @@ export type WeaponType =
     "Hull mounted multi-melta" |
     "Hull Mounted neutron blaster" |
     "Hull Mounted twin lascannon" |
+    "Irad-scourer" |
     "Hyperios air-defence missile launcher" |
     "Karacnos mortar battery" |
     "Kheres assault cannon" |
     "Kratos autocannon" |
     "Kratos battlecannon" |
     "Kratos lascannon" |
+    "Krios lightning cannon" |
     "Leviathan storm cannon" |
+    "In-built bolters" |
     "In-built twin-linked bolter" |
     "In-built twin-linked heavy bolters" |
     "Incineration charge" |
@@ -67,6 +74,7 @@ export type WeaponType =
     "Malcador inferno gun" |
     "Malcador autocannon sponsons" |
     "Malcador lascannon sponsons" |
+    "Mauler bolt cannon" |
     "Maxima bolters" |
     "Missile launchers" |
     "Mole mortar" |
@@ -84,7 +92,9 @@ export type WeaponType =
     "Plasma blastgun" |
     "Plasma cannon" |
     "Plasma guns" |
+    "Plasma mortar" |
     "Power axes" |
+    "Power blade arrays" |
     "Predator cannon" |
     "Predator lascannon" |
     "Punisher rotary cannon" |
@@ -92,17 +102,19 @@ export type WeaponType =
     "Quad launcher" |
     "Questoris-avenger gatling cannon" |
     "Rapid-fire battlecannon" |
-    "Ripple fire" |
-    "Rocket pods" |
     "Reaper chainfist" |
     "Reaper chainsword" |
     "Reaver turbo-laser destructor" |
+    "Ripple fire" |
+    "Rocket pods" |
+    "Rotor cannon" |
     "Sabre missiles" |
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
     "Shadowsword heavy bolter sponsons" |
     "Shock lance" |
     "Shock ram" |
+    "Sollex heavy-las" |
     "Sponson Mounted heavy bolters" |
     "Sponson Mounted lascannon" |
     "Sponson mounted laser destroyers" |
@@ -130,9 +142,12 @@ export type WeaponType =
     "Twin plasma guns" |
     "Vengance launcher" |
     "Volcano cannon" |
+    "Volkite calvier sponsons" |
     "Volkite chargers" |
     "Volkite chieorovile" |
+    "Volkite incinerators" |
     "Volkite serpenta" |
+    "Vultarax havoc launcher" |
     "Wing Mounted lascannon" |
     "Xiphon lascannon array" |
     "Xiphon rotary missile launcher" 
@@ -159,6 +174,7 @@ export type WeaponTrait =
     "Light" |
     "Light AT" |
     "Limited" |
+    "Neutron-flux" |
     "Point Defence" |
     "Rapid Fire" |
     "Reach" |

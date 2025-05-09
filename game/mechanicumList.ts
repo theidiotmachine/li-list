@@ -154,8 +154,12 @@ export function getShapeForMechanicumFormationName(formationName: MechanicumForm
 }
 
 const detachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]>([
+    ["Bastion", [
+        "Thanatar Siege-automata Maniple"
+    ]],
     ["Battle Tank", [
-        "Karacnos Assault Tank Squadron"
+        "Karacnos Assault Tank Squadron",
+        "Krios Battle Tank Squadron"
     ]],
     ["Core", [
         "Adsecularis Tech-Thrall Covenant",
@@ -167,11 +171,28 @@ const detachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]
         "Archmagos Prime on Abeyant"
     ]],
     ["Support", [
+        "Arlatax Battle-automata Maniple",
+        "Castellax Battle-automata Maniple",
+        "Domitar Battle-automata Maniple",
         "Myrmidon Destructor Host",
         "Myrmidon Secutor Host",
         "Tech-Priest Auxilia",
     ]],
+    ["Support Legio Cybernetica Cohort", [
+        "Arlatax Battle-automata Maniple",
+        "Castellax Battle-automata Maniple",
+        "Domitar Battle-automata Maniple",
+    ]],
     ["Tech-Priest Auxilia", ["Tech-Priest Auxilia"]],
+    ["Vanguard", [
+        "Ursarax Cohort",
+        "Vorax Battle-automata Maniple",
+        "Vultarax Battle-automata Squadron"
+    ]],
+    ["Vanguard Legio Cybernetica Cohort", [
+        "Vorax Battle-automata Maniple",
+        "Vultarax Battle-automata Squadron"
+    ]],
 ]);
 
 //The mechanicum can also call on knights and titans
@@ -217,7 +238,50 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+0}, {num: 8, points: 30+60}
         ]},
     ]}],
-
+    ["Arlatax Battle-automata Maniple", {modelGroupShapes: [
+        {modelName: "Arlatax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 40}, {num: 1+1, points: 40+35}, {num: 1+2, points: 40+65}, {num: 1+1+2, points: 40+35+65},
+            {num: 1+4, points: 40+110}, {num: 1+1+4, points: 40+35+110},
+        ]},
+    ]}],
+    ["Domitar Battle-automata Maniple", {modelGroupShapes: [
+        {modelName: "Domitar", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 35}, {num: 1+1, points: 35+30}, {num: 1+2, points: 35+55}, {num: 1+1+2, points: 35+30+55},
+            {num: 1+4, points: 35+105}, {num: 1+1+4, points: 35+30+105},
+        ]},
+    ]}],
+    ["Castellax Battle-automata Maniple", {modelGroupShapes: [
+        {modelName: "Castellax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 2, points: 70}, {num: 2+2, points: 70+70}, {num: 2+4, points: 70+130}, {num: 2+6, points: 70+180},
+        ]},
+    ]}],
+    ["Ursarax Cohort", {modelGroupShapes: [
+        {modelName: "Thallax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 2, points: 20}, {num: 4, points: 20+20}, {num: 6, points: 20+35}, {num: 8, points: 20+50}
+        ]}
+    ]}],
+    ["Vorax Battle-automata Maniple", {modelGroupShapes: [
+        {modelName: "Vorax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 40}, {num: 1+1, points: 40+40}, {num: 1+2, points: 40+70}, {num: 1+1+2, points: 40+40+70},
+            {num: 1+4, points: 40+105}, {num: 1+1+4, points: 40+40+105},
+        ]},
+    ]}],
+    ["Vultarax Battle-automata Squadron", {modelGroupShapes: [
+        {modelName: "Vultarax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 35}, {num: 1+1, points: 35+35}, {num: 1+2, points: 35+60}, {num: 1+3, points: 35+85},
+        ]},
+    ]}],
+    ["Thanatar Siege-automata Maniple", {minModels: 1, maxModels: 8, modelGroupShapes: [
+        {modelName: "Thanatar", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Plasma mortar", points: 0},
+                {loadout: "Heavy-las and Graviton ram", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 2, points: 110}, {num: 2+1, points: 110+55}, {num: 2+2, points: 110+100}, {num: 2+1+2, points: 110+55+100},
+            {num: 2+4, points: 110+185}, {num: 2+1+4, points: 110+55+185}, {num:2+2+4, points: 110+100+185}
+        ]},
+    ]}],
     ["Karacnos Assault Tank Squadron", {minModels: 1, modelGroupShapes: [
         {modelName: "Karacnos", modelLoadoutSlots: [
             {name: "Cortex Controller", formationNames: ["Autokratorii Regiment"], notAWeapon: true, possibleModelLoadouts: [
@@ -225,6 +289,18 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 40}, {num: 2, points: 40+40}, {num: 3, points: 40+70}, {num: 4, points: 40+100}
+        ]}
+    ]}],
+    ["Krios Battle Tank Squadron", {minModels: 3, maxModels: 9, modelGroupShapes: [
+        {modelName: "Krios", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Krios lightning cannon", points: 0}, 
+                {loadout: "Irad-scourer", points: 0},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 3, points: 100},
+            {num: 6, points: 100+90},
+            {num: 9, points: 100+170}, 
         ]}
     ]}],
 ]);
@@ -264,6 +340,42 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         unitTraits: ["Battlesmith", "Commander", "Cortex Controller"],
         commandAttachment: "MechanicumHQ"
     }],
+    ["Arlatax", {
+        detachmentType: "Walker", scale: 1, move: 7, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 6, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Autocannon", "Plasma cannon"]}
+            ]},
+        ],
+        unitTraits: ["Armoured", "Cybernetica Cortex (Advance, Charge)", "Jump Packs"],
+    }],
+    ["Castellax", {
+        detachmentType: "Walker", scale: 1, move: 5, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 4, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Mauler bolt cannon", "In-built bolters"]}
+            ]},
+        ],
+        unitTraits: ["Armoured", "Cybernetica Cortex (Advance, March)"],
+    }],
+    ["Domitar", {
+        detachmentType: "Walker", scale: 1, move: 7, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 4, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Missile launchers", "Graviton hammers"]}
+            ]},
+        ],
+        unitTraits: ["Armoured", "Cybernetica Cortex (Advance, March)"],
+    }],
     ["Karacnos", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
@@ -273,6 +385,23 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Lightning locks", "Karacnos mortar battery", "Shock ram"]}, 
+            ]},
+        ],
+        unitTraits: []
+    }],
+    ["Krios", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Volkite calvier sponsons"]}, 
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Krios lightning cannon"}, 
+                {loadout: "Irad-scourer"},
             ]},
         ],
         unitTraits: []
@@ -310,6 +439,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
         modelLoadoutSlots: [], //literally no guns
         unitTraits: ["Attached Deployment", "Battlesmith", "Cortex Controller"],
+        commandAttachment: "MechanicumHQ"
     }],
     ["Tech-thralls", {
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
@@ -334,6 +464,58 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
             ]}
         ],
         unitTraits: ["Jump Packs"],
+    }],
+    ["Thanatar", {
+        detachmentType: "Walker", scale: 1, move: 4, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 4, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Mauler bolt cannon"]}
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Plasma mortar"},
+                {loadout: "Heavy-las and Graviton ram", weaponTypes: ["Sollex heavy-las", "Graviton ram"]},
+            ]}
+        ],
+        unitTraits: ["Cybernetica Cortex (Charge, March)", "Forward Deployment"],
+    }],
+    ["Ursarax", {
+        detachmentType: "Infantry", scale: 1, move: 7, saves: [
+            {saveType: "Armour", save: 5, arc: "All"},
+        ],
+        caf: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Volkite incinerators"]}
+            ]}
+        ],
+        unitTraits: ["Jump Packs"],
+    }],
+    ["Vorax", {
+        detachmentType: "Walker", scale: 1, move: 5, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 3, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Rotor cannon", "Lightning guns", "Power blade arrays"]}
+            ]},
+        ],
+        unitTraits: ["Cybernetica Cortex (Charge, March)", "Forward Deployment"],
+    }],
+    ["Vultarax", {
+        detachmentType: "Cavalry", scale: 1, move: 9, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
+        ],
+        caf: 2, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Arc blasters", "Vultarax havoc launcher"]}
+            ]},
+        ],
+        unitTraits: ["Armoured", "Cybernetica Cortex (Advance, March)", "Outflank", "Skimmer"],
     }],
 ]);
 

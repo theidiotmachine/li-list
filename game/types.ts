@@ -6,21 +6,23 @@ import { CommandAttachment } from "./statsTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
 
 export type DetachmentValidationError = 
-    "Required detachment missing" | 
-    "Too many models in detachment" | 
-    "Too few models in detachment" | 
-    "Only one of these detachments should be present" | 
-    "Too few models in group" | 
-    "Too many models in group" |
-    "Invalid number of models in group" |
-    "Invalid loadouts of models in group" |
-    "Need more dedicated transports" |
-    "Too many dedicated transports" |
-    "Tank Commander rules broken" |
+    "Attached Deployment not attached to detachment" |
     "Commander not attached to detachment" |
+    "Cortex Controller rules broken" |
+    "Invalid loadouts of models in group" |
+    "Invalid number of models in group" |
     "Multiple Commanders in Formation" | 
-    "Cortex Controller rules broken"
+    "Need more dedicated transports" |
+    "Only one of these detachments should be present" | 
+    "Required detachment missing" | 
+    "Tank Commander rules broken" |
+    "Too few models in detachment" | 
+    "Too few models in group" | 
+    "Too many dedicated transports" |
+    "Too many models in detachment" | 
+    "Too many models in group"
 ;
+
 export type DetachmentValidationState = {
     valid: boolean,
     error?: DetachmentValidationError,
@@ -267,6 +269,9 @@ export type UnitTrait =
     "Commander" |
     "Compact" |
     "Cortex Controller" |
+    "Cybernetica Cortex (Advance, Charge)" |
+    "Cybernetica Cortex (Advance, March)" |
+    "Cybernetica Cortex (Charge, March)" |
     "Deep Strike" |
     "Dread Aura (8)" |
     "Drop Pod" |
@@ -291,6 +296,7 @@ export type UnitTrait =
     "Nechrotechnica" |
     "Nimble" |
     "Orbital Assault" |
+    "Outflank" |
     "Remote Controlled Detonation" |
     "Shield Generator (5+)" |
     "Skimmer" |

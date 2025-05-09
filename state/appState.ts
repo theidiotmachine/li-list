@@ -308,6 +308,28 @@ function calcDetachmentCommanderValidation(formation: Formation, detachmentIndex
     return {valid: true}
 }
 
+//If this detachment is a commander, is it valid?
+function calcDetachmentAttachedDeploymentValidation(formation: Formation, detachmentIndex: number, detachment: Detachment, stats: Stats | undefined): DetachmentValidationState {
+    if(stats != undefined && statsHasTrait(stats, "Attached Deployment")) {
+        if(detachment.attachedDetachmentIndex != undefined) {
+            //Attached Deployment. It must be attached to another detachment.
+            for(let i = 0; i < formation.detachments.length; ++i) {
+                if(i === detachmentIndex) 
+                    continue;
+                const otherDetachment = formation.detachments[i];
+                if(otherDetachment.modelGroups.length > 0) {
+                    const otherStats = getStatsForModelName(otherDetachment.modelGroups[0].modelName);
+                    if(otherStats != undefined) {
+                        if(detachment.attachedDetachmentIndex == -1 && otherStats?.detachmentType == stats.detachmentType)
+                            return {valid: false, error: "Attached Deployment not attached to detachment"}
+                    }
+                }
+            }
+        }
+    }
+    return {valid: true}
+}
+
 type ModelNumbersForDetachment = {
     numModels: number;
     walkerModels: number;
@@ -371,6 +393,10 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
             const commanderValidation = calcDetachmentCommanderValidation(formation, detachmentIndex, detachment, stats);
             if(!commanderValidation.valid)
                 return commanderValidation;
+
+            const attachedDeploymentValidation = calcDetachmentAttachedDeploymentValidation(formation, detachmentIndex, detachment, stats);
+            if(!attachedDeploymentValidation.valid)
+                return attachedDeploymentValidation;
             
             //scoop up numbers of models
             if(shape.dedicatedTransport === undefined || shape.dedicatedTransport === false) {
