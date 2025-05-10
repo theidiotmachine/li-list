@@ -81,6 +81,7 @@ export type WeaponType =
     "Multi-melta" |
     "Melta blastgun" |
     "Meltagun" |
+    "Myrmidon plasma-fusil" |
     "Myrmidon volkites" |
     "Neutron beam laser" |
     "Nose Mounted heavy flamer" |
@@ -97,6 +98,7 @@ export type WeaponType =
     "Power blade arrays" |
     "Predator cannon" |
     "Predator lascannon" |
+    "Pulsar-fusil" |
     "Punisher rotary cannon" |
     "Quad heavy bolter batteries" |
     "Quad launcher" |
@@ -127,7 +129,6 @@ export type WeaponType =
     "Tempest rockets" |
     "Tempest warblade" |
     "Termite twin-linked bolters" |
-    "Thallax plasma-fusil" |
     "Thermal cannon" |
     "Thunderhawk heavy bolters" |
     "Thunderhawk lascannon" |
@@ -138,7 +139,9 @@ export type WeaponType =
     "Twin magna lascannon" |
     "Twin-linked bolters" |
     "Twin-linked lascannon" |
+    "Twin-linked mauler bolt cannon" |
     "Twin-linked volkite calvier" |
+    "Twin-linked volkite calviers" |
     "Twin plasma guns" |
     "Vengance launcher" |
     "Volcano cannon" |

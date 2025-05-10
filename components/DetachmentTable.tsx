@@ -22,7 +22,8 @@ export function DetachmentTable(props: DetachmentTableProps) {
                 const formationName = formation?.formationName ?? "";
                 const shape = getShapeForFormationName(props.armyListName, formationName);
                 if(shape.slotRequirements[i].linkedSlotIndex != undefined) {
-                    if(props.detachments[shape.slotRequirements[i].linkedSlotIndex].detachmentName == "")
+                    //sigh. TODO make this more generic if need be
+                    if(props.detachments[shape.slotRequirements[i].linkedSlotIndex].detachmentName != "Tech-Priest Auxilia")
                         return <div key={props.uuid + "-" + i}></div>
                 }
                 

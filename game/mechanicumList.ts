@@ -1,5 +1,5 @@
 import { MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName } from "./mechanicumTypes.ts";
-import { getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
+import { getQuestorisFamiliaDetachmentNamesForSlot, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
 import { StrategicAssetDetachmentName } from "./strategicAssetTypes.ts";
 import { Allegiance, DetachmentConfiguration, DetachmentName, DetachmentValidationState, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
@@ -99,8 +99,8 @@ const formationShapes = new Map<MechanicumFormationName, FormationShape>([
     ]}],
     ["Legio Cybernetica Cohort", {
         slotRequirements: [
-            {slot: "HQ",                    slotRequirementType: "Required" },
-            {slot: "Core",                  slotRequirementType: "Required" },
+            {slot: "HQ",                    slotRequirementType: "Required"},
+            {slot: "Core",                  slotRequirementType: "Required"},
             {slot: "Support Legio Cybernetica Cohort",               
                 displayName: "Support",
                 slotRequirementType: "Required" 
@@ -109,8 +109,8 @@ const formationShapes = new Map<MechanicumFormationName, FormationShape>([
                 displayName: "Support",
                 slotRequirementType: "Required" 
             },
-            {slot: "HQ",                    slotRequirementType: "Optional" },
-            {slot: "HQ",                    slotRequirementType: "Optional" },
+            {slot: "HQ",                    slotRequirementType: "Optional"},
+            {slot: "HQ",                    slotRequirementType: "Optional"},
             {slot: "Support Legio Cybernetica Cohort",
                 displayName: "Support",
                 slotRequirementType: "Optional" 
@@ -119,10 +119,10 @@ const formationShapes = new Map<MechanicumFormationName, FormationShape>([
                 displayName: "Vanguard",
                 slotRequirementType: "Optional" 
             },
-            {slot: "Core",                  slotRequirementType: "Optional" },
-            {slot: "Core",                  slotRequirementType: "Optional" },
-            {slot: "Transport",             slotRequirementType: "Optional" },
-            {slot: "Transport",             slotRequirementType: "Optional" },
+            {slot: "Core",                  slotRequirementType: "Optional"},
+            {slot: "Core",                  slotRequirementType: "Optional"},
+            {slot: "Transport",             slotRequirementType: "Optional"},
+            {slot: "Transport",             slotRequirementType: "Optional"},
             {slot: "Support Legio Cybernetica Cohort",
                 displayName: "Support",
                 slotRequirementType: "One Of Group", 
@@ -143,9 +143,110 @@ const formationShapes = new Map<MechanicumFormationName, FormationShape>([
                 slotRequirementType: "One Of Group", 
                 oneOfGroup: 1, oneOfGroupGroup: 2
             },
-            {slot: "Titan",                 slotRequirementType: "Optional" },
+            {slot: "Titan",                 slotRequirementType: "Optional"},
         ]
     }], 
+    ["Ordo Reductor Subdivision", {
+        slotRequirements: [
+            {slot: "HQ",                    slotRequirementType: "Required"},       //0
+            {slot: "Support",               slotRequirementType: "Required"},       //1
+            {slot: "Bastion",               slotRequirementType: "Required"},       //2
+            {slot: "Bastion",               slotRequirementType: "Required"},       //3
+            {slot: "HQ",                    slotRequirementType: "Optional"},       //4
+            {slot: "Support",               slotRequirementType: "Optional"},       //5
+            {slot: "Support",               slotRequirementType: "Optional"},       //6
+            {slot: "Bastion",               slotRequirementType: "Optional"},       //7
+            {slot: "Battle Tank",           slotRequirementType: "Optional"},       //8
+            {slot: "Titan",                 slotRequirementType: "One Of",          //9          
+                oneOfGroup: 1
+            },
+            {slot: "Acastus",               slotRequirementType: "One Of",          //10
+                oneOfGroup: 1
+            },
+
+            {slot: "Extra Tech-Priest Auxilia",                                     //11
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 1,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //12
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 1,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //13
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 5,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //14
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 5,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //15
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 6,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //16
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 6,
+                displayName: "Tech-Priest",
+            },
+        ]
+    }],
+    ["Taghma Sub-covenant", {
+        slotRequirements: [
+            {slot: "HQ",                    slotRequirementType: "Required"},       //0
+            {slot: "Adsecularis Tech-Thrall Covenant",                              //1
+                displayName: "Tech-Thralls",
+                slotRequirementType: "Required"
+            },
+            {slot: "Adsecularis Tech-Thrall Covenant",                              //2
+                displayName: "Tech-Thralls",
+                slotRequirementType: "Required"
+            },
+            {slot: "Support",               slotRequirementType: "Required"},       //3
+            {slot: "Support",               slotRequirementType: "Required"},       //4
+            {slot: "HQ",                    slotRequirementType: "Optional"},       //5
+            {slot: "Core",                  slotRequirementType: "Optional"},       //6
+            {slot: "Support",               slotRequirementType: "Optional"},       //7
+            {slot: "Bastion",               slotRequirementType: "Optional"},       //8
+            {slot: "Vanguard",              slotRequirementType: "Optional"},       //9
+            {slot: "Battle Tank",           slotRequirementType: "Optional"},       //10
+            {slot: "Transport",             slotRequirementType: "Optional"},       //11
+            {slot: "Titan",                 slotRequirementType: "One Of Group",    //12          
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Knight",                slotRequirementType: "One Of Group",    //13
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Knight",                slotRequirementType: "One Of Group",    //14
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+
+            {slot: "Extra Tech-Priest Auxilia",                                     //15
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 3,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //16
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 3,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //17
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 4,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //18
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 4,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //19
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //20
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
+                displayName: "Tech-Priest",
+            },
+            
+        ]
+    }],
 ]);
 
 export function getShapeForMechanicumFormationName(formationName: MechanicumFormationName | ""): FormationShape {
@@ -154,12 +255,14 @@ export function getShapeForMechanicumFormationName(formationName: MechanicumForm
 }
 
 const detachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]>([
+    ["Adsecularis Tech-Thrall Covenant", ["Adsecularis Tech-Thrall Covenant"]],
     ["Bastion", [
         "Thanatar Siege-automata Maniple"
     ]],
     ["Battle Tank", [
         "Karacnos Assault Tank Squadron",
-        "Krios Battle Tank Squadron"
+        "Krios Battle Tank Squadron",
+        "Krios Venator Squadron"
     ]],
     ["Core", [
         "Adsecularis Tech-Thrall Covenant",
@@ -184,6 +287,7 @@ const detachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]
         "Domitar Battle-automata Maniple",
     ]],
     ["Tech-Priest Auxilia", ["Tech-Priest Auxilia"]],
+    ["Transport", ["Triaros Armoured Conveyor"]],
     ["Vanguard", [
         "Ursarax Cohort",
         "Vorax Battle-automata Maniple",
@@ -199,43 +303,60 @@ const detachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]
 export function getMechanicumDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): (MechanicumDetachmentName|StrategicAssetDetachmentName)[] {
     return detachmentNamesForSlot.get(slot) 
         ?? getStrategicAssetDetachmentNamesForSlot(slot, allegiance) 
+        ?? getQuestorisFamiliaDetachmentNamesForSlot(slot, allegiance) 
         ?? [];
 }
 const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentConfiguration> = new Map([
     ["Archmagos Prime", {modelGroupShapes: [
-        {modelName: "Archmagos Prime", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]}
+        {modelName: "Archmagos Prime", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]},
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 15}
+        ]},
     ]}],
     ["Archmagos Prime on Abeyant", {modelGroupShapes: [
-        {modelName: "Archmagos on Abeyant", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 45}]}
+        {modelName: "Archmagos on Abeyant", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 45}]},
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 15}
+        ]},
     ]}],
     ["Adsecularis Tech-Thrall Covenant", {modelGroupShapes: [
         {modelName: "Tech-thrall", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 30}, {num: 6, points: 30+12}, {num: 8, points: 30+22}, {num: 10, points: 30+30}
-        ]}
+        ]},
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}, {num: 3, points: 15*3}
+        ]},
     ]}],
     ["Thallax Cohort", {modelGroupShapes: [
         {modelName: "Thallax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 25}, {num: 4, points: 25+25}, {num: 6, points: 25+40}, {num: 8, points: 25+60}
-        ]}
+        ]},
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}
+        ]},
     ]}],
     ["Tech-Priest Auxilia", {modelGroupShapes: [
         {modelName: "Tech-Priest", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 1, points: 15}
+        ]},
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 15}
         ]},
     ]}],
     ["Myrmidon Secutor Host", {modelGroupShapes: [
         {modelName: "Myrmidon Secutor", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+0}, {num: 8, points: 30+60}
         ]},
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}
+        ]},
     ]}],
     ["Myrmidon Destructor Host", {modelGroupShapes: [
-        {modelName: "Myrmidon Destructor", modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Myrmidon volkites", points: 0}, 
-                {loadout: "Conversion beamers", points: 0},
-            ]},
-        ], possibleModelGroupQuantities: [
+        {modelName: "Myrmidon Destructor", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+0}, {num: 8, points: 30+60}
+        ]},
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}
         ]},
     ]}],
     ["Arlatax Battle-automata Maniple", {modelGroupShapes: [
@@ -303,6 +424,21 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 9, points: 100+170}, 
         ]}
     ]}],
+    ["Krios Venator Squadron", {minModels: 3, maxModels: 9, modelGroupShapes: [
+        {modelName: "Krios Venator", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 2, points: 60},
+            {num: 2+2, points: 60+60},
+            {num: 2+4, points: 60+110}, 
+            {num: 2+6, points: 60+160}, 
+        ]}
+    ]}],
+    ["Triaros Armoured Conveyor", {minModels: 1, modelGroupShapes: [
+        {modelName: "Triaros", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            //p128 - max transport size is 8
+            {num: 1, points: 15*1}, {num: 2, points: 15*2}, {num: 3, points: 15*3}, {num: 4, points: 15*4}, 
+            {num: 5, points: 15*5}, {num: 6, points: 15*6}, {num: 7, points: 15*7}, {num: 8, points: 15*8}, 
+        ]}
+    ]}]
 ]);
 
 export function getMechanicumDetachmentConfigurationForDetachmentName(detachmentName: MechanicumDetachmentName|StrategicAssetDetachmentName): DetachmentConfiguration {
@@ -406,15 +542,27 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         ],
         unitTraits: []
     }],
+    ["Krios Venator", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Pulsar-fusil", "Volkite calvier sponsons"]}, 
+            ]},
+        ],
+        unitTraits: []
+    }],
     ["Myrmidon Destructor", {
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 4, arc: "All"}
         ],
         caf: 3, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
         modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-               {loadout: "Myrmidon volkites"}, 
-               {loadout: "Conversion beamers"},
+            {name: "", possibleModelLoadouts: [
+               {loadout: "", weaponTypes:["Myrmidon volkites", "Conversion beamers"]},
             ]},
         ],
         unitTraits: ["Implacable"]
@@ -426,7 +574,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         caf: 6, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
-                {loadout: "", weaponTypes: ["Maxima bolters"]}
+                {loadout: "", weaponTypes: ["Maxima bolters", "Myrmidon plasma-fusil"]}
             ]},
         ],
         unitTraits: ["Implacable"]
@@ -460,7 +608,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         caf: 1, wounds: 1, tacticalStrength: 5, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
-                {loadout: "", weaponTypes: ["Lightning guns", "Thallax plasma-fusil"]}
+                {loadout: "", weaponTypes: ["Lightning guns", "Multi-melta"]}
             ]}
         ],
         unitTraits: ["Jump Packs"],
@@ -480,6 +628,19 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
             ]}
         ],
         unitTraits: ["Cybernetica Cortex (Charge, March)", "Forward Deployment"],
+    }],
+    ["Triaros", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Twin-linked volkite calviers", "Twin-linked mauler bolt cannon"]}, 
+            ]},
+        ],
+        unitTraits: ["Transport (4)"]
     }],
     ["Ursarax", {
         detachmentType: "Infantry", scale: 1, move: 7, saves: [

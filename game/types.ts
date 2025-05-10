@@ -287,7 +287,9 @@ export type UnitTrait =
     "Interceptor" |
     "Ionic Flare Shield" |
     "Jump Packs" |
+    "Large Assault Transport (5)" |
     "Large Transport (2)" |
+    "Large Transport (4)" |
     "Line" |
     "Loyalist" |
     "Macro-extinction Targeting Protocols" |

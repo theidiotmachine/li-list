@@ -1,10 +1,13 @@
 export const MechanicumFormationNames = [
     "Autokratorii Regiment",
-    "Legio Cybernetica Cohort"
+    "Ordo Reductor Subdivision",
+    "Legio Cybernetica Cohort",
+    "Taghma Sub-covenant",
 ] as const;
 export type MechanicumFormationName = typeof MechanicumFormationNames[number];
 
 export type MechanicumSlot = 
+    "Adsecularis Tech-Thrall Covenant" |
     "Extra Tech-Priest Auxilia" |
     "Support Legio Cybernetica Cohort" |
     "Tech-Priest Auxilia" |
@@ -20,11 +23,13 @@ export type MechanicumDetachmentName =
     "Domitar Battle-automata Maniple" |
     "Karacnos Assault Tank Squadron" |
     "Krios Battle Tank Squadron" |
+    "Krios Venator Squadron" |
     "Myrmidon Destructor Host" |
     "Myrmidon Secutor Host" |
     "Tech-Priest Auxilia" |
     "Thallax Cohort" |
     "Thanatar Siege-automata Maniple" |
+    "Triaros Armoured Conveyor" |
     "Ursarax Cohort" |
     "Vorax Battle-automata Maniple" |
     "Vultarax Battle-automata Squadron"
@@ -38,12 +43,14 @@ export const MechanicumModelNames = [
     "Domitar",
     "Karacnos",
     "Krios",
+    "Krios Venator",
     "Myrmidon Destructor",
     "Myrmidon Secutor",
     "Thanatar",
     "Tech-Priest",
     "Tech-thralls",
     "Thallax",
+    "Triaros",
     "Ursarax",
     "Vorax",
     "Vultarax",

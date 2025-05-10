@@ -1337,7 +1337,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
                 ]}, 
             ]},
         ],
-        unitTraits: ["Assault Transport (5)", "Flyer", "Hover"]
+        unitTraits: ["Large Assault Transport (5)", "Flyer", "Hover"]
     }],
     ["Xiphon Interceptor", {
         detachmentType: "Vehicle", scale: 2, move: 30, saves: [

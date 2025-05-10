@@ -732,6 +732,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Anti-tank"], voidShields: 1
         }
     ]}],
+    ["Myrmidon plasma-fusil", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 10, dice: 1, hit: 4, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        }
+    ]}],
     ["Myrmidon volkites", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 2, hit: 4, infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1}, 
@@ -845,6 +854,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
+    ]}],
+    ["Pulsar-fusil", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 1, hit: 3, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        }
     ]}],
     ["Punisher rotary cannon", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 4, hit: 4, 
@@ -1071,15 +1089,6 @@ const weapons = new Map<WeaponType, WeaponStats>([
         {minRange: 4, maxRange: 8, dice: 2, hit: 5, infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1}, traits: ["Assault", "Light", "Point Defence"]}
     ]}],
-    ["Thallax plasma-fusil", {arc: "All", weaponStatsAtRange: [
-        {minRange: 0, maxRange: 10, dice: 1, hit: 4, 
-            infAndCav: {modifier: -1, wounds: 1},
-            walker: {modifier: -1, wounds: 1},
-            vShvKT: {modifier: 0, wounds: 1},
-            ionShield: {modifier: 0, wounds: 1},
-            traits: ["Light AT"]
-        }
-    ]}],
     ["Thermal cannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 3, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -1168,10 +1177,24 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
     ]}],
+    ["Twin-linked mauler bolt cannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 8, dice: 3, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        },
+    ]}],
     ["Twin-linked volkite calvier", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 1, hit: 4, infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1}, 
             traits: ["Accurate", "Deflagrate", "Light", "Point Defence"]}
+    ]}],
+    ["Twin-linked volkite calviers", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 1, hit: 4, infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1}, 
+            traits: ["Accurate", "Deflagrate", "Light"]}
     ]}],
     ["Twin plasma guns", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 10, dice: 1, hit: 4, 
