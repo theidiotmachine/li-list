@@ -2,6 +2,7 @@ import { useContext } from "preact/hooks";
 import { getDetachmentConfigurationForDetachmentName } from "../game/lists.ts";
 import { ArmyListName, DetachmentName, ModelLoadoutForSlot, ModelName } from "../game/types.ts";
 import { AppState } from "../islands/App.tsx";
+import { Select, SelectOption } from "./Select.tsx";
 
 interface ModelLoadoutSelectProps{
     loadout: ModelLoadoutForSlot;
@@ -24,15 +25,16 @@ export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
         
     const slot = modelOptions.modelLoadoutSlots.find((s)=>s.name == props.modelLoadoutSlotName);
     if(slot === undefined) return <div>No model loadout</div>
-    return <select class="w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white bg-opacity-0"
-        onInput={
-            (e)=> changeModelLoadout(
-                props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotName, e.currentTarget.value
-            )
-        }>
+    return <Select class="w-full bg-white bg-opacity-0" onInput={
+        (e)=> changeModelLoadout(
+            props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotName, e as string
+        )
+    }
+    >
         {slot.possibleModelLoadouts.map((x,i)=>
-            <option class="bg-white bg-opacity-0" key={i} selected={props.loadout.loadout == x.loadout}>{x.loadout}</option>
+            <SelectOption key={x.loadout} selected={props.loadout.loadout == x.loadout} 
+                optionText={x.loadout + " - " + x.points + "pts"}
+                >{x.loadout}</SelectOption>
         )} 
-    </select>
-    
+    </Select>
 }

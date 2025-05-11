@@ -27,17 +27,27 @@ export function DetachmentTable(props: DetachmentTableProps) {
                         return <div key={props.uuid + "-" + i}></div>
                 }
                 
-                if(shape.slotRequirements[i].slotRequirementType == "One Of" || shape.slotRequirements[i].slotRequirementType == "One Of Group") {
+                if(shape.slotRequirements[i].slotRequirementType == "One Of" 
+                    || shape.slotRequirements[i].slotRequirementType == "One Of Group"
+                    || shape.slotRequirements[i].slotRequirementType == "Required One Of Group"
+                ) {
                     const oneOfGroup = shape.slotRequirements[i].oneOfGroup;
                     const oneOfGroupGroup = shape.slotRequirements[i].oneOfGroupGroup;
                     const otherGroupIndex = props.detachments.findIndex((t, j)=>{
                         if(shape.slotRequirements[i].slotRequirementType == "One Of")
-                            return (j!=i)&&(shape.slotRequirements[j].slotRequirementType=="One Of")
-                                &&(shape.slotRequirements[j].oneOfGroup == oneOfGroup)&&(t.detachmentName!="")
+                            return (j!=i
+                                && shape.slotRequirements[j].slotRequirementType=="One Of"
+                                && shape.slotRequirements[j].oneOfGroup == oneOfGroup
+                                && t.detachmentName != ""
+                            )
                         else
-                            return (j!=i)&&(shape.slotRequirements[j].slotRequirementType=="One Of Group")
-                                &&(shape.slotRequirements[j].oneOfGroup == oneOfGroup)&&(t.detachmentName!="")
-                                &&(shape.slotRequirements[j].oneOfGroupGroup != oneOfGroupGroup)
+                            return (j!=i
+                                && (shape.slotRequirements[j].slotRequirementType=="One Of Group" 
+                                    || shape.slotRequirements[j].slotRequirementType=="Required One Of Group")
+                                && shape.slotRequirements[j].oneOfGroup == oneOfGroup
+                                && t.detachmentName != ""
+                                && shape.slotRequirements[j].oneOfGroupGroup != oneOfGroupGroup
+                            )
                     });
                     if(otherGroupIndex != -1)
                         return <DisabledDetachmentWidget 

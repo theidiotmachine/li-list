@@ -3,8 +3,19 @@ export const MechanicumFormationNames = [
     "Ordo Reductor Subdivision",
     "Legio Cybernetica Cohort",
     "Taghma Sub-covenant",
+
+    //support formations
+    "Itinerant Cybernetica Cohort",
 ] as const;
 export type MechanicumFormationName = typeof MechanicumFormationNames[number];
+
+export const DarkMechanicumFormationNames = [
+    "Dark Taghma Sub-covenant",
+    "Purge Protocol Cohort",
+    "Swarm Protocol Cohort",
+    "Terror Protocol Cohort"
+] as const;
+export type DarkMechanicumFormationName = typeof DarkMechanicumFormationNames[number];
 
 export type MechanicumSlot = 
     "Adsecularis Tech-Thrall Covenant" |
@@ -12,6 +23,10 @@ export type MechanicumSlot =
     "Support Legio Cybernetica Cohort" |
     "Tech-Priest Auxilia" |
     "Vanguard Legio Cybernetica Cohort"
+;
+
+export type DarkMechanicumSlot = 
+    "Errax"
 ;
 
 export type MechanicumDetachmentName = 
@@ -33,6 +48,14 @@ export type MechanicumDetachmentName =
     "Ursarax Cohort" |
     "Vorax Battle-automata Maniple" |
     "Vultarax Battle-automata Squadron"
+;
+
+export type DarkMechanicumDetachmentName = 
+    "Errax 'Butcher' Assault Stalker Cohort" |
+    "Harpax 'Swarmer' Scout Host" |
+    "Scintillax 'Cyclops' Noospheric Stalker Network" |
+    "Serperos 'Overlord' Heavy Stalker Maniple" |
+    "Tenebrax 'Archer' Battle Stalker Cohort"
 ;
 
 export const MechanicumModelNames = [
@@ -57,3 +80,11 @@ export const MechanicumModelNames = [
 ] as const;
 export type MechanicumModelName = typeof MechanicumModelNames[number];
 
+export const DarkMechanicumModelNames = [
+    "Errax",
+    "Harpax",
+    "Scintillax",
+    "Serperos",
+    "Tenebrax",
+] as const;
+export type DarkMechanicumModelName = typeof DarkMechanicumModelNames[number];

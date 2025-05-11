@@ -107,6 +107,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
         modelGroups = <div> {
             config.modelGroupShapes
                 .filter(u=>u.formationNames === undefined || u.formationNames.findIndex((s)=>s===formationName) != -1)
+                .filter(u=>u.formationSlotRequirement === undefined || shape.slotRequirements[props.detachmentIndex].slotRequirementType == u.formationSlotRequirement)
                 .map((u, i) => {
                     const modelGroupIndex = props.detachment.modelGroups.findIndex((m: ModelGroup) => m.modelName == u.modelName);
                     return <ModelGroupWidget 

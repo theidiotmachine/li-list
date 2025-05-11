@@ -35,9 +35,11 @@ export function DetachmentAttachmentSelect(props: DetachmentAttachmentSelectProp
                     break;
                 }
                 case "MechanicumHQ": {
-                    if((thisStats.detachmentType == "Infantry" || thisStats.detachmentType == "Cavalry" 
+                    if(((thisStats.detachmentType == "Infantry" || thisStats.detachmentType == "Cavalry" 
                         || thisStats.detachmentType == "Walker" || thisStats.detachmentType == "Vehicle")
-                    && statsHasTraitLike(thisStats, "Cybernetica Cortex")) {
+                        && statsHasTraitLike(thisStats, "Cybernetica Cortex"))
+                        || thisStats.detachmentType == stats?.detachmentType
+                    ) {
                         return {text: "Attached to Detachment " + (i+1).toString() + ", " + s.detachmentName, index: i};
                     }
                     break;

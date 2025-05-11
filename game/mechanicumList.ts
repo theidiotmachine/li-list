@@ -1,4 +1,4 @@
-import { MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName } from "./mechanicumTypes.ts";
+import { DarkMechanicumDetachmentName, DarkMechanicumFormationName, DarkMechanicumModelName, MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName } from "./mechanicumTypes.ts";
 import { getQuestorisFamiliaDetachmentNamesForSlot, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
 import { StrategicAssetDetachmentName } from "./strategicAssetTypes.ts";
 import { Allegiance, DetachmentConfiguration, DetachmentName, DetachmentValidationState, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
@@ -48,7 +48,7 @@ const cortexControllerValidation = (formation: Formation, detachmentIndex: numbe
     return {valid: true};
 }
 
-const formationShapes = new Map<MechanicumFormationName, FormationShape>([
+const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
     ["Autokratorii Regiment", {
         customValidation: cortexControllerValidation,
         slotRequirements: [
@@ -244,17 +244,198 @@ const formationShapes = new Map<MechanicumFormationName, FormationShape>([
                 slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
                 displayName: "Tech-Priest",
             },
-            
+        ]
+    }],
+
+    ["Itinerant Cybernetica Cohort", {
+        formationType: "Support",
+        slotRequirements: [
+            {slot: "Support Legio Cybernetica Cohort",               
+                displayName: "Support",
+                slotRequirementType: "Required One Of Group",
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Support Legio Cybernetica Cohort",               
+                displayName: "Support",
+                slotRequirementType: "Required One Of Group",
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Support Legio Cybernetica Cohort",               
+                displayName: "Support",
+                slotRequirementType: "Required One Of Group",
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Vanguard Legio Cybernetica Cohort",
+                displayName: "Vanguard ",
+                slotRequirementType: "Required One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Vanguard Legio Cybernetica Cohort",
+                displayName: "Vanguard ",
+                slotRequirementType: "Required One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Vanguard Legio Cybernetica Cohort",
+                displayName: "Vanguard ",
+                slotRequirementType: "Required One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Support Legio Cybernetica Cohort",               
+                displayName: "Support",
+                slotRequirementType: "Optional",
+            },
+            {slot: "Support Legio Cybernetica Cohort",               
+                displayName: "Support",
+                slotRequirementType: "Optional",
+            },
+            {slot: "Vanguard Legio Cybernetica Cohort",
+                displayName: "Vanguard ",
+                slotRequirementType: "Optional", 
+            },
+            {slot: "Vanguard Legio Cybernetica Cohort",
+                displayName: "Vanguard ",
+                slotRequirementType: "Optional", 
+            },
         ]
     }],
 ]);
 
 export function getShapeForMechanicumFormationName(formationName: MechanicumFormationName | ""): FormationShape {
     if(formationName == "") return { slotRequirements: [] };
-    return formationShapes.get(formationName) ?? { slotRequirements: [] };
+    return mechFormationShapes.get(formationName) ?? { slotRequirements: [] };
 }
 
-const detachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]>([
+const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationShape>([
+    ["Dark Taghma Sub-covenant", {
+        slotRequirements: [
+            {slot: "HQ",                    slotRequirementType: "Required"},       //0
+            {slot: "Support",               slotRequirementType: "Required"},       //1
+            {slot: "Support",               slotRequirementType: "Required"},       //2
+            {slot: "Adsecularis Tech-Thrall Covenant",                              //3
+                displayName: "Tech-Thralls",
+                slotRequirementType: "Required"
+            },
+            {slot: "Adsecularis Tech-Thrall Covenant",                              //4
+                displayName: "Tech-Thralls",
+                slotRequirementType: "Required"
+            },
+            {slot: "HQ",                    slotRequirementType: "Optional"},       //5
+            {slot: "Core",                  slotRequirementType: "Optional"},       //6
+            {slot: "Support",               slotRequirementType: "Optional"},       //7
+            {slot: "Vanguard",              slotRequirementType: "Optional"},       //8
+            {slot: "Battle Tank",           slotRequirementType: "Optional"},       //9
+            {slot: "Light Armour",          slotRequirementType: "Optional"},       //10
+            {slot: "Transport",             slotRequirementType: "Optional"},       //11
+            {slot: "Battle Tank",                                                   //12
+                slotRequirementType: "One Of", 
+                oneOfGroup: 1
+            },
+            {slot: "Heavy Armour",                                                  //13
+                slotRequirementType: "One Of", 
+                oneOfGroup: 1
+            },
+            {slot: "Titan",                 slotRequirementType: "One Of Group",    //14
+                oneOfGroup: 2, oneOfGroupGroup: 1
+            },
+            {slot: "Knight",                slotRequirementType: "One Of Group",    //15
+                oneOfGroup: 2, oneOfGroupGroup: 2
+            },
+            {slot: "Knight",                slotRequirementType: "One Of Group",    //16
+                oneOfGroup: 2, oneOfGroupGroup: 2
+            },
+
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 1,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 1,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 2,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 2,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
+                displayName: "Tech-Priest",
+            },
+        ]
+    }],
+    ["Purge Protocol Cohort", {
+        slotRequirements: [
+            {slot: "Heavy Armour",          slotRequirementType: "Required"},
+            {slot: "Light Armour",          slotRequirementType: "Required"},
+            {slot: "Light Armour",          slotRequirementType: "Required"},
+            {slot: "Battle Tank",           slotRequirementType: "Optional"},
+            {slot: "Battle Tank",           slotRequirementType: "Optional"},
+            {slot: "HQ",                    slotRequirementType: "Optional"},
+            {slot: "Heavy Armour",
+                slotRequirementType: "One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Heavy Armour",
+                slotRequirementType: "One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Light Armour",
+                slotRequirementType: "One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Light Armour",
+                slotRequirementType: "One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Titan",                 slotRequirementType: "Optional"},
+        ]
+    }],
+    ["Swarm Protocol Cohort", {
+        slotRequirements: [
+            {slot: "Vanguard",              slotRequirementType: "Required"},
+            {slot: "Vanguard",              slotRequirementType: "Required"},
+            {slot: "Vanguard",              slotRequirementType: "Required"},
+            {slot: "Vanguard",              slotRequirementType: "Optional"},
+            {slot: "Vanguard",              slotRequirementType: "Optional"},
+            {slot: "Vanguard",              slotRequirementType: "Optional"},
+            {slot: "Light Armour",          slotRequirementType: "Optional"},
+            {slot: "Light Armour",          slotRequirementType: "Optional"},
+            {slot: "Knight",                slotRequirementType: "Optional"},
+        ]
+    }],
+    ["Terror Protocol Cohort", {
+        slotRequirements: [
+            {slot: "HQ",                    slotRequirementType: "Required"},       //0
+            {slot: "Vanguard",              slotRequirementType: "Required"},       //1
+            {slot: "Errax",                 slotRequirementType: "Required"},       //2
+            {slot: "Errax",                 slotRequirementType: "Required"},       //3
+            {slot: "Core",                  slotRequirementType: "Optional"},       //4
+            {slot: "Core",                  slotRequirementType: "Optional"},       //5
+            {slot: "Vanguard",              slotRequirementType: "Optional"},       //6
+            {slot: "Vanguard",              slotRequirementType: "Optional"},       //7
+            {slot: "Warhound",              slotRequirementType: "One Of",          //8      
+                oneOfGroup: 1
+            },
+            {slot: "Acastus",               slotRequirementType: "One Of",          //9
+                oneOfGroup: 1
+            },
+        ]
+    }],
+]);
+
+export function getShapeForDarkMechanicumFormationName(formationName: DarkMechanicumFormationName | ""): FormationShape {
+    if(formationName == "") return { slotRequirements: [] };
+    return darkMechFormationShapes.get(formationName) ?? { slotRequirements: [] };
+}
+
+const mechDetachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]>([
     ["Adsecularis Tech-Thrall Covenant", ["Adsecularis Tech-Thrall Covenant"]],
     ["Bastion", [
         "Thanatar Siege-automata Maniple"
@@ -301,12 +482,56 @@ const detachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]
 
 //The mechanicum can also call on knights and titans
 export function getMechanicumDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): (MechanicumDetachmentName|StrategicAssetDetachmentName)[] {
-    return detachmentNamesForSlot.get(slot) 
+    return mechDetachmentNamesForSlot.get(slot) 
         ?? getStrategicAssetDetachmentNamesForSlot(slot, allegiance) 
         ?? getQuestorisFamiliaDetachmentNamesForSlot(slot, allegiance) 
         ?? [];
 }
+
+const darkMechDetachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachmentName | DarkMechanicumDetachmentName)[]>([
+    ["Adsecularis Tech-Thrall Covenant", ["Adsecularis Tech-Thrall Covenant"]],
+    ["Bastion", [
+    ]],
+    ["Battle Tank", [
+        "Karacnos Assault Tank Squadron",
+    ]],
+    ["Core", [
+        "Adsecularis Tech-Thrall Covenant",
+        "Errax 'Butcher' Assault Stalker Cohort",
+        "Thallax Cohort"
+    ]],
+    ["Errax", ["Errax 'Butcher' Assault Stalker Cohort"]],
+    ["Extra Tech-Priest Auxilia", ["Tech-Priest Auxilia"]],
+    ["Heavy Armour", ["Serperos 'Overlord' Heavy Stalker Maniple"]],
+    ["HQ", [
+        "Archmagos Prime", 
+        "Archmagos Prime on Abeyant",
+        "Scintillax 'Cyclops' Noospheric Stalker Network",
+    ]],
+    ["Light Armour", ["Tenebrax 'Archer' Battle Stalker Cohort"]],
+    ["Support", [
+        "Myrmidon Destructor Host",
+        "Myrmidon Secutor Host",
+        "Tech-Priest Auxilia",
+    ]],
+    ["Tech-Priest Auxilia", ["Tech-Priest Auxilia"]],
+    ["Transport", ["Triaros Armoured Conveyor"]],
+    ["Vanguard", [
+        "Harpax 'Swarmer' Scout Host",
+        "Ursarax Cohort",
+    ]],
+]);
+
+//The dark mechanicum can also call on knights and titans, as well regular mech
+export function getDarkMechanicumDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): (MechanicumDetachmentName|StrategicAssetDetachmentName|DarkMechanicumDetachmentName)[] {
+    return darkMechDetachmentNamesForSlot.get(slot) 
+        ?? getStrategicAssetDetachmentNamesForSlot(slot, allegiance) 
+        ?? getQuestorisFamiliaDetachmentNamesForSlot(slot, allegiance) 
+        ?? [];
+}
+
 const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentConfiguration> = new Map([
+    //mech
     ["Archmagos Prime", {modelGroupShapes: [
         {modelName: "Archmagos Prime", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]},
         {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
@@ -438,7 +663,75 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 1, points: 15*1}, {num: 2, points: 15*2}, {num: 3, points: 15*3}, {num: 4, points: 15*4}, 
             {num: 5, points: 15*5}, {num: 6, points: 15*6}, {num: 7, points: 15*7}, {num: 8, points: 15*8}, 
         ]}
-    ]}]
+    ]}],
+    //dark mech
+    ["Scintillax 'Cyclops' Noospheric Stalker Network", {minModels: 1, maxModels: 6, modelGroupShapes:[
+        {modelName: "Scintillax", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Scintillax lascutter", points: 0},
+                {loadout: "Exo-planar cannon", points: 0},
+                {loadout: "Storm laser", points: 0},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 75}, {num: 1+1, points: 75+75}, {num: 1+2, points: 75+130}, 
+            {num: 1+3, points: 75+190}, {num: 1+2+2, points: 75+130+130}, {num: 1+2+3, points: 75+130+190}
+        ]},
+    ]}],
+    ["Errax 'Butcher' Assault Stalker Cohort", {minModels: 1, maxModels: 9, modelGroupShapes:[
+        {modelName: "Errax", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Errax meltagun", points: 0},
+                {loadout: "Stalker maxima bolters", points: 0},
+                {loadout: "Errax lascutters", points: 0},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 45}, {num: 1+1, points: 45+45}, {num: 1+2, points: 45+80}, 
+            {num: 1+3, points: 45+115}, {num: 1+2+2, points: 45+80+80}, {num: 1+2+3, points: 45+80+115},
+            {num: 1+3+3, points: 45+115+115}, {num: 1+1+3+3, points: 45+45+115+115}, 
+            {num: 1+2+3+3, points: 45+80+115+115},
+        ]},
+    ]}],
+    ["Harpax 'Swarmer' Scout Host", {minModels: 2, maxModels: 10, modelGroupShapes: [
+        {modelName: "Harpax", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Exo-planar repeaters", points: 0},
+                {loadout: "Harpax lascutters", points: 0},
+            ]},
+            {name: "Controller Host", formationNames: ["Swarm Protocol Cohort"], formationSlotRequirement: "Required", 
+                notAWeapon: true, possibleModelLoadouts: [
+                    {loadout: "", points: 0}, {loadout: "Controller Host", points: 15, unitTraits: ["Noosphere Controller"]}, 
+                ]}
+        ], possibleModelGroupQuantities: [
+            {num: 4, points: 30}, {num: 4+2, points: 30+15}, {num: 4+4, points: 30+25}, {num: 4+6, points: 30+35}
+        ]}
+    ]}],
+    ["Tenebrax 'Archer' Battle Stalker Cohort", {minModels: 1, maxModels: 6, modelGroupShapes:[
+        {modelName: "Tenebrax", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Exo-planar cannon", points: 0},
+                {loadout: "Stalker maxima bolters", points: 0},
+                {loadout: "Volkite culverins", points: 0},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 35}, {num: 1+1, points: 35+35}, {num: 1+2, points: 35+65}, 
+            {num: 1+3, points: 35+90}, {num: 1+2+2, points: 35+65+65}, {num: 1+2+3, points: 35+65+90},
+        ]},
+    ]}],
+    ["Serperos 'Overlord' Heavy Stalker Maniple", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelName: "Serperos", modelLoadoutSlots: [
+            {name: "Carapace", possibleModelLoadouts: [
+                {loadout: "Exo-planar bombard", points: 0},
+                {loadout: "Storm laser array", points: 0},
+            ]},
+            {name: "Underslung", possibleModelLoadouts: [
+                {loadout: "Serperos lascutters", points: 0},
+                {loadout: "Irradiation engine", points: 0},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 2, points: 175}, {num: 2+1, points: 175+85}, {num: 2+2, points: 175+150}, 
+            {num: 2+3, points: 175+230}, {num: 2+1+3, points: 175+85+230}
+        ]}
+    ]}],
 ]);
 
 export function getMechanicumDetachmentConfigurationForDetachmentName(detachmentName: MechanicumDetachmentName|StrategicAssetDetachmentName): DetachmentConfiguration {
@@ -447,13 +740,13 @@ export function getMechanicumDetachmentConfigurationForDetachmentName(detachment
         ?? {modelGroupShapes: []}
 }
 
-const statsForModelType = new Map<MechanicumModelName, Stats>([
+const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName, Stats>([
     ["Archmagos on Abeyant", {
         detachmentType: "Infantry", scale: 1, move: 6, saves: [
             {saveType: "Armour", save: 4, arc: "All"},
             {saveType: "Invuln", save: 5, arc: "All"}
         ],
-        caf: 4, morale: 2, wounds: 2, tacticalStrength: 5, voidShields: 0,
+        caf: 4, morale: 2, wounds: 2, tacticalStrength: 5,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Volkite serpenta", "Meltagun"]}
@@ -467,7 +760,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
             {saveType: "Armour", save: 4, arc: "All"},
             {saveType: "Invuln", save: 5, arc: "All"}
         ],
-        caf: 3, morale: 2, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: 3, morale: 2, wounds: 1, tacticalStrength: 5,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Volkite serpenta"]}
@@ -480,7 +773,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Walker", scale: 1, move: 7, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
-        caf: 6, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        caf: 6, wounds: 2, tacticalStrength: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Autocannon", "Plasma cannon"]}
@@ -492,7 +785,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Walker", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
-        caf: 4, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        caf: 4, wounds: 2, tacticalStrength: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Mauler bolt cannon", "In-built bolters"]}
@@ -504,7 +797,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Walker", scale: 1, move: 7, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
-        caf: 4, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        caf: 4, wounds: 2, tacticalStrength: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Missile launchers", "Graviton hammers"]}
@@ -512,12 +805,40 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         ],
         unitTraits: ["Armoured", "Cybernetica Cortex (Advance, March)"],
     }],
+    ["Errax", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Armour", save: 5, arc: "Front"},
+        ],
+        caf: 6, wounds: 2, tacticalStrength: 2, constructShields: 1,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Errax meltagun"},
+                {loadout: "Stalker maxima bolters"},
+                {loadout: "Errax lascutters"},
+            ]},
+        ],
+        unitTraits: ["Networked Anima", "Nimble", "Traitor"]
+    }],
+    ["Harpax", {
+        detachmentType: "Infantry", scale: 1, move: 7, saves: [
+            {saveType: "Armour", save: 6, arc: "All"},
+        ],
+        caf: 1, wounds: 1, tacticalStrength: 5,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Exo-planar repeaters"},
+                {loadout: "Harpax lascutters"},
+            ]},
+        ],
+        unitTraits: ["Jump Packs", "Networked Anima", "Traitor"],
+    }],
     ["Karacnos", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
             {saveType: "Armour", save: 4, arc: "Front"},
         ],
-        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Lightning locks", "Karacnos mortar battery", "Shock ram"]}, 
@@ -530,7 +851,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
             {saveType: "Armour", save: 3, arc: "Front"},
             {saveType: "Armour", save: 4, arc: "Front"},
         ],
-        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Volkite calvier sponsons"]}, 
@@ -547,7 +868,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
             {saveType: "Armour", save: 3, arc: "Front"},
             {saveType: "Armour", save: 4, arc: "Front"},
         ],
-        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Pulsar-fusil", "Volkite calvier sponsons"]}, 
@@ -559,7 +880,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 4, arc: "All"}
         ],
-        caf: 3, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: 3, morale: 3, wounds: 1, tacticalStrength: 5,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                {loadout: "", weaponTypes:["Myrmidon volkites", "Conversion beamers"]},
@@ -571,7 +892,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 4, arc: "All"}
         ],
-        caf: 6, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: 6, morale: 3, wounds: 1, tacticalStrength: 5,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Maxima bolters", "Myrmidon plasma-fusil"]}
@@ -579,12 +900,45 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         ],
         unitTraits: ["Implacable"]
     }],
+    ["Serperos", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 7, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 3, wounds: 2, tacticalStrength: 2, constructShields: 2,
+        modelLoadoutSlots: [
+            {name: "Carapace", possibleModelLoadouts: [
+                {loadout: "Exo-planar bombard"},
+                {loadout: "Storm laser array"},
+            ]},
+            {name: "Underslung", possibleModelLoadouts: [
+                {loadout: "Serperos lascutters"},
+                {loadout: "Irradiation engine"},
+            ]},
+        ],
+        unitTraits: ["Networked Anima", "Nimble", "Traitor"]
+    }],
+    ["Scintillax", {
+        detachmentType: "Vehicle", scale: 2, move: 7, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 3, wounds: 2, tacticalStrength: 2, constructShields: 1,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Scintillax lascutter"},
+                {loadout: "Exo-planar cannon"},
+                {loadout: "Storm laser"},
+            ]},
+        ],
+        unitTraits: ["Noosphere Controller", "Nimble", "Traitor"]
+    }],
     ["Tech-Priest", {
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
             {saveType: "Invuln", save: 6, arc: "All"}
         ],
-        caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 5,
         modelLoadoutSlots: [], //literally no guns
         unitTraits: ["Attached Deployment", "Battlesmith", "Cortex Controller"],
         commandAttachment: "MechanicumHQ"
@@ -593,7 +947,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 6, arc: "All"},
         ],
-        caf: -1, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: -1, wounds: 1, tacticalStrength: 5,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Las-locks"]}
@@ -601,11 +955,27 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         ],
         unitTraits: [],
     }],
+    ["Tenebrax", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Armour", save: 5, arc: "Front"},
+        ],
+        caf: 1, wounds: 2, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [{loadout: "", weaponTypes: ["Storm laser flenser"]}]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Exo-planar cannon"},
+                {loadout: "Stalker maxima bolters"},
+                {loadout: "Volkite culverins"},
+            ]},
+        ],
+        unitTraits: ["Networked Anima", "Nimble", "Traitor"]
+    }],
     ["Thallax", {
         detachmentType: "Infantry", scale: 1, move: 7, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
         ],
-        caf: 1, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: 1, wounds: 1, tacticalStrength: 5, morale: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Lightning guns", "Multi-melta"]}
@@ -617,7 +987,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Walker", scale: 1, move: 4, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
-        caf: 4, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        caf: 4, wounds: 2, tacticalStrength: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Mauler bolt cannon"]}
@@ -634,7 +1004,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
             {saveType: "Armour", save: 3, arc: "Front"},
             {saveType: "Armour", save: 4, arc: "Front"},
         ],
-        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Twin-linked volkite calviers", "Twin-linked mauler bolt cannon"]}, 
@@ -646,7 +1016,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Infantry", scale: 1, move: 7, saves: [
             {saveType: "Armour", save: 5, arc: "All"},
         ],
-        caf: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: 3, wounds: 1, tacticalStrength: 5, morale: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Volkite incinerators"]}
@@ -658,7 +1028,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Walker", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
-        caf: 3, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        caf: 3, wounds: 2, tacticalStrength: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Rotor cannon", "Lightning guns", "Power blade arrays"]}
@@ -670,7 +1040,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
         detachmentType: "Cavalry", scale: 1, move: 9, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
-        caf: 2, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        caf: 2, wounds: 2, tacticalStrength: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Arc blasters", "Vultarax havoc launcher"]}
@@ -680,7 +1050,7 @@ const statsForModelType = new Map<MechanicumModelName, Stats>([
     }],
 ]);
 
-export function getStatsForMechanicumModelName(modelName: MechanicumModelName): Stats | undefined {
+export function getStatsForMechanicumModelName(modelName: MechanicumModelName | DarkMechanicumModelName): Stats | undefined {
     return statsForModelType.get(modelName) ??
         getStatsForStrategicAssetModelType(modelName);
 }

@@ -25,7 +25,10 @@ export function ArmyHeader(props: ArmyHeaderProps) {
 
     let name = ""
     let maxPoints = 0
+    let remainingPoints = 0;
     let alliedPoints = 0;
+    let remainingAlliedPoints = 0;
+    let maxAlliedPoints = 0;
     let points = 0;
     let enabled = false
     let allegiance: Allegiance | "" = "";
@@ -36,13 +39,19 @@ export function ArmyHeader(props: ArmyHeaderProps) {
         maxPoints = army.value.maxPoints;
         alliedPoints = army.value.alliedPoints;
         points = army.value.points;
+        if(maxPoints > 0) {
+            remainingPoints = maxPoints - points;
+            maxAlliedPoints = maxPoints*0.3;
+            remainingAlliedPoints = maxAlliedPoints - alliedPoints;
+        }
+            
         enabled = true;
         allegiance = army.value.allegiance;
         primaryArmyListName = army.value.primaryArmyListName;
         activations = army.value.activations;
     } 
 
-    return <div class={"grid grid-cols-[50%_50%] md:grid-cols-[43%_43%_10%] gap-[1%] md:w-[800px] bg-white mr-2 md:mx-0" + " " + props.class}>
+    return <div class={"grid grid-cols-[50%_50%] md:grid-cols-[41%_41%_14%] gap-[1%] md:w-[800px] bg-white mr-2 md:mx-0" + " " + props.class}>
         <div class="md:col-span-2 col-start-1">
             <input disabled={!enabled} type="text" placeholder="My army name" class="text-lg md:text-xl w-full md:w-96" value={name} onChange={(e) => {
                 const target = e.target as HTMLInputElement;
@@ -64,8 +73,16 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             />
         </div>
 
-        <div class="col-span-2 md:col-start-1 row-start-2">
-            Activations: {activations} Allied: {alliedPoints}/{maxPoints*0.3}
+        <div class="col-start-1 row-start-2">
+            Activations: {activations}
+        </div>
+
+        <div class="col-start-1 row-start-3 col-span-2 md:col-span-1 md:col-start-2 md:row-start-2">
+            Allied: {alliedPoints}/{maxAlliedPoints} ({remainingAlliedPoints} left)
+        </div>
+
+        <div class="col-start-2 md:col-start-3 md:text-lg flex flex-row justify-self-end row-start-2">
+            ({remainingPoints} left)
         </div>
 
         <div class="col-start-1 col-span-2 md:col-span-1 md:row-start-3 hide-on-scroll">
@@ -73,10 +90,10 @@ export function ArmyHeader(props: ArmyHeaderProps) {
         </div>
 
         <div class="col-start-1 md:col-start-2 col-span-2 md:row-start-3 md:col-span-1 hide-on-scroll">
-            <ArmyPrimaryArmyListSelect primaryArmyListName={primaryArmyListName} enabled={enabled}/>
+            <ArmyPrimaryArmyListSelect primaryArmyListName={primaryArmyListName} enabled={enabled} allegiance={allegiance}/>
         </div>
 
-        <div class="col-start-1 md:row-start-4 md:col-span-3 flex">
+        <div class="col-start-1 col-span-2 md:row-start-4 md:col-span-3 flex">
             <ArmyValidity army={army.value}/>
             <ArmyValidityText army={army.value} class=""/>
         </div>
@@ -102,7 +119,7 @@ export function ArmyWidget(props: ArmyWidgetProps) {
     return(
         <div class="flex flex-row justify-center overflow-x-scroll h-screen" onScroll={(e)=>{
                 const k = e.target as HTMLElement;
-                if(k.scrollTop > 80){
+                if(k.scrollTop > 60){
                     const elems = document.getElementsByClassName("hide-on-scroll");
                     for(const elem of elems) {
                         if (!elem.classList.contains("hidden")) {

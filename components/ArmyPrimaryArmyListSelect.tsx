@@ -1,26 +1,37 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { ArmyListName } from "../game/types.ts";
+import { Allegiance, ArmyListName } from "../game/types.ts";
 import { Select, SelectOption } from "./Select.tsx";
 
 export type ArmyPrimaryArmyListSelectProps = {
     enabled: boolean;
+    allegiance: Allegiance | "";
     primaryArmyListName: ArmyListName | "";
 };
 export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps) {
-    const { changePrimaryArmyListName } = useContext(AppState);
+    const {changePrimaryArmyListName} = useContext(AppState);
     
+    const options = [
+        {optionText: "", value: "", text: "Choose Primary Army List"},
+        {optionText: "Collegia Titanica", value: "Collegia Titanica", text: "Collegia Titanica"},
+    ];
+    if(props.allegiance == "Traitor")
+        options.push({optionText: "Dark Mechanicum", value: "Dark Mechanicum", text: "Dark Mechanicum"});
+    options.push({optionText: "Legions Astartes", value: "Legions Astartes", text: "Legions Astartes"});
+    options.push({optionText: "Mechanicum Taghmata", value: "Mechanicum Taghmata", text: "Mechanicum Taghmata"});
+    options.push({optionText: "Questoris Familia", value: "Questoris Familia", text: "Questoris Familia"});
+    options.push({optionText: "Solar Auxilia", value: "Solar Auxilia", text: "Solar Auxilia"});
+
     return <Select 
         class ="text-l md:text-xl w-full bg-right bg-white" onInput={(e) => {
             changePrimaryArmyListName(e as ArmyListName)
         }}
         disabled={!props.enabled}
     >
-        <SelectOption selected={props.primaryArmyListName == ""} optionText="" value="">Choose Primary Army List</SelectOption>
-        <SelectOption selected={props.primaryArmyListName == "Collegia Titanica"}>Collegia Titanica</SelectOption>
-        <SelectOption selected={props.primaryArmyListName == "Legions Astartes"}>Legions Astartes</SelectOption>
-        <SelectOption selected={props.primaryArmyListName == "Mechanicum Taghmata"}>Mechanicum Taghmata</SelectOption>
-        <SelectOption selected={props.primaryArmyListName == "Questoris Familia"}>Questoris Familia</SelectOption>
-        <SelectOption selected={props.primaryArmyListName == "Solar Auxilia"}>Solar Auxilia</SelectOption>
+        {options.map((o)=>{
+            return <SelectOption 
+                selected={props.primaryArmyListName == o.value} optionText={o.optionText} value={o.value} key={o.value}>{o.text}
+            </SelectOption>
+        })}
     </Select>
 }

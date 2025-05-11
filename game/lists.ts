@@ -2,8 +2,8 @@ import { getAuxiliaDetachmentConfigurationForDetachmentName, getAuxiliaDetachmen
 import { AllAuxiliaModelNames, AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaFormationNames, AuxiliaModelName } from "./auxiliaTypes.ts";
 import { getStatsForLegionModelType, getLegionDetachmentConfigurationForDetachmentName, getLegionDetachmentNamesForSlot, getShapeForLegionFormationName } from "./legionList.ts";
 import { AllLegionModelNames, LegionDetachmentName, LegionFormationName, LegionFormationNames, LegionModelName } from "./legionTypes.ts";
-import { getMechanicumDetachmentConfigurationForDetachmentName, getMechanicumDetachmentNamesForSlot, getShapeForMechanicumFormationName, getStatsForMechanicumModelName } from "./mechanicumList.ts";
-import { MechanicumDetachmentName, MechanicumFormationName, MechanicumFormationNames, MechanicumModelName, MechanicumModelNames } from "./mechanicumTypes.ts";
+import { getDarkMechanicumDetachmentNamesForSlot, getMechanicumDetachmentConfigurationForDetachmentName, getMechanicumDetachmentNamesForSlot, getShapeForDarkMechanicumFormationName, getShapeForMechanicumFormationName, getStatsForMechanicumModelName } from "./mechanicumList.ts";
+import { DarkMechanicumFormationName, DarkMechanicumFormationNames, DarkMechanicumModelName, DarkMechanicumModelNames, MechanicumDetachmentName, MechanicumFormationName, MechanicumFormationNames, MechanicumModelName, MechanicumModelNames } from "./mechanicumTypes.ts";
 import { getCollegiaTitanicaDetachmentNamesForSlot, getQuestorisFamiliaDetachmentNamesForSlot, getShapeForCollegiaTitanicaFormationName, getShapeForQuestorisFamiliaFormationName, getShapeForStrategicAssetFormationName, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
 import { AllStrategicAssetModelNames, CollegiaTitanicaFormationName, CollegiaTitanicaFormationNames, QuestorisFamiliaFormationName, QuestorisFamiliaFormationNames, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetFormationNames, StrategicAssetModelName } from "./strategicAssetTypes.ts";
 import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelName, Stats } from "./types.ts";
@@ -12,6 +12,7 @@ import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, Form
 const formationTypesForArmyListName: Map<ArmyListName, FormationName[]> = new Map([
     //yes this is bad, but whatever
     ["Collegia Titanica", CollegiaTitanicaFormationNames as unknown as FormationName[]], 
+    ["Dark Mechanicum", DarkMechanicumFormationNames as unknown as FormationName[]],
     ["Legions Astartes", LegionFormationNames as unknown as FormationName[]], 
     ["Mechanicum Taghmata", MechanicumFormationNames as unknown as FormationName[]],
     ["Questoris Familia", QuestorisFamiliaFormationNames as unknown as FormationName[]],
@@ -32,6 +33,8 @@ export function getShapeForFormationName(armyListName: ArmyListName | "", format
     switch(armyListName) {
         case "Collegia Titanica":
             return getShapeForCollegiaTitanicaFormationName(formationName as CollegiaTitanicaFormationName);
+        case "Dark Mechanicum":
+            return getShapeForDarkMechanicumFormationName(formationName as DarkMechanicumFormationName)
         case "Legions Astartes":
             return getShapeForLegionFormationName(formationName as LegionFormationName);
         case "Mechanicum Taghmata":
@@ -49,6 +52,8 @@ export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: Form
     switch(armyListName) {
         case "Collegia Titanica":
             return getCollegiaTitanicaDetachmentNamesForSlot(slot, allegiance);
+        case "Dark Mechanicum":
+                return getDarkMechanicumDetachmentNamesForSlot(slot, allegiance);
         case "Legions Astartes":
             return getLegionDetachmentNamesForSlot(slot);
         case "Mechanicum Taghmata":
@@ -68,6 +73,7 @@ export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyLi
             return getLegionDetachmentConfigurationForDetachmentName(detachmentName as LegionDetachmentName);
         case "Solar Auxilia":
             return getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName as AuxiliaDetachmentName);
+            case "Dark Mechanicum":
         case "Mechanicum Taghmata":
             return getMechanicumDetachmentConfigurationForDetachmentName(detachmentName as MechanicumDetachmentName);
         case "Questoris Familia":
@@ -89,5 +95,8 @@ export function getStatsForModelName(modelName: ModelName): Stats | undefined {
     }
     if(MechanicumModelNames.findIndex(a=>a==modelName) != -1) {
         return getStatsForMechanicumModelName(modelName as MechanicumModelName)
+    }
+    if(DarkMechanicumModelNames.findIndex(a=>a==modelName) != -1) {
+        return getStatsForMechanicumModelName(modelName as DarkMechanicumModelName)
     }
 }

@@ -1,6 +1,6 @@
 import { AuxiliaDetachmentName, AuxiliaFormationSlot, AuxiliaFormationName, AuxiliaModelName, AllAuxiliaModelNames } from "./auxiliaTypes.ts";
 import { LegionDetachmentName, LegionFormationSlot, LegionFormationName, LegionModelName, LegionName, AllLegionModelNames } from "./legionTypes.ts";
-import { MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName, MechanicumModelNames, MechanicumSlot } from "./mechanicumTypes.ts";
+import { DarkMechanicumDetachmentName, DarkMechanicumFormationName, DarkMechanicumModelName, DarkMechanicumModelNames, DarkMechanicumSlot, MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName, MechanicumModelNames, MechanicumSlot } from "./mechanicumTypes.ts";
 import { CollegiaTitanicaFormationSlot, CollegiaTitanicaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelName, QuestorisFamiliaFormationName, QuestorisFamiliaFormationSlot, AllStrategicAssetModelNames } from "./strategicAssetTypes.ts";
 import { CommandAttachment } from "./statsTypes.ts";
 import { WeaponType } from "./weaponTypes.ts";
@@ -20,7 +20,7 @@ export type DetachmentValidationError =
     "Too few models in group" | 
     "Too many dedicated transports" |
     "Too many models in detachment" | 
-    "Too many models in group"
+    "Too many models in group" 
 ;
 
 export type DetachmentValidationState = {
@@ -32,7 +32,8 @@ export type DetachmentValidationState = {
 export type ArmyValidationError = 
     "Detachments invalid" |
     "Too many points" |
-    "Too many points on allied detachments"
+    "Too many points on allied detachments"|
+    "Too many Support formations"
 ;
 export type ArmyValidationState = {
     valid: boolean,
@@ -48,6 +49,7 @@ export type Allegiance = (typeof Allegiances)[number];
 
 export const ArmyListNames = [
     "Collegia Titanica",
+    "Dark Mechanicum",
     "Legions Astartes",
     "Mechanicum Taghmata",
     "Questoris Familia",
@@ -58,6 +60,7 @@ export type ArmyListName = (typeof ArmyListNames)[number];
 
 export type FormationName = 
     AuxiliaFormationName | 
+    DarkMechanicumFormationName |
     CollegiaTitanicaFormationName |
     LegionFormationName | 
     MechanicumFormationName |
@@ -68,6 +71,7 @@ export type FormationName =
 export type FormationSlot = 
     AuxiliaFormationSlot |
     CollegiaTitanicaFormationSlot |
+    DarkMechanicumSlot |
     LegionFormationSlot |
     MechanicumSlot |
     QuestorisFamiliaFormationSlot |
@@ -87,7 +91,12 @@ export type FormationSlot =
 ; 
 
 export type SlotRequirementType = 
-    "Required" | "Optional" | "One Of" | "One Of Group" | "Extra Tech-Priest Auxilia"
+    "Required" | 
+    "Optional" | 
+    "One Of" | 
+    "One Of Group" | 
+    "Required One Of Group" |
+    "Extra Tech-Priest Auxilia"
 ;
 export type SlotRequirements = {
     slot: FormationSlot;
@@ -101,19 +110,30 @@ export type SlotRequirements = {
     linkedSlotIndex?: number;
 };
 
+export type FormationType = "Normal" | "Support";
+
 export type FormationShape = {
+    formationType?: FormationType;
     slotRequirements: SlotRequirements[];
     customValidation?: (Formation: Formation, detachmentIndex: number) => DetachmentValidationState
 }
         
-export type DetachmentName = LegionDetachmentName | AuxiliaDetachmentName | MechanicumDetachmentName | StrategicAssetDetachmentName;
+export type DetachmentName = 
+    AuxiliaDetachmentName | 
+    DarkMechanicumDetachmentName | 
+    LegionDetachmentName | 
+    MechanicumDetachmentName | 
+    StrategicAssetDetachmentName
+;
 
-export type ModelName = LegionModelName | AuxiliaModelName | MechanicumModelName | StrategicAssetModelName;
+export type ModelName = LegionModelName | AuxiliaModelName |
+    MechanicumModelName | DarkMechanicumModelName | StrategicAssetModelName;
 
 export const AllModelNames: readonly ModelName[] = [
     ...(AllLegionModelNames as readonly ModelName[]),
     ...(AllAuxiliaModelNames as readonly ModelName[]),
     ...(MechanicumModelNames as readonly ModelName[]),
+    ...(DarkMechanicumModelNames as readonly ModelName[]),
     ...(AllStrategicAssetModelNames as readonly ModelName[])
 ];
 
@@ -150,6 +170,8 @@ export type ModelGroupShape = {
     dedicatedTransport?: boolean;
     //this shape is only available in these formation names:
     formationNames?: FormationName[];
+    //and in those formations, in this slot requirement type:
+    formationSlotRequirement?: SlotRequirementType;
     //mostly for 'Independent' sub parts of a detachment
     unitTraits?: UnitTrait[];
     //Knights have a special rule where every model in the unit is independent
@@ -296,7 +318,9 @@ export type UnitTrait =
     "Master Tactician" |
     "Medicae" |
     "Nechrotechnica" |
+    "Networked Anima" |
     "Nimble" |
+    "Noosphere Controller" |
     "Orbital Assault" |
     "Outflank" |
     "Remote Controlled Detonation" |
@@ -306,6 +330,7 @@ export type UnitTrait =
     "Solar Auxilia HQ (10)" |
     "Steadfast" |
     "Tracking Array" |
+    "Traitor" |
     "Transport (2)" |
     "Transport (4)"
 ;
@@ -344,7 +369,8 @@ export type Stats = {
     caf: number;
     morale?: number;
     wounds: number;
-    voidShields: number;
+    voidShields?: number;
+    constructShields?: number;
     tacticalStrength: number;
     unitTraits: UnitTrait[];
     modelLoadoutSlots: StatsModelLoadoutSlot[];

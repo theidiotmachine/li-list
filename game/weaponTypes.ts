@@ -25,7 +25,12 @@ export type WeaponType =
     "Deathstorm missile launcher" |
     "Demolisher cannon" |
     "Demolition charge" |
+    "Errax lascutters" |
+    "Errax meltagun" |
     "Executioner plasma cannon" |
+    "Exo-planar bombard" |
+    "Exo-planar cannon" |
+    "Exo-planar repeaters" |
     "Exterminator autocannon" |
     "Flamers" |
     "Gravis autocannon batteries" |
@@ -33,6 +38,7 @@ export type WeaponType =
     "Graviton hammers" |
     "Graviton singularity cannon" |
     "Graviton ram" |
+    "Harpax lascutters" |
     "Heavy bolter" |
     "Hekaton siege claw" |
     "Heavy stubber" |
@@ -61,6 +67,8 @@ export type WeaponType =
     "In-built twin-linked heavy bolters" |
     "Incineration charge" |
     "Ion gauntlet shield" |
+    "Irad-scourer" |
+    "Irradiation engine" |
     "Las-locks" |
     "Lascannon batteries" |
     "Lascannon sponson turrets" |
@@ -113,6 +121,8 @@ export type WeaponType =
     "Sabre missiles" |
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
+    "Scintillax lascutter" |
+    "Serperos lascutters" |
     "Shadowsword heavy bolter sponsons" |
     "Shock lance" |
     "Shock ram" |
@@ -122,7 +132,11 @@ export type WeaponType =
     "Sponson mounted laser destroyers" |
     "Sponson Mounted quad lascannon" |
     "Sponson Mounted twin-linked lascannon" |
+    "Stalker maxima bolters" |
     "Storm Eagle heavy bolter" |
+    "Storm laser" |
+    "Storm laser array" |
+    "Storm laser flenser" |
     "Stormsword heavy bolter sponsons" |
     "Stormsword siege cannon" |
     "Tarantula lascannon battery" |
@@ -148,6 +162,7 @@ export type WeaponType =
     "Volkite calvier sponsons" |
     "Volkite chargers" |
     "Volkite chieorovile" |
+    "Volkite culverins" |
     "Volkite incinerators" |
     "Volkite serpenta" |
     "Vultarax havoc launcher" |
@@ -165,6 +180,7 @@ export type WeaponTrait =
     "Blast (3\")" |
     "Bunker Buster" |
     "Burrowing" |
+    "Bypass" |
     "Co-axial" |
     "Collapsing Singularity" |
     "Deflagrate" |
@@ -186,6 +202,7 @@ export type WeaponTrait =
     "Saturation Fire" |
     "Shieldbane" |
     "Shock Pulse" |
+    "Shred" |
     "Skyfire" | 
     "Tracking" |
     "Wrecker (1)" |
@@ -218,6 +235,9 @@ export type WeaponArc =
     "Melee" |
     "Rear"
 ;
+
+export const hasWeaponTrait = (traits: WeaponTrait[], trait: WeaponTrait): boolean =>
+    traits.findIndex((t)=>t==trait) != -1
 
 export const weaponHasTrait = (wsar: WeaponStatsAtRange, trait: WeaponTrait): boolean => 
     wsar.traits.findIndex((t)=>t==trait) != -1

@@ -1,7 +1,7 @@
 import { getStatsForModelName } from "./lists.ts";
-import { SaveArc, ModelName, SaveType, Stats, statsHasTrait } from "./types.ts";
+import { SaveArc, ModelName, SaveType, Stats, statsHasTrait, statsHasTraitLike } from "./types.ts";
 import { getWeaponStats } from "./weapons.ts";
-import { weaponHasTrait, weaponHasTraitLike, WeaponStats, WeaponStatsAtRange, WeaponType } from "./weaponTypes.ts";
+import { hasWeaponTrait, weaponHasTrait, weaponHasTraitLike, WeaponStats, WeaponStatsAtRange, WeaponType } from "./weaponTypes.ts";
 
 type NamedWeaponStats = {
     weaponType: WeaponType;
@@ -116,14 +116,18 @@ function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | un
     ]};
 }
 
-//todo "Neutron-flux", "Armourbane", "Shred"
 function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: SaveArc): DamageResult | undefined {
-    let bestSave = 7;
-    let bestWounds = 1;
-    let bestSaveType: SaveType = "Armour";
+    const wsarTraits = structuredClone(wsar.traits);
+    if(hasWeaponTrait(wsarTraits, "Neutron-flux")) {
+        if(statsHasTraitLike(targetStats, "Cybernetica Cortex")) {
+            console.log("Neutron-flux against Cybernetica Cortex");
+            wsarTraits.push("Armourbane");
+            wsarTraits.push("Shred");
+        }
+    }
 
     //also bypasses void shields but we don't have that yet
-    if(weaponHasTrait(wsar, "Burrowing"))
+    if(hasWeaponTrait(wsarTraits, "Burrowing"))
         targetArc = "Rear";
 
     let armourSaveModifier = undefined;
@@ -152,13 +156,32 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Save
         targetSaves.push({save: 6, saveType: "Invuln", arc: "All"});
     }
     
+    const out: DamageResult = {
+        damageFraction: 0,
+        wounds: 0,
+        saveType: "Armour",
+    }
     const armourSave = targetSaves.find((s)=>s.saveType == "Armour" && (s.arc == "All" || s.arc == targetArc));
     if(armourSave != undefined) {
-        bestSave = armourSave.save;
-        
-        bestSave -= armourSaveModifier.modifier;
-        bestWounds = armourSaveModifier.wounds;
-        bestSaveType = "Armour";
+        let save = armourSave.save;
+        save -= armourSaveModifier.modifier;
+
+        out.damageFraction = 1-saveDiceTable[save];
+
+        if((hasWeaponTrait(wsarTraits, "Shred") && (targetStats.detachmentType == "Infantry" || targetStats.detachmentType == "Cavalry" || targetStats.detachmentType == "Walker"))
+            || (hasWeaponTrait(wsarTraits, "Armourbane") && (targetStats.detachmentType == "Vehicle" || targetStats.detachmentType == "Super-heavy vehicle" 
+                || targetStats.detachmentType == "Knight" || targetStats.detachmentType == "Titan"))) {
+            //reroll successes
+            console.log("Shred/Armourbane reroll");
+            console.log("Old damage fraction: " + out.damageFraction);
+            const saveFraction = 1-out.damageFraction;
+            const twoSaveFraction = saveFraction * saveFraction;
+            out.damageFraction = 1-twoSaveFraction;
+            console.log("New damage fraction: " + out.damageFraction);
+        }
+
+        out.wounds = armourSaveModifier.wounds;
+        out.saveType = "Armour";
     }
 
     const ionSave = targetSaves.find((s)=>s.saveType == "Ion Shield" && (s.arc == "All" || s.arc == targetArc));
@@ -166,35 +189,34 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Save
         const ionShieldModifier = wsar.ionShield;
         if(ionShieldModifier != undefined) {
             const finalIonSave = ionSave.save + ionShieldModifier?.modifier;
-            if(finalIonSave < bestSave) {
-                bestSave = finalIonSave;
-                bestWounds = ionShieldModifier.wounds;
-                bestSaveType = "Ion Shield";
+            const damageFraction = 1-saveDiceTable[finalIonSave];
+            if(damageFraction < out.damageFraction) {
+                out.damageFraction = damageFraction;
+                out.wounds = ionShieldModifier.wounds;
+                out.saveType = "Ion Shield";
             }
         }
     }
 
     const jinkSave = targetSaves.find((s)=>s.saveType == "Jink" && (s.arc == "All" || s.arc == targetArc));
     if(jinkSave != undefined) {
-        if(jinkSave.save < bestSave) {
-            bestSave = jinkSave.save;
-            bestSaveType = "Jink";
+        const damageFraction = 1-saveDiceTable[jinkSave.save];
+        if(damageFraction < out.damageFraction) {
+            out.damageFraction = damageFraction;
+            out.saveType = "Jink";
         }
     }
 
     const invulnSave = targetSaves.find((s)=>s.saveType == "Invuln" && (s.arc == "All" || s.arc == targetArc));
     if(invulnSave != undefined) {
-        if(invulnSave.save < bestSave) {
-            bestSave = invulnSave.save;
-            bestSaveType = "Invuln";
+        const damageFraction = 1-saveDiceTable[invulnSave.save];
+        if(damageFraction < out.damageFraction) {
+            out.damageFraction = damageFraction;
+            out.saveType = "Invuln";
         }
     }
 
-    return {
-        damageFraction: 1-saveDiceTable[bestSave],
-        wounds: bestWounds,
-        saveType: bestSaveType,
-    }
+    return out;
 }
 
 function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveArc, range: number): SingleShootResult | undefined {

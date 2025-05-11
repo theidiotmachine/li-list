@@ -240,6 +240,27 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Blast (3\")", "Demolisher"]
         }
     ]}],
+    ["Errax lascutters", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 4, dice: 1, hit: 4, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            structure: {modifier: -4, wounds: 1},
+            voidShields: 1,
+            traits: ["Anti-tank", "Bunker Buster"],
+        }
+    ]}],
+    ["Errax meltagun", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 1, hit: 4, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            traits: ["Anti-tank"], 
+        }
+    ]}],
     ["Executioner plasma cannon", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 2, hit: 4, 
             infAndCav: {modifier: -1, wounds: 1},
@@ -247,6 +268,29 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: 0, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT"]
+        }
+    ]}],
+    ["Exo-planar bombard", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 15, dice: 3, hit: 4, 
+            infAndCav:{modifier: -1, wounds: 1}, 
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Bypass", "Ignores Cover", "Shred"]
+        }
+    ]}],
+    ["Exo-planar cannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 10, dice: 2, hit: 4, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1}, 
+            traits: ["Ignores Cover", "Light", "Shred"]
+        }
+    ]}],
+    ["Exo-planar repeaters", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 10, dice: 1, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1}, 
+            traits: ["Light", "Shred"]
         }
     ]}],
     ["Exterminator autocannon", {arc: "All", weaponStatsAtRange: [
@@ -302,6 +346,17 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: -1, wounds: 1},
             voidShields: 1,
             traits: ["Armourbane", "Collapsing Singularity"]
+        }
+    ]}],
+    ["Harpax lascutters", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 4, dice: 1, hit: 5, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            structure: {modifier: -2, wounds: 1},
+            voidShields: 1,
+            traits: ["Anti-tank", "Bunker Buster"],
         }
     ]}],
     ["Heavy bolter", {arc: "All", weaponStatsAtRange: [
@@ -468,6 +523,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
         {minRange: 0, maxRange: 16, dice: 2, hit: 4, 
             infAndCav: {modifier: -2, wounds: 1},
             walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Ignores Cover"]
+        }
+    ]}],
+    ["Irradiation engine", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 10, dice: 3, hit: 4, 
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
             vShvKT: {modifier: 0, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT", "Ignores Cover"]
@@ -970,6 +1034,28 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light", "Point Defence"]
         }
     ]}],
+    ["Scintillax lascutter", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 4, dice: 1, hit: 3, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            structure: {modifier: -6, wounds: 1},
+            voidShields: 1,
+            traits: ["Anti-tank", "Bunker Buster"], 
+        }
+    ]}],
+    ["Serperos lascutters", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 4, dice: 1, hit: 2, 
+            infAndCav:{modifier: 0, wounds: 1}, 
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 2},
+            ionShield: {modifier: -1, wounds: 2},
+            structure: {modifier: -6, wounds: 1},
+            voidShields: 1,
+            traits: ["Anti-tank", "Bunker Buster", "Engine Killer (1)", "Rend"], 
+        }
+    ]}],
     ["Shadowsword heavy bolter sponsons", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 4, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -1037,11 +1123,53 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Accurate", "Anti-tank"], voidShields: 1
         },
     ]}],
+    ["Stalker maxima bolters", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 4, dice: 6, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Assault", "Light", "Point Defence"]
+        },
+        {minRange: 4, maxRange: 8, dice: 3, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Assault", "Light", "Point Defence"]
+        }
+    ]} ],
     ["Storm Eagle heavy bolter", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 3, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
             walker: {modifier: 0, wounds: 1},
             traits: ["Light", "Point Defence", "Skyfire"]
+        }
+    ]}],
+    ["Storm laser", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 15, dice: 3, hit: 5,
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            voidShields: 1,
+            traits: ["Light AT", "Rapid Fire", "Shieldbane"]
+        }
+    ]}],
+    ["Storm laser array", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 15, dice: 5, hit: 4,
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            voidShields: 1,
+            traits: ["Light AT", "Rapid Fire", "Shieldbane"]
+        }
+    ]}],
+    ["Storm laser flenser", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 3, hit: 4,
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            voidShields: 1,
+            traits: ["Light AT", "Shieldbane"]
         }
     ]}],
     ["Stormsword heavy bolter sponsons", {arc: "All", weaponStatsAtRange: [
@@ -1243,6 +1371,13 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             voidShields: 1,
             traits: ["Deflagrate", "Light AT", "Shieldbane"]},
+    ]}],
+    ["Volkite culverins", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 14, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Deflagrate", "Light"]
+        }
     ]}],
     ["Volkite incinerators", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 2, hit: 5,

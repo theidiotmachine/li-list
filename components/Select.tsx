@@ -153,7 +153,7 @@ export function Select(props: SelectProps) {
             ref={menu}
         > {
             props.children.map((s, i)=>{
-                return <div class={"px-1 select-none font-normal " + (((highlightedIndex != -1 && i == highlightedIndex) || (highlightedIndex == -1 && i==selectedIndex))?"bg-black text-white":"")} 
+                return <div class={"px-1 select-none font-normal " + (((highlightedIndex != -1 && i == highlightedIndex) || (highlightedIndex == -1 && i==selectedIndex))?"bg-gray-600 text-white":"")} 
                     key={s.props.value} 
                     onMouseOver={()=>{
                         setHighlightedIndex(i);
