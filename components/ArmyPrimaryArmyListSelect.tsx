@@ -22,14 +22,14 @@ export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps)
     options.push({optionText: "Questoris Familia", value: "Questoris Familia", text: "Questoris Familia"});
     options.push({optionText: "Solar Auxilia", value: "Solar Auxilia", text: "Solar Auxilia"});
 
-    return <Select 
+    return <Select<ArmyListName | "">
         class ="text-l md:text-xl w-full bg-right bg-white" onInput={(e) => {
-            changePrimaryArmyListName(e as ArmyListName)
+            changePrimaryArmyListName(e)
         }}
         disabled={!props.enabled}
     >
         {options.map((o)=>{
-            return <SelectOption 
+            return <SelectOption type="option"
                 selected={props.primaryArmyListName == o.value} optionText={o.optionText} value={o.value} key={o.value}>{o.text}
             </SelectOption>
         })}

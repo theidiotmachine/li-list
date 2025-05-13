@@ -13,7 +13,9 @@ export const DarkMechanicumFormationNames = [
     "Dark Taghma Sub-covenant",
     "Purge Protocol Cohort",
     "Swarm Protocol Cohort",
-    "Terror Protocol Cohort"
+    "Terror Protocol Cohort",
+    //support
+    "Ironbound Ruinhost",
 ] as const;
 export type DarkMechanicumFormationName = typeof DarkMechanicumFormationNames[number];
 
@@ -26,7 +28,10 @@ export type MechanicumSlot =
 ;
 
 export type DarkMechanicumSlot = 
-    "Errax"
+    "Errax" |
+    "Ironbound Ruinhost HQ" |
+    "Ironbound Ruinhost Support" |
+    "Ironbound Ruinhost Vanguard"
 ;
 
 export type MechanicumDetachmentName = 

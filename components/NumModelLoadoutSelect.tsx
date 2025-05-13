@@ -32,26 +32,15 @@ export function NumModelLoadoutSelect(props: NumModelLoadoutSelectProps) {
         }
     }
 
-    return <Select 
+    return <Select<string>
         class="w-8 md:w-10 bg-opacity-0 bg-white" 
         onInput={(e) => changeModelLoadoutGroupNumber(
             props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, parseNumber(e.toString(), "")
         )}>
         {options.map((x) => 
-            <SelectOption key={x.num} selected={props.number == x.num} 
+            <SelectOption type="option" key={x.num} selected={props.number == x.num} 
                 optionText={x.num.toString() + " - " + x.points + "pts"}
             >{x.num.toString()}</SelectOption>
         )}
     </Select>
-    /*
-    return <select 
-        class="w-8 md:w-10 appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white" 
-        onInput={(e) => changeModelLoadoutGroupNumber(
-            props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, parseNumber(e.currentTarget.value, "")
-        )}>
-        {options.map((x) => 
-            <option class="bg-opacity-0 bg-white" key={x} selected={props.number == x}>{x}</option>
-        )}
-    </select>
-    */
 }

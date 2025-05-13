@@ -7,10 +7,15 @@ export const LegionFormationNames = [
     "Legion Heavy Assault Spearhead",
     "Legion Sky-hunter Phalanx",
     "Legion Subterranean Assault",
+    "Brethren of Iron",
 ] as const;
 export type LegionFormationName = (typeof LegionFormationNames)[number];
 
-export type LegionFormationSlot = 
+export type LegionFormationSlot =
+    "Brethren of Iron Bastion" |
+    "Brethren of Iron Core" |
+    "Brethren of Iron Support" |
+    "Brethren of Iron Vanguard" |
     "Legion Heavy Assault Spearhead Support Compulsory" |
     "Legion Terminators" |
     "Sky-hunter Phalanx Vanguard Compulsory" //This just makes it easier. It can't have bikes

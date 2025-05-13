@@ -5,6 +5,8 @@ export const CollegiaTitanicaFormationNames = [
     "Lupercal Light Maniple",
     "Purgigatus Heavy Maniple",
     "Ruptura Battleline Maniple",
+    //support
+    "Collegia Titanica Support Cohorts",
 ] as const;
 export type CollegiaTitanicaFormationName = (typeof CollegiaTitanicaFormationNames)[number];
 
@@ -13,6 +15,9 @@ export const QuestorisFamiliaFormationNames = [
     "Bastion Lance",
     "Bonded Household Lance",
     "Vanguard Lance",
+    //support
+    "Knight Household Aegis Cohorts",
+    "Knight Household Retainer Cohorts",
 ] as const;
 export type QuestorisFamiliaFormationName = (typeof QuestorisFamiliaFormationNames)[number];
 
@@ -23,6 +28,9 @@ export const StrategicAssetFormationNames = [
 export type StrategicAssetFormationName = (typeof StrategicAssetFormationNames)[number];
 
 export type CollegiaTitanicaFormationSlot = 
+    "Collegia Titanica Support Cohorts Bastion" |
+    "Collegia Titanica Support Cohorts Core" |
+    "Collegia Titanica Support Cohorts Support" |
     "Dire Wolf" |
     "Reaver" |
     "Warbringer" |
@@ -35,9 +43,12 @@ export type QuestorisFamiliaFormationSlot =
     "Acastus" |
     "Armiger" |
     "Cerastus" |
-    "Questoris" |
+    "Knight Household Aegis Cohorts Bastion" |
+    "Knight Household Aegis Cohorts Support" |
+    "Knight Household Retainer Cohorts Vanguard" |
     "Moirax" |
-    "Mechanicum Questoris"
+    "Mechanicum Questoris" |
+    "Questoris"
 ;
 
 export type StrategicAssetDetachmentName = 

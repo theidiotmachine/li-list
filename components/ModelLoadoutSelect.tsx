@@ -25,15 +25,16 @@ export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
         
     const slot = modelOptions.modelLoadoutSlots.find((s)=>s.name == props.modelLoadoutSlotName);
     if(slot === undefined) return <div>No model loadout</div>
-    return <Select class="w-full bg-white bg-opacity-0" onInput={
+    return <Select<string> class="w-full bg-white bg-opacity-0" onInput={
         (e)=> changeModelLoadout(
-            props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotName, e as string
+            props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotName, e
         )
     }
     >
-        {slot.possibleModelLoadouts.map((x,i)=>
-            <SelectOption key={x.loadout} selected={props.loadout.loadout == x.loadout} 
+        {slot.possibleModelLoadouts.map((x)=>
+            <SelectOption type="option" key={x.loadout} selected={props.loadout.loadout == x.loadout} 
                 optionText={x.loadout + " - " + x.points + "pts"}
+                value={x.loadout}
                 >{x.loadout}</SelectOption>
         )} 
     </Select>

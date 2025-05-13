@@ -1,3 +1,5 @@
+import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
+import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
 import { CollegiaTitanicaFormationName, QuestorisFamiliaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelName } from "./strategicAssetTypes.ts";
 import { Allegiance, Detachment, DetachmentConfiguration, DetachmentValidationState, FormationShape, FormationSlot, Stats } from "./types.ts";
 
@@ -46,6 +48,35 @@ const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, F
         {slot: "Reaver", slotRequirementType: "Optional"},
         {slot: "Reaver", slotRequirementType: "Optional"},
         {slot: "Knight", slotRequirementType: "Optional"},
+    ]}],
+    ["Collegia Titanica Support Cohorts", {formationType: "Support", slotRequirements: [
+        {slot: "Titan", slotRequirementType: "Required"},
+        {slot: "Collegia Titanica Support Cohorts Support", slotRequirementType: "Required",
+            displayName: "Support"
+        },
+        {slot: "Collegia Titanica Support Cohorts Support", slotRequirementType: "Required",
+            displayName: "Support"
+        },
+        {slot: "Collegia Titanica Support Cohorts Core", slotRequirementType: "Optional",
+            displayName: "Core"
+        },
+        {slot: "Collegia Titanica Support Cohorts Core", slotRequirementType: "Optional",
+            displayName: "Core"
+        },
+        {slot: "Titan", slotRequirementType: "Optional"},
+        {slot: "Titan", slotRequirementType: "Optional"},
+        {slot: "Collegia Titanica Support Cohorts Support", slotRequirementType: "One Of Group",
+            displayName: "Support", oneOfGroup: 1, oneOfGroupGroup: 1,
+        },
+        {slot: "Collegia Titanica Support Cohorts Support", slotRequirementType: "One Of Group",
+            displayName: "Support", oneOfGroup: 1, oneOfGroupGroup: 1,
+        },
+        {slot: "Collegia Titanica Support Cohorts Bastion", slotRequirementType: "One Of Group",
+            displayName: "Bastion", oneOfGroup: 1, oneOfGroupGroup: 2,
+        },
+        {slot: "Collegia Titanica Support Cohorts Bastion", slotRequirementType: "One Of Group",
+            displayName: "Bastion", oneOfGroup: 1, oneOfGroupGroup: 2,
+        },
     ]}]
 ]);
 
@@ -76,14 +107,59 @@ const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, F
         {slot: "Moirax", slotRequirementType: "Optional", displayName: "Armiger"},
     ]}],
     ["Vanguard Lance", {slotRequirements: [
-        {   slot: "Cerastus",      slotRequirementType: "Required" },
-        {   slot: "Cerastus",      slotRequirementType: "Required" },
-        {   slot: "Armiger",       slotRequirementType: "Required" },
-        {   slot: "Questoris",     slotRequirementType: "Optional" },
-        {   slot: "Questoris",     slotRequirementType: "Optional" },
-        {   slot: "Armiger",       slotRequirementType: "Optional" },
-        {   slot: "Armiger",       slotRequirementType: "Optional" },
+        {slot: "Cerastus", slotRequirementType: "Required"},
+        {slot: "Cerastus", slotRequirementType: "Required"},
+        {slot: "Armiger", slotRequirementType: "Required"},
+        {slot: "Questoris", slotRequirementType: "Optional"},
+        {slot: "Questoris", slotRequirementType: "Optional"},
+        {slot: "Armiger", slotRequirementType: "Optional"},
+        {slot: "Armiger", slotRequirementType: "Optional"},
     ]}],
+    //support
+    ["Knight Household Retainer Cohorts", {formationType: "Support", slotRequirements: [
+        {slot: "Knight", slotRequirementType: "Required"},
+        {slot: "Knight Household Retainer Cohorts Vanguard", slotRequirementType: "Required",
+            displayName: "Vanguard"
+        },
+        {slot: "Knight Household Retainer Cohorts Vanguard", slotRequirementType: "Required",
+            displayName: "Vanguard"
+        },
+        {slot: "Knight", slotRequirementType: "Optional"},
+        {slot: "Knight", slotRequirementType: "Optional"},
+        {slot: "Armiger", slotRequirementType: "Optional"},
+        {slot: "Armiger", slotRequirementType: "Optional"},
+        {slot: "Knight Household Retainer Cohorts Vanguard", slotRequirementType: "Optional",
+            displayName: "Vanguard"
+        },
+        {slot: "Knight Household Retainer Cohorts Vanguard", slotRequirementType: "Optional",
+            displayName: "Vanguard"
+        },
+        {slot: "Knight Household Retainer Cohorts Vanguard", slotRequirementType: "Optional",
+            displayName: "Vanguard"
+        },
+    ]}],
+    ["Knight Household Aegis Cohorts", {formationType: "Support", slotRequirements: [
+        {slot: "Knight", slotRequirementType: "Required"},
+        {slot: "Knight Household Aegis Cohorts Support", slotRequirementType: "Required",
+            displayName: "Support"
+        },
+        {slot: "Knight Household Aegis Cohorts Support", slotRequirementType: "Required",
+            displayName: "Support"
+        },
+        {slot: "Knight", slotRequirementType: "Optional"},
+        {slot: "Knight Household Aegis Cohorts Support", slotRequirementType: "Optional",
+            displayName: "Support"
+        },
+        {slot: "Knight Household Aegis Cohorts Support", slotRequirementType: "Optional",
+            displayName: "Support"
+        },
+        {slot: "Knight Household Aegis Cohorts Bastion", slotRequirementType: "Optional",
+            displayName: "Bastion"
+        },
+        {slot: "Knight Household Aegis Cohorts Bastion", slotRequirementType: "Optional",
+            displayName: "Bastion"
+        },
+    ]}]
 ]);
 
 const strategicAssetFormationShapes = new Map<StrategicAssetFormationName, FormationShape>([
@@ -111,11 +187,23 @@ export function getShapeForStrategicAssetFormationName(formationType: StrategicA
 }
 
 type DetachmentNameData = {
-    detachmentName: StrategicAssetDetachmentName;
+    detachmentName: StrategicAssetDetachmentName|MechanicumDetachmentName;
     allegiance?: Allegiance;
 }
 
 const collegiaTitanicaDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
+    ["Collegia Titanica Support Cohorts Bastion", [
+        {detachmentName: "Thanatar Siege-automata Maniple"},
+    ]],
+    ["Collegia Titanica Support Cohorts Core", [
+        {detachmentName: "Adsecularis Tech-Thrall Covenant"},
+        {detachmentName: "Thallax Cohort"},
+    ]],
+    ["Collegia Titanica Support Cohorts Support", [
+        {detachmentName: "Arlatax Battle-automata Maniple"},
+        {detachmentName: "Castellax Battle-automata Maniple"},
+        {detachmentName: "Domitar Battle-automata Maniple"},
+    ]],
     ["Dire Wolf",[
         {detachmentName: "Dire Wolf Heavy Scout Titan"},
     ]],
@@ -126,6 +214,16 @@ const collegiaTitanicaDetachmentNamesForSlot = new Map<FormationSlot, Detachment
     ]],
     ["Reaver", [
         {detachmentName: "Reaver Battle Titan"},
+    ]],
+    ["Titan", [
+        {detachmentName: "Dire Wolf Heavy Scout Titan"},
+        {detachmentName: "Reaver Battle Titan"},
+        {detachmentName: "Warhound Hunting Pack"},
+        {detachmentName: "Warbringer Nemesis Titan"},
+        {detachmentName: "Warlord Battle Titan"},
+        {detachmentName: "Warlord-Sinister Battle Titan", allegiance: "Loyalist"},
+        {detachmentName: "Warmaster Heavy Battle Titan"},
+        {detachmentName: "Warmaster Iconoclast Titan"},
     ]],
     ["Warbringer", [
         {detachmentName: "Warbringer Nemesis Titan"},
@@ -139,7 +237,8 @@ const collegiaTitanicaDetachmentNamesForSlot = new Map<FormationSlot, Detachment
     ["Warmaster", [
         {detachmentName: "Warmaster Heavy Battle Titan"},
         {detachmentName: "Warmaster Iconoclast Titan"},
-    ]]
+    ]],
+    
 ]);
 
 const questorisFamiliaDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
@@ -152,15 +251,32 @@ const questorisFamiliaDetachmentNamesForSlot = new Map<FormationSlot, Detachment
     ["Cerastus", [
         {detachmentName: "Cerastus Knight Banner"},
     ]],
-    ["Questoris", [
+    ["Knight", [ 
+        {detachmentName: "Acastus Knight Banner"},
+        {detachmentName: "Cerastus Knight Banner"},
         {detachmentName: "Questoris Knight Banner"},
+    ]],
+    ["Knight Household Aegis Cohorts Bastion", [
+        {detachmentName: "Thanatar Siege-automata Maniple"},
+    ]],
+    ["Knight Household Aegis Cohorts Support", [
+        {detachmentName: "Arlatax Battle-automata Maniple"},
+        {detachmentName: "Castellax Battle-automata Maniple"},
+        {detachmentName: "Domitar Battle-automata Maniple"},
+    ]],
+    ["Knight Household Retainer Cohorts Vanguard", [
+        {detachmentName: "Vorax Battle-automata Maniple"},
+        {detachmentName: "Vultarax Battle-automata Squadron"}
     ]],
     ["Mechanicum Questoris", [
         {detachmentName: "Bonded Questoris Knight Banner"},
     ]],
     ["Moirax", [
         {detachmentName: "Moirax Knight Banner"},
-    ]]
+    ]],
+    ["Questoris", [
+        {detachmentName: "Questoris Knight Banner"},
+    ]],
 ]);
 
 const strategicAssetDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNameData[]>([
@@ -181,15 +297,15 @@ const strategicAssetDetachmentNamesForSlot = new Map<FormationSlot, DetachmentNa
     ]]
 ]);
 
-export function getCollegiaTitanicaDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
+export function getCollegiaTitanicaDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): (MechanicumDetachmentName|StrategicAssetDetachmentName)[] {
     return (collegiaTitanicaDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
 }
 
-export function getQuestorisFamiliaDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
+export function getQuestorisFamiliaDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): (MechanicumDetachmentName|StrategicAssetDetachmentName)[] {
     return (questorisFamiliaDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
 }
 
-export function getStrategicAssetDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): StrategicAssetDetachmentName[] {
+export function getStrategicAssetDetachmentNamesForSlot(slot: FormationSlot, allegiance: Allegiance | ""): (MechanicumDetachmentName|StrategicAssetDetachmentName)[] {
     return (strategicAssetDetachmentNamesForSlot.get(slot) ?? []).filter((t)=>t.allegiance == undefined || t.allegiance == allegiance).map((t)=>t.detachmentName);
 }
 
@@ -730,7 +846,9 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
 ]);
 
 export function getStrategicAssetDetachmentConfigurationForDetachmentName(detachmentName: StrategicAssetDetachmentName): DetachmentConfiguration {
-    return detachmentConfigurationForDetachmentName.get(detachmentName) ?? {modelGroupShapes: []}
+    return detachmentConfigurationForDetachmentName.get(detachmentName) 
+        ?? getMechanicumDetachmentConfigurationForDetachmentName(detachmentName)
+        ?? {modelGroupShapes: []}
 }
 const statsForModelType = new Map<StrategicAssetModelName, Stats>([
     ["Acastus Knight Asterius", {

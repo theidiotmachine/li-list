@@ -31,10 +31,12 @@ export function FormationArmyListSelect(props: FormationArmyListSelectProps) {
     options.push({value: "Solar Auxilia", text: "Solar Auxilia"});
     options.push({value: "Strategic Asset", text: "Strategic Asset"});
 
-    return <Select class ="font-medium text-lg md:text-xl w-full bg-gray-100 border-b-2 border-gray-400" 
-    onInput={(e) => changeFormationArmyList(props.uuid, e as ArmyListName)}>
+    return <Select<ArmyListName | ""> class ="font-medium text-lg md:text-xl w-full bg-gray-100 border-b-2 border-gray-400" 
+    onInput={(e) => changeFormationArmyList(props.uuid, e)}>
         {options.map((s)=>{
-            return <SelectOption key={s.value} value={s.value} optionText={s.optionText} selected={formationArmyListName==s.value}>{s.text}</SelectOption>
+            return <SelectOption 
+                type="option" key={s.value} value={s.value} optionText={s.optionText} selected={formationArmyListName==s.value}
+            >{s.text}</SelectOption>
         })}
     </Select>
 }

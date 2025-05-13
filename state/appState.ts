@@ -4,7 +4,6 @@ import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot,
 import { _common } from "$std/path/_common/common.ts";
 import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "../storage/storage.ts";
 import { LegionName } from "../game/legionTypes.ts";
-import { triggerAsyncId } from "node:async_hooks";
 
 export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
@@ -959,8 +958,8 @@ function createAppState(): AppStateType {
             //fill in anything which we have no options on
             if(s.slotRequirementType == "Required" && newFormation.armyListName != "") {
                 const dtfs = getDetachmentNamesForSlot(newFormation.armyListName, s.slot, army.value.allegiance);
-                const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, dtfs[0]);
                 if(dtfs.length == 1 && newFormation.formationName != "") {
+                    const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, dtfs[0]);
                     const out: Detachment = {
                         slot: s.slot, modelGroups: getDefaultModelGroupsForDetachment(config, newFormation.formationName), 
                         points: 0, detachmentName: dtfs[0], validationState: {valid: true}

@@ -1,8 +1,8 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { Formation, FormationName } from "../game/types.ts";
-import { getFormationTypesForArmyListName } from "../game/lists.ts";
-import { Select, SelectOption } from "./Select.tsx";
+import { getFormationNamesForArmyListName, getShapeForFormationName } from "../game/lists.ts";
+import { Select, SelectOptGroup, SelectOption } from "./Select.tsx";
 
 interface FormationTypeSelectProps {
     uuid: string;
@@ -19,12 +19,37 @@ export function FormationTypeSelect(props: FormationTypeSelectProps) {
         {formationType}
     </div>;
 
-    let formationTypes: (FormationName | "")[] = [""];
-    formationTypes = formationTypes.concat(getFormationTypesForArmyListName(formation?.armyListName ?? ""));
 
+    //let formationNames: (FormationName | "")[] = [""];
+    const formationNames = getFormationNamesForArmyListName(formation?.armyListName ?? "");
+
+    const formationGroups: {label: string, formationNames: (FormationName | "")[]}[] = [
+        {label: "", formationNames: [""]},
+        {label: "Normal", formationNames: []},
+        {label: "Support", formationNames: []}
+    ];
+
+
+    for(const formationName of formationNames) {
+        const shape = getShapeForFormationName(formation?.armyListName ?? "", formationName as FormationName);
+        if(shape.formationType === undefined || shape.formationType==="Normal")
+            formationGroups[1].formationNames.push(formationName)
+        else
+            formationGroups[2].formationNames.push(formationName)
+    }
+    
     return <Select 
         class="w-full md:font-medium md:text-xl appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right md:bg-gray-100 md:border-b-2 border-gray-400 bg-white" 
         onInput={(e) => changeFormationName(props.uuid, e as FormationName)}>
-        {formationTypes.map((f, i)=><SelectOption key={f} optionText={f} selected={formationType == f}>{(f=="")?"Choose Formation Name":f}</SelectOption>)}
+        {
+            //formationNames.map((f)=><SelectOption type="option" key={f} optionText={f} selected={formationType == f}>{(f=="")?"Choose Formation Name":f}</SelectOption>)
+            formationGroups.map((fg)=>{
+                return <SelectOptGroup type="optionGroup" label={fg.label} key={fg.label}>{
+                    fg.formationNames.map((f)=>{
+                        return <SelectOption type="option" key={f} optionText={f} selected={formationType == f}>{(f=="")?"Choose Formation Name":f}</SelectOption>
+                    })
+                }</SelectOptGroup>
+            })
+        }
     </Select>
 }

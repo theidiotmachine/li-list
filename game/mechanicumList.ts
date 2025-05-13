@@ -428,6 +428,43 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
             },
         ]
     }],
+    //support. RAW. this is unplayable because nothing goes into the HQ slot.
+    ["Ironbound Ruinhost", {
+        formationType: "Support",
+        slotRequirements: [
+            {slot: "Ironbound Ruinhost HQ", displayName: "HQ", 
+                slotRequirementType: "Required"},
+            {slot: "Ironbound Ruinhost Support",               
+                displayName: "Support", slotRequirementType: "Required"
+            },
+            {slot: "Ironbound Ruinhost Support",               
+                displayName: "Support", slotRequirementType: "Required"
+            },
+            {slot: "Ironbound Ruinhost Support",               
+                displayName: "Support", slotRequirementType: "Optional"
+            },
+            {slot: "Ironbound Ruinhost Support",               
+                displayName: "Support", slotRequirementType: "Optional"
+            },
+            {slot: "Ironbound Ruinhost Vanguard", 
+                displayName: "Vanguard", slotRequirementType: "Optional"},
+            {slot: "Bastion", slotRequirementType: "Optional"},
+            {slot: "Ironbound Ruinhost Support",               
+                displayName: "Support", slotRequirementType: "One Of Group",
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Ironbound Ruinhost Support",               
+                displayName: "Support", slotRequirementType: "One Of Group",
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Ironbound Ruinhost Vanguard", slotRequirementType: "One Of Group",
+                displayName: "Vanguard", oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Ironbound Ruinhost Vanguard", slotRequirementType: "One Of Group",
+                displayName: "Vanguard", oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+        ]
+    }]
 ]);
 
 export function getShapeForDarkMechanicumFormationName(formationName: DarkMechanicumFormationName | ""): FormationShape {
@@ -507,6 +544,16 @@ const darkMechDetachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachm
         "Archmagos Prime", 
         "Archmagos Prime on Abeyant",
         "Scintillax 'Cyclops' Noospheric Stalker Network",
+    ]],
+    ["Ironbound Ruinhost HQ", []],
+    ["Ironbound Ruinhost Support", [
+        "Arlatax Battle-automata Maniple",
+        "Castellax Battle-automata Maniple",
+        "Domitar Battle-automata Maniple",
+    ]],
+    ["Ironbound Ruinhost Vanguard", [
+        "Vorax Battle-automata Maniple",
+        "Vultarax Battle-automata Squadron"
     ]],
     ["Light Armour", ["Tenebrax 'Archer' Battle Stalker Cohort"]],
     ["Support", [
@@ -734,7 +781,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     ]}],
 ]);
 
-export function getMechanicumDetachmentConfigurationForDetachmentName(detachmentName: MechanicumDetachmentName|StrategicAssetDetachmentName): DetachmentConfiguration {
+export function getMechanicumDetachmentConfigurationForDetachmentName(detachmentName: DetachmentName): DetachmentConfiguration {
     return detachmentConfigurationForDetachmentName.get(detachmentName) 
         ?? getStrategicAssetDetachmentConfigurationForDetachmentName(detachmentName as StrategicAssetDetachmentName) 
         ?? {modelGroupShapes: []}

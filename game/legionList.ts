@@ -1,4 +1,6 @@
 import { LegionDetachmentName, LegionFormationName, LegionModelName } from "./legionTypes.ts";
+import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
+import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
 import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment } from "./types.ts";
 
 const formationShapes = new Map<LegionFormationName, FormationShape>([
@@ -108,7 +110,44 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Support",        slotRequirementType: "Optional"                 },
         {   slot: "Core",           slotRequirementType: "Optional"                 },
         {   slot: "Core",           slotRequirementType: "Optional"                 },
-    ]}]
+    ]}],
+    //supplement
+    ["Brethren of Iron", {
+        formationType: "Support",
+        slotRequirements: [
+            {slot: "HQ",            slotRequirementType: "Required"                 },
+            {slot: "Brethren of Iron Core", displayName: "Core",
+                slotRequirementType: "Required"
+            },
+            {slot: "Brethren of Iron Core", displayName: "Core",
+                slotRequirementType: "Required"
+            },
+            {slot: "Brethren of Iron Core", displayName: "Core",
+                slotRequirementType: "Optional"
+            },
+            {slot: "Brethren of Iron Bastion", displayName: "Core",
+                slotRequirementType: "Optional"
+            },
+            {slot: "Brethren of Iron Support", displayName: "Support",
+                slotRequirementType: "Optional"
+            },
+            {slot: "Brethren of Iron Support", displayName: "Support",
+                slotRequirementType: "Optional"
+            },
+            {slot: "Brethren of Iron Support",  displayName: "Support",
+                slotRequirementType: "One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Brethren of Iron Vanguard", displayName: "Vanguard",
+                slotRequirementType: "One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Brethren of Iron Vanguard", displayName: "Vanguard",
+                slotRequirementType: "One Of Group", 
+                oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+        ]
+    }],
 ])
 
 export function getShapeForLegionFormationName(formationName: LegionFormationName | ""): FormationShape {
@@ -116,18 +155,18 @@ export function getShapeForLegionFormationName(formationName: LegionFormationNam
     return formationShapes.get(formationName) ?? { slotRequirements: [] };
 }
 
-const detachmentNamesForSlot = new Map<FormationSlot, LegionDetachmentName[]>([
-    [ "Air Support", [
+const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|MechanicumDetachmentName)[]>([
+    ["Air Support", [
         "Legion Fire Raptor Squadron",
         "Legion Storm Eagle Squadron",
         "Legion Thunderhawk Gunship",
         "Legion Xiphon Interceptor Squadron",
-    ] ],
-    [ "Artillery", [] ], 
-    [ "Bastion", [
+    ]],
+    ["Artillery", []], 
+    ["Bastion", [
         "Legion Deredeo Dreadnought Detachment",
         "Legion Tarantula Battery",
-    ] ],
+    ]],
     ["Battle Tank", [
         "Legion Predator Commander",
         "Legion Predator Squadron",
@@ -135,6 +174,17 @@ const detachmentNamesForSlot = new Map<FormationSlot, LegionDetachmentName[]>([
         "Legion Sicaran Commander",
         "Legion Sicaran Punisher Squadron",
         "Legion Sicaran Squadron",
+    ]],
+    ["Brethren of Iron Bastion", ["Thanatar Siege-automata Maniple"]],
+    ["Brethren of Iron Core", ["Legion Tactical Detachment", "Thallax Cohort"]],
+    ["Brethren of Iron Support", [
+        "Arlatax Battle-automata Maniple",
+        "Castellax Battle-automata Maniple",
+        "Domitar Battle-automata Maniple",
+    ]],
+    ["Brethren of Iron Vanguard", [
+        "Vorax Battle-automata Maniple",
+        "Vultarax Battle-automata Squadron"
     ]],
     ["Core", ["Legion Tactical Detachment"]],  
     ["Heavy Armour", [
@@ -185,7 +235,7 @@ const detachmentNamesForSlot = new Map<FormationSlot, LegionDetachmentName[]>([
     ] ]
 ]);
 
-export function getLegionDetachmentNamesForSlot(slot: FormationSlot): LegionDetachmentName[] {
+export function getLegionDetachmentNamesForSlot(slot: FormationSlot): (LegionDetachmentName|MechanicumDetachmentName)[] {
     return detachmentNamesForSlot.get(slot) ?? [];
 }
 
@@ -791,7 +841,9 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
 ]);
 
 export function getLegionDetachmentConfigurationForDetachmentName(detachmentName: DetachmentName): DetachmentConfiguration {
-    return detachmentConfigurationForDetachmentName.get(detachmentName) ?? {modelGroupShapes: []}
+    return detachmentConfigurationForDetachmentName.get(detachmentName) 
+        ?? getMechanicumDetachmentConfigurationForDetachmentName(detachmentName)
+        ?? {modelGroupShapes: []}
 }
 
 const statsForModelType = new Map<LegionModelName, Stats>([

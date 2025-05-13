@@ -9,7 +9,7 @@ import { AllStrategicAssetModelNames, CollegiaTitanicaFormationName, CollegiaTit
 import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelName, Stats } from "./types.ts";
 
 
-const formationTypesForArmyListName: Map<ArmyListName, FormationName[]> = new Map([
+const formationNamesForArmyListName: Map<ArmyListName, FormationName[]> = new Map([
     //yes this is bad, but whatever
     ["Collegia Titanica", CollegiaTitanicaFormationNames as unknown as FormationName[]], 
     ["Dark Mechanicum", DarkMechanicumFormationNames as unknown as FormationName[]],
@@ -20,10 +20,10 @@ const formationTypesForArmyListName: Map<ArmyListName, FormationName[]> = new Ma
     ["Strategic Asset", StrategicAssetFormationNames as unknown as FormationName[]],
 ]);
 
-export function getFormationTypesForArmyListName(armyListName: ArmyListName | "") {
+export function getFormationNamesForArmyListName(armyListName: ArmyListName | "") {
     if(armyListName === "")
         return [];
-    return formationTypesForArmyListName.get(armyListName) ?? [];
+    return formationNamesForArmyListName.get(armyListName) ?? [];
 }
 
 export function getShapeForFormationName(armyListName: ArmyListName | "", formationName: FormationName | ""): FormationShape {

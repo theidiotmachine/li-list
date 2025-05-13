@@ -2,35 +2,54 @@ import { useEffect, useId, useState } from "preact/hooks";
 import { createRef } from "preact";
 import { VNode } from "preact/src/index.d.ts";
 
-export type SelectOptionProps = {
+export type SelectOptionProps<T> = {
+    type: "option";
     optionText?: string;
-    value?: string | number;
+    value?: T;
     children: string;
     selected?: boolean;
 }
 
-export type SelectProps = {
-    class?: string;
-    disabled?: boolean;
-    onInput: (value: string|number) => void;
-    children: VNode<SelectOptionProps>[]
+export type SelectOptGroupProps<T> = {
+    type: "optionGroup";
+    label: string;
+    children: VNode<SelectOptionProps<T>>[]
 };
 
-export function SelectOption(props: SelectOptionProps) {
+export type SelectProps<T> = {
+    class?: string;
+    disabled?: boolean;
+    onInput: (value: T) => void;
+    children: VNode<SelectOptionProps<T> | SelectOptGroupProps<T>>[]
+};
+
+export function SelectOption<T>(props: SelectOptionProps<T>) {
     return <div>{props.optionText ?? props.children}</div>
 }
 
-export function Select(props: SelectProps) {
+export function SelectOptGroup<T>(props: SelectOptGroupProps<T>) {
+    return <div>{props.label ?? props.children}</div>
+}
+
+export function Select<T>(props: SelectProps<T>) {
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [highlightedIndex, setHighlightedIndex] = useState(-1);
     const anchorId = useId();
 
-    const choices = props.children;
+    const flattenedChoices: ((SelectOptionProps<T>&{depth: number}) | (SelectOptGroupProps<T>&{depth: number}))[] = [];
+    for(const choice of props.children) {
+        if(choice.props.type == "option") {
+            flattenedChoices.push({...choice.props, depth: 0});
+        } else if(choice.props.type == "optionGroup") {
+            flattenedChoices.push({...choice.props, depth: 0});
+            for(const subChoice of choice.props.children) {
+                flattenedChoices.push({...subChoice.props, depth: 1});
+            }
+        }
+    }
 
     useEffect(()=>{
-        const thisSelectedIndex = choices.findIndex((s)=>s.props.selected);
-        //console.log(thisSelectedIndex);
-        //console.log(choices[thisSelectedIndex])
+        const thisSelectedIndex = flattenedChoices.findIndex((s)=>s.type == "option" && s.selected == true);
         setSelectedIndex(thisSelectedIndex);
     }
     , [props.children]);
@@ -39,9 +58,13 @@ export function Select(props: SelectProps) {
     const main = createRef();
 
     const callBack = (selectedIndex: number) => {
-        const choice = choices[selectedIndex]; 
-        const value = choice?.props.value??choice?.props.children??"";
-        props.onInput(value);
+        const choice = flattenedChoices[selectedIndex]; 
+        if(choice == undefined)
+            return;
+        if(choice.type == "option") {
+            const value = choice?.value??choice?.children??"";
+            props.onInput(value as T);
+        }
     }
 
     const open = () => {
@@ -59,12 +82,6 @@ export function Select(props: SelectProps) {
             menu.current.style.bottom = "";
             menu.current.style.top = "anchor(bottom)";
         }
-
-
-        //that means above
-        //bottom:anchor(top)
-        //that means below
-        //top: anchor(bottom)
     }
 
     const close = () => {
@@ -72,7 +89,6 @@ export function Select(props: SelectProps) {
             menu.current.classList.add("hidden");
             menu.current.classList.remove("flex");
         }
-        
     }
 
     const toggle = () =>{
@@ -106,21 +122,39 @@ export function Select(props: SelectProps) {
                     open();
                     break;
                 case "ArrowDown": {
-                    const newSI = (selectedIndex + 1) % choices.length;
-                    setSelectedIndex(newSI);
-                    setHighlightedIndex(-1);
-                    if(menu.current.classList.contains("hidden"))
-                        callBack(newSI);
+                    let newSI = selectedIndex + 1;
+                    while(newSI != selectedIndex) {
+                        if(newSI >= flattenedChoices.length)
+                            newSI = 0;
+                        else if(flattenedChoices[newSI].type == "optionGroup")
+                            newSI += 1;
+                        else
+                            break;
+                    }
+                    if(selectedIndex != newSI) {
+                        setSelectedIndex(newSI);
+                        setHighlightedIndex(-1);
+                        if(menu.current.classList.contains("hidden"))
+                            callBack(newSI);
+                    }
                     break;
                 }
                 case "ArrowUp": {
                     let newSI = selectedIndex - 1;
-                    if(newSI < 0)
-                        newSI = choices.length - 1;
-                    setSelectedIndex(newSI);
-                    setHighlightedIndex(-1);
-                    if (menu.current.classList.contains("hidden"))
-                        callBack(newSI);
+                    while(newSI != selectedIndex) {
+                        if(newSI < 0) {
+                            newSI = flattenedChoices.length - 1;
+                        } else if(flattenedChoices[newSI].type == "optionGroup")
+                            newSI -= 1;
+                        else
+                            break;
+                    }
+                    if(selectedIndex != newSI) {
+                        setSelectedIndex(newSI);
+                        setHighlightedIndex(-1);
+                        if (menu.current.classList.contains("hidden"))
+                            callBack(newSI);
+                    }
                     break;
                 }
                     
@@ -143,25 +177,49 @@ export function Select(props: SelectProps) {
         >
             
         <div onClick={toggle} class="flex" style={"anchor-name:--" + anchorId }>
-            <div class="flex-grow select-none">{((choices[selectedIndex]?.props.children??"") == "")?(<br/>):(choices[selectedIndex]?.props.children)}</div>
+            <div class="flex-grow select-none">{
+                ((flattenedChoices[selectedIndex]?.children??"") == "")?(<br/>):(flattenedChoices[selectedIndex]?.children)
+            }</div>
             <img class ={(props.disabled)?"hidden":""} src="/dropdownarrow-clean.svg"></img>
         </div>
-
         
         <div class="absolute z-100 hidden flex-col bg-gray-50 border-black border-[1px] max-h-56 overflow-y-auto" 
             style={"position-anchor:--" + anchorId + "; "} 
             ref={menu}
         > {
-            props.children.map((s, i)=>{
-                return <div class={"px-1 select-none font-normal " + (((highlightedIndex != -1 && i == highlightedIndex) || (highlightedIndex == -1 && i==selectedIndex))?"bg-gray-600 text-white":"")} 
-                    key={s.props.value} 
-                    onMouseOver={()=>{
-                        setHighlightedIndex(i);
-                    }}
-                    onClick={(e)=>{
-                        close();
-                        callBack(i)
-                }}>{(s.props.optionText==undefined) ? s.props.children:((s.props.optionText == ""?(<br/>):s.props.optionText))}</div>
+            flattenedChoices.map((s, i)=> {
+                if(s.type == "option") {
+                    let text = "";
+                    if(s.depth > 0)
+                        text += '\u00A0'
+                    if(s.optionText == undefined) {
+                        text += s.children
+                    } else if(s.optionText == ""){
+                        text += '\u00A0'
+                    } else {
+                        text += s.optionText;
+                    }
+                    return <div 
+                        class={
+                            "px-1 select-none font-normal " 
+                                + (
+                                    ((highlightedIndex != -1 && i == highlightedIndex) || (highlightedIndex == -1 && i==selectedIndex))
+                                        ?"bg-gray-600 text-white"
+                                        :""
+                                )
+                        } 
+                        key={s.value} 
+                        onMouseOver={()=>{
+                            setHighlightedIndex(i);
+                        }}
+                        onClick={()=>{
+                            close();
+                            callBack(i)
+                        }
+                    }>{text}</div>
+                } else if(s.type == "optionGroup") {
+                    return <div class="px-1 select-none font-medium" key={"grp" + s.label}>{s.label}</div>;
+                }
             })
         } </div>
     </div>
