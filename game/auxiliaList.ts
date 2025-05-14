@@ -1,4 +1,6 @@
 import { AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaModelName } from "./auxiliaTypes.ts";
+import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
+import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
 import { Detachment, DetachmentConfiguration, DetachmentValidationState, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const tankCommanderValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
@@ -165,7 +167,53 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         },
         {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
         {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
-    ]}]
+    ]}],
+    //suport
+    ["Iron Cohort", {
+        formationType: "Support",
+        slotRequirements: [
+            {slot: "HQ", slotRequirementType: "Required"},                      //0
+            {slot: "Tech-Priest Auxilia", slotRequirementType: "Required",      //1
+                displayName: "Tech-Priest"
+            },
+            {slot: "Iron Cohort Core", slotRequirementType: "Required",         //2
+                displayName: "Core"
+            },
+            {slot: "Iron Cohort Core", slotRequirementType: "Required",         //3
+                displayName: "Core"
+            },
+            {slot: "HQ", slotRequirementType: "Optional"},                      //4
+            {slot: "Iron Cohort Core", slotRequirementType: "Optional",         //5
+                displayName: "Core"
+            },
+            {slot: "Iron Cohort Support", slotRequirementType: "Optional",      //6
+                displayName: "Support"
+            },
+            {slot: "Iron Cohort Bastion", slotRequirementType: "Optional",      //7
+                displayName: "Bastion"
+            },
+            {slot: "Iron Cohort Support", slotRequirementType: "One Of Group",  //8
+                displayName: "Support", oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Iron Cohort Support", slotRequirementType: "One Of Group",  //9
+                displayName: "Support", oneOfGroup: 1, oneOfGroupGroup: 1
+            },
+            {slot: "Iron Cohort Bastion", slotRequirementType: "One Of Group",  //10
+                displayName: "Bastion", oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Iron Cohort Bastion", slotRequirementType: "One Of Group",  //11
+                displayName: "Bastion", oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                 //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 1,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                 //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 1,
+                displayName: "Tech-Priest",
+            }
+        ]
+    }]
 ])
 
 export function getShapeForAuxiliaFormationName(formationName: AuxiliaFormationName | ""): FormationShape {
@@ -173,7 +221,7 @@ export function getShapeForAuxiliaFormationName(formationName: AuxiliaFormationN
     return formationShapes.get(formationName) ?? { slotRequirements: [] };
 }
 
-const detachmentNamesForSlot = new Map<FormationSlot, AuxiliaDetachmentName[]>([
+const detachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachmentName|AuxiliaDetachmentName)[]>([
     [ "Air Support", [
         "Auxilia Avenger Strike Fighter Squadron",
         "Auxilia Lightning Fighter Squadron",
@@ -203,6 +251,7 @@ const detachmentNamesForSlot = new Map<FormationSlot, AuxiliaDetachmentName[]>([
     ["Core", [ 
         "Auxilia Lasrifle Tercio"
     ]],  
+    ["Extra Tech-Priest Auxilia", ["Tech-Priest Auxilia"]],
     ["Heavy Armour", [
         "Auxilia Shadowsword Squadron",
         "Auxilia Stormblade Squadron",
@@ -213,6 +262,16 @@ const detachmentNamesForSlot = new Map<FormationSlot, AuxiliaDetachmentName[]>([
     ["HQ", [ 
         "Auxilia Tactical Command Detachment",
         "Legate Commander Detachment",
+    ]],
+    ["Iron Cohort Bastion", ["Thanatar Siege-automata Maniple"]],
+    ["Iron Cohort Core", [
+        "Auxilia Lasrifle Tercio",
+        "Thallax Cohort"
+    ]],
+    ["Iron Cohort Support", [
+        "Arlatax Battle-automata Maniple",
+        "Castellax Battle-automata Maniple",
+        "Domitar Battle-automata Maniple",
     ]],
     ["Light Armour", []],
     ["Leman Russ", [
@@ -233,24 +292,25 @@ const detachmentNamesForSlot = new Map<FormationSlot, AuxiliaDetachmentName[]>([
         "Auxilia Super-Heavy Tank Squadron"
     ]],
     ["Storm Section", ["Auxilia Veletaris Storm Section"]],
-    [ "Support", [ 
+    ["Support", [ 
         "Auxilia Ogryn Charonite Section", 
         "Auxilia Veletaris Storm Section",
-    ] ],
-    [ "Transport", [ 
+    ]],
+    ["Tech-Priest Auxilia", ["Tech-Priest Auxilia"]],
+    ["Transport", [ 
         "Auxilia Arvus Lighter",
         "Auxilia Dracosan Detachment",
-    ] ], 
-    [ "Vanguard", [
+    ]], 
+    ["Vanguard", [
         "Auxilia Aethon Heavy Sentinel Patrol",
-    ] ]
+    ]]
 ]);
 
-export function getAuxiliaDetachmentNamesForSlot(slot: FormationSlot): AuxiliaDetachmentName[] {
+export function getAuxiliaDetachmentNamesForSlot(slot: FormationSlot): (MechanicumDetachmentName|AuxiliaDetachmentName)[] {
     return detachmentNamesForSlot.get(slot) ?? [];
 }
 
-const detachmentConfigurationForDetachmentName: Map<AuxiliaDetachmentName, DetachmentConfiguration> = new Map([
+const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|AuxiliaDetachmentName, DetachmentConfiguration> = new Map([
     ["Legate Commander Detachment", {modelGroupShapes: [
         {modelName: "Auxilia Commander", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 16}]},
         {modelName: "Dracosan", dedicatedTransport: true, formationNames: ["Solar Auxilia Mechanised Infantry Sub-Cohort"],
@@ -695,8 +755,10 @@ const detachmentConfigurationForDetachmentName: Map<AuxiliaDetachmentName, Detac
     ]}],
 ]);
 
-export function getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName: AuxiliaDetachmentName): DetachmentConfiguration {
-    return detachmentConfigurationForDetachmentName.get(detachmentName) ?? {modelGroupShapes: []}
+export function getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName: (AuxiliaDetachmentName|MechanicumDetachmentName)): DetachmentConfiguration {
+    return detachmentConfigurationForDetachmentName.get(detachmentName) 
+        ?? getMechanicumDetachmentConfigurationForDetachmentName(detachmentName)
+        ?? {modelGroupShapes: []}
 }
 
 const statsForModelType = new Map<AuxiliaModelName, Stats>([

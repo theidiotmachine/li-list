@@ -7,6 +7,7 @@ export type ArmyPrimaryArmyListSelectProps = {
     enabled: boolean;
     allegiance: Allegiance | "";
     primaryArmyListName: ArmyListName | "";
+    class: string;
 };
 export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps) {
     const {changePrimaryArmyListName} = useContext(AppState);
@@ -23,7 +24,7 @@ export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps)
     options.push({optionText: "Solar Auxilia", value: "Solar Auxilia", text: "Solar Auxilia"});
 
     return <Select<ArmyListName | "">
-        class ="text-l md:text-xl w-full bg-right bg-white" onInput={(e) => {
+        class={"text-l md:text-xl w-full "+props.class}onInput={(e) => {
             changePrimaryArmyListName(e)
         }}
         disabled={!props.enabled}

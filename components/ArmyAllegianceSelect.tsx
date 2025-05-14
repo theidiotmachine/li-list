@@ -6,6 +6,7 @@ import { Select, SelectOption } from "./Select.tsx";
 export type ArmyAllegianceSelectProps = {
     enabled: boolean;
     allegiance: Allegiance | "";
+    class: string;
 };
 
 export function ArmyAllegianceSelect(props: ArmyAllegianceSelectProps) {
@@ -17,7 +18,7 @@ export function ArmyAllegianceSelect(props: ArmyAllegianceSelectProps) {
     Allegiances.forEach(a => {
         options.push(<SelectOption key={a} value={a} selected={props.allegiance == a} type="option">{a}</SelectOption>)
     });
-    return <Select<Allegiance | ""> class ="text-l md:text-xl w-full bg-white" 
+    return <Select<Allegiance | ""> class ={"text-l md:text-xl w-full " + props.class} 
         disabled={!props.enabled}
         onInput={(e) => changeArmyAllegiance(e)}>
         {options}

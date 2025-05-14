@@ -7,12 +7,17 @@ export const AuxiliaFormationNames = [
     "Solar Auxilia Sub-Cohort",
     "Solar Auxilia Super-Heavy Company",
     "Solar Auxilia Titan Hunter Company",
+    //support
+    "Iron Cohort",
 ] as const;
 export type AuxiliaFormationName = (typeof AuxiliaFormationNames)[number];
 
 export type AuxiliaFormationSlot = 
     "Auxilia Lasrifle" |
     "Auxilia Shadowsword" |
+    "Iron Cohort Bastion" |
+    "Iron Cohort Core" |
+    "Iron Cohort Support" |
     "Leman Russ" |
     "Solar Auxilia Armoured Company Compulsory Battle Tank" |
     "Solar Auxilia Armoured Company Compulsory Heavy Armour" |

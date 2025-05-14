@@ -1,14 +1,16 @@
 import { decodeBase64 } from "jsr:@std/encoding/base64";
 import { gunzip } from "jsr:@deno-library/compress";
-import { PageSizes, PDFDocument, PDFFont, PDFPage, rgb, StandardFonts } from "pdf-lib";
+import { grayscale, PageSizes, PDFDocument, PDFFont, PDFPage, rgb, StandardFonts } from "pdf-lib";
 import { Army, Detachment, Formation, ModelGroup } from "../game/types.ts";
 import { Handlers } from "$fresh/server.ts";
-import { getShapeForFormationName } from "../game/lists.ts";
+import { getShapeForFormationName, getStatsForModelName } from "../game/lists.ts";
 
 const h1FontSize = 28;
 const h2FontSize = 18;
 const h3FontSize = 14;
 const bodyFontSize = 10;
+const damageSquareSize = 10;
+const damageSquaresX = 520;
 const xMargin = 30;
 const topYMargin = 20;
 const bottomYMargin = 40;
@@ -46,7 +48,7 @@ function decY(y: number, pageData: PageData) {
     }
 }
 
-function writeModelGroup(modelGroup: ModelGroup, pageData: PageData) {
+function writeModelGroup(modelGroup: ModelGroup, damageBoxes: boolean, pageData: PageData) {
     if(modelGroup.number == 0)
         return;
 
@@ -56,7 +58,29 @@ function writeModelGroup(modelGroup: ModelGroup, pageData: PageData) {
     );
     const pointsText = modelGroup.points + " pts"
     const textWidth = pageData.font.widthOfTextAtSize(pointsText, bodyFontSize);
-    pageData.page.drawText(pointsText, {size: bodyFontSize, font: pageData.font, x: pageData.width - xMargin - textWidth, y: pageData.y});
+    const pointsX = pageData.width - xMargin - textWidth;
+    const pointsY = pageData.y;
+    pageData.page.drawText(pointsText, {size: bodyFontSize, font: pageData.font, x: pointsX, y: pointsY});
+    
+    if(damageBoxes) {
+        const stats = getStatsForModelName(modelGroup.modelName);
+        let x = damageSquaresX;
+        if(stats != undefined) {
+            for(let i = 0; i < modelGroup.number; ++i) {
+                x -= gapSize;
+                for(let j = 0; j < stats.wounds; ++j) {
+                    x -= damageSquareSize;
+                    pageData.page.drawSquare(
+                        {
+                            x,
+                            y: pointsY, size: damageSquareSize, 
+                            borderWidth: 1, borderColor: grayscale(0), color: grayscale(1)
+                        }
+                    )
+                }
+            }
+        }
+    }
 
     for(const mlg of modelGroup.modelLoadoutGroups) {
         decY(bodyFontSize + gapSize, pageData);
@@ -85,9 +109,10 @@ function writeModelGroup(modelGroup: ModelGroup, pageData: PageData) {
             }
         }
     }
+    
 }
 
-function writeDetachment(formation: Formation, detachment: Detachment, slotName: string, pageData: PageData) {
+function writeDetachment(formation: Formation, detachment: Detachment, slotName: string, damageBoxes: boolean, pageData: PageData) {
     if(detachment.modelGroups.length == 0)
         return;
 
@@ -116,11 +141,11 @@ function writeDetachment(formation: Formation, detachment: Detachment, slotName:
     }
 
     for(const modelGroup of detachment.modelGroups) {
-        writeModelGroup(modelGroup, pageData);
+        writeModelGroup(modelGroup, damageBoxes, pageData);
     }
 }
 
-function writeFormation(formation: Formation, pageData: PageData) {
+function writeFormation(formation: Formation, damageBoxes: boolean, pageData: PageData) {
     decY(h2FontSize + gapSize, pageData);
     pageData.page.drawText(formation.armyListName + ", " + formation.formationName, {size: h2FontSize, font: pageData.font, x: xMargin, y: pageData.y});
 
@@ -144,7 +169,7 @@ function writeFormation(formation: Formation, pageData: PageData) {
 
     for(const [detachmentIndex, detachment] of formation.detachments.entries()) {
         const slotName = (shape.slotRequirements[detachmentIndex].displayName ?? detachment.slot)
-        writeDetachment(formation, detachment, slotName, pageData);
+        writeDetachment(formation, detachment, slotName, damageBoxes, pageData);
     }
 
     decY(lineGapSize, pageData);
@@ -153,7 +178,7 @@ function writeFormation(formation: Formation, pageData: PageData) {
     });
 }
 
-async function createPdf(army: Army) {
+async function createPdf(army: Army, damageBoxes: boolean) {
     // Create a new PDFDocument
     const pdfDoc = await PDFDocument.create();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
@@ -161,7 +186,7 @@ async function createPdf(army: Army) {
 
     // Add a page to the PDFDocument
     const page = pdfDoc.addPage(PageSizes.A4);
-    const { width, height } = page.getSize()
+    const {width, height} = page.getSize()
 
     let y = height - h1FontSize - topYMargin;
 
@@ -199,7 +224,7 @@ async function createPdf(army: Army) {
 
     const pageData = {y, width, height, pdfDoc, font, page, italicFont, pageNumber: 1};
     for(const formation of army.formations) {
-        writeFormation(formation, pageData)
+        writeFormation(formation, damageBoxes, pageData)
     }
 
     drawPageNumber(pageData);
@@ -208,10 +233,8 @@ async function createPdf(army: Army) {
     return bytes
 }
 
-
 export const handler: Handlers = {
   GET(req) {
-    //const uuid = crypto.randomUUID();
     const url = URL.parse(req.url);
     if(url == null)
         return new Response("URL not valid", {status: 400});
@@ -220,11 +243,16 @@ export const handler: Handlers = {
     if(encodedArmyString == "")
         return new Response("No army param", {status: 400});
 
+    const damageBoxesString = url.searchParams.get("damageBoxes") ?? "false";
+    let damageBoxes = false;
+    if(damageBoxesString == "true")
+        damageBoxes = true;
+
     const zippedArmyString = decodeBase64(decodeURIComponent(encodedArmyString));
     const armyAsJson = new TextDecoder().decode(gunzip(zippedArmyString));
     const army = JSON.parse(armyAsJson);
     const fileName = army.name.trim().replace(/ +/g, '-').replace(/[^a-z0-9\-]/gi, '_').toLowerCase();
-    return createPdf(army).then((s)=>{
+    return createPdf(army, damageBoxes).then((s)=>{
         return new Response(s, {
             status: 200,
             headers: {

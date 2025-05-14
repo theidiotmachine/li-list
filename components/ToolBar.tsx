@@ -2,25 +2,6 @@ import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { getEncodedArmy } from "../storage/storage.ts";
 
-/*
-
-        <button type="button" class="bg-gray-200 p-1"
-            onClick={() => {
-            const menu = document.getElementById("menu");
-            if (menu) {
-                if (menu.classList.contains("hidden")) {
-                    menu.classList.remove("hidden");
-                    menu.classList.add("flex")
-                } else {
-                    menu.classList.add("hidden");
-                    menu.classList.remove("flex");
-                }
-                menu.focus();
-            }
-        }}
-        
-        >Menu</button>
-*/
 export type ToolBarProps = {
     class: string
 };
@@ -79,7 +60,13 @@ export function ToolBar(props: ToolBarProps) {
                 <a onClick={()=>{
                     const encodedPromise = getEncodedArmy(army.value);
                     encodedPromise.then((encoded)=>{location.href='./export?army='+encoded;})
-                }} class="flex-none cursor-pointer"> Export PDF</a>
+                }} class="flex-none cursor-pointer">Export PDF</a>
+            }
+            {   
+                <a onClick={()=>{
+                    const encodedPromise = getEncodedArmy(army.value);
+                    encodedPromise.then((encoded)=>{location.href='./export?army='+encoded+"&damageBoxes=true";})
+                }} class="flex-none cursor-pointer">Export Box PDF</a>
             }
             <a class="flex-none cursor-pointer" href="./hammer">Hammer</a>
             <a class="flex-none cursor-pointer" href="./about">About</a>

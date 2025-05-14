@@ -29,6 +29,7 @@ export type MechanicumSlot =
 
 export type DarkMechanicumSlot = 
     "Errax" |
+    "Ironbound Ruinhost Bastion" |
     "Ironbound Ruinhost HQ" |
     "Ironbound Ruinhost Support" |
     "Ironbound Ruinhost Vanguard"

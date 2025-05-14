@@ -428,42 +428,94 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
             },
         ]
     }],
-    //support. RAW. this is unplayable because nothing goes into the HQ slot.
+    //support
     ["Ironbound Ruinhost", {
         formationType: "Support",
         slotRequirements: [
-            {slot: "Ironbound Ruinhost HQ", displayName: "HQ", 
+            {slot: "Ironbound Ruinhost HQ", displayName: "HQ",                      //0
                 slotRequirementType: "Required"},
             {slot: "Ironbound Ruinhost Support",               
-                displayName: "Support", slotRequirementType: "Required"
+                displayName: "Support", slotRequirementType: "Required"             //1
             },
             {slot: "Ironbound Ruinhost Support",               
-                displayName: "Support", slotRequirementType: "Required"
+                displayName: "Support", slotRequirementType: "Required"             //2
             },
             {slot: "Ironbound Ruinhost Support",               
-                displayName: "Support", slotRequirementType: "Optional"
+                displayName: "Support", slotRequirementType: "Optional"             //3
             },
             {slot: "Ironbound Ruinhost Support",               
-                displayName: "Support", slotRequirementType: "Optional"
+                displayName: "Support", slotRequirementType: "Optional"             //4
             },
-            {slot: "Ironbound Ruinhost Vanguard", 
-                displayName: "Vanguard", slotRequirementType: "Optional"},
-            {slot: "Bastion", slotRequirementType: "Optional"},
+            {slot: "Ironbound Ruinhost Vanguard",                                   //5
+                displayName: "Vanguard", slotRequirementType: "Optional"
+            },          
+            {slot: "Ironbound Ruinhost Bastion",                                    //6
+                displayName: "Bastion", slotRequirementType: "Optional"
+            },                     
             {slot: "Ironbound Ruinhost Support",               
-                displayName: "Support", slotRequirementType: "One Of Group",
+                displayName: "Support", slotRequirementType: "One Of Group",        //7
                 oneOfGroup: 1, oneOfGroupGroup: 1
             },
             {slot: "Ironbound Ruinhost Support",               
-                displayName: "Support", slotRequirementType: "One Of Group",
+                displayName: "Support", slotRequirementType: "One Of Group",        //8
                 oneOfGroup: 1, oneOfGroupGroup: 1
             },
-            {slot: "Ironbound Ruinhost Vanguard", slotRequirementType: "One Of Group",
+            {slot: "Ironbound Ruinhost Vanguard", slotRequirementType: "One Of Group",//9
                 displayName: "Vanguard", oneOfGroup: 1, oneOfGroupGroup: 2
             },
-            {slot: "Ironbound Ruinhost Vanguard", slotRequirementType: "One Of Group",
+            {slot: "Ironbound Ruinhost Vanguard", slotRequirementType: "One Of Group",//10
                 displayName: "Vanguard", oneOfGroup: 1, oneOfGroupGroup: 2
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 1,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 1,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 2,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 2,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 3,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 3,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 4,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 4,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 8,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 8,
+                displayName: "Tech-Priest",
             },
         ]
+
     }]
 ]);
 
@@ -545,11 +597,16 @@ const darkMechDetachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachm
         "Archmagos Prime on Abeyant",
         "Scintillax 'Cyclops' Noospheric Stalker Network",
     ]],
-    ["Ironbound Ruinhost HQ", []],
+    ["Ironbound Ruinhost Bastion", ["Thanatar Siege-automata Maniple"]],
+    ["Ironbound Ruinhost HQ", [
+        "Archmagos Prime", 
+        "Archmagos Prime on Abeyant",
+    ]],
     ["Ironbound Ruinhost Support", [
         "Arlatax Battle-automata Maniple",
         "Castellax Battle-automata Maniple",
         "Domitar Battle-automata Maniple",
+        "Tech-Priest Auxilia",
     ]],
     ["Ironbound Ruinhost Vanguard", [
         "Vorax Battle-automata Maniple",

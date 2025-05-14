@@ -8,7 +8,6 @@ import { LoadState } from "../state/appState.ts";
 import { ArmyValidity, ArmyValidityText } from "./ArmyValidity.tsx";
 import { Allegiance, ArmyListName } from "../game/types.ts";
 
-
 export type ArmyHeaderProps = {
     uuid: string;
     armyAsJson: string;
@@ -18,6 +17,7 @@ export type ArmyHeaderProps = {
 export function ArmyHeader(props: ArmyHeaderProps) {
     const { army, changeArmyName, changeArmyMaxPoints, armyLoadState, load } = useContext(AppState);
 
+    const bgColour = "bg-blue-50";
     if(props.uuid != "" && IS_BROWSER)
         load(props.uuid);
     if(props.armyAsJson != "")
@@ -51,12 +51,14 @@ export function ArmyHeader(props: ArmyHeaderProps) {
         activations = army.value.activations;
     } 
 
-    return <div class={"grid grid-cols-[50%_50%] md:grid-cols-[41%_41%_14%] gap-[1%] md:w-[800px] bg-white mr-2 md:mx-0" + " " + props.class}>
+    return <div class={"grid grid-cols-[50%_50%] md:grid-cols-[41%_41%_14%] gap-[1%] md:w-[800px] mr-2 md:mx-0" + " " + props.class + " " + bgColour}>
         <div class="md:col-span-2 col-start-1">
-            <input disabled={!enabled} type="text" placeholder="My army name" class="text-lg md:text-xl w-full md:w-96" value={name} onChange={(e) => {
-                const target = e.target as HTMLInputElement;
-                changeArmyName(target.value);
-                }}/>
+            <input disabled={!enabled} type="text" placeholder="My army name" class={"text-lg md:text-xl w-full md:w-96 " + bgColour}
+                value={name} onChange={(e) => {
+                    const target = e.target as HTMLInputElement;
+                    changeArmyName(target.value);
+                }}
+            />
         </div>
         
         <div class="md:col-start-3 text-lg md:text-xl flex flex-row justify-self-end ">
@@ -64,7 +66,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             <input disabled={!enabled}
                 type="number"
                 //this madness removes the spinners
-                class="w-12 md:w-16 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+                class={"w-12 md:w-16 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none " + bgColour}
                 min="0" 
                 value={maxPoints} onChange={(e) => {
                     const target = e.target as HTMLInputElement;
@@ -86,11 +88,11 @@ export function ArmyHeader(props: ArmyHeaderProps) {
         </div>
 
         <div class="col-start-1 col-span-2 md:col-span-1 md:row-start-3 hide-on-scroll">
-            <ArmyAllegianceSelect allegiance={allegiance} enabled={enabled}/>
+            <ArmyAllegianceSelect allegiance={allegiance} enabled={enabled} class={bgColour}/>
         </div>
 
         <div class="col-start-1 md:col-start-2 col-span-2 md:row-start-3 md:col-span-1 hide-on-scroll">
-            <ArmyPrimaryArmyListSelect primaryArmyListName={primaryArmyListName} enabled={enabled} allegiance={allegiance}/>
+            <ArmyPrimaryArmyListSelect primaryArmyListName={primaryArmyListName} enabled={enabled} allegiance={allegiance} class={bgColour}/>
         </div>
 
         <div class="col-start-1 col-span-2 md:row-start-4 md:col-span-3 flex">
@@ -98,7 +100,6 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             <ArmyValidityText army={army.value} class=""/>
         </div>
 
-        <div class="col-start-1 col-span-2 md:row-start-5 md:col-span-3 border-b-2"></div>
     </div>
 
 }
@@ -140,7 +141,7 @@ export function ArmyWidget(props: ArmyWidgetProps) {
             (<h1 class={props.class}>Loading...</h1>)
             :
             (
-                <div class="flex flex-col md:w-[800px] w-screen mx-2">
+                <div class="flex flex-col md:w-[800px] w-screen mx-4">
                     <div class={"w-full " + props.class}>
                         {army.value.formations.map((x) => FormationWidget({formation: x, allegiance: army.value.allegiance})) }
                     </div>               
