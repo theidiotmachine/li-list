@@ -9,6 +9,7 @@ import * as $export from "./routes/export.tsx";
 import * as $hammer from "./routes/hammer.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $load from "./routes/load.tsx";
+import * as $qr from "./routes/qr.tsx";
 import * as $unit_unitid_ from "./routes/unit/[unitid].tsx";
 import * as $App from "./islands/App.tsx";
 import * as $HammerScenarioIsland from "./islands/HammerScenarioIsland.tsx";
@@ -24,6 +25,7 @@ const manifest = {
     "./routes/hammer.tsx": $hammer,
     "./routes/index.tsx": $index,
     "./routes/load.tsx": $load,
+    "./routes/qr.tsx": $qr,
     "./routes/unit/[unitid].tsx": $unit_unitid_,
   },
   islands: {

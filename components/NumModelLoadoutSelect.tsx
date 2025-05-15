@@ -13,6 +13,7 @@ interface NumModelLoadoutSelectProps {
     number: number;
     detachmentName: DetachmentName;
     modelType: ModelName;
+    editable: boolean;
 }
 
 export function NumModelLoadoutSelect(props: NumModelLoadoutSelectProps) {
@@ -34,6 +35,7 @@ export function NumModelLoadoutSelect(props: NumModelLoadoutSelectProps) {
 
     return <Select<string>
         class="w-8 md:w-10 bg-opacity-0 bg-white" 
+        disabled={!props.editable}
         onInput={(e) => changeModelLoadoutGroupNumber(
             props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, parseNumber(e.toString(), "")
         )}>

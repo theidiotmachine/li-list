@@ -10,6 +10,7 @@ interface DetachmentNameSelectProps {
     detachmentIndex: number;
     slot: FormationSlot;
     allegiance: Allegiance  | "";
+    editable: boolean;
 };
 
 export function DetachmentNameSelect(props: DetachmentNameSelectProps) {
@@ -33,6 +34,7 @@ export function DetachmentNameSelect(props: DetachmentNameSelectProps) {
     });
     return <Select<DetachmentName | "">
         class="w-full md:font-medium md:text-lg bg-white md:bg-gray-100" 
+        disabled={!props.editable}
         onInput={(e) => changeDetachmentName(props.uuid, props.detachmentIndex, e)}>
         {options}
     </Select>

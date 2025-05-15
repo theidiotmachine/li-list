@@ -12,11 +12,18 @@ interface NumModelSelectProps {
     detachmentName: DetachmentName;
     modelType: ModelName;
     numModels: number;
+    editable: boolean;
 };
 
 export function NumModelSelect(props: NumModelSelectProps) {
-    const { changeModelNumber } = useContext(AppState);
+    const {changeModelNumber} = useContext(AppState);
 
+    if(!props.editable) {
+        return <div class = "w-8 md:w-10 bg-right bg-white bg-opacity-0">
+            {props.numModels}
+        </div>
+    }
+    
     const config = getDetachmentConfigurationForDetachmentName(props.armyListName, props.detachmentName);
     const modelOptions = config?.modelGroupShapes.find((x)=>x.modelName == props.modelType);
     const options = modelOptions?.possibleModelGroupQuantities.map((x) => {

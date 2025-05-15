@@ -11,6 +11,7 @@ interface DetachmentTableProps extends JSX.HTMLAttributes<HTMLTableElement>{
     formationType: FormationName;
     detachments: Detachment[];
     allegiance: Allegiance  | "";
+    editable: boolean;
 }
 
 export function DetachmentTable(props: DetachmentTableProps) {
@@ -59,6 +60,7 @@ export function DetachmentTable(props: DetachmentTableProps) {
                     uuid={props.uuid} armyListName={props.armyListName} detachment={x} 
                     detachmentIndex={i} allegiance={props.allegiance} formationType={props.formationType}
                     key={props.uuid + "-" + i}
+                    editable={props.editable}
                 />
             })
     } </div>

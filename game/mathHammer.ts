@@ -21,6 +21,7 @@ type DamageResult = {
     damageFraction: number;
     wounds: number;
     saveType: SaveType;
+    notes: string[];
 }
 
 type HitAndDamageResult = {
@@ -134,21 +135,21 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Save
     if(targetStats.detachmentType == "Infantry" || targetStats.detachmentType == "Cavalry") {
         armourSaveModifier = wsar.infAndCav;
         if(armourSaveModifier == undefined)
-            return {damageFraction: 0, wounds: 0, saveType: "Armour"};
+            return {damageFraction: 0, wounds: 0, saveType: "Armour", notes: ["Can't damage this unit with this weapon"]};
     } else if(targetStats.detachmentType == "Walker") {
         armourSaveModifier = wsar.walker;
         if(armourSaveModifier == undefined)
-            return {damageFraction: 0, wounds: 0, saveType: "Armour"};
+            return {damageFraction: 0, wounds: 0, saveType: "Armour", notes: ["Can't damage this unit with this weapon"]};
     } else if(targetStats.detachmentType == "Vehicle" || targetStats.detachmentType == "Super-heavy vehicle" 
         || targetStats.detachmentType == "Knight" || targetStats.detachmentType == "Titan"
     ) {
         armourSaveModifier = wsar.vShvKT;
         if(armourSaveModifier == undefined)
-            return {damageFraction: 0, wounds: 0, saveType: "Armour"};
+            return {damageFraction: 0, wounds: 0, saveType: "Armour", notes: ["Can't damage this unit with this weapon"]};
     } else {
         armourSaveModifier = wsar.structure;
         if(armourSaveModifier == undefined)
-            return {damageFraction: 0, wounds: 0, saveType: "Armour"};
+            return {damageFraction: 0, wounds: 0, saveType: "Armour", notes: ["Can't damage this Structure with this weapon"]};
     }
 
     const targetSaves = targetStats.saves;
@@ -160,35 +161,35 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Save
         damageFraction: 0,
         wounds: 0,
         saveType: "Armour",
+        notes: [],
     }
     const armourSave = targetSaves.find((s)=>s.saveType == "Armour" && (s.arc == "All" || s.arc == targetArc));
     if(armourSave != undefined) {
         let save = armourSave.save;
         save -= armourSaveModifier.modifier;
-
         out.damageFraction = 1-saveDiceTable[save];
 
         if((hasWeaponTrait(wsarTraits, "Shred") && (targetStats.detachmentType == "Infantry" || targetStats.detachmentType == "Cavalry" || targetStats.detachmentType == "Walker"))
             || (hasWeaponTrait(wsarTraits, "Armourbane") && (targetStats.detachmentType == "Vehicle" || targetStats.detachmentType == "Super-heavy vehicle" 
                 || targetStats.detachmentType == "Knight" || targetStats.detachmentType == "Titan"))) {
             //reroll successes
-            console.log("Shred/Armourbane reroll");
-            console.log("Old damage fraction: " + out.damageFraction);
+            out.notes.push("Shred/Armourbane reroll");
             const saveFraction = 1-out.damageFraction;
             const twoSaveFraction = saveFraction * saveFraction;
             out.damageFraction = 1-twoSaveFraction;
-            console.log("New damage fraction: " + out.damageFraction);
         }
 
         out.wounds = armourSaveModifier.wounds;
         out.saveType = "Armour";
+        
+        console.log(out);
     }
 
     const ionSave = targetSaves.find((s)=>s.saveType == "Ion Shield" && (s.arc == "All" || s.arc == targetArc));
     if(ionSave != undefined) {
         const ionShieldModifier = wsar.ionShield;
         if(ionShieldModifier != undefined) {
-            const finalIonSave = ionSave.save + ionShieldModifier?.modifier;
+            const finalIonSave = ionSave.save - ionShieldModifier?.modifier;
             const damageFraction = 1-saveDiceTable[finalIonSave];
             if(damageFraction < out.damageFraction) {
                 out.damageFraction = damageFraction;
@@ -228,6 +229,7 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveA
         saveType: SaveType;
         wsar: WeaponStatsAtRange;
         hitAndDamageFractions: HitAndDamageResult[];
+        notes: string[];
     };
 
     //filter down the ones in range
@@ -253,8 +255,10 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveA
         if(aimResult === undefined)
             return undefined;
         const damageResult = saveThrow(wsar, targetStats, targetArc);
+        
         if(damageResult === undefined)
             return undefined;
+        const notes = damageResult.notes;
 
         const damageTable: HitAndDamageResult[] = [];
         for(let i = 0; i < aimResult.resultTable.length; ++i) {
@@ -274,6 +278,7 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveA
             saveType: damageResult.saveType,
             wsar: wsar,
             hitAndDamageFractions: damageTable,
+            notes,
         }
     });
 
@@ -327,7 +332,7 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveA
         damageFraction: ssr.damageFraction,
         hitAndDamageTable: ssr.hitAndDamageFractions,
         dice: ssr.wsar.dice,
-        notes: []
+        notes: ssr.notes,
     };
 }
 

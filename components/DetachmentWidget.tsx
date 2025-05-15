@@ -18,6 +18,7 @@ type ModelGroupWidgetProps = {
     detachmentIndex: number;
     detachmentName: DetachmentName;
     detachment: Detachment;
+    editable: boolean
 }
 function ModelGroupWidget(props: ModelGroupWidgetProps) {
     const {addModelLoadoutGroup, openModelGroup, modelGroupOpenState, closeModelGroup, getModelGroupKey} = useContext(AppState);
@@ -45,7 +46,7 @@ function ModelGroupWidget(props: ModelGroupWidgetProps) {
         ) : (
             <div class="col-start-1 md:col-start-2"><NumModelSelect 
                 uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} modelType={props.modelGroupShape.modelName}
-                numModels={props.modelGroup.number} detachmentName={props.detachmentName}
+                numModels={props.modelGroup.number} detachmentName={props.detachmentName} editable={props.editable}
             />
             </div>
         )
@@ -66,14 +67,18 @@ function ModelGroupWidget(props: ModelGroupWidgetProps) {
                     hidden={(modelGroupOpenState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, props.modelGroupShape.modelName)))?false:true}>
                     {props.modelGroup.modelLoadoutGroups.map((x, j)=>
                         <ModelLoadoutWidget key={j} uuid={props.uuid} armyListName={props.armyListName}
-                        formationType={props.formationType} detachmentIndex={props.detachmentIndex} 
-                        modelType={props.modelGroupShape.modelName} detachmentName={props.detachmentName}
-                        modelLoadoutGroup={x} modelLoadoutGroupIndex={j} groupSize={x.number} 
-                        numModelLoadoutGroups={props.modelGroup.modelLoadoutGroups.length}/>
+                            formationType={props.formationType} detachmentIndex={props.detachmentIndex} 
+                            modelType={props.modelGroupShape.modelName} detachmentName={props.detachmentName}
+                            modelLoadoutGroup={x} modelLoadoutGroupIndex={j} groupSize={x.number} 
+                            numModelLoadoutGroups={props.modelGroup.modelLoadoutGroups.length}
+                            editable={props.editable}
+                        />
                     )}
                 </div>
                 <button type="button" class="w-full text-centre bg-gray-100 col-start-2 md:col-start-3"
-                    hidden={(modelGroupOpenState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, props.modelGroupShape.modelName)))?false:true}
+                    hidden={
+                        (modelGroupOpenState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, props.modelGroupShape.modelName)) && props.editable)?false:true
+                    }
                     onClick={() => addModelLoadoutGroup(props.uuid, props.detachmentIndex, props.modelGroup.modelName)}>
                     New Loadout
                 </button>
@@ -92,6 +97,7 @@ interface DetachmentWidgetProps {
     detachmentIndex: number;
     detachment: Detachment;
     allegiance: Allegiance  | "";
+    editable: boolean
 }
 
 export function DetachmentWidget(props: DetachmentWidgetProps) {
@@ -115,6 +121,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                         modelGroup={props.detachment.modelGroups[modelGroupIndex]}
                         armyListName={props.armyListName} formationType={props.formationType} detachmentIndex={props.detachmentIndex}
                         detachmentName={detachmentName} detachment={props.detachment} key={i}
+                        editable={props.editable}
                     />
                 })
         } </div>   
@@ -133,6 +140,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
             <div class="col-start-1 row-start-2 md:col-start-2 md:row-start-1">
                 <DetachmentNameSelect 
                     uuid = {props.uuid} detachmentIndex = {props.detachmentIndex} slot = {props.detachment.slot}
+                    editable={props.editable}
                     armyListName={props.armyListName} allegiance={props.allegiance}/>
             </div>
             
@@ -144,6 +152,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                 <DetachmentAttachmentSelect 
                     uuid={props.uuid} detachmentIndex={props.detachmentIndex} detachmentAttachmentIndex={props.detachment.attachedDetachmentIndex}
                     class="md:col-start-2 col-start-1"
+                    editable={props.editable}
                 />:
                 <div class="hidden"></div>
             }

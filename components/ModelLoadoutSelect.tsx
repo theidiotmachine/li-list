@@ -13,6 +13,7 @@ interface ModelLoadoutSelectProps{
     detachmentName: DetachmentName;
     modelLoadoutGroupIndex: number;
     modelLoadoutSlotName: string;
+    editable: boolean;
 }
 
 export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
@@ -25,7 +26,7 @@ export function ModelLoadoutSelect(props: ModelLoadoutSelectProps) {
         
     const slot = modelOptions.modelLoadoutSlots.find((s)=>s.name == props.modelLoadoutSlotName);
     if(slot === undefined) return <div>No model loadout</div>
-    return <Select<string> class="w-full bg-white bg-opacity-0" onInput={
+    return <Select<string> class="w-full bg-white bg-opacity-0" disabled={!props.editable} onInput={
         (e)=> changeModelLoadout(
             props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex, props.modelLoadoutSlotName, e
         )

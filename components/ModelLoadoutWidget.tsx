@@ -17,6 +17,7 @@ interface ModelLoadoutWidgetProps {
     modelLoadoutGroup: ModelLoadoutGroup;
     modelLoadoutGroupIndex: number;
     numModelLoadoutGroups: number;
+    editable: boolean;
 }
 
 export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
@@ -32,7 +33,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
             {
                 (props.numModelLoadoutGroups > 1) ?
                 (<div class="">
-                    <DelButton hidden={false}
+                    <DelButton hidden={!props.editable}
                         onClick={() => removeModelLoadoutGroup(props.uuid, props.detachmentIndex, props.modelType, props.modelLoadoutGroupIndex)}
                     ></DelButton>
                 </div>) : 
@@ -42,7 +43,10 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
         </div>
         <div class="col-start-2 order-2">
             <NumModelLoadoutSelect number={props.groupSize} detachmentName={props.detachmentName} modelType={props.modelType}
-            uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} modelLoadoutGroupIndex={props.modelLoadoutGroupIndex}
+                uuid={props.uuid} armyListName={props.armyListName} 
+                detachmentIndex={props.detachmentIndex} 
+                modelLoadoutGroupIndex={props.modelLoadoutGroupIndex}
+                editable={props.editable}
             />
             
         </div>
@@ -61,7 +65,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
                 return <div key={"s"+i}>No data</div>
 
             return <div key={"s"+i} class = {"col-start-3 md:col-start-4 row-start-" + ((i*2)+2) + " md:row-start-"+(i+1)+" order-"+(4+i*2)}>
-                <ModelLoadoutSelect key={i} 
+                <ModelLoadoutSelect key={i} editable={props.editable}
                     modelType={props.modelType} detachmentName={props.detachmentName} modelLoadoutSlotName={x.name} loadout={loadout.modelLoadout}
                     uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} 
                     modelLoadoutGroupIndex={props.modelLoadoutGroupIndex}

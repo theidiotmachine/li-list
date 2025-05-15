@@ -9,6 +9,8 @@ export type SaveState = {
 }
 
 export async function saveArmy(army: Army) {
+  //console.log({uuid: army.uuid, name: army.name, data: JSON.stringify(army)});
+  console.log("saveArmy");
   await db.armies.put({uuid: army.uuid, name: army.name, data: JSON.stringify(army)});
 }
 

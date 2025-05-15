@@ -8,6 +8,7 @@ interface DetachmentAttachmentSelectProps {
     detachmentIndex: number;
     detachmentAttachmentIndex: number;
     class: string;
+    editable: boolean;
 }
 
 export function DetachmentAttachmentSelect(props: DetachmentAttachmentSelectProps) {
@@ -50,12 +51,23 @@ export function DetachmentAttachmentSelect(props: DetachmentAttachmentSelectProp
         }).filter((s)=>s.index != -1);
         possibleDetachmentData.forEach((s)=>detachmentAttachmentsForSlot.push(s));
     }
-    return <select
-        class={"w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white italic text-sm " + props.class} 
-        onInput={(e) => changeDetachmentAttachment(props.uuid, props.detachmentIndex, parseInt(e.currentTarget.value))}>
-        {detachmentAttachmentsForSlot.map((s, i)=>{return <option value={s.index.toString()} key={i} selected={props.detachmentAttachmentIndex==s.index}>
-            {s.text}
-        </option>})}
-    </select>
-
+    if(props.editable)
+        return <select
+            class={"w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white italic text-sm " + props.class} 
+            onInput={(e) => changeDetachmentAttachment(props.uuid, props.detachmentIndex, parseInt(e.currentTarget.value))}>
+            {detachmentAttachmentsForSlot.map((s)=>{return <option value={s.index.toString()} key={s.text} selected={props.detachmentAttachmentIndex==s.index}>
+                {s.text}
+            </option>})}
+        </select>
+    else {
+        const dafs = detachmentAttachmentsForSlot.find((s)=>props.detachmentAttachmentIndex==s.index);
+        let selectedText = "";
+        if(dafs != undefined)
+            selectedText = dafs.text;
+        return <div
+            class={"w-full bg-opacity-0 bg-white italic text-sm " + props.class} 
+        >
+            {selectedText}
+        </div>
+    }
 }

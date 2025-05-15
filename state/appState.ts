@@ -720,9 +720,10 @@ function createAppState(): AppStateType {
     }
 
     const canSaveLocally = ()=>army.value.name != "";
-    const save = () => {
+    const save = async () => {
+        console.log("save");
         if(canSaveLocally())
-            saveArmy(army.value);
+            await saveArmy(army.value);
     }
 
     const load = async (uuid: string) => {
@@ -783,29 +784,28 @@ function createAppState(): AppStateType {
     const canCloneArmy = computed(()=>canSaveLocally());
     //I think there was a movie about this
     const cloneArmy = async () => {
-        const uuid = army.value.uuid;
-        const storedArmy = await loadArmy(uuid);
+        const storedArmy = structuredClone(army.value);
         
-        if(storedArmy === undefined)
-            return;
-
         storedArmy.uuid = crypto.randomUUID();
-
         storedArmy.name = "Copy of " + storedArmy.name;
 
         undoStack.value = [storedArmy];
         undoIndex.value = 0;
         army.value = storedArmy;
-        save();
+        await save();
         location.href = "./?uuid="+storedArmy.uuid;
+    }
+
+    const setNewArmy = (newArmy: Army) => {
+        pushOntoUndoStack(newArmy);
+        army.value = newArmy;
+        save();
     }
 
     const changeArmyName = (name: string) => {
         const newArmy = {...army.value};
         newArmy.name = name;
-        pushOntoUndoStack(newArmy);
-        army.value = newArmy;
-        save();
+        setNewArmy(newArmy);
     }
 
     const changeArmyMaxPoints = (value: number) => {
@@ -818,9 +818,7 @@ function createAppState(): AppStateType {
         newArmy.validationState = calcArmyValidation(newArmy);
         newArmy.activations = calcArmyActivations(newArmy);
 
-        pushOntoUndoStack(newArmy);
-        army.value = newArmy;
-        save();
+        setNewArmy(newArmy);
     }
 
     const changeArmyAllegiance = (allegiance: Allegiance | "") => {
@@ -833,9 +831,7 @@ function createAppState(): AppStateType {
         newArmy.validationState = calcArmyValidation(newArmy);
         newArmy.activations = calcArmyActivations(newArmy);
 
-        pushOntoUndoStack(newArmy);
-        army.value = newArmy;
-        save();
+        setNewArmy(newArmy);
     }
     
     const changePrimaryArmyListName = (armyListName: ArmyListName | "") => {
@@ -848,10 +844,7 @@ function createAppState(): AppStateType {
         newArmy.validationState = calcArmyValidation(newArmy);
         newArmy.activations = calcArmyActivations(newArmy);
 
-        pushOntoUndoStack(newArmy);
-
-        army.value = newArmy;
-        save();
+        setNewArmy(newArmy);
     }
 
     const setFormationAtIdx = (newFormation: Formation, formationIdx: number) => {
@@ -867,9 +860,8 @@ function createAppState(): AppStateType {
         newArmy.primaryPoints = points.primaryPoints;
         newArmy.validationState = calcArmyValidation(newArmy);
         newArmy.activations = calcArmyActivations(newArmy);
-        pushOntoUndoStack(newArmy);
-        army.value = newArmy;
-        save();
+
+        setNewArmy(newArmy);
     }
 
     const addFormation: AddFormation = (): void => {
@@ -885,8 +877,7 @@ function createAppState(): AppStateType {
         newArmy.validationState = calcArmyValidation(newArmy);
         newArmy.activations = calcArmyActivations(newArmy);
 
-        pushOntoUndoStack(newArmy);
-        army.value = newArmy;
+        setNewArmy(newArmy);
     };
 
     const removeFormation: RemoveFormation = (uuid: string) => {
@@ -900,8 +891,7 @@ function createAppState(): AppStateType {
         newArmy.validationState = calcArmyValidation(newArmy);
         newArmy.activations = calcArmyActivations(newArmy);
 
-        pushOntoUndoStack(newArmy);
-        army.value = newArmy;
+        setNewArmy(newArmy);
     };
 
     const changeFormationArmyList: ChangeFormationArmyList = (uuid: string, armyListName: ArmyListName | "") => {
