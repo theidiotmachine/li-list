@@ -767,7 +767,9 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {saveType: "Armour", save: 4, arc: "All"},
         ],
         caf: 0, morale: 4, wounds: 1, tacticalStrength: 3, voidShields: 0,
-        modelLoadoutSlots: [], //TODO
+        modelLoadoutSlots: [{name:"", possibleModelLoadouts: [
+            {loadout: "", weaponTypes: ["Multi-laser", "Sentinel missile launcher"]}
+        ]}],
         unitTraits: ["Forward Deployment"]
     }],
     ["Auxilia Commander", {
@@ -794,6 +796,32 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {loadout: "Mole mortar"},
         ]}],
         unitTraits: ["Bulky", "Chain of Command"],
+    }],
+    ["Auxilia Super-heavy", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 7, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 4, morale: 4, wounds: 2, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Hull Mounted demolisher cannon",
+                    "Hull Mounted heavy bolter turret",
+                    "Lascannon sponson turrets",
+                ]},
+            ]},
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Baneblade cannon", weaponTypes: ["Baneblade cannon", "Co-axial autocannon"]},
+                {loadout: "Hellhammer cannon", weaponTypes: ["Hellhammer cannon", "Co-axial autocannon"]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Baneblade heavy bolters", weaponTypes: ["Baneblade heavy bolter sponsons"]},
+                {loadout: "Baneblade heavy flamer", weaponTypes: ["Baneblade heavy flamer sponsons"]},
+                {loadout: "Baneblade autocannon", weaponTypes: ["Baneblade autocannon sponsons"]},
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
     ["Auxilia Tarantula", {
         detachmentType: "Infantry", scale: 1, move: 0, saves:[
@@ -825,6 +853,35 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             loadout: "", weaponTypes: ["Flamers"]
         }]}],
         unitTraits: ["Chain of Command", "Line"]
+    }],
+    ["Avenger Strike Fighter", {
+        detachmentType: "Vehicle", scale: 2, move: 28, saves: [
+            {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Avenger bolt cannon", "Heavy stubber tail gun"]}, 
+            ]},
+            {name: "Cannon", possibleModelLoadouts: [
+                {loadout: "Avenger lascannon"}, 
+                {loadout: "Avenger autocannon"},
+            ]},
+            {name: "Missiles", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]}
+        ],
+        unitTraits: ["Flyer", "Interceptor"]
+    }],
+    ["Arvus Lighter", {
+        detachmentType: "Vehicle", scale: 2, move: 25, saves: [
+            {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"},
+            {saveType: "Jink", save: 6, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [],
+        unitTraits: ["Flyer", "Hover", "Transport (2)"]
     }],
     ["Charonite Ogryns", {
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
@@ -931,6 +988,44 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
+    ["Leman Russ Tank", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Leman Russ battlecannon"},
+                {loadout: "Vanquisher battlecannon"},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
+                {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Lightning Fighter", {
+        detachmentType: "Vehicle", scale: 2, move: 30, saves: [
+            {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "Cannon", possibleModelLoadouts: [
+                {loadout: "Lightning twin lascannon",}, 
+                {loadout: "Lightning twin multi-laser"},
+            ]},
+            {name: "Missiles 1", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Phosphex bomb clusters"}, 
+            ]},
+            {name: "Missiles 2", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Phosphex bomb clusters"}, 
+            ]}
+        ],
+        unitTraits: ["Flyer", "Interceptor"]
+    }],
     ["Malcador Infernus", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
@@ -946,6 +1041,106 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Malcador Tank", {
+        detachmentType: "Vehicle", scale: 2, move: 9, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Malcador battlecannon"},
+                {loadout: "Malcador Vanquisher battlecannon"},
+                {loadout: "Malcador lascannon turret"},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]},
+                {loadout: "Lascannon", weaponTypes: ["Hull Mounted lascannon"]},
+                {loadout: "Autocannon", weaponTypes: ["Hull Mounted autocannon"]},
+                {loadout: "Demolisher cannon", weaponTypes: ["Hull Mounted demolisher cannon"]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Marauder Bomber", {
+        detachmentType: "Vehicle", scale: 2, move: 24, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Nose Mounted lascannon", "Marauder heavy bolter turrets", "Marauder bomb bay"]}, 
+            ]},
+            {name: "Missiles 1", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]},
+            {name: "Missiles 2", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]}
+        ],
+        unitTraits: ["Auger Array", "Flyer", "Interceptor"]
+    }],
+    ["Marauder Colossus", {
+        detachmentType: "Vehicle", scale: 2, move: 22, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Colossus Bomb", "Nose Mounted heavy bolter", "Rear Mounted heavy bolter"]}, 
+            ]},
+            {name: "Missiles 1", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]},
+            {name: "Missiles 2", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]}
+        ],
+        unitTraits: ["Flyer", "Interceptor"]
+    }],
+    ["Marauder Destroyer", {
+        detachmentType: "Vehicle", scale: 2, move: 24, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Nose Mounted autocannon array", "Marauder heavy bolter turrets", "Destroyer bomb bay"]}, 
+            ]},
+            {name: "Missiles 1", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]},
+            {name: "Missiles 2", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]}
+        ],
+        unitTraits: ["Auger Array", "Flyer", "Interceptor"]
+    }],
+    ["Marauder Pathfinder", {
+        detachmentType: "Vehicle", scale: 2, move: 22, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Nose Mounted heavy bolter", "Rear Mounted heavy bolter"]}, 
+            ]},
+            {name: "Missiles 1", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]},
+            {name: "Missiles 2", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]}
+        ],
+        unitTraits: ["Flyer", "Interceptor"]
     }],
     ["Shadowsword", {
         detachmentType: "Super-heavy vehicle", scale: 3, move: 6, saves: [
@@ -1010,6 +1205,27 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             loadout: "", weaponTypes: ["Auxilia lasrifles"]
         }]}],
         unitTraits: ["Commander", "Inspire (8)", "Solar Auxilia HQ (6)"]
+    }],
+    ["Thunderbolt Fighter", {
+        detachmentType: "Vehicle", scale: 2, move: 25, saves: [
+            {saveType: "Armour", save: 4, arc: "Front"}, {saveType: "Armour", save: 5, arc: "Rear"},
+            {saveType: "Jink", save: 5, arc: "All"}
+        ],
+        caf: 0, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Thunderbolt twin-linked lascannon"]}, 
+            ]},
+            {name: "Cannon", possibleModelLoadouts: [
+                {loadout: "Quad autocannon"}, 
+                {loadout: "Avenger bolt cannon"},
+            ]},
+            {name: "Missiles", possibleModelLoadouts: [
+                {loadout: "Hellstrike missiles"}, {loadout: "Skystrike missiles"}, {loadout: "Wing bombs"}, 
+            ]}
+            
+        ],
+        unitTraits: ["Flyer", "Interceptor"]
     }],
     ["Valdor", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [

@@ -133,6 +133,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light"]
         }
     ]}],
+    ["Avenger autocannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 4, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Skyfire"]
+        },
+    ]}],
     ["Avenger bolt cannon", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 16, dice: 5, hit: 5,
             infAndCav: {modifier: -1, wounds: 1},
@@ -141,6 +150,47 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT", "Skyfire"]
         }
+    ]}],
+    ["Avenger lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank", "Skyfire"], voidShields: 1
+        },
+    ]}],
+    ["Baneblade autocannon sponsons", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Point Defence"]
+        },
+    ]}],
+    ["Baneblade cannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 25, dice: 1, hit: 4, 
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            traits: []
+        }
+    ]}],
+    ["Baneblade heavy bolter sponsons", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 4, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Light", "Point Defence"]
+        }
+    ]}],
+    ["Baneblade heavy flamer sponsons", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1}, 
+            traits: ["Ignores Cover", "Light", "Point Defence"]}
     ]}],
     ["Bolt pistols", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 5, 
@@ -170,6 +220,17 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Co-axial", "Light AT"]
         },
+    ]}],
+    ["Colossus Bomb", {arc: "Rear", weaponStatsAtRange: [
+        {dice: 6, hit: 3, 
+            infAndCav: {modifier: -4, wounds: 1},
+            walker: {modifier: -4, wounds: 1},
+            vShvKT: {modifier: -4, wounds: 1},
+            ionShield: {modifier: -2, wounds: 1},
+            voidShields: 1,
+            structure: {modifier: -4, wounds: 1},
+            traits: ["Bombing Run", "Bunker Buster", "Limited (1)"]
+        }
     ]}],
     ["Combi bolters", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 2, hit: 5, 
@@ -215,7 +276,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             walker: {modifier: -1, wounds: 1},
             vShvKT: {modifier: 0, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
-            traits: ["Light AT", "Limited", "Saturation Fire"]
+            traits: ["Light AT", "Limited (1)", "Saturation Fire"]
         }
     ]}],
     ["Demolisher cannon", {arc: "All", weaponStatsAtRange: [
@@ -238,6 +299,16 @@ const weapons = new Map<WeaponType, WeaponStats>([
             structure: {modifier: -1, wounds: 1},
             voidShields: 1,
             traits: ["Blast (3\")", "Demolisher"]
+        }
+    ]}],
+    ["Destroyer bomb bay", {arc: "Rear", weaponStatsAtRange: [
+        {dice: 2, hit: 4, 
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            traits: ["Bombing Run"]
         }
     ]}],
     ["Errax lascutters", {arc: "Front", weaponStatsAtRange: [
@@ -373,6 +444,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light", "Point Defence"]
         }
     ]}],
+    ["Heavy stubber tail gun", {arc: "Rear", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 14, dice: 2, hit: 6, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Point Defence", "Skyfire"]
+        },
+    ]}],
     ["Hekaton siege claw", {arc: "Melee", weaponStatsAtRange: [
         {traits: ["Rend", "Wrecker (3)"],
             structure: {modifier: -3, wounds: 1}
@@ -387,6 +467,17 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT"]
         }
     ]}],
+    ["Hellhammer cannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 14, dice: 1, hit: 4, 
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -3, wounds: 1},
+            traits: ["Demolisher", "Ignores Cover"]
+        }
+    ]}],
     ["Hellstrike missiles", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 30, dice: 2, hit: 4, 
             infAndCav: {modifier: -1, wounds: 1},
@@ -394,6 +485,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: -1, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Armourbane"], voidShields: 1
+        },
+    ]}],
+    ["Hull Mounted autocannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
         },
     ]}],
     ["Hull Mounted Anvilus autocannon", {arc: "Front", weaponStatsAtRange: [
@@ -654,6 +754,16 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Assault", "Light"]
         }
     ]}],
+    ["Leman Russ battlecannon", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 25, dice: 1, hit: 4, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            voidShields: 1,
+            traits: []
+        }
+    ]}],
     ["Leviathan siege claw", {
         arc: "Melee", weaponStatsAtRange: [{
             structure: {modifier: -2, wounds: 2},
@@ -697,6 +807,34 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Point Defence"]
         }
     ]}],
+    ["Lightning twin lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank", "Skyfire"], voidShields: 1
+        },
+    ]}],
+    ["Lightning twin multi-laser", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 14, dice: 4, hit: 5, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Skyfire"]
+        },
+    ]}],
+    ["Malcador battlecannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 25, dice: 1, hit: 4, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            voidShields: 1,
+            traits: []
+        }
+    ]}],
     ["Malcador autocannon sponsons", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 16, dice: 2, hit: 5, 
             infAndCav: {modifier: -1, wounds: 1},
@@ -723,7 +861,26 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Anti-tank"], voidShields: 1
         },
-    ]}], 
+    ]}],
+    ["Malcador lascannon turret", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        },
+    ]}],
+    ["Malcador Vanquisher battlecannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 32, dice: 1, hit: 4,
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            traits: ["Anti-tank", "Armourbane"], 
+        }
+    ]}],
     ["Mauler bolt cannon", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 8, dice: 3, hit: 5, 
             infAndCav: {modifier: -1, wounds: 1},
@@ -732,6 +889,25 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT"]
         },
+    ]}],
+    ["Marauder bomb bay", {arc: "Rear", weaponStatsAtRange: [
+        {dice: 3, hit: 4, 
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            traits: ["Bombing Run"]
+        }
+    ]}],
+    ["Marauder heavy bolter turrets", {arc: "Rear", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 3, hit: 6, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Point Defence", "Skyfire"]
+        }
     ]}],
     ["Maxima bolters", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 4, hit: 5, 
@@ -787,6 +963,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Burrowing"]
         }
     ]}],
+    ["Multi-laser", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 14, dice: 2, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT"]
+        }
+    ]}],
     ["Multi-melta", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 4, 
             infAndCav:{modifier: 0, wounds: 1}, 
@@ -819,9 +1004,36 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Shock Pulse"], voidShields: 2
         },
     ]}], 
+    ["Nose Mounted autocannon array", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 6, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Skyfire"]
+        },
+    ]}],
+    ["Nose Mounted heavy bolter", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 3, hit: 6, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Point Defence", "Skyfire"]
+        },
+    ]}],
     ["Nose Mounted heavy flamer", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 4, infAndCav: {modifier: 0, wounds: 1},
         walker: {modifier: 0, wounds: 1}, traits: ["Ignores Cover", "Light", "Point Defence"]}
+    ]}],
+    ["Nose Mounted lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank", "Skyfire"], voidShields: 1
+        },
     ]}],
     ["Phased plasma-fusil", {arc: "Front", weaponStatsAtRange:[
         {minRange:0, maxRange: 10, dice: 1, hit: 4, 
@@ -830,6 +1042,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: 0, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT"]
+        }
+    ]}],
+    ["Phosphex bomb clusters", {arc: "Rear", weaponStatsAtRange: [
+        {dice: 2, hit: 4, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Bombing Run", "Light AT", "Ignores Cover"]
         }
     ]}],
     ["Pintle Mounted multi-melta", {arc: "Front", weaponStatsAtRange: [
@@ -937,6 +1158,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT", "Rapid Fire"]
         },
     ]}],
+    ["Quad autocannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 16, dice: 4, hit: 5, 
+            infAndCav: {modifier: -1, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Skyfire"]
+        },
+    ]}],
     ["Quad heavy bolter batteries", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 4, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -983,6 +1213,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
     ]}],
     ["Reaper chainsword", {arc: "Melee", weaponStatsAtRange: [
         {traits: ["Rend"]},
+    ]}],
+    ["Rear Mounted heavy bolter", {arc: "Rear", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 12, dice: 3, hit: 6, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            vShvKT: {modifier: 0, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Light AT", "Point Defence", "Skyfire"]
+        },
     ]}],
     ["Reaver turbo-laser destructor", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 40, dice: 2, hit: 4, 
@@ -1045,6 +1284,20 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Anti-tank", "Bunker Buster"], 
         }
     ]}],
+    ["Sentinel missile launcher", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 20, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Ignores Cover", "Light"],
+        },
+        {minRange: 0, maxRange: 20, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        }
+    ]}], 
     ["Serperos lascutters", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 1, hit: 2, 
             infAndCav:{modifier: 0, wounds: 1}, 
@@ -1070,6 +1323,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
         structure: {modifier: -2, wounds: 2},
         traits: ["Wrecker (2)"]
         }
+    ]}],
+    ["Skystrike missiles", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 30, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank", "Skyfire", "Tracking"], voidShields: 1
+        },
     ]}],
     ["Sollex heavy-las", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 22, dice: 1, hit: 4, 
@@ -1235,6 +1497,15 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Anti-tank", "Demolisher"], voidShields: 1
         },
     ]}],
+    ["Thunderbolt twin-linked lascannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 22, dice: 2, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank", "Skyfire"], voidShields: 1
+        },
+    ]}],
     ["Thunderhawk heavy bolters", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 12, dice: 3, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -1333,6 +1604,16 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT"]
         }
     ]}],
+    ["Vanquisher battlecannon", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 32, dice: 1, hit: 4,
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            traits: ["Anti-tank", "Armourbane"], 
+        }
+    ]}],
     ["Vengance launcher", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 25, dice: 2, hit: 4, 
             infAndCav: {modifier: -1, wounds: 1},
@@ -1398,6 +1679,16 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: 0, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT"]
+        }
+    ]}],
+    ["Wing bombs", {arc: "Rear", weaponStatsAtRange: [
+        {dice: 2, hit: 4, 
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            traits: ["Bombing Run"]
         }
     ]}],
     ["Wing Mounted lascannon", {arc: "Front", weaponStatsAtRange: [

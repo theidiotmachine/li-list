@@ -283,6 +283,7 @@ export type UnitTrait =
     "Assault Transport (2)" |
     "Assault Transport (5)" |
     "Attached Deployment" |
+    "Auger Array" |
     "Automated Sentry" |
     "Battlesmith" |
     "Blessed Auto-simulacra" |
