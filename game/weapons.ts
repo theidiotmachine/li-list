@@ -254,6 +254,90 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: []
         }
     ]}],
+    ["Conversion beam dissipator", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 2, hit: 4,
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            traits: ["Accurate"]
+        },
+        {minRange: 6, maxRange: 18, dice: 3, hit: 3,
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -3, wounds: 1},
+            traits: ["Accurate", "Demolisher"]
+        },
+        {minRange: 18, maxRange: 35, dice: 3, hit: 3,
+            infAndCav: {modifier: -4, wounds: 1},
+            walker: {modifier: -4, wounds: 1},
+            vShvKT: {modifier: -4, wounds: 1},
+            ionShield: {modifier: -2, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -4, wounds: 1},
+            traits: ["Accurate", "Demolisher"]
+        },
+    ]}],
+    ["Conversion beam dissolutor", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 2, hit: 4,
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            traits: []
+        },
+        {minRange: 6, maxRange: 18, dice: 2, hit: 3,
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -3, wounds: 1},
+            traits: ["Demolisher"]
+        },
+        {minRange: 18, maxRange: 35, dice: 2, hit: 2,
+            infAndCav: {modifier: -4, wounds: 1},
+            walker: {modifier: -4, wounds: 1},
+            vShvKT: {modifier: -4, wounds: 1},
+            ionShield: {modifier: -2, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -4, wounds: 1},
+            traits: ["Demolisher"]
+        },
+    ]}],
+    ["Conversion beam extripator", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 2, hit: 3,
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            traits: ["Accurate"]
+        },
+        {minRange: 6, maxRange: 18, dice: 3, hit: 3,
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -3, wounds: 1},
+            traits: ["Accurate", "Demolisher"]
+        },
+        {minRange: 18, maxRange: 35, dice: 3, hit: 2,
+            infAndCav: {modifier: -4, wounds: 1},
+            walker: {modifier: -4, wounds: 1},
+            vShvKT: {modifier: -4, wounds: 1},
+            ionShield: {modifier: -2, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -4, wounds: 1},
+            traits: ["Accurate", "Demolisher"]
+        },
+    ]}],
     ["Cyclone missile launcher", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 20, dice: 2, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -387,6 +471,17 @@ const weapons = new Map<WeaponType, WeaponStats>([
             vShvKT: {modifier: 0, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT", "Skyfire"]
+        },
+    ]}],
+    ["Graviton eradicator", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 30, dice: 2, hit: 0,
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            structure: {modifier: -2, wounds: 1},
+            traits: ["Graviton Pulse", "Demolisher"]
         },
     ]}],
     ["Graviton hammers", {arc: "Melee", weaponStatsAtRange: [
@@ -1223,6 +1318,45 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Light AT", "Point Defence", "Skyfire"]
         },
     ]}],
+    ["Reaver conversion beam dissolutor", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 6, dice: 2, hit: 4,
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            traits: []
+        },
+        {minRange: 6, maxRange: 18, dice: 2, hit: 3,
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -3, wounds: 1},
+            traits: ["Demolisher"]
+        },
+        {minRange: 18, maxRange: 35, dice: 2, hit: 3,
+            infAndCav: {modifier: -4, wounds: 1},
+            walker: {modifier: -4, wounds: 1},
+            vShvKT: {modifier: -4, wounds: 1},
+            ionShield: {modifier: -2, wounds: 1},
+            voidShields: 1, 
+            structure: {modifier: -4, wounds: 1},
+            traits: ["Demolisher"]
+        },
+    ]}],
+    ["Reaver graviton eradicator", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 30, dice: 2, hit: 0,
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
+            vShvKT: {modifier: -2, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            structure: {modifier: -2, wounds: 1},
+            traits: ["Graviton Pulse", "Demolisher"]
+        },
+    ]}],
     ["Reaver turbo-laser destructor", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 40, dice: 2, hit: 4, 
             infAndCav: {modifier: -3, wounds: 1},
@@ -1680,6 +1814,17 @@ const weapons = new Map<WeaponType, WeaponStats>([
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Light AT"]
         }
+    ]}],
+    ["Warlord graviton ruinator", {arc: "Front", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 30, dice: 3, hit: 0,
+            infAndCav: {modifier: -3, wounds: 1},
+            walker: {modifier: -3, wounds: 1},
+            vShvKT: {modifier: -3, wounds: 1},
+            ionShield: {modifier: -1, wounds: 1},
+            voidShields: 1,
+            structure: {modifier: -3, wounds: 1},
+            traits: ["Graviton Pulse", "Demolisher"]
+        },
     ]}],
     ["Wing bombs", {arc: "Rear", weaponStatsAtRange: [
         {dice: 2, hit: 4, 

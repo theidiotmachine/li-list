@@ -1077,7 +1077,7 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
                 {loadout: "", weaponTypes: ["Ardex mega-bolters"]}
             ]},
             {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Conversion beam dissipator"}, //TODO
+                {loadout: "Conversion beam dissipator"},
                 {loadout: "Neutron laser"}, //TODO
                 {loadout: "Volcanon cannon"},
             ]},
@@ -1112,8 +1112,8 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {loadout: "Reaver Titan warp missile"}, //TODO
             {loadout: "Reaver turbo-laser destructor"},
             {loadout: "Reaver volkite eradicator"}, //TODO
-            {loadout: "Reaver graviton eradicator"}, //TODO
-            {loadout: "Reaver conversion beam dissolutor"}, //TODO
+            {loadout: "Reaver graviton eradicator"},
+            {loadout: "Reaver conversion beam dissolutor"},
         ]}],
         unitTraits: [],
     }],
@@ -1133,8 +1133,8 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
         ],
         caf: 10, wounds: 4, tacticalStrength: 0, voidShields: 2,
         modelLoadoutSlots: [{name: "Left", possibleModelLoadouts: [
-            {loadout: "Conversion beam dissolutor"}, //TODO
-            {loadout: "Graviton eradicator"}, //TODO
+            {loadout: "Conversion beam dissolutor"},
+            {loadout: "Graviton eradicator"},
             {loadout: "Incisor pattern melta lance"}, //TODO
             {loadout: "Inferno gun"}, //TODO
             {loadout: "Natrix shock lance"}, //TODO
@@ -1147,8 +1147,8 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {loadout: "Warhound swarmer missiles"}, //TODO
         ]},
         {name: "Right", possibleModelLoadouts: [
-            {loadout: "Conversion beam dissolutor"}, //TODO
-            {loadout: "Graviton eradicator"}, //TODO
+            {loadout: "Conversion beam dissolutor"},
+            {loadout: "Graviton eradicator"},
             {loadout: "Incisor pattern melta lance"}, //TODO
             {loadout: "Inferno gun"}, //TODO
             {loadout: "Natrix shock lance"}, //TODO

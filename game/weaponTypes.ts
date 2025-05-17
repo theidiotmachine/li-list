@@ -26,6 +26,9 @@ export type WeaponType =
     "Co-axial autocannon" |
     "Colossus Bomb" |
     "Combi bolters" |
+    "Conversion beam dissipator" |
+    "Conversion beam dissolutor" |
+    "Conversion beam extripator" |
     "Conversion beamers" |
     "Cyclonic melta lance" |
     "Cyclone missile launcher" |
@@ -42,6 +45,7 @@ export type WeaponType =
     "Exterminator autocannon" |
     "Flamers" |
     "Gravis autocannon batteries" |
+    "Graviton eradicator" |
     "Graviton gun" |
     "Graviton hammers" |
     "Graviton singularity cannon" |
@@ -138,6 +142,8 @@ export type WeaponType =
     "Reaper chainfist" |
     "Reaper chainsword" |
     "Rear Mounted heavy bolter" |
+    "Reaver conversion beam dissolutor" |
+    "Reaver graviton eradicator" |
     "Reaver turbo-laser destructor" |
     "Ripple fire" |
     "Rocket pods" |
@@ -194,6 +200,7 @@ export type WeaponType =
     "Volkite incinerators" |
     "Volkite serpenta" |
     "Vultarax havoc launcher" |
+    "Warlord graviton ruinator" |
     "Wing bombs" |
     "Wing Mounted lascannon" |
     "Xiphon lascannon array" |
