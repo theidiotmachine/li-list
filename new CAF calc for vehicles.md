@@ -12,9 +12,11 @@ Infantry vs vehicles feels dry and abstract. Vehicles's CAF is a single number, 
 
 Vehicle vs vehicle is even more dry. Yes, the vehicles are not really just bumping into each other, they are circling looking for weaknesses, letting off shots. However, the question 'how can this Rhino damage my Baneblade in close combat when it has no weapons which can scratch it in the shooting phase' is a reasonable one.
 
-### Summary
+### Executive summary
 
-This proposal has a number of new mechanics. It is for vehicles and super-heavy vehicles only. When we use the word 'vehicle' we mean 'vehicle or shv'.
+This proposal has a number of new mechanics. It is for Vehicles and Super-heavy Vehicles only. When we use the word 'vehicle' (with a lower case 'v') we mean 'Vehicle or Super-heavy Vehicle'.
+
+In a nut-shell, these are the proposals:
 
 * A vehicle has a front and rear combat arc. Its CAF is different depending on which arc an enemy model is.
 * A vehicle has a base CAF. Then each weapon provides a CAF bonus.
@@ -23,61 +25,72 @@ This proposal has a number of new mechanics. It is for vehicles and super-heavy 
 
 ### A note on the length
 
-There is a lot of maths here. However the intent is that all the maths can be pre-calculated and put on stat lines, rather than being calculated in-game. There is some book-keeping of weapons which have fired in a turn; this is, hopefully, no more complicated than keeping track of any other fired weapons.
+There is a lot of maths here. However the intent is that all the maths can be pre-calculated and put on stat lines, rather than being calculated in-game. There is some book-keeping of weapons which have fired in a turn; this is, hopefully, no more complicated than keeping track of any other fired weapons. I have written several worked examples to make it clearer; you are free to skip those and it will all still make sense.
 
-## New rules
+## Proposed new rules
 
 ### Combat Arc
 
-A vehicle has a Front and Rear Combat Arc. Generally the Front Combat Arc is the more dangerous one, and represents the fact hat that vehicle is more heavily armed and armoured at the front. The Front Combat Arc is calculated using the same mechanisms as the Front weapon Arc, by drawing a line through the centre of a model.
+A vehicle has a Front and Rear Combat Arc. Generally the Front Combat Arc is the more dangerous one, and represents the fact that a vehicle is more heavily armed and armoured at the front. The Front and Rear Combat Arcs are identical to the Front and Rear weapon Arc, and are discovered by drawing an imaginary line through the centre of a model or base.
 
-An enemy model is in a vehicle's Rear Combat Arc unless it is fully in front of the line. This is also true for the purposes of Rear Combat Arc weapons.
+An enemy model is in a vehicle's Rear Combat Arc unless it is fully in front of the imaginary line.
+
+We write the CAF for the two Combat Arcs as e.g.
+
++1 CAF Front, -1 CAF Rear
+
+This means that an engaged model wholly in the Front Combat Arc would be attacked with a CAF of +1; other models would be attacked with a CAF of -1.
+
+We use the term 
+
++2 CAF All 
+
+to indicate that the CAF can be applied in either Arc.
 
 ### New base CAF calculation for vehicles
 
-A vehicle or SHV has a base CAF. This is calculated from the model stats. Obviously these would be pre-calculated in the game. To calculate you apply the following steps
+A vehicle has a base CAF. This is calculated from the model stats. Obviously these would be pre-calculated in the game. To calculate you apply the following steps.
 
-Start with:
-* -2 front, -3 rear
+Start with -2 CAF Front, -3 CAF Rear.
 
-If it's a super-heavy vehicle, add
-* +1 front, +1 rear
+If it's a Super-heavy Vehicle, modify by:
+* +1 CAF Front, +1 CAF Rear
 
-Then look at the list it comes from (turns out having super soldiers in the crew is handy).
-* Legions: +1 front, +1 rear
-* Auxilia: 0 front, 0 rear
-* Everyone else: -1 front, -1 rear
+Then look at the list it comes from. Modify by:
+* Legions: +1 CAF Front, +1 CAF Rear
+* Auxilia: 0 CAF Front, 0 CAF Rear
+* Everyone else: -1 CAF Front, -1 Rear
 
-Then add based on the armour save
-* 6+: 0 front, 0 rear
-* 5+: 0 front, 0 rear
-* 4+: +1 front, 0 rear
-* 3+: +1 front, +1 rear
-* 2+: +2 front, +1 rear
+Then modify based on the armour save
+* 6+: 0 CAF Front, 0 CAF Rear
+* 5+: 0 CAF Front, 0 CAF Rear
+* 4+: +1 CAF Front, 0 CAF Rear
+* 3+: +1 CAF Front, +1 CAF Rear
+* 2+: +2 CAF Front, +1 CAF Rear
 
 If it has an invulnerable save, it gets a further addition
-* 6+: +1 front +1 rear
-* 5+: +2 front +2 rear
+* 6+: +1 CAF Front +1 CAF Rear
+* 5+: +2 CAF Front +2 CAF Rear
 
 Worked examples:
 
-A Rhino (has +0 today).
-* Start at: -2 front, -3 rear
-* Crew modifier from legions: additional +1 front, +1 rear
-* Armour modifier 4+: additional +1 front, 0 rear
-* Net result is: 0 front, -2 rear
+A Rhino (has +0 CAF today).
+* Start at: -2 CAF Front, -3 CAF Rear
+* Crew modifier from legions: additional +1 CAF Front, +1 CAF Rear
+* Armour modifier 4+: additional +1 CAF Front, 0 CAF Rear
+* Net result is: 0 CAF Front, -2 CAF Rear
 
-A Land Raider (has +2 today).
-* Start at: -2 front, -3 rear
-* Crew modifier from legions: additional +1 front, +1 rear
-* Armour modifier 2+: additional +2 front, +1 rear
-* Net result is: +1 front, -1 rear
+A Land Raider (has +2 CAF today).
+* Start at: -2 CAF Front, -3 CAF Rear
+* Crew modifier from legions: additional +1 CAF Front, +1 CAF Rear
+* Armour modifier 2+: additional +2 CAF Front, +1 CAF Rear
+* Net result is: +1 CAF Front, -1 CAF Rear
 
-A Baneblade (has +4 today).
-* Start at: -2 front, -3 rear
-* SHV modifier: additional +1 front, +1 rear
-* Armour modifier 2+: additional +2 front, +1 rear
-* Net result is: +1 front, -1 rear
+A Baneblade (has +4 CAF today).
+* Start at: -2 CAF Front, -3 CAF Rear
+* SHV modifier: additional +1 CAF Front, +1 CAF Rear
+* Armour modifier 2+: additional +2 CAF Front, +1 CAF Rear
+* Net result is: +1 CAF Front, -1 CAF Rear
   
 Note that these are all lower than the existing CAFs, and will be supplemented by weapon CAF bonuses.
 
@@ -92,13 +105,13 @@ The bonus must be used in its entirety against a model, and may not be split. Mu
 To calculate the weapon CAF bonuses, use the following formula. Again, these would be pre-calculated.
 
 1. Discard any weapon with 
-   1. Barrage, Blast, Bombing Run, Burrowing, Co-axial, Collapsing Singularity, Deflagrate, Graviton Pulse, Ignores Cover, Quake, Skyfire, Tracking, or Warp
+   1. Barrage, Blast, Bombing Run, Burrowing, Co-axial, Collapsing Singularity, Deflagrate, Graviton Pulse, Ignores Cover, Quake, Skyfire, Tracking, or Warp traits
    2. A min range > 0
 2. Calculate a single bonus
    1. Use the shortest ranged stat-line
-   2. If this stat line has the Light trait, the bonus is +1 + AP * -1 vs Infantry, Cavalry and Walker
-   3. If this stat line has the Light AT trait, the bonus is +1 + AP * -1 bonus vs Infantry, Cavalry and Walker and +1 vs Vehicles, SHV, Knights and Titans
-   4. If this stat line has the Anti-tank trait, the bonus is +1 vs Infantry, Cavalry and Walker and +1 + AP * -1 vs Vehicles, SHV, Knights and Titans
+   2. If this stat line has the Light trait, the bonus is +1 + AP * -1 vs Infantry, Cavalry and Walkers
+   3. If this stat line has the Light AT trait, the bonus is +1 + AP * -1 bonus vs Infantry, Cavalry and Walkers and +1 vs Vehicles, SHV, Knights and Titans
+   4. If this stat line has the Anti-tank trait, the bonus is +1 vs Infantry, Cavalry and Walkers and +1 + AP * -1 vs Vehicles, SHV, Knights and Titans
    5. If this stat line has none of those, the bonus is +1 + AP * -1 against everything
    6. If this stat line has the Point Defence trait, it has an additional +1 against anything it can damage
 3. Then calculate the number of bonuses
@@ -110,39 +123,43 @@ Worked examples:
 
 A Rhino with a pintle mounted twin bolter
 * pintle mounted twin bolter
-  * Light AP0: +1 vs infantry, cavalry and walkers
-  * Point Defence: increase to +2 vs infantry, cavalry and walkers
+  * Light AP0: +1 CAF vs Infantry, Cavalry and Walkers
+  * Point Defence: increase to +2 CAF vs Infantry, Cavalry and Walkers
   * Dice 2: 2 bonuses
   * Assault: doubled to 4 bonuses
-  * Arc (Front)
+  * Arc (Front) makes it +2 CAF Front
 
-This means that overall the Rhino has +0 front CAF, -2 rear CAF, with 4x +2 front CAF bonuses vs infantry, cavalry and walkers. 
+This means that overall the Rhino has +0 Front CAF, -2 Rear CAF, with 4x +2 Front CAF bonuses vs Infantry, Cavalry and Walkers. 
+
+This makes the Rhino significantly more scary when charged into infantry, but very fragile if attacked from behind.
 
 A Land Raider with a melta.
 * weapon bonus: Sponson Mounted twin-linked lascannon
-  * Anti-tank AP-1: +1 vs infantry and cavalry; +2 vs walkers, vehicles and shvs
+  * Anti-tank AP-1: +1 CAF vs Infantry and Cavalry; +2 CAF vs Walkers, Vehicles and Super-heavy Vehicles
   * Dice 1: 1 bonus
   * Arc (Front)
 * weapon bonus: Pintle Mounted multi-melta
-  * Anti-tank AP-3: +1 vs infantry and cavalry; +4 vs walkers, vehicles and shvs
-  * front arc
+  * Anti-tank AP-3: +1 CAF vs Infantry and Cavalry; +4 CAF vs Walkers, Vehicles and Super-heavy Vehicles
+  * Front arc
   * Dice 1: 1 bonus
   * Arc (Front)
   
-So the final CAF is +1 front, -1 rear with 
-  * 1x front bonus of +1 front vs infantry and cavalry; +2 front vs walkers, vehicles and shvs
-  * 1x front bonus of +1 vs infantry and cavalry; +4 vs walkers, vehicles and shvs
+So the final CAF is +1 CAF Front, -1 CAF Rear with 
+  * 1x bonus of +1 CAF Front vs Infantry and Cavalry; +2 CAF Front vs Walkers, Vehicles and Super-heavy Vehicles
+  * 1x bonus of +1 CAF Front vs Infantry and Cavalry; +4 CAF Front vs Walkers, Vehicles and Super-heavy Vehicles
+  
+Here the multi-melta and lascannon makes the Land Raider extremely deadly against vehicles, but fairly harmless against smaller troops.
 
 The Baneblade
 * Weapon bonus: Hull Mounted demolisher cannon
   * Has the Ignores cover trait: discard
 * Weapon bonus: Hull Mounted heavy bolter turret
-  * Light AP0: +1 vs infantry, cavalry and walkers
-  * Point Defence trait: modify to +2 vs infantry, cavalry and walkers
+  * Light AP0: +1 vs Infantry, Cavalry and Walkers
+  * Point Defence trait: modify to +2 vs Infantry, Cavalry and Walkers
   * 2 dice: 2 bonuses
-  * front arc: 2 front bonuses
+  * Front arc
 * Weapon bonus: Lascannon sponson turrets
-  * Anti-tank AP-1: +1 vs infantry and cavalry; +2 vs walkers, vehicles and shvs
+  * Anti-tank AP-1: +1 vs Infantry and Cavalry; +2 vs Walkers, Vehicles and Super-heavy Vehicles
   * 1 dice: 1 bonus
 * Weapon bonus: Baneblade cannon
   * AP-3: +4 vs everything
@@ -150,34 +167,42 @@ The Baneblade
 * Weapon bonus: Co-axial autocannon
   * Has the Co-axial trait: discard
 * Weapon bonus: Baneblade autocannon sponsons
-  * Light AT AP-1: +2 vs infantry, cavalry and walkers, +1 vs vehicles and shvs
-  * point Defence: +3 vs infantry, cavalry and walkers, +2 vs vehicles and shvs
+  * Light AT AP-1: +2 CAF All vs Infantry, Cavalry and Walkers, +1 CAF All vs Vehicles and Super-heavy Vehicles
+  * Point Defence: +3 CAF All vs Infantry, Cavalry and Walkers, +2 CAF All vs Vehicles and Super-heavy Vehicles
   * 2 dice: 2 bonuses
 
-So the final CAF is +1 front, -1 rear with 
-  * 2x front bonus +2 vs infantry, cavalry and walkers
-  * 1x all bonus +1 vs infantry and cavalry; +2 vs walkers, vehicles and shvs
-  * 1x all bonus +4 vs everything
-  * 2x all bonus +3 vs infantry, cavalry and walkers, +2 vs vehicles and shvs
+So the final CAF is +1 Front, -1 Rear with 
+  * 2x +2 CAF Front vs Infantry, Cavalry and Walkers
+  * 1x +1 CAF All vs Infantry and Cavalry; +2 CAF All vs Walkers, Vehicles and Super-heavy Vehicles
+  * 1x +4 CAF All vs everything
+  * 2x +3 CAF All vs Infantry, Cavalry and Walkers, +2 CAF All vs Vehicles and Super-heavy Vehicles
+
+The Baneblade is a monster. If you recall, it has a +4 CAF today; here its weapons mostly average out to that, but that one unit which gets shot at point blank with the Baneblade cannon won't be getting up any time soon. However, it is substantially weaker at the rear than at the front, and is vulnerable to being swarmed.
+
+### Vehicle charge bonus
+
+Normally a model gets a Charge bonus if it has traveled more than 1" into a Fight. 
+
+Here we propose that a vehicle has a charge bonus which depends on the distance it has charged. This distance is the distance since it started its move, or since its last Tank Shock (see later), whichever is shorter. The charge bonus is only applied to enemies in the Front Arc.
+
+* 0-0.5 distance of its full move: +0 CAF Front
+* 0.5-1 distance: +1 CAF Front
+* 1-1.5 distance: +2 CAF Front
+* 1.5-2 distance: +3 CAF Front
+
+This means that a vehicle plummeting into a packed group of units will cause them to have a bad day.
 
 ### Tank Shock
 
-A vehicle has a charge bonus which depends on the distance it has charged. This distance is the distance since it started its move, or since its last Tank Shock, whichever is shorter. The charge bonus is only applied to enemies in the front arc.
+During its move a vehicle with a Charge order may make a special attack on an enemy Detachment, so long as that model is Infantry or Cavalry. This is known as a 'Tank Shock' attack.  In such a case the vehicle Detachment may take a double move even if it doesn't end its move in base combat with an enemy model.
 
-* 0-0.5 distance of its full move: +0 front
-* 0.5-1 distance: +1 front
-* 1-1.5 distance: +2 front
-* 1.5-2 distance: +3 front
+First, the vehicle Detachment moves and then stops, touching enemy models. 
 
-During its move a vehicle with a Charge order may make a special attack on an enemy detachment, so long as that model is Infantry or Cavalry. This is known as a 'Tank Shock' attack.  In such a case the vehicle detachment may take a double move even if it doesn't end its move in base combat with an enemy model.
-
-First, the vehicle detachment moves and then stops, touching enemy models. 
-
-Next the target detachment must make a decision. It can Stand and Fight, or Get Out of the Way.
+Next the target Detachment must make a decision. It can Stand and Fight, or Get Out of the Way.
 
 If it chooses to Stand and Fight, it may fire Overwatch (if eligible). Then it immediately resolves a combat using the models which are in base contact. The player who has initiated the Tank Shock chooses the Fights.
 
-If it chooses to Get Out of the Way, it cannot fire Overwatch. The combat is resolved, as above, but with the following CAF bonuses.
+If the target Detachment chooses to Get Out of the Way, it cannot fire Overwatch. The combat is resolved, as above, but with the following CAF bonuses.
 * +2 to all models
 * an additional +2 if the target model has the Jump Packs or Skimmer special rules
 * an additional -2 if the target model has the Bulky rule (note that Jump Packs are not considered to be Bulky for the purposes of this calculation)
@@ -191,19 +216,19 @@ When a model chooses to Get Out of the Way, the best outcome it can get from the
 
 If the vehicle is destroyed, it is removed. If enemy models are destroyed, they are removed.
 
-If the vehicle detachment suffers more Wounds than the enemy detachment, it loses the Combat and must immediately take a morale test. If it fails, it immediately Withdraws and does not complete its move. 
+If the vehicle Detachment suffers more Wounds than the enemy Detachment, it loses the Combat and must immediately take a morale test. If it fails, it immediately Withdraws and does not complete its move. 
 
-If the enemy detachment takes more wounds than the vehicle detachment, it must immediately take a morale test. If it fails, it immediately Withdraws.
+If the enemy Detachment takes more wounds than the vehicle Detachment, it must immediately take a morale test. If it fails, it immediately Withdraws.
 
-If the vehicle detachment survives and retains its order, it continues its move, moving through any remaining models in the Tank Shocked detachment as if they were not there.
+If the vehicle Detachment survives and does not Withdraw, it continues its move, moving through any remaining models in the Tank Shocked Detachment as if they were not there.
 
-A detachment may make many Tank Shock attacks per movement phase; it may also end its charge in Combat after a Tank Shock. However, subsequent Tank Shocks within the same movement phase have a -1 CAF penalty for each previous Tank Shock; the final Combat has the same penalty. A detachment may not Tank Shock a single detachment more than once, nor may it end its move in base-to-base contact with a unit it has previously Tank Shocked. Any weapon CAF bonus used in a Tank Shock is used for the turn and may not be used in subsequent Tank Shocks or Combats that turn, nor may it be fired later.
+A Detachment may make many Tank Shock attacks per movement phase; it may also end its charge in Combat after a Tank Shock. However, subsequent Tank Shocks within the same movement phase have a -1 CAF penalty for each previous Tank Shock; the final Combat has the same penalty. A Detachment may not Tank Shock a single Detachment more than once, nor may it end its move in base-to-base contact with a unit it has previously Tank Shocked. Any weapon CAF bonus used in a Tank Shock is used for the turn and may not be used in subsequent Tank Shocks or Combats that turn, nor may it be fired later.
 
-Tank Shocks may be used to leave Combat. In this case the targeted detachment may not fire Overwatch, the vehicle gets no Charge bonus, and the vehicle may not make a double distance move.
+Tank Shocks may be used to leave Combat. In this case the targeted Detachment may not fire Overwatch, the vehicle gets no Charge bonus, and the vehicle may not make a double distance move.
 
 ### Encircle move
 
-An infantry, cavalry or walker model with a Charge order which is Engaged with a vehicle may make an Encircle move. An Encircle move is instead of a normal move.
+An Infantry, Cavalry or Walker model with a Charge order which is Engaged with a vehicle may make an Encircle move. An Encircle move is instead of a normal move.
 
 This represents infantry swarming around a vehicle looking for weaknesses.
 
@@ -212,9 +237,9 @@ In this move, the models move around the vehicle. They must
 * Not move through an enemy model
 * Not end in base-to-base contact with an enemy model they did not start in base-to-base contact with
 
-A unit with the Skimmer or Jump Packs special rule may ignore the second clause, and may move through enemy models as if they were not there. It must still end its Encircle move in base-to-base contact with same the models it started.
+A model with the Skimmer or Jump Packs special rule may ignore the second clause, and may move through enemy models as if they were not there. It must still end its Encircle move in base-to-base contact with same the models it started.
 
-Encircle moves can be combined with Pile-in moves. That is, a detachment may have some of its models Encircle, and some Pile-in.
+Encircle moves can be combined with Pile-in moves. That is, a Detachment may have some of its models Encircle, and some Pile-in.
 
 ### Turn move
 
