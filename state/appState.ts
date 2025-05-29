@@ -1,9 +1,11 @@
 import { Signal, signal, computed } from "@preact/signals";
 import { DetachmentName, FormationName, ModelName, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "../game/types.ts";
 import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationName, getStatsForModelName } from "../game/lists.ts";
-import { _common } from "$std/path/_common/common.ts";
-import { deleteArmy, getArmyNames, loadArmy, saveArmy, SaveState } from "../storage/storage.ts";
+import { getArmyNamesLocally, loadArmyLocally, saveArmyLocally } from "../storage/localStorage.ts";
 import { LegionName } from "../game/legionTypes.ts";
+import { deleteArmyLocally } from "../storage/localStorage.ts";
+import { SaveState } from "../storage/storageTypes.ts";
+
 
 export type AddFormation = () => void;
 export type RemoveFormation = (uuid: string) => void;
@@ -16,7 +18,7 @@ export type ChangeModelLoadoutGroupNumber = (uuid: string, detachmentIndex: numb
 export type Undo = () => void;
 export type Redo = () => void;
 
-export enum LoadState{
+export enum LoadingState{
     NotStarted,
     Loading,
     Loaded,
@@ -47,14 +49,19 @@ export type AppStateType = {
     canRedo: Signal<boolean>;
 
     //storage
-    armiesLoadState: Signal<LoadState>;
-    armyLoadState: Signal<LoadState>;
-    saves: Signal<SaveState[]>;
-    refreshSaves: () => void;
+    //local
+    armiesLocalLoadState: Signal<LoadingState>;
+    armyLoadState: Signal<LoadingState>;
+    localSaves: Signal<SaveState[]>;
+    refreshLocalSaves: () => void;
     load: (uuid: string) => void;
     deleteSave: (uuid: string) => void;
     canCloneArmy: Signal<boolean>;
     cloneArmy: () => void;
+    //kv
+    refreshKVSaves: () => void;
+    kvSaves: Signal<SaveState[]>;
+    armiesKVLoadState: Signal<LoadingState>;
 
     //ui -- open and close the model group editor
     modelGroupOpenState: Signal<Map<string, boolean>>;
@@ -699,46 +706,66 @@ function createAppState(): AppStateType {
         return undoIndex.value < undoStack.value.length - 1;
     });
     
-    const armiesLoadState = signal<LoadState>(LoadState.NotStarted);
-    const armyLoadState = signal<LoadState>(LoadState.NotStarted);
+    const armiesLocalLoadState = signal<LoadingState>(LoadingState.NotStarted);
+    const armyLoadState = signal<LoadingState>(LoadingState.NotStarted);
 
-    const saves = signal<SaveState[]>([]);
+    const localSaves = signal<SaveState[]>([]);
+    const kvSaves = signal<SaveState[]>([]);
 
-    const refreshSaves = async () => {
-        if(armiesLoadState.value === LoadState.Loading || armiesLoadState.value === LoadState.Loaded)
+    const refreshLocalSaves = async () => {
+        if(armiesLocalLoadState.value === LoadingState.Loading || armiesLocalLoadState.value === LoadingState.Loaded)
             return;
 
-        armiesLoadState.value = LoadState.Loading;
-        saves.value = await getArmyNames();
-        armiesLoadState.value = LoadState.Loaded;
+        armiesLocalLoadState.value = LoadingState.Loading;
+        localSaves.value = await getArmyNamesLocally();
+        armiesLocalLoadState.value = LoadingState.Loaded;
+    }
+
+    const refreshKVSaves = async () => {
+        if(armiesKVLoadState.value === LoadingState.Loading || armiesKVLoadState.value === LoadingState.Loaded)
+            return;
+
+        armiesKVLoadState.value = LoadingState.Loading;
+        const url = new URL(globalThis.location.href);
+        const response = await fetch(url.origin + "/api/armies-for-user");
+        if(!response.ok) {
+            armiesKVLoadState.value = LoadingState.NotStarted;
+        } else {
+            const kvSavesData = await response.json();
+            kvSaves.value = kvSavesData as SaveState[];
+        }
+        armiesKVLoadState.value = LoadingState.Loaded;
     }
 
     const deleteSave = async (uuid: string) => {
-        await deleteArmy(uuid);
-        armiesLoadState.value = LoadState.NotStarted;
-        refreshSaves();
+        await deleteArmyLocally(uuid);
+        armiesLocalLoadState.value = LoadingState.NotStarted;
+        refreshLocalSaves();
     }
 
     const canSaveLocally = ()=>army.value.name != "";
     const save = async () => {
-        console.log("save");
-        if(canSaveLocally())
-            await saveArmy(army.value);
+        if(canSaveLocally()) {
+            await saveArmyLocally(army.value);
+        }
+            
     }
 
     const load = async (uuid: string) => {
-        if(armyLoadState.value === LoadState.Loading || armyLoadState.value === LoadState.Loaded)
+        if(armyLoadState.value === LoadingState.Loading || armyLoadState.value === LoadingState.Loaded)
             return;
 
-        armyLoadState.value = LoadState.Loading;
-        const storedArmy = await loadArmy(uuid);
+        armyLoadState.value = LoadingState.Loading;
+        const storedArmy = await loadArmyLocally(uuid);
         if(storedArmy != undefined) {
             army.value = storedArmy;
             undoStack.value = [storedArmy];
             undoIndex.value = 0;
         }
-        armyLoadState.value = LoadState.Loaded;
+        armyLoadState.value = LoadingState.Loaded;
     }
+
+    const armiesKVLoadState = signal<LoadingState>(LoadingState.NotStarted);
 
     const pushOntoUndoStack = (army: Army) => {
         if(undoIndex.value < undoStack.value.length - 1) {
@@ -1166,7 +1193,8 @@ function createAppState(): AppStateType {
         addFormation, removeFormation, changeFormationArmyList, changeFormationLegionName,
         changeFormationName, changeDetachmentName, changeDetachmentAttachment, changeModelNumber, 
         changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
-        armiesLoadState, armyLoadState, saves, refreshSaves, load, deleteSave, canCloneArmy, cloneArmy,
+        armiesLocalLoadState, armyLoadState, localSaves, refreshLocalSaves, load, deleteSave, canCloneArmy, cloneArmy,
+        armiesKVLoadState, kvSaves, refreshKVSaves,
         modelGroupOpenState, openModelGroup, closeModelGroup, getModelGroupKey,
         openFormation, closeFormation, formationClosedState,
     };

@@ -73,6 +73,8 @@ export type WeaponType =
     "In-built twin-linked bolter" |
     "In-built twin-linked heavy bolters" |
     "Incineration charge" |
+    "Incisor pattern melta lance" |
+    "Inferno gun" |
     "Ion gauntlet shield" |
     "Irad-scourer" |
     "Irradiation engine" |
@@ -113,6 +115,7 @@ export type WeaponType =
     "Meltagun" |
     "Myrmidon plasma-fusil" |
     "Myrmidon volkites" |
+    "Natrix shock lance" |
     "Neutron beam laser" |
     "Nose Mounted autocannon array" |
     "Nose Mounted heavy bolter" |
@@ -145,6 +148,8 @@ export type WeaponType =
     "Reaver conversion beam dissolutor" |
     "Reaver graviton eradicator" |
     "Reaver turbo-laser destructor" |
+    "Reaver volkite eradicator" |
+    "Reaver Vulcan mega-bolter" |
     "Ripple fire" |
     "Rocket pods" |
     "Rotor cannon" |
@@ -190,6 +195,7 @@ export type WeaponType =
     "Twin-linked volkite calvier" |
     "Twin-linked volkite calviers" |
     "Twin plasma guns" |
+    "Ursus claw" |
     "Vanquisher battlecannon" |
     "Vengance launcher" |
     "Volcano cannon" |
@@ -197,9 +203,14 @@ export type WeaponType =
     "Volkite chargers" |
     "Volkite chieorovile" |
     "Volkite culverins" |
+    "Volkite destructor" |
+    "Volkite eradicator" |
     "Volkite incinerators" |
     "Volkite serpenta" |
+    "Vulcan mega-bolter" |
     "Vultarax havoc launcher" |
+    "Warhound shudder missiles" |
+    "Warhound swarmer missiles" |
     "Warlord graviton ruinator" |
     "Wing bombs" |
     "Wing Mounted lascannon" |
@@ -213,6 +224,7 @@ export type WeaponTrait =
     "Assault" |
     "Anti-tank" |
     "Barrage" |
+    "Beam" |
     "Blast (3\")" |
     "Bombing Run" |
     "Bunker Buster" |
@@ -227,11 +239,13 @@ export type WeaponTrait =
     "Firestorm" |
     "Graviton Pulse" |
     "Ignores Cover" |
+    "Impale" |
     "Light" |
     "Light AT" |
     "Limited (1)" |
     "Neutron-flux" |
     "Point Defence" |
+    "Quake" |
     "Rapid Fire" |
     "Reach" |
     "Rend" |

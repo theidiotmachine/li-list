@@ -4,10 +4,10 @@
     "check": "deno fmt --check && deno lint && deno check **/*.ts && deno check **/*.tsx",
     "cli": "echo \"import '\\$fresh/src/dev/cli.ts'\" | deno run --unstable -A -",
     "manifest": "deno task cli manifest $(pwd)",
-    "start": "deno run -A --watch=static/,routes/ dev.ts",
-    "build": "deno run -A dev.ts build",
-    "preview": "deno run -A main.ts",
-    "update": "deno run -A -r https://fresh.deno.dev/update ."
+    "start": "deno run --unstable-kv -A --watch=static/,routes/ dev.ts",
+    "build": "deno run --unstable-kv -A dev.ts build",
+    "preview": "deno run --unstable-kv -A main.ts",
+    "update": "deno run --unstable-kv -A -r https://fresh.deno.dev/update ."
   },
   "lint": {
     "rules": {
@@ -24,6 +24,7 @@
     "dexie": "npm:/dexie@4.0.11",
     "dexie/": "npm:/dexie@4.0.11/",
     "$fresh/": "https://deno.land/x/fresh@1.7.3/",
+    "jose": "npm:jose@^6.0.11",
     "pdf-lib": "npm:/pdf-lib@1.17.1",
     "qrcode": "npm:/qrcode@1.5.4",
     "preact": "https://esm.sh/preact@10.22.0",

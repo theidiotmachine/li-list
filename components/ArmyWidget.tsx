@@ -4,7 +4,7 @@ import { FormationWidget } from "./FormationWidget.tsx";
 import { ArmyPrimaryArmyListSelect } from "./ArmyPrimaryArmyListSelect.tsx";
 import { ArmyAllegianceSelect } from "./ArmyAllegianceSelect.tsx";
 import { IS_BROWSER } from "$fresh/runtime.ts";
-import { LoadState } from "../state/appState.ts";
+import { LoadingState } from "../state/appState.ts";
 import { ArmyValidity, ArmyValidityText } from "./ArmyValidity.tsx";
 import { Allegiance, ArmyListName } from "../game/types.ts";
 
@@ -34,7 +34,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     let allegiance: Allegiance | "" = "";
     let primaryArmyListName: ArmyListName | "" = "";
     let activations = 0;
-    if((props.uuid != "" && armyLoadState.value == LoadState.Loaded) 
+    if((props.uuid != "" && armyLoadState.value == LoadingState.Loaded) 
         || props.armyAsJson != "") {
         name = army.value.name;
         maxPoints = army.value.maxPoints;
@@ -68,7 +68,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             <input disabled={!editable}
                 type="number"
                 //this madness removes the spinners
-                class={"w-12 md:w-16 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none " + bgColour}
+                class={"w-12 md:w-16 text-right border border-gray-200  [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none " + bgColour}
                 min="0" 
                 value={maxPoints} onChange={(e) => {
                     const target = e.target as HTMLInputElement;
@@ -136,7 +136,7 @@ export function ArmyWidget(props: ArmyWidgetProps) {
                     }
                 }
             }}> {
-            (props.uuid != "" && armyLoadState.value != LoadState.Loaded) 
+            (props.uuid != "" && armyLoadState.value != LoadingState.Loaded) 
             ?
             (<h1 class={props.class}>Loading...</h1>)
             :

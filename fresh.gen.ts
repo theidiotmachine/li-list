@@ -5,11 +5,22 @@
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $about from "./routes/about.tsx";
+import * as $api_armies_for_user from "./routes/api/armies-for-user.ts";
+import * as $api_armies_aid_ from "./routes/api/armies/[aid].ts";
+import * as $api_armies_middleware from "./routes/api/armies/_middleware.ts";
+import * as $api_for_user_username_ from "./routes/api/for-user/[username].ts";
+import * as $api_login from "./routes/api/login.ts";
+import * as $api_signup from "./routes/api/signup.ts";
 import * as $export from "./routes/export.tsx";
 import * as $hammer from "./routes/hammer.tsx";
+import * as $hello from "./routes/hello.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $load from "./routes/load.tsx";
+import * as $login from "./routes/login.tsx";
+import * as $logout from "./routes/logout.ts";
+import * as $password from "./routes/password.tsx";
 import * as $qr from "./routes/qr.tsx";
+import * as $signup from "./routes/signup.tsx";
 import * as $unit_unitid_ from "./routes/unit/[unitid].tsx";
 import * as $App from "./islands/App.tsx";
 import * as $HammerScenarioIsland from "./islands/HammerScenarioIsland.tsx";
@@ -21,11 +32,22 @@ const manifest = {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
     "./routes/about.tsx": $about,
+    "./routes/api/armies-for-user.ts": $api_armies_for_user,
+    "./routes/api/armies/[aid].ts": $api_armies_aid_,
+    "./routes/api/armies/_middleware.ts": $api_armies_middleware,
+    "./routes/api/for-user/[username].ts": $api_for_user_username_,
+    "./routes/api/login.ts": $api_login,
+    "./routes/api/signup.ts": $api_signup,
     "./routes/export.tsx": $export,
     "./routes/hammer.tsx": $hammer,
+    "./routes/hello.tsx": $hello,
     "./routes/index.tsx": $index,
     "./routes/load.tsx": $load,
+    "./routes/login.tsx": $login,
+    "./routes/logout.ts": $logout,
+    "./routes/password.tsx": $password,
     "./routes/qr.tsx": $qr,
+    "./routes/signup.tsx": $signup,
     "./routes/unit/[unitid].tsx": $unit_unitid_,
   },
   islands: {

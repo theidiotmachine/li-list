@@ -4,14 +4,20 @@ import { gunzip } from "jsr:@deno-library/compress";
 
 import App from "../islands/App.tsx";
 
+
+function decodeBase64Gzip(encodedArmyString: string): string {
+  const zippedArmyString = decodeBase64(decodeURIComponent(encodedArmyString));
+  const armyAsJson = new TextDecoder().decode(gunzip(zippedArmyString));
+  return armyAsJson;
+}
+
 export default function Home(props: PageProps) {
   const uuid = props.url.searchParams.get("uuid") ?? "";
   const encodedArmyString = props.url.searchParams.get("army") ?? "";
   let armyAsJson = "";
   
   if(encodedArmyString != "") {
-      const zippedArmyString = decodeBase64(decodeURIComponent(encodedArmyString));
-      armyAsJson = new TextDecoder().decode(gunzip(zippedArmyString));
+      armyAsJson = decodeBase64Gzip(encodedArmyString)
   }
   
   return <App uuid={uuid} armyAsJson={armyAsJson}/>;

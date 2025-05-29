@@ -1,11 +1,11 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { LoadState } from "../state/appState.ts";
+import { LoadingState } from "../state/appState.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
 import { DelButton } from "./DelButton.tsx";
 
 export function LoadWidget() {
-    const { saves, refreshSaves, armiesLoadState, deleteSave } = useContext(AppState);
+    const { localSaves: saves, refreshLocalSaves: refreshSaves, armiesLocalLoadState: armiesLoadState, deleteSave } = useContext(AppState);
 
     //fresh runs on some combination of browser and server. As soon as we hit the loading code, we
     //have to use the local IndexDB on the browser, so we only refresh the save cache if we're local
@@ -14,7 +14,7 @@ export function LoadWidget() {
 
     return(
         <div class="flex flex-row justify-center mt-8"> {
-            (armiesLoadState.value == LoadState.Loading)?
+            (armiesLoadState.value == LoadingState.Loading)?
                 (<h1>Loading...</h1>)
             :
                 (

@@ -1,9 +1,23 @@
-import { decodeBase64 } from "jsr:@std/encoding/base64";
-import { gunzip } from "jsr:@deno-library/compress";
 import { grayscale, PageSizes, PDFDocument, PDFFont, PDFPage, rgb, StandardFonts } from "pdf-lib";
 import { Army, Detachment, Formation, ModelGroup } from "../game/types.ts";
 import { Handlers } from "$fresh/server.ts";
 import { getShapeForFormationName, getStatsForModelName } from "../game/lists.ts";
+//import { decodeBase64GzipJson } from "../server/storageServer.ts";
+
+import { decodeBase64 } from "jsr:@std/encoding/base64";
+import { gunzip } from "jsr:@deno-library/compress";
+
+function decodeBase64Gzip(encodedArmyString: string): string {
+  const zippedArmyString = decodeBase64(decodeURIComponent(encodedArmyString));
+  const armyAsJson = new TextDecoder().decode(gunzip(zippedArmyString));
+  return armyAsJson;
+}
+
+function decodeBase64GzipJson<T>(encodedArmyString: string): T {
+  const armyAsJson = decodeBase64Gzip(encodedArmyString);
+  const army = JSON.parse(armyAsJson);
+  return army as T;
+}
 
 const h1FontSize = 28;
 const h2FontSize = 18;
@@ -248,9 +262,7 @@ export const handler: Handlers = {
     if(damageBoxesString == "true")
         damageBoxes = true;
 
-    const zippedArmyString = decodeBase64(decodeURIComponent(encodedArmyString));
-    const armyAsJson = new TextDecoder().decode(gunzip(zippedArmyString));
-    const army = JSON.parse(armyAsJson);
+    const army = decodeBase64GzipJson<Army>(encodedArmyString);
     const fileName = army.name.trim().replace(/ +/g, '-').replace(/[^a-z0-9\-]/gi, '_').toLowerCase();
     return createPdf(army, damageBoxes).then((s)=>{
         return new Response(s, {

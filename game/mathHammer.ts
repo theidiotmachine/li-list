@@ -78,17 +78,32 @@ const saveDiceTable = [
 function aimWeapon(wsar: WeaponStatsAtRange, targetStats: Stats): AimResult | undefined {
     //TODO Ripple Fire
     if(wsar.hit == undefined)
-        return undefined;
+        return undefined; 
 
     let hit = wsar.hit;
     if(statsHasTrait(targetStats, "Flyer")) {
         //everyone's favourite FAQ: you can't hit flyers with burrowing rounds
-        if(weaponHasTrait(wsar, "Burrowing"))
+        if(weaponHasTrait(wsar, "Burrowing") || weaponHasTrait(wsar, "Beam") || weaponHasTrait(wsar, "Bombing Run"))
             return {resultTable: [
                 {fraction: 1, hits: 0}
             ]};
-        if(!weaponHasTrait(wsar, "Skyfire"))
-            hit = 6;
+
+        if(!weaponHasTrait(wsar, "Skyfire")) {
+            if(weaponHasTraitLike(wsar, "Blast ")) {
+                //if you have blast and no skyfire, you can't hit flyers
+                return {resultTable: [
+                    {fraction: 1, hits: 0}
+                ]}; 
+            } else {
+                hit = 6;
+            }
+        }   
+    } else {
+        //blast + skyfire can only hit flyers
+        if(weaponHasTraitLike(wsar, "Blast ") && weaponHasTrait(wsar, "Skyfire"))
+            return {resultTable: [
+                {fraction: 1, hits: 0}
+            ]}; 
     }
 
     if(weaponHasTrait(wsar, "Rapid Fire") || (statsHasTrait(targetStats, "Flyer") && weaponHasTrait(wsar, "Tracking"))) {
@@ -126,6 +141,10 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Save
             wsarTraits.push("Shred");
         }
     }
+
+    //not implemented
+    if(hasWeaponTrait(wsarTraits, "Impale"))
+        return {damageFraction: 0, wounds: 0, saveType: "Armour", notes: ["'Impale' not implemented"]};
 
     //also bypasses void shields but we don't have that yet
     if(hasWeaponTrait(wsarTraits, "Burrowing"))
@@ -232,12 +251,36 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveA
         notes: string[];
     };
 
+    let eligibleWSARs = nws.weaponStats.weaponStatsAtRange.filter((wsar)=>{
+        
+        return !(
+            weaponHasTrait(wsar, "Deflagrate") 
+            || weaponHasTrait(wsar, "Collapsing Singularity")
+            || weaponHasTrait(wsar, "Firestorm")
+            || weaponHasTrait(wsar, "Graviton Pulse")
+            || weaponHasTrait(wsar, "Saturation Fire")
+        )
+    });
+
+    if(eligibleWSARs.length == 0) {
+        return {
+            weaponType: nws.weaponType,
+            saveType: "Armour",
+            resultTable: [{wounds: 0, fraction: 1}],
+            hitTable: [{hits: 0, fraction: 1}],
+            damageFraction: 0,
+            hitAndDamageTable: [{wounds: 0, fraction: 1}],
+            dice: 0,
+            notes: ["Trait not implemented"]
+        };
+    }
+
     //filter down the ones in range
-    const eligableWSARs = nws.weaponStats.weaponStatsAtRange.filter((wsar)=>
+    eligibleWSARs = nws.weaponStats.weaponStatsAtRange.filter((wsar)=>
         wsar.minRange != undefined && wsar.maxRange != undefined && wsar.minRange < range && wsar.maxRange >= range && nws.weaponStats.arc != "Melee"
     );
 
-    if(eligableWSARs.length == 0) {
+    if(eligibleWSARs.length == 0) {
         return {
             weaponType: nws.weaponType,
             saveType: "Armour",
@@ -250,7 +293,7 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveA
         };
     }
     
-    const aimResults = eligableWSARs.map((wsar)=>{return{aimResult: aimWeapon(wsar, targetStats), wsar}});
+    const aimResults = eligibleWSARs.map((wsar)=>{return{aimResult: aimWeapon(wsar, targetStats), wsar}});
     const shootResults: (IntermediateShootResult|undefined)[] = aimResults.map(({aimResult, wsar})=>{
         if(aimResult === undefined)
             return undefined;

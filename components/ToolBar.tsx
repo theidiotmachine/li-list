@@ -1,6 +1,6 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { getEncodedArmy } from "../storage/storage.ts";
+import { encodeArmyJsonGzipBase64 } from "../storage/storageClient.ts";
 
 export type ToolBarProps = {
     class: string
@@ -57,19 +57,19 @@ export function ToolBar(props: ToolBarProps) {
                     class="flex-none text-gray-500">Redo</span>
             }
             <a onClick={()=>{
-                const encodedPromise = getEncodedArmy(army.value);
+                const encodedPromise = encodeArmyJsonGzipBase64(army.value);
                 encodedPromise.then((encoded)=>{location.href='./export?army='+encoded;})
             }} class="flex-none cursor-pointer">Export PDF</a>
             <a onClick={()=>{
-                const encodedPromise = getEncodedArmy(army.value);
+                const encodedPromise = encodeArmyJsonGzipBase64(army.value);
                 encodedPromise.then((encoded)=>{location.href='./export?army='+encoded+"&damageBoxes=true";})
             }} class="flex-none cursor-pointer">Export Box PDF</a>
             <a onClick={()=>{
-                const encodedPromise = getEncodedArmy(army.value);
+                const encodedPromise = encodeArmyJsonGzipBase64(army.value);
                 encodedPromise.then((encoded)=>{location.href='./?army='+encoded;})
             }} class="flex-none cursor-pointer">Share Link</a>
             <a onClick={()=>{
-                const encodedPromise = getEncodedArmy(army.value);
+                const encodedPromise = encodeArmyJsonGzipBase64(army.value);
                 encodedPromise.then((encoded)=>{location.href='/qr?army='+encoded;})
             }} class="flex-none cursor-pointer">QR Code</a>
             <a class="flex-none cursor-pointer" href="./hammer">Maths Hammer</a>

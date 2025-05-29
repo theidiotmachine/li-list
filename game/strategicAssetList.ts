@@ -1108,10 +1108,10 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
         ]},
         {name: "Carapace", possibleModelLoadouts: [
             {loadout: "Reaver apocalypse missile launcher"}, //TODO
-            {loadout: "Reaver Vulcan mega-bolter"}, //TODO
+            {loadout: "Reaver Vulcan mega-bolter"},
             {loadout: "Reaver Titan warp missile"}, //TODO
             {loadout: "Reaver turbo-laser destructor"},
-            {loadout: "Reaver volkite eradicator"}, //TODO
+            {loadout: "Reaver volkite eradicator"},
             {loadout: "Reaver graviton eradicator"},
             {loadout: "Reaver conversion beam dissolutor"},
         ]}],
@@ -1135,30 +1135,30 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
         modelLoadoutSlots: [{name: "Left", possibleModelLoadouts: [
             {loadout: "Conversion beam dissolutor"},
             {loadout: "Graviton eradicator"},
-            {loadout: "Incisor pattern melta lance"}, //TODO
-            {loadout: "Inferno gun"}, //TODO
-            {loadout: "Natrix shock lance"}, //TODO
+            {loadout: "Incisor pattern melta lance"},
+            {loadout: "Inferno gun"},
+            {loadout: "Natrix shock lance"},
             {loadout: "Plasma blastgun"},
             {loadout: "Turbo-laser destructor"},
-            {loadout: "Ursus claw"}, //TODO
-            {loadout: "Volkite eradicator"}, //TODO
-            {loadout: "Vulcan mega-bolter"}, //TODO
-            {loadout: "Warhound shudder missiles"}, //TODO,
-            {loadout: "Warhound swarmer missiles"}, //TODO
+            {loadout: "Ursus claw"},
+            {loadout: "Volkite eradicator"},
+            {loadout: "Vulcan mega-bolter"},
+            {loadout: "Warhound shudder missiles"},
+            {loadout: "Warhound swarmer missiles"},
         ]},
         {name: "Right", possibleModelLoadouts: [
             {loadout: "Conversion beam dissolutor"},
             {loadout: "Graviton eradicator"},
-            {loadout: "Incisor pattern melta lance"}, //TODO
-            {loadout: "Inferno gun"}, //TODO
-            {loadout: "Natrix shock lance"}, //TODO
+            {loadout: "Incisor pattern melta lance"},
+            {loadout: "Inferno gun"},
+            {loadout: "Natrix shock lance"},
             {loadout: "Plasma blastgun"},
             {loadout: "Turbo-laser destructor"},
-            {loadout: "Ursus claw"}, //TODO
-            {loadout: "Volkite eradicator"}, //TODO
-            {loadout: "Vulcan mega-bolter"}, //TODO
-            {loadout: "Warhound shudder missiles"}, //TODO,
-            {loadout: "Warhound swarmer missiles"}, //TODO
+            {loadout: "Ursus claw"},
+            {loadout: "Volkite eradicator"},
+            {loadout: "Vulcan mega-bolter"},
+            {loadout: "Warhound shudder missiles"},
+            {loadout: "Warhound swarmer missiles"},
         ]}],
         unitTraits: ["Agile"],
     }],
