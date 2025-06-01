@@ -4,11 +4,10 @@
 
 import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
+import * as $_middleware from "./routes/_middleware.ts";
 import * as $about from "./routes/about.tsx";
-import * as $api_armies_for_user from "./routes/api/armies-for-user.ts";
-import * as $api_armies_aid_ from "./routes/api/armies/[aid].ts";
-import * as $api_armies_middleware from "./routes/api/armies/_middleware.ts";
-import * as $api_for_user_username_ from "./routes/api/for-user/[username].ts";
+import * as $api_data_armies_for_user from "./routes/api/data/armies-for-user.ts";
+import * as $api_data_armies_aid_ from "./routes/api/data/armies/[aid].ts";
 import * as $api_login from "./routes/api/login.ts";
 import * as $api_signup from "./routes/api/signup.ts";
 import * as $export from "./routes/export.tsx";
@@ -31,11 +30,10 @@ const manifest = {
   routes: {
     "./routes/_404.tsx": $_404,
     "./routes/_app.tsx": $_app,
+    "./routes/_middleware.ts": $_middleware,
     "./routes/about.tsx": $about,
-    "./routes/api/armies-for-user.ts": $api_armies_for_user,
-    "./routes/api/armies/[aid].ts": $api_armies_aid_,
-    "./routes/api/armies/_middleware.ts": $api_armies_middleware,
-    "./routes/api/for-user/[username].ts": $api_for_user_username_,
+    "./routes/api/data/armies-for-user.ts": $api_data_armies_for_user,
+    "./routes/api/data/armies/[aid].ts": $api_data_armies_aid_,
     "./routes/api/login.ts": $api_login,
     "./routes/api/signup.ts": $api_signup,
     "./routes/export.tsx": $export,

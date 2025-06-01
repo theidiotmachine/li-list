@@ -26,9 +26,10 @@ export const handler: Handlers = {
 
       const jwt = await createJWT({ username });
 
-      setCookie(headers, {name: "auth", value: jwt, maxAge: 3600, sameSite: "Lax", secure: true, httpOnly: true});
+      setCookie(headers, {name: "auth", value: jwt, maxAge: 3600, sameSite: "Lax", secure: true, httpOnly: true, path: "/"});
       
-      headers.set("location", "/");
+      const redirect = form.get("redirect") as string ?? "/";
+      headers.set("location", redirect);
       return new Response(null, {
         status: 303, // "See Other"
         headers,

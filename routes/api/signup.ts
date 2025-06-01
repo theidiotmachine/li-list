@@ -34,9 +34,9 @@ export const handler: Handlers = {
       });
     }
 
-    //not sure about this....
+    const redirect = form.get("redirect") as string ?? "/";
     const headers = new Headers();
-    headers.set("location", "/login");
+    headers.set("location", "/login?redirect="+redirect);
     return new Response(null, {
       status: 303, // "See Other"
       headers,

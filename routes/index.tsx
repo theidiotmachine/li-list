@@ -1,4 +1,4 @@
-import { PageProps } from "$fresh/server.ts";
+import { PageProps, Handlers } from "$fresh/server.ts";
 import { decodeBase64 } from "jsr:@std/encoding/base64";
 import { gunzip } from "jsr:@deno-library/compress";
 
@@ -11,8 +11,28 @@ function decodeBase64Gzip(encodedArmyString: string): string {
   return armyAsJson;
 }
 
-export default function Home(props: PageProps) {
-  const uuid = props.url.searchParams.get("uuid") ?? "";
+interface Data {
+  isLoggedIn: boolean;
+  username: string;
+}
+
+export const handler: Handlers = {
+    GET(_req, ctx) {
+        const data = {
+            isLoggedIn: false,
+            username: ""
+        };
+        if(ctx.state.username && typeof ctx.state.username === "string") {
+            data.isLoggedIn = true;  
+            data.username = ctx.state.username;
+        }
+        return ctx.render!(data);
+    }
+}
+
+export default function Home(props: PageProps<Data>) {
+  const localuuid = props.url.searchParams.get("localuuid") ?? "";
+  const clouduuid = props.url.searchParams.get("clouduuid") ?? "";
   const encodedArmyString = props.url.searchParams.get("army") ?? "";
   let armyAsJson = "";
   
@@ -20,6 +40,6 @@ export default function Home(props: PageProps) {
       armyAsJson = decodeBase64Gzip(encodedArmyString)
   }
   
-  return <App uuid={uuid} armyAsJson={armyAsJson}/>;
+  return <App localuuid={localuuid} clouduuid={clouduuid} isLoggedIn={props.data.isLoggedIn} username={props.data.username} armyAsJson={armyAsJson}/>;
 }
 

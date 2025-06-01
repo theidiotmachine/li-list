@@ -1,4 +1,5 @@
-import {PageProps} from "$fresh/server.ts";
+import {Handlers, PageProps} from "$fresh/server.ts";
+import SignupLink from "../components/SignupLink.tsx";
 
 
 
@@ -64,8 +65,21 @@ router.post('/signup', function(req, res, next) {
   });
 */  
 
-  
-export default function Login(props: PageProps) {
+interface Data {
+  redirect: string;
+}
+
+export const handler: Handlers = {
+  GET(req, ctx) {
+    
+    const url = new URL(req.url);
+    const redirect = url.searchParams.get("redirect") ?? "/";
+    const data = {redirect};
+    return ctx.render!(data);
+  }
+}
+
+export default function Login(props: PageProps<Data>) {
     return (
         <div class="flex flex-col items-center justify-center h-screen">
             <h1 class="text-4xl font-bold mb-4">Login</h1>
@@ -73,7 +87,9 @@ export default function Login(props: PageProps) {
                 <input type="text" name="username" placeholder="Username" class="border p-2" required autoFocus/>
                 <input type="password" name="password" placeholder="Password" class="border p-2" required />
                 <button type="submit" class="bg-gray-100 p-2">Login</button>
+                <input type="hidden" name="redirect" value={props.data.redirect} />
             </form>
+            <p>Don't have a login? <SignupLink text="Sign up here"/>.</p>
         </div>
     );
 }

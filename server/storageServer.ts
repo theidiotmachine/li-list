@@ -42,9 +42,3 @@ export function decodeBase64Gzip(encodedArmyString: string): string {
   const armyAsJson = new TextDecoder().decode(gunzip(zippedArmyString));
   return armyAsJson;
 }
-
-export function decodeBase64GzipJson<T>(encodedArmyString: string): T {
-  const armyAsJson = decodeBase64Gzip(encodedArmyString);
-  const army = JSON.parse(armyAsJson);
-  return army as T;
-}

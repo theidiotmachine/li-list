@@ -1,5 +1,5 @@
 import { FreshContext, Handlers } from "$fresh/server.ts";
-import { getArmyNamesKV } from "../../server/kv.ts";
+import { getArmyNamesKV } from "../../../server/kv.ts";
 
 export const handler: Handlers = {
     async GET(_req: Request, ctx: FreshContext) {

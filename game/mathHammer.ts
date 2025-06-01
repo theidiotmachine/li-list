@@ -136,7 +136,6 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Save
     const wsarTraits = structuredClone(wsar.traits);
     if(hasWeaponTrait(wsarTraits, "Neutron-flux")) {
         if(statsHasTraitLike(targetStats, "Cybernetica Cortex")) {
-            console.log("Neutron-flux against Cybernetica Cortex");
             wsarTraits.push("Armourbane");
             wsarTraits.push("Shred");
         }
@@ -200,8 +199,6 @@ function saveThrow(wsar: WeaponStatsAtRange, targetStats: Stats, targetArc: Save
 
         out.wounds = armourSaveModifier.wounds;
         out.saveType = "Armour";
-        
-        console.log(out);
     }
 
     const ionSave = targetSaves.find((s)=>s.saveType == "Ion Shield" && (s.arc == "All" || s.arc == targetArc));

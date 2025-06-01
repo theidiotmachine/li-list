@@ -8,8 +8,11 @@ import { HelloWidget } from "../components/HelloWidget.tsx";
 export const AppState = createContext<AppStateType>({} as AppStateType);
 
 export type AppProps = {
-  uuid: string;
+  localuuid: string;
+  clouduuid: string;
   armyAsJson: string;
+  isLoggedIn: boolean;
+  username: string;
 };
 
 export default function App(props: AppProps) {
@@ -19,12 +22,12 @@ export default function App(props: AppProps) {
         <div class="flex flex-col">
           <div class="flex flex-row fixed z-50 w-full gap-0 bg-blue-50">
             <ToolBar class="grow md:min-w-8 bg-white"/>
-            <ArmyHeader uuid={props.uuid} armyAsJson={props.armyAsJson} class="md:flex-none flex-grow"/>
+            <ArmyHeader localuuid={props.localuuid} clouduuid={props.clouduuid} armyAsJson={props.armyAsJson} isLoggedIn={props.isLoggedIn} username={props.username} class="md:flex-none flex-grow"/>
             <div class="grow md:min-w-8 bg-white"></div>
           </div>
 
-          {(props.uuid != "" || props.armyAsJson != "")
-            ? <ArmyWidget uuid={props.uuid} armyAsJson={props.armyAsJson} class="mt-40 md:mt-32 relative"/>
+          {(props.localuuid != "" || props.armyAsJson != "" || props.clouduuid != "")
+            ? <ArmyWidget localuuid={props.localuuid} clouduuid={props.clouduuid} armyAsJson={props.armyAsJson} isLoggedIn={props.isLoggedIn} username={props.username} class="mt-40 md:mt-32 relative"/>
             : <HelloWidget/>
           }
           </div>

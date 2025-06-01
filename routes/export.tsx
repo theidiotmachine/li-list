@@ -2,7 +2,6 @@ import { grayscale, PageSizes, PDFDocument, PDFFont, PDFPage, rgb, StandardFonts
 import { Army, Detachment, Formation, ModelGroup } from "../game/types.ts";
 import { Handlers } from "$fresh/server.ts";
 import { getShapeForFormationName, getStatsForModelName } from "../game/lists.ts";
-//import { decodeBase64GzipJson } from "../server/storageServer.ts";
 
 import { decodeBase64 } from "jsr:@std/encoding/base64";
 import { gunzip } from "jsr:@deno-library/compress";
@@ -123,7 +122,6 @@ function writeModelGroup(modelGroup: ModelGroup, damageBoxes: boolean, pageData:
             }
         }
     }
-    
 }
 
 function writeDetachment(formation: Formation, detachment: Detachment, slotName: string, damageBoxes: boolean, pageData: PageData) {

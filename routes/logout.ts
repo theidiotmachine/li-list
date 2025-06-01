@@ -7,9 +7,11 @@ export const handler: Handlers = {
     const headers = new Headers(req.headers);
     deleteCookie(headers, "auth", { path: "/", domain: url.hostname });
 
-    headers.set("location", "/");
+    const redirect = url.searchParams.get("redirect") ?? "/";
+
+    headers.set("location", redirect);
     return new Response(null, {
-      status: 302,
+      status: 303,
       headers,
     });
   },

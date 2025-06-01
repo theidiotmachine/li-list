@@ -7,19 +7,32 @@ import { IS_BROWSER } from "$fresh/runtime.ts";
 import { LoadingState } from "../state/appState.ts";
 import { ArmyValidity, ArmyValidityText } from "./ArmyValidity.tsx";
 import { Allegiance, ArmyListName } from "../game/types.ts";
+import LoginLink from "./LoginLink.tsx";
+import SignupLink from "./SignupLink.tsx";
 
 export type ArmyHeaderProps = {
-    uuid: string;
+    localuuid: string;
+    clouduuid: string;
     armyAsJson: string;
-    class: string
+    class: string;
+    isLoggedIn: boolean;
+    username: string;
 }
 
 export function ArmyHeader(props: ArmyHeaderProps) {
-    const { army, changeArmyName, changeArmyMaxPoints, armyLoadState, load } = useContext(AppState);
+    const { army, changeArmyName, changeArmyMaxPoints, armyLocalLoadState, localLoad, kvLoad, armyKvLoadState, isLoggedIn, username } = useContext(AppState);
+
+    if(isLoggedIn.value != props.isLoggedIn)
+        isLoggedIn.value = props.isLoggedIn;
+    if(username.value != props.username)
+        username.value = props.username;
 
     const bgColour = "bg-blue-50";
-    if(props.uuid != "" && IS_BROWSER)
-        load(props.uuid);
+    if(props.localuuid != "" && IS_BROWSER)
+        localLoad(props.localuuid)
+    else if(props.clouduuid != "" && IS_BROWSER)
+        kvLoad(props.clouduuid);
+
     if(props.armyAsJson != "")
         army.value = JSON.parse(props.armyAsJson);
 
@@ -34,7 +47,8 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     let allegiance: Allegiance | "" = "";
     let primaryArmyListName: ArmyListName | "" = "";
     let activations = 0;
-    if((props.uuid != "" && armyLoadState.value == LoadingState.Loaded) 
+    if((props.localuuid != "" && armyLocalLoadState.value == LoadingState.Loaded) 
+        || (props.clouduuid != "" && armyKvLoadState.value == LoadingState.Loaded) 
         || props.armyAsJson != "") {
         name = army.value.name;
         maxPoints = army.value.maxPoints;
@@ -104,18 +118,60 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     </div>
 }
 
+export type LoadStateProps = {
+    localuuid: string;
+    clouduuid: string;
+    class: string;
+    isLoggedIn: boolean;
+    armyKvLoadState: LoadingState;
+}
+
+function LoadState(props: LoadStateProps) {
+    if(props.localuuid !== "")
+        return <h1 class={props.class}>Loading...</h1>
+    if(props.clouduuid != "") {
+        if(props.armyKvLoadState == LoadingState.Loading)
+            return <h1 class={props.class}>Loading...</h1>
+        else {
+            if(props.armyKvLoadState == LoadingState.Failed) {
+                if(!props.isLoggedIn)
+                    return <div class={props.class}>
+                        <h1 >Must be logged in to load armies stored in the cloud.</h1>
+                        <p><LoginLink text="Log in"/> or <SignupLink text="sign up"/></p>
+                    </div>
+                else
+                    return <h1 class={props.class}>Can't load cloud army</h1>
+            } 
+        }
+    }
+
+    return <h1 class={props.class}>Can't load army</h1>
+}
+
 export type ArmyWidgetProps = {
-    uuid: string;
+    localuuid: string;
+    clouduuid: string;
     armyAsJson: string;
     class: string;
+    isLoggedIn: boolean;
+    username: string;
 }
 
 export function ArmyWidget(props: ArmyWidgetProps) {
-    const {army, addFormation, armyLoadState, load} = useContext(AppState);
-    if(props.uuid != "" && IS_BROWSER)
-        load(props.uuid);
+    const {army, addFormation, armyLocalLoadState, localLoad, kvLoad, armyKvLoadState, isLoggedIn, username, kvArmyOwner} = useContext(AppState);
+
+    if(isLoggedIn.value != props.isLoggedIn)
+        isLoggedIn.value = props.isLoggedIn;
+    if(username.value != props.username)
+        username.value = props.username;
+
+    if(props.localuuid != "" && IS_BROWSER)
+        localLoad(props.localuuid);
+    else if(props.clouduuid != "" && IS_BROWSER)
+        kvLoad(props.clouduuid);
+
     let editable = true;
-    if(props.armyAsJson != "")
+    if(props.armyAsJson != "" || username.value != kvArmyOwner.value)
         editable = false;
     return(
         <div class="flex flex-row justify-center overflow-x-scroll h-screen" onScroll={(e)=>{
@@ -136,9 +192,12 @@ export function ArmyWidget(props: ArmyWidgetProps) {
                     }
                 }
             }}> {
-            (props.uuid != "" && armyLoadState.value != LoadingState.Loaded) 
+            (
+                (props.localuuid != "" && armyLocalLoadState.value != LoadingState.Loaded) 
+                || (props.clouduuid != "" && armyKvLoadState.value != LoadingState.Loaded) 
+            )
             ?
-            (<h1 class={props.class}>Loading...</h1>)
+            (<LoadState localuuid={props.localuuid} clouduuid={props.clouduuid} class={props.class} isLoggedIn={props.isLoggedIn} armyKvLoadState={armyKvLoadState.value}/>)
             :
             (
                 <div class="flex flex-col md:w-[800px] w-screen mx-4">

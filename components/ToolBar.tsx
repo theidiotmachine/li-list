@@ -1,12 +1,20 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { encodeArmyJsonGzipBase64 } from "../storage/storageClient.ts";
+import { IS_BROWSER } from "$fresh/runtime.ts";
 
 export type ToolBarProps = {
     class: string
 };
 export function ToolBar(props: ToolBarProps) {
-    const {undo, redo, makeNewArmy, canUndo, canRedo, canCloneArmy, cloneArmy, army} = useContext(AppState);
+    const {undo, redo, makeNewArmy, canUndo, canRedo, canCloneArmy, cloneArmy, army, canMoveToKv, moveToKv, isLoggedIn} = useContext(AppState);
+
+    let redirectPath = ""
+    if(IS_BROWSER) {
+        const url = new URL(globalThis.location.href);
+        redirectPath = url.pathname + url.search;
+    }
+    
 
     return <div class={props.class}>
         <img src="/menu-clean.svg" class="bg-gray-100 p-1 w-8" id="menu-button" onClick={(e) => {
@@ -32,15 +40,33 @@ export function ToolBar(props: ToolBarProps) {
             }}
         >
             <a onClick={()=>{makeNewArmy()}}
-                class="flex-none cursor-pointer">New Army</a>
+                class="flex-none cursor-pointer">New army</a>
             <a href='./load'
-                class="flex-none cursor-pointer">Load Army</a>
+                class="flex-none cursor-pointer">Load army</a>
             {(canCloneArmy.value)?
                 <a onClick={()=>{cloneArmy()}}
-                    class="flex-none cursor-pointer">Clone Army</a>
+                    class="flex-none cursor-pointer">Clone army</a>
                 :
                 <span 
-                    class="flex-none text-gray-500">Clone Army</span>
+                    class="flex-none text-gray-500">Clone army</span>
+            }
+            {(!isLoggedIn.value)?
+                <a href={"./login?redirect=" + redirectPath} class="flex-none cursor-pointer">Log in</a>
+                :
+                <span 
+                    class="flex-none text-gray-500">Log in</span>
+            }
+            {(isLoggedIn.value)?
+                <a href={"./logout?redirect=" + redirectPath} class="flex-none cursor-pointer">Log out</a>
+                :
+                <span 
+                    class="flex-none text-gray-500">Log out</span>
+            }
+            {(canMoveToKv.value)?
+                <a onClick={()=>{moveToKv()}} class="flex-none cursor-pointer">Move to cloud</a>
+                :
+                <span 
+                    class="flex-none text-gray-500">Move to cloud</span>
             }
             {(canUndo.value)?
                 <a onClick={()=>undo()} 
@@ -63,16 +89,12 @@ export function ToolBar(props: ToolBarProps) {
             <a onClick={()=>{
                 const encodedPromise = encodeArmyJsonGzipBase64(army.value);
                 encodedPromise.then((encoded)=>{location.href='./export?army='+encoded+"&damageBoxes=true";})
-            }} class="flex-none cursor-pointer">Export Box PDF</a>
-            <a onClick={()=>{
-                const encodedPromise = encodeArmyJsonGzipBase64(army.value);
-                encodedPromise.then((encoded)=>{location.href='./?army='+encoded;})
-            }} class="flex-none cursor-pointer">Share Link</a>
+            }} class="flex-none cursor-pointer">Export box PDF</a>
             <a onClick={()=>{
                 const encodedPromise = encodeArmyJsonGzipBase64(army.value);
                 encodedPromise.then((encoded)=>{location.href='/qr?army='+encoded;})
-            }} class="flex-none cursor-pointer">QR Code</a>
-            <a class="flex-none cursor-pointer" href="./hammer">Maths Hammer</a>
+            }} class="flex-none cursor-pointer">QR code</a>
+            <a class="flex-none cursor-pointer" href="./hammer">Maths hammer</a>
             <a class="flex-none cursor-pointer" href="./about">About</a>
             
         </div>
