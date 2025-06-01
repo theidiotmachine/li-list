@@ -8,13 +8,16 @@ export default async function QR(props: PageProps) {
         return <div>No QR code</div>
     }
 
-    const encodedArmyString = urlIn.searchParams.get("army") ?? "";
+    const clouduuid = urlIn.searchParams.get("clouduuid") ?? "";
+    console.log(clouduuid);
   
-    if(encodedArmyString == "") {
+    if(clouduuid == "") {
         return <div>No QR code</div>
     }
   
-    const urlOut = urlIn.origin + '/?army=' + encodedArmyString;
+    let urlOut = "";
+    urlOut = urlIn.origin + '/?clouduuid' + clouduuid;
+
     const dataURL = await QRCode.toDataURL(urlOut);
     return <div class="flex flex-row justify-center mt-8">
         <img src={dataURL}/>

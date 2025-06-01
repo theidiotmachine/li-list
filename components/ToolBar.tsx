@@ -2,19 +2,19 @@ import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { encodeArmyJsonGzipBase64 } from "../storage/storageClient.ts";
 import { IS_BROWSER } from "$fresh/runtime.ts";
+import { ArmyLoadSource } from "../state/appState.ts";
 
 export type ToolBarProps = {
     class: string
 };
 export function ToolBar(props: ToolBarProps) {
-    const {undo, redo, makeNewArmy, canUndo, canRedo, canCloneArmy, cloneArmy, army, canMoveToKv, moveToKv, isLoggedIn} = useContext(AppState);
+    const {undo, redo, makeNewArmy, canUndo, canRedo, canCloneArmy, cloneArmy, army, canMoveToKv, moveToKv, isLoggedIn, armyLoadSource} = useContext(AppState);
 
     let redirectPath = ""
     if(IS_BROWSER) {
         const url = new URL(globalThis.location.href);
         redirectPath = url.pathname + url.search;
     }
-    
 
     return <div class={props.class}>
         <img src="/menu-clean.svg" class="bg-gray-100 p-1 w-8" id="menu-button" onClick={(e) => {
@@ -79,8 +79,7 @@ export function ToolBar(props: ToolBarProps) {
                 <a onClick={()=>redo()} 
                     class="flex-none cursor-pointer">Redo</a>
                 :
-                <span 
-                    class="flex-none text-gray-500">Redo</span>
+                <span class="flex-none text-gray-500">Redo</span>
             }
             <a onClick={()=>{
                 const encodedPromise = encodeArmyJsonGzipBase64(army.value);
@@ -90,10 +89,15 @@ export function ToolBar(props: ToolBarProps) {
                 const encodedPromise = encodeArmyJsonGzipBase64(army.value);
                 encodedPromise.then((encoded)=>{location.href='./export?army='+encoded+"&damageBoxes=true";})
             }} class="flex-none cursor-pointer">Export box PDF</a>
-            <a onClick={()=>{
-                const encodedPromise = encodeArmyJsonGzipBase64(army.value);
-                encodedPromise.then((encoded)=>{location.href='/qr?army='+encoded;})
-            }} class="flex-none cursor-pointer">QR code</a>
+            {
+                (isLoggedIn.value && armyLoadSource.value == ArmyLoadSource.KV)?
+                    <a href={'./qr?clouduuid='+army.value.uuid}
+                        class="flex-none cursor-pointer">QR code</a>
+                :
+                    <span class="flex-none text-gray-500">QR code</span>
+            }
+
+            
             <a class="flex-none cursor-pointer" href="./hammer">Maths hammer</a>
             <a class="flex-none cursor-pointer" href="./about">About</a>
             

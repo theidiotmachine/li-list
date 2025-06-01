@@ -9,6 +9,7 @@ export default function AboutPage() {
           <p class="m-1"><a href="https://www.meetup.com/the-london-warhammer-gaming-guild/">The London Warhammer Gaming Guild</a></p>
           <p class="m-1"><a href="https://www.youtube.com/@LItbashing">Litbashing</a></p>
           <p class="m-1"><a href="https://www.goonhammer.com/author/henryc/">NotThatHenryC at Goonhammer</a></p>
+          <p class="m-1"><a href="https://www.youtube.com/@ModelPaintWhatever">Model Paint Whatever</a></p>
         </div>
       </div>
     );
