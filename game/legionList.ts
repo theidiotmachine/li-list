@@ -268,10 +268,10 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     ["Legion Tactical Detachment", {maxModels: 12, modelGroupShapes: [
         {modelName: "Tactical Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 35}, {num: 6, points: 35+12}, {num: 8, points: 35+12*2}, {num: 10, points: 35+12*3}, {num: 12, points: 35+12*4},
-        ], unitTraits: ["Independent"]},
+        ]},
         {modelName: "Assault Marines", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 12}, {num: 4, points: 24}, {num: 6, points: 36}, {num: 8, points: 48},
-        ]},
+        ], unitTraits: ["Independent"]},
         {modelName: "Legion Terminators", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 30}, {num: 6, points: 45}, {num: 8, points: 60},
         ]},

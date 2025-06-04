@@ -187,7 +187,6 @@ function calcFormationActivations(formation: Formation) {
         const isAttachedDetachment = d.attachedDetachmentIndex != undefined && d.attachedDetachmentIndex != -1;
         if(isAttachedDetachment)
             return a + 0;
-
         let hasDedicatedTransports = false;
         let hasIndependentModels = false;
         let independentModels = 0;
@@ -333,7 +332,7 @@ function calcDetachmentCommanderValidation(formation: Formation, detachmentIndex
     return {valid: true}
 }
 
-//If this detachment is a commander, is it valid?
+//If this detachment is attached, is it valid?
 function calcDetachmentAttachedDeploymentValidation(formation: Formation, detachmentIndex: number, detachment: Detachment, stats: Stats | undefined): DetachmentValidationState {
     if(stats != undefined && statsHasTrait(stats, "Attached Deployment")) {
         if(detachment.attachedDetachmentIndex != undefined) {
@@ -361,6 +360,7 @@ type ModelNumbersForDetachment = {
     bulkyModels: number;
     slimModels: number;
 };
+
 function recordModelNumbersForModelGroup(out: ModelNumbersForDetachment, modelGroup: ModelGroup, stats: Stats | undefined): void {
     const unitTraits = stats?.unitTraits??[];
     out.numModels += modelGroup.number;

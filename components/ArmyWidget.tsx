@@ -10,17 +10,24 @@ import { Allegiance, ArmyListName } from "../game/types.ts";
 import LoginLink from "./LoginLink.tsx";
 import SignupLink from "./SignupLink.tsx";
 
+function isEditable(localuuid: string, username: string, kvArmyOwner: string): boolean {
+    if(localuuid != "")
+        return true;
+    if(username != kvArmyOwner)
+        return false;
+    return true;
+}
+
 export type ArmyHeaderProps = {
     localuuid: string;
     clouduuid: string;
-    armyAsJson: string;
     class: string;
     isLoggedIn: boolean;
     username: string;
 }
 
 export function ArmyHeader(props: ArmyHeaderProps) {
-    const { army, changeArmyName, changeArmyMaxPoints, armyLocalLoadState, localLoad, kvLoad, armyKvLoadState, isLoggedIn, username } = useContext(AppState);
+    const { army, changeArmyName, changeArmyMaxPoints, armyLocalLoadState, localLoad, kvLoad, armyKvLoadState, isLoggedIn, username, kvArmyOwner } = useContext(AppState);
 
     if(isLoggedIn.value != props.isLoggedIn)
         isLoggedIn.value = props.isLoggedIn;
@@ -33,9 +40,6 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     else if(props.clouduuid != "" && IS_BROWSER)
         kvLoad(props.clouduuid);
 
-    if(props.armyAsJson != "")
-        army.value = JSON.parse(props.armyAsJson);
-
     let name = ""
     let maxPoints = 0
     let remainingPoints = 0;
@@ -43,13 +47,13 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     let remainingAlliedPoints = 0;
     let maxAlliedPoints = 0;
     let points = 0;
-    let editable = false
+    const editable = isEditable(props.localuuid, username.value, kvArmyOwner.value);
     let allegiance: Allegiance | "" = "";
     let primaryArmyListName: ArmyListName | "" = "";
     let activations = 0;
     if((props.localuuid != "" && armyLocalLoadState.value == LoadingState.Loaded) 
         || (props.clouduuid != "" && armyKvLoadState.value == LoadingState.Loaded) 
-        || props.armyAsJson != "") {
+    ) {
         name = army.value.name;
         maxPoints = army.value.maxPoints;
         alliedPoints = army.value.alliedPoints;
@@ -60,8 +64,6 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             remainingAlliedPoints = maxAlliedPoints - alliedPoints;
         }
             
-        if(props.armyAsJson == "")
-            editable = true;
         allegiance = army.value.allegiance;
         primaryArmyListName = army.value.primaryArmyListName;
         activations = army.value.activations;
@@ -151,7 +153,6 @@ function LoadState(props: LoadStateProps) {
 export type ArmyWidgetProps = {
     localuuid: string;
     clouduuid: string;
-    armyAsJson: string;
     class: string;
     isLoggedIn: boolean;
     username: string;
@@ -170,9 +171,8 @@ export function ArmyWidget(props: ArmyWidgetProps) {
     else if(props.clouduuid != "" && IS_BROWSER)
         kvLoad(props.clouduuid);
 
-    let editable = true;
-    if(props.armyAsJson != "" || username.value != kvArmyOwner.value)
-        editable = false;
+    const editable = isEditable(props.localuuid, username.value, kvArmyOwner.value);
+
     return(
         <div class="flex flex-row justify-center overflow-x-scroll h-screen" onScroll={(e)=>{
                 const k = e.target as HTMLElement;
