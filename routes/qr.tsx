@@ -9,8 +9,6 @@ export default async function QR(props: PageProps) {
     }
 
     const clouduuid = urlIn.searchParams.get("clouduuid") ?? "";
-    console.log(clouduuid);
-  
     if(clouduuid == "") {
         return <div>No QR code</div>
     }

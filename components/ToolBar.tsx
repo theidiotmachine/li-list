@@ -82,12 +82,21 @@ export function ToolBar(props: ToolBarProps) {
                 <span class="flex-none text-gray-500">Redo</span>
             }
             <a onClick={()=>{
-                const encodedPromise = encodeArmyJsonGzipBase64(army.value);
-                encodedPromise.then((encoded)=>{location.href='./export?army='+encoded;})
+                if(isLoggedIn.value && armyLoadSource.value == ArmyLoadSource.KV) {
+                    location.href='./export?clouduuid='+army.value.uuid;
+                } else {
+                    const encodedPromise = encodeArmyJsonGzipBase64(army.value);
+                    encodedPromise.then((encoded)=>{location.href='./export?army='+encoded;})
+                }
+                
             }} class="flex-none cursor-pointer">Export PDF</a>
             <a onClick={()=>{
-                const encodedPromise = encodeArmyJsonGzipBase64(army.value);
-                encodedPromise.then((encoded)=>{location.href='./export?army='+encoded+"&damageBoxes=true";})
+                if(isLoggedIn.value && armyLoadSource.value == ArmyLoadSource.KV) {
+                    location.href='./export?clouduuid='+army.value.uuid+"&damageBoxes=true"
+                } else {
+                    const encodedPromise = encodeArmyJsonGzipBase64(army.value);
+                    encodedPromise.then((encoded)=>{location.href='./export?army='+encoded+"&damageBoxes=true";})
+                }
             }} class="flex-none cursor-pointer">Export box PDF</a>
             {
                 (isLoggedIn.value && armyLoadSource.value == ArmyLoadSource.KV)?

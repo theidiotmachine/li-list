@@ -6,7 +6,7 @@ export async function createJWT(payload: JWTPayload): Promise<string> {
   const jwt = await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("1h")
+    .setExpirationTime("7d")
     .sign(secret);
 
   return jwt;

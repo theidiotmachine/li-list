@@ -5,6 +5,7 @@ import { getShapeForFormationName, getStatsForModelName } from "../game/lists.ts
 
 import { decodeBase64 } from "jsr:@std/encoding/base64";
 import { gunzip } from "jsr:@deno-library/compress";
+import { loadArmyKV } from "../server/kv.ts";
 
 function decodeBase64Gzip(encodedArmyString: string): string {
   const zippedArmyString = decodeBase64(decodeURIComponent(encodedArmyString));
@@ -246,13 +247,14 @@ async function createPdf(army: Army, damageBoxes: boolean) {
 }
 
 export const handler: Handlers = {
-  GET(req) {
+  async GET(req) {
     const url = URL.parse(req.url);
     if(url == null)
         return new Response("URL not valid", {status: 400});
 
     const encodedArmyString = url.searchParams.get("army") ?? "";
-    if(encodedArmyString == "")
+    const clouduuid = url.searchParams.get("clouduuid") ?? "";
+    if(encodedArmyString == "" && clouduuid == "")
         return new Response("No army param", {status: 400});
 
     const damageBoxesString = url.searchParams.get("damageBoxes") ?? "false";
@@ -260,7 +262,16 @@ export const handler: Handlers = {
     if(damageBoxesString == "true")
         damageBoxes = true;
 
-    const army = decodeBase64GzipJson<Army>(encodedArmyString);
+    let army = undefined;
+    if(encodedArmyString != "")
+        army=decodeBase64GzipJson<Army>(encodedArmyString);
+    else {
+        const kvsa = await loadArmyKV(clouduuid);
+        if(kvsa == undefined)
+            return new Response("No army param", {status: 400});    
+        army = JSON.parse(kvsa.jsonData);
+    }
+        
     const fileName = army.name.trim().replace(/ +/g, '-').replace(/[^a-z0-9\-]/gi, '_').toLowerCase();
     return createPdf(army, damageBoxes).then((s)=>{
         return new Response(s, {

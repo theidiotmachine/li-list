@@ -23,8 +23,8 @@ export const handler: Handlers = {
     const ok = await verifyUser(username, password);
     if (ok) {
       const headers = new Headers();
-
-      const jwt = await createJWT({ username });
+      const uuid = crypto.randomUUID(); //I'm not sure if JWTs have randomness, so put this in
+      const jwt = await createJWT({ username, uuid });
 
       setCookie(headers, {name: "auth", value: jwt, maxAge: 3600, sameSite: "Lax", secure: true, httpOnly: true, path: "/"});
       
