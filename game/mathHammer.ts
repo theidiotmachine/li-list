@@ -48,6 +48,7 @@ export type SingleShootResult = {
 export type ShootResult = {
     individualResults: (SingleShootResult | undefined)[],
     netResults: ShootResultOutcome[],
+    unknownWeapons: string[],
 }
 
 const hitDiceTable = [
@@ -249,7 +250,6 @@ function shootWeapon(nws: NamedWeaponStats, targetStats: Stats, targetArc: SaveA
     };
 
     let eligibleWSARs = nws.weaponStats.weaponStatsAtRange.filter((wsar)=>{
-        
         return !(
             weaponHasTrait(wsar, "Deflagrate") 
             || weaponHasTrait(wsar, "Collapsing Singularity")
@@ -381,11 +381,14 @@ export function shoot(
 ): ShootResult | undefined {
     const shooterStats = getStatsForModelName(shooterModelType);
     const namedWeaponStats: NamedWeaponStats[] = [];
+    const unknownWeapons: string[] = [];
 
     const recordStats = (wt: WeaponType) => {
         const weaponStats = getWeaponStats(wt);
         if(weaponStats != undefined)
             namedWeaponStats.push({weaponType: wt, weaponStats: weaponStats});
+        else
+            unknownWeapons.push(wt);
     };
 
     shooterStats?.modelLoadoutSlots.forEach((slot)=>{
@@ -422,7 +425,6 @@ export function shoot(
     netResults.push({fraction: 0, wounds: w});
     netResults[0].fraction = 1;
 
-
     for(let i = 0; i < individualResults.length; ++i) {
         const thisIndividualResult = individualResults[i];
         if(thisIndividualResult == undefined)
@@ -448,6 +450,7 @@ export function shoot(
         
     return{
         individualResults: individualResults,
-        netResults: netResults
+        netResults: netResults,
+        unknownWeapons: unknownWeapons
     }
 }

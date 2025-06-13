@@ -680,7 +680,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
             {name: "Primary", possibleModelLoadouts: [
                 {loadout: "Conversion beam dissipator", points: 0},
                 {loadout: "Neutron laser", points: 0},
-                {loadout: "Volcanon cannon", points: 0},
+                {loadout: "Volcano cannon", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 385}
@@ -1079,7 +1079,7 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {name: "Primary", possibleModelLoadouts: [
                 {loadout: "Conversion beam dissipator"},
                 {loadout: "Neutron laser"}, //TODO
-                {loadout: "Volcanon cannon"},
+                {loadout: "Volcano cannon"},
             ]},
         ],
         unitTraits: ["Agile", "Infiltrate"],
