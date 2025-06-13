@@ -855,6 +855,8 @@ function createAppState(): AppStateType {
 
         await deleteArmyLocally(army.value.uuid);
         armyLoadSource.value = ArmyLoadSource.KV;
+
+        location.href = "./?clouduuid="+army.value.uuid;
     }
 
     const pushOntoUndoStack = (army: Army) => {
