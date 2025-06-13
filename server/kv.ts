@@ -80,3 +80,54 @@ export async function getArmyNamesKV(username: string): Promise<SaveState[]> {
     }
     return out;
 }
+
+export type LoginHistoryStateFine = {
+    name: "fine"
+}
+
+export type LoginHistoryStateFailed = {
+    name: "failed",
+    num: number
+}
+
+export type LoginHistoryStateLocked = {
+    name: "locked",
+    until: number
+}
+
+export type LoginHistoryState = LoginHistoryStateFine | LoginHistoryStateFailed | LoginHistoryStateLocked;
+
+export async function getFailedLoginHistoryState(username: string): Promise<LoginHistoryState> {
+    const res = await kv.get<LoginHistoryState>(["failed_login_state_by_username", username]);
+    if (res.value == null) {
+        return {name: "fine"}; 
+    }
+    return res.value;
+}
+
+export async function registerFailedLoginHistoryState(username: string): Promise<string>{
+    const res = await kv.get<LoginHistoryState>(["failed_login_state_by_username", username]);
+    if(res.value == null) {
+        kv.set(["failed_login_state_by_username", username], {name: "failed", num: 1});
+        return "failure";
+    } else if(res.value.name == "failed") {
+        if(res.value.num >= 5) {
+            kv.set(["failed_login_state_by_username", username], {name: "locked", until: Date.now() + 1000 * 60 * 60});
+            return "failureandlocked";
+        } else {
+            kv.set(["failed_login_state_by_username", username], {name: "failed", num: res.value.num + 1});
+            return "failure";
+        }
+    } else if(res.value.name == "locked") {
+        //if we get here, we got a failed login while the account is locked, so extend the lock time
+        kv.set(["failed_login_state_by_username", username], {name: "locked", until: Date.now() + 1000 * 60 * 60});
+        return "failureandlocked";
+    } else {
+        //not sure what's going on here, but we treat it as a failed login
+        return "failure";
+    }
+}
+
+export function registerSuccessLoginHistoryState(username: string) {
+    kv.delete(["failed_login_state_by_username", username]);
+}

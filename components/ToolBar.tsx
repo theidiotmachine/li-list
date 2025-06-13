@@ -17,7 +17,7 @@ export function ToolBar(props: ToolBarProps) {
     }
 
     return <div class={props.class}>
-        <img src="/menu-clean.svg" class="bg-gray-100 p-1 w-8" id="menu-button" onClick={(e) => {
+        <img src="/menu-clean.svg" class="bg-blue-100 p-1 w-8" id="menu-button" onClick={(e) => {
             const menu = document.getElementById("menu");
             const menuButton = (e.target as HTMLImageElement);
             if (menu) {
@@ -33,7 +33,7 @@ export function ToolBar(props: ToolBarProps) {
                 menu.focus();
             }
         }}></img>
-        <div class="absolute flex-col hidden bg-gray-100 pl-1 pr-1 h-screen w-32" id="menu"
+        <div class="absolute flex-col hidden bg-blue-100 pl-1 pr-1 h-screen w-32" id="menu"
             onBlur={(e) => {
                 const t = (e.target) as HTMLElement;
                 t.classList.add("hidden");

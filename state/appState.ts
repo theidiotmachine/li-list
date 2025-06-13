@@ -782,9 +782,9 @@ function createAppState(): AppStateType {
     const armyHasName = ()=>army.value.name != "";
     const save = async () => {
         if(armyHasName()) {
-            if(armyLoadSource.value == ArmyLoadSource.Local)
+            if(armyLoadSource.value == ArmyLoadSource.Local) {
                 await saveArmyLocally(army.value);
-            else if(armyLoadSource.value == ArmyLoadSource.KV && isLoggedIn.value && username.value == kvArmyOwner.value) {
+            } else if(armyLoadSource.value == ArmyLoadSource.KV && isLoggedIn.value && username.value == kvArmyOwner.value) {
                 await saveArmyKv(army.value);
             }
         }
@@ -794,11 +794,13 @@ function createAppState(): AppStateType {
         if(armyLocalLoadState.value === LoadingState.Loading || armyLocalLoadState.value === LoadingState.Loaded)
             return;
 
+        if(armyLoadSource.value != ArmyLoadSource.Local)
+            armyLoadSource.value = ArmyLoadSource.Local;
+
         armyLocalLoadState.value = LoadingState.Loading;
         const storedArmy = await loadArmyLocally(uuid);
         if(storedArmy != undefined) {
             army.value = storedArmy;
-            armyLoadSource.value = ArmyLoadSource.Local;
             undoStack.value = [storedArmy];
             undoIndex.value = 0;
         }

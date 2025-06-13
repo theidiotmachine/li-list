@@ -80,7 +80,7 @@ export function HammerScenario() {
             }
             </div>
         <div>
-            <button type="button" disabled={!changed.value} class="disabled:text-gray-500 bg-gray-200 pl-1 pr-1 w-full mt-4" onClick={()=>{
+            <button type="button" disabled={!changed.value} class="disabled:text-gray-500 disabled:bg-gray-200 bg-blue-200 pl-1 pr-1 w-full mt-4" onClick={()=>{
                 globalThis.location.href = newUrl.value;
             }}>Rerun</button>
         </div>

@@ -67,6 +67,7 @@ router.post('/signup', function(req, res, next) {
 
 interface Data {
   redirect: string;
+  failedString: string;
 }
 
 export const handler: Handlers = {
@@ -74,19 +75,51 @@ export const handler: Handlers = {
     
     const url = new URL(req.url);
     const redirect = url.searchParams.get("redirect") ?? "/";
-    const data = {redirect};
+    const failedString = url.searchParams.get("failed") ?? "";
+    const data = {redirect, failedString};
     return ctx.render!(data);
   }
 }
 
 export default function Login(props: PageProps<Data>) {
+    let error = "";
+    let locked = false;
+    switch(props.data.failedString) {
+      case "":
+        break;
+      case "nousername":
+        error = "Username not filled in.";
+        break;
+      case "nopassword":
+        error = "Password not filled in.";
+        break;
+      case "failure":
+        error = "Failed login.";
+        break;
+      case "locked":
+        error = "Account temporarily locked, login attempt ignored.";
+        locked = true;
+        break;
+      case "failureandlocked":
+        error = "Failed login. Account temporarily locked.";
+        locked = true;
+        break;
+      default:
+        break;
+    }
+
     return (
         <div class="flex flex-col items-center justify-center h-screen">
             <h1 class="text-4xl font-bold mb-4">Login</h1>
+            {
+              (props.data.failedString != "")?(<div>
+                <p class="text-red-600 italic mb-4">{error}</p>
+              </div>):(<div></div>)
+            }
             <form action="/api/login" method="POST" class="flex flex-col space-y-4">
                 <input type="text" name="username" placeholder="Username" class="border p-2" required autoFocus/>
                 <input type="password" name="password" placeholder="Password" class="border p-2" required />
-                <button type="submit" class="bg-gray-100 p-2">Login</button>
+                <button type="submit" class="bg-blue-200 p-2 disabled:text-gray-500 disabled:bg-gray-300" disabled={locked}>Login</button>
                 <input type="hidden" name="redirect" value={props.data.redirect} />
             </form>
             <p>Don't have a login? <SignupLink text="Sign up here"/>.</p>
