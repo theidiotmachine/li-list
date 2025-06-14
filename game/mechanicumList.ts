@@ -63,25 +63,22 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
             {slot: "Support",               slotRequirementType: "Optional"},       //6
             {slot: "Support",               slotRequirementType: "Optional"},       //7
             {slot: "Transport",             slotRequirementType: "Optional" },      //8
-            {slot: "Titan",                 slotRequirementType: "One Of Group",    //9           
+            {slot: "Battle Tank",           slotRequirementType: "Optional"},       //9
+            {slot: "Titan",                 slotRequirementType: "One Of Group",    //10           
                 oneOfGroup: 1, oneOfGroupGroup: 1
-            },
-            {slot: "Knight",                slotRequirementType: "One Of Group",    //10
-                oneOfGroup: 1, oneOfGroupGroup: 2
             },
             {slot: "Knight",                slotRequirementType: "One Of Group",    //11
                 oneOfGroup: 1, oneOfGroupGroup: 2
             },
-            {slot: "Extra Tech-Priest Auxilia",                                     //12
-                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 4,
-                displayName: "Tech-Priest",
+            {slot: "Knight",                slotRequirementType: "One Of Group",    //12
+                oneOfGroup: 1, oneOfGroupGroup: 2
             },
             {slot: "Extra Tech-Priest Auxilia",                                     //13
                 slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 4,
                 displayName: "Tech-Priest",
             },
             {slot: "Extra Tech-Priest Auxilia",                                     //14
-                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 6,
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 4,
                 displayName: "Tech-Priest",
             },
             {slot: "Extra Tech-Priest Auxilia",                                     //15
@@ -89,10 +86,14 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
                 displayName: "Tech-Priest",
             },
             {slot: "Extra Tech-Priest Auxilia",                                     //16
-                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 6,
                 displayName: "Tech-Priest",
             },
             {slot: "Extra Tech-Priest Auxilia",                                     //17
+                slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
+                displayName: "Tech-Priest",
+            },
+            {slot: "Extra Tech-Priest Auxilia",                                     //18
                 slotRequirementType: "Extra Tech-Priest Auxilia", linkedSlotIndex: 7,
                 displayName: "Tech-Priest",
             }
