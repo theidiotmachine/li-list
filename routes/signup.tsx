@@ -50,7 +50,7 @@ export default function Signup(props: PageProps<Data>) {
       <form method="POST" action="/api/signup" class="flex flex-col space-y-4">
         <input type="text" name="username" placeholder="Username" class="border p-2" required autoFocus/>
         <input type="password" name="password" placeholder="Password" class="border p-2" required />
-        <button type="submit" class="bg-blue-300 p-2">Sign up</button>
+        <button type="submit" class="bg-blue-200 p-2">Sign up</button>
         <input type="hidden" name="redirect" value={props.data.redirect} />
       </form>
     </div>

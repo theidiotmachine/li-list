@@ -97,6 +97,10 @@ function writeModelGroup(modelGroup: ModelGroup, damageBoxes: boolean, pageData:
     }
 
     for(const mlg of modelGroup.modelLoadoutGroups) {
+        const filteredSlots = mlg.modelLoadoutSlots.filter((s)=>s.modelLoadout.loadout != "No");
+        if(filteredSlots.length == 0)
+            continue;
+
         decY(bodyFontSize + gapSize, pageData);
         let mlgText = "";
         if(mlg.number != modelGroup.number) {
@@ -107,18 +111,22 @@ function writeModelGroup(modelGroup: ModelGroup, damageBoxes: boolean, pageData:
             else
                 mlgText += "with "
         }
-        if(mlg.modelLoadoutSlots.length == 1) {
+        
+        if(filteredSlots.length == 1) {
             pageData.page.drawText(
-                mlgText + mlg.modelLoadoutSlots.map((s)=>{
+                mlgText + filteredSlots.map((s)=>{
+                    if(s.name == s.modelLoadout.loadout)
+                        return s.name;
                     return s.name + ": " + s.modelLoadout.loadout
                 }).join(", "), {size: bodyFontSize, x: xMargin + indent, y: pageData.y}
             );
         } else {
             pageData.page.drawText(mlgText, {size: bodyFontSize, x: xMargin + indent, y: pageData.y});
-            for(const mls of mlg.modelLoadoutSlots) {
+            for(const mls of filteredSlots) {
                 decY(bodyFontSize + gapSize, pageData);
                 pageData.page.drawText(
-                    mls.name + ": " + mls.modelLoadout.loadout, {size: bodyFontSize, x: xMargin + 2*indent, y: pageData.y}
+                    (mls.name === mls.modelLoadout.loadout)?(mls.name):(mls.name + ": " + mls.modelLoadout.loadout), 
+                    {size: bodyFontSize, x: xMargin + 2*indent, y: pageData.y}
                 );
             }
         }

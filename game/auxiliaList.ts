@@ -432,7 +432,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 "Solar Auxilia Armoured Company",
                 "Solar Auxilia Leman Russ Spearhead"
             ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "None", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]},
         ], possibleModelGroupQuantities: [
             {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
@@ -454,7 +454,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 {loadout: "Malcador heavy bolters", points: 0}, {loadout: "Malcador lascannon", points: 0}, {loadout: "Malcador autocannon", points: 0}, 
             ]},
             {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 2, points: 165}, {num: 2+1, points: 165+70}, {num: 2+2, points: 165+130},
@@ -471,7 +471,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 {loadout: "Baneblade heavy bolters", points: 0}, {loadout: "Baneblade heavy flamer", points: 0}, {loadout: "Baneblade autocannon", points: 0}, 
             ]},
             {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+90+90},
@@ -614,7 +614,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 {loadout: "Malcador lascannon sponsons", points: 0}, {loadout: "Malcador autocannon sponsons", points: 0}, 
             ]},
             {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 70}, {num: 2, points: 140}, {num: 3, points: 70+140},
@@ -626,7 +626,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 {loadout: "Malcador lascannon sponson", points: 0}, {loadout: "Malcador autocannon sponson", points: 0}, 
             ]},
             {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 70}, {num: 2, points: 140}, {num: 3, points: 70+140},
@@ -638,7 +638,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 {loadout: "Stormhammer multi-laser sponsons", points: 0}, {loadout: "Stormhammer lascannon sponsons", points: 4}, 
             ]},
             {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}, {num: 2, points: 200}, {num: 3, points: 300},
@@ -665,7 +665,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 "Solar Auxilia Armoured Company",
                 "Solar Auxilia Titan Hunter Company"
             ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 140}, {num: 2, points: 140+130}, {num: 3, points: 140+260},
@@ -674,7 +674,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
     ["Auxilia Stormsword Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
         {modelName: "Stormsword", modelLoadoutSlots: [
             {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
@@ -683,7 +683,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
     ["Auxilia Stormblade Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
         {modelName: "Stormsword", modelLoadoutSlots: [
             {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 120}, {num: 2, points: 120+110}, {num: 3, points: 120+220},
@@ -698,7 +698,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 "Solar Auxilia Armoured Company",
                 "Solar Auxilia Leman Russ Spearhead"
             ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
@@ -714,7 +714,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 "Solar Auxilia Armoured Company",
                 "Solar Auxilia Leman Russ Spearhead"
             ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]},
         ], possibleModelGroupQuantities: [
             {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
@@ -730,7 +730,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 "Solar Auxilia Armoured Company",
                 "Solar Auxilia Leman Russ Spearhead"
             ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]},
         ], possibleModelGroupQuantities: [
             {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
@@ -746,7 +746,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 "Solar Auxilia Armoured Company",
                 "Solar Auxilia Leman Russ Spearhead"
             ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
             ]},
         ], possibleModelGroupQuantities: [
             {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},

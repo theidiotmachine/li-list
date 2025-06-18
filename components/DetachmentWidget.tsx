@@ -23,7 +23,7 @@ type ModelGroupWidgetProps = {
 function ModelGroupWidget(props: ModelGroupWidgetProps) {
     const {addModelLoadoutGroup, openModelGroup, modelGroupOpenState, closeModelGroup, getModelGroupKey} = useContext(AppState);
 
-    return <div class={"grid gap-[1%] grid-cols-[10%_78%_10%] md:grid-cols-[19%_7%_61%_10%] " + ((props.modelGroupShapeIndex%2)?"bg-gray-50":"bg-white")}>
+    return <div class={"grid gap-[1%] grid-cols-[10%_78%_10%] md:gap-[0%] md:grid-cols-[20%_8%_62%_10%] " + ((props.modelGroupShapeIndex%2)?"bg-gray-50":"bg-white")}>
     {
         //if there are no size options, or we manage it from loadouts, just present a number. 
         (props.modelGroupShape.possibleModelGroupQuantities.length === 1 || props.modelGroupShape.modelLoadoutSlots.length > 0) ? ( 
@@ -75,12 +75,12 @@ function ModelGroupWidget(props: ModelGroupWidgetProps) {
                         />
                     )}
                 </div>
-                <button type="button" class="w-full text-centre bg-gray-100 col-start-2 md:col-start-3"
+                <button type="button" class="w-full text-centre bg-blue-100 col-start-2 md:col-start-3"
                     hidden={
-                        (modelGroupOpenState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, props.modelGroupShape.modelName)) && props.editable)?false:true
+                        !(modelGroupOpenState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, props.modelGroupShape.modelName)) && props.editable)
                     }
                     onClick={() => addModelLoadoutGroup(props.uuid, props.detachmentIndex, props.modelGroup.modelName)}>
-                    New Loadout
+                    New Loadout Group
                 </button>
             </div>
         ) :
@@ -164,10 +164,8 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
 interface DisabledDetachmentWidgetProps {
     uuid: string;
     armyListName: ArmyListName;
-    //formationType: FormationName;
     detachmentIndex: number;
     detachment: Detachment;
-    //allegiance: Allegiance  | "";
 }
 
 export function DisabledDetachmentWidget(props: DisabledDetachmentWidgetProps) {
@@ -182,14 +180,14 @@ export function DisabledDetachmentWidget(props: DisabledDetachmentWidgetProps) {
     ;
     return <div class="mb-1 mt-1">
         <div class="grid grid-cols-[90%_10%] md:grid-cols-[20%_70%_10%] gap-0">
-            <div class="text-lg bg-gray-50 text-gray-700">
+            <div class="text-lg bg-gray-50 text-gray-500">
                 <DetachmentValidityIcon detachment={props.detachment}/>{slotDisplayName}
             </div>
             <div class="col-start-1 row-start-2 md:col-start-2 md:row-start-1 bg-gray-50">
                 {props.detachment.detachmentName}
             </div>
                 
-            <div class="row-start-1 col-start-2 md:col-start-3 justify-self-end text-lg bg-gray-50 text-gray-700">
+            <div class="row-start-1 col-start-2 md:col-start-3 justify-self-end text-lg bg-gray-50 text-gray-500">
                 {props.detachment.points}
             </div>
         </div>

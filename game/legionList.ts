@@ -976,7 +976,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             {saveType: "Armour", save: 3, arc: "Front"},
             {saveType: "Invuln", save: 6, arc: "All"}
         ],
-        caf: 3, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: 3, morale: 3, wounds: 2, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "Co-axial autocannon"}, 
@@ -1031,7 +1031,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Front"},
         ],
-        caf: 3, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        caf: 3, morale: 3, wounds: 2, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "Co-axial autocannon"}, 

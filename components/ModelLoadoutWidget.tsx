@@ -28,7 +28,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
     if(filteredModelLoadoutSlotShapes == undefined)
         return <div>No data</div>
 
-    return <div class="grid gap-[1%] grid-cols-[10%_8%_69%_10%] md:grid-cols-[19%_7%_20%_40%_10%]">
+    return <div class="grid gap-[1%] grid-cols-[10%_8%_69%_10%] md:gap-[0%] md:grid-cols-[20%_8%_20%_42%_10%]">
         <div class="col-start-1 order-2 justify-self-end flex"> 
             {
                 (props.numModelLoadoutGroups > 1) ?
@@ -56,7 +56,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
             //row-start-2 row-start-3 row-start-4 row-start-5
             //row-start-6 row-start-7 row-start-8 row-start-9
             //order-3 order-4 order-5 order-6 order-7 order-8 order-9 order-10
-            <div key={"n"+i} class = {"col-start-3 row-start-" + ((i*2)+1) + " md:row-start-"+(i+1)+" order-"+(3+i*2)}>
+            <div key={"n"+i} class = {"  col-start-3 row-start-" + ((i*2)+1) + " md:row-start-"+(i+1)+" order-"+(3+i*2)}>
                 {x.name}
             </div>)}
         {filteredModelLoadoutSlotShapes.map((x,i) => {

@@ -40,29 +40,6 @@ type HammerAimTableProps = {
   resultTable: HitResultOutcome[];
 };
 
-const AimTable = (props: HammerAimTableProps) => {
-  return (
-    <table class="border-collapse border text-sm">
-      <thead>
-        <tr class="border-b-2 border-gray-400 font-bold bg-gray-100">
-          <td class="w-16">Hits</td>
-          <td class="w-16">%</td>
-        </tr>
-      </thead>
-      <tbody>
-        {props.resultTable.map((ssr, i) => {
-          return (
-            <tr key={i}>
-              <td>{ssr.hits}</td>
-              <td>{Math.round(ssr.fraction * 10000) / 100}</td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  );
-};
-
 export default function Hammer(props: PageProps) {
   const shooterModelType = props.url.searchParams.get("shooter") ??
     "Tactical Legionaries";
@@ -153,22 +130,14 @@ export default function Hammer(props: PageProps) {
             </div>
             {shootResults.individualResults.map(
               (sr, i) => (
-                <div key={i} class="border-b-4 border-white">
+                <div key={i} class="mb-4">
                   {(sr === undefined) ? <div>No data for weapon</div> : (
                     <div>
-                      <span class="font-medium">{sr.weaponType}</span>
-                      <div>Dice: {sr.dice}</div>
-                      <div>
-                        <label class="font-medium">Hit table for one die</label>
-                        <AimTable resultTable={sr.hitTable}></AimTable>
-                      </div>
-                      <div>
-                        Save Type: {sr.saveType}
-                      </div>
-                      <div>
-                        <label class="font-medium">Result table</label>
-                        <ResultTable resultTable={sr.resultTable}></ResultTable>
-                      </div>
+                      <div class="font-medium">{sr.weaponType}</div>
+                      Wounds: {sr.resultTable.reduce((a, s) =>
+                        a + s.fraction * s.wounds, 0).toFixed(2)}
+                      <ResultTable resultTable={sr.resultTable}></ResultTable>
+                      
                       {(sr.notes.length > 0)
                         ? (
                           <div class="text-sm">
@@ -176,7 +145,6 @@ export default function Hammer(props: PageProps) {
                           </div>
                         )
                         : ("")}
-                      <div class="border-b-2 border-gray-200 mt-2"></div>
                     </div>
                   )}
                 </div>

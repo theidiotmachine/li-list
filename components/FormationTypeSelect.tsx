@@ -19,8 +19,6 @@ export function FormationTypeSelect(props: FormationTypeSelectProps) {
         {formationType}
     </div>;
 
-
-    //let formationNames: (FormationName | "")[] = [""];
     const formationNames = getFormationNamesForArmyListName(formation?.armyListName ?? "");
 
     const formationGroups: {label: string, formationNames: (FormationName | "")[]}[] = [
@@ -42,11 +40,10 @@ export function FormationTypeSelect(props: FormationTypeSelectProps) {
         class="w-full md:font-medium md:text-xl appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right md:bg-gray-100 md:border-b-2 border-gray-400 bg-white" 
         onInput={(e) => changeFormationName(props.uuid, e as FormationName)}>
         {
-            //formationNames.map((f)=><SelectOption type="option" key={f} optionText={f} selected={formationType == f}>{(f=="")?"Choose Formation Name":f}</SelectOption>)
             formationGroups.map((fg)=>{
                 return <SelectOptGroup type="optionGroup" label={fg.label} key={fg.label}>{
                     fg.formationNames.map((f)=>{
-                        return <SelectOption type="option" key={f} optionText={f} selected={formationType == f}>{(f=="")?"Choose Formation Name":f}</SelectOption>
+                        return <SelectOption type="option" key={f} optionText={f} selected={formationType == f}>{(f=="")?"Choose Formation":f}</SelectOption>
                     })
                 }</SelectOptGroup>
             })

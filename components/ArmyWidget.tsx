@@ -10,12 +10,12 @@ import { Allegiance, ArmyListName } from "../game/types.ts";
 import LoginLink from "./LoginLink.tsx";
 import SignupLink from "./SignupLink.tsx";
 
-function isEditable(localuuid: string, username: string, kvArmyOwner: string): boolean {
+function isEditable(localuuid: string, clouduuid: string, username: string, kvArmyOwner: string): boolean {
     if(localuuid != "")
         return true;
-    if(username != kvArmyOwner)
-        return false;
-    return true;
+    if(clouduuid != "" && username == kvArmyOwner)
+        return true;
+    return false;
 }
 
 export type ArmyHeaderProps = {
@@ -47,7 +47,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     let remainingAlliedPoints = 0;
     let maxAlliedPoints = 0;
     let points = 0;
-    const editable = isEditable(props.localuuid, username.value, kvArmyOwner.value);
+    const editable = isEditable(props.localuuid, props.clouduuid, username.value, kvArmyOwner.value);
     let allegiance: Allegiance | "" = "";
     let primaryArmyListName: ArmyListName | "" = "";
     let activations = 0;
@@ -171,7 +171,7 @@ export function ArmyWidget(props: ArmyWidgetProps) {
     else if(props.clouduuid != "" && IS_BROWSER)
         kvLoad(props.clouduuid);
 
-    const editable = isEditable(props.localuuid, username.value, kvArmyOwner.value);
+    const editable = isEditable(props.localuuid, props.clouduuid, username.value, kvArmyOwner.value);
 
     return(
         <div class="flex flex-row justify-center overflow-x-scroll h-screen" onScroll={(e)=>{
@@ -205,11 +205,14 @@ export function ArmyWidget(props: ArmyWidgetProps) {
                         {army.value.formations.map((x) => FormationWidget({formation: x, allegiance: army.value.allegiance, editable: editable})) }
                     </div>               
 
-                    <button type="button" class="text-lg md:text-xl w-48 md:w-full text-centre justify-center bg-gray-100 mb-4" 
+                    <button type="button" class="text-lg md:text-xl w-full text-centre justify-center bg-blue-200" 
                         hidden={!editable}
                         onClick={() => addFormation()}
                     >New Formation</button>
                     
+                    <div class="w-full py-4"
+                        hidden={!editable}
+                    ></div>
                 </div>
             )
         } </div>

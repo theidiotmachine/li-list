@@ -736,7 +736,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     ["Karacnos Assault Tank Squadron", {minModels: 1, modelGroupShapes: [
         {modelName: "Karacnos", modelLoadoutSlots: [
             {name: "Cortex Controller", formationNames: ["Autokratorii Regiment"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "", points: 0}, {loadout: "Cortex Controller", points: 10, unitTraits: ["Cortex Controller"]}, 
+                {loadout: "No", points: 0}, {loadout: "Cortex Controller", points: 10, unitTraits: ["Cortex Controller"]}, 
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 40}, {num: 2, points: 40+40}, {num: 3, points: 40+70}, {num: 4, points: 40+100}
