@@ -676,11 +676,67 @@ function getDefaultModelGroupsForDetachment(config: DetachmentConfiguration, for
         });
 }
 
+const pluaralNouns = [
+    'Sons', 'Children', 'Ladz', 'Fists', 'Swords', 'Brothers', 'Hunters', 'Wolves', 
+    'Ravens', 'Eagles', 'Hawks', 'Bears', 'Lions', 'Tigers', 'Dragons', 'Serpents',
+    'Wraiths', 'Ghosts', 'Shadows', 'Storms', 'Winds', 'Flames', 'Embers', 'Ashes',
+    'Sharks', 'Griffons', 'Teeth', 'Jaws',
+    'Fists','Blades', 'Brotherhood', 'Bolters', 'Claws', 'Wings',
+    'Knives', 'Remnants', 'Walls', 'Guard', 'Watch', 'Knights', 'Shields', 'Hands', 
+    'Angels', 'Scars', 'Talons', 'Wolves', 'Scars', 'Apostles', 'Skulls', 'Warriors',
+    'Templars',
+    'Eaters', 'Slayers', 'Hunters', 'Bringers', 'Keepers', 'Bearers', 'Drinkers',
+    'Killers', 'Takers', 'Destroyers', 'Seekers', 'Betrayers', 
+    'Sticks', 'Scythes'
+];
+const singularProperNouns = [
+    'the Emperor', 'the Imperium', 'the Galaxy', 'the Void', 'the Warmaster', 
+    'Silence', 'the Storm', 'the Hurricane', 'Thunder', 'Fury', 'the Dawn',
+    'the Night', 'the Stars', 'the Skies', 'the Earth', 'the Forge', 'the Omnissiah',
+    'Terra', 'Saturn', 'Mars', 'Titan', 'the Damned', 'the Dead', 'the Wicked',
+    'the Darkness', 'the Sun'
+];
+const adjectives = [
+    'Dark', 'Bright', 'Iron', 'Steel', 'Blazing', 'Burning', 'Forgotten', 'Grey', 'Tarnished',
+    'Broken', 'Cunning', 'Silent', 'Shattered', 'Furious', 'Bitter', 'Bleeding', 'Crimson',
+    'Screaming', 'Howling', 'Fallen', 'Deathless', 'Imperial', 'Emperor\'s',
+    'War', 'Blood', 'Brutal', 'White', 'Saturnine', 'Astral', 'Space', 'Secret', 
+    'Silent', 'Warmaster\'s', 'Corpse', 'Fallen', 'Silver', 'Brass', 'Stone',
+    'Pointy'
+];
+const singularNouns = [
+    'World', 'City', 'Word', 'Death', 'War', 'Battle', 'Storm', 'Forge', 'Blood', 'Flesh',
+    'Planet', 'Titan', 'Knife', 'Blade', 'Skull', 'Rainbow', 'Sword', 'Armour',
+    'Fortress', 'Nova'
+];
+
+function getRandomInt(max: number) {
+  return Math.floor(Math.random() * max);
+}
+
+function takeRandom(words: string[]): string {
+    const r = getRandomInt(words.length);
+    return words[r];
+}
+
+function defaultArmyName(): string {
+    
+    const r1 = getRandomInt(5);
+    switch(r1) {
+        case 0: return 'The ' + takeRandom(pluaralNouns) + ' of ' + takeRandom(singularProperNouns);
+        case 1: return 'The ' + takeRandom(adjectives) + ' ' + takeRandom(pluaralNouns) + ' of ' +takeRandom(singularProperNouns);
+        case 2: return 'The ' + takeRandom(adjectives) + ' ' +takeRandom(pluaralNouns);
+        case 3: return 'The ' + takeRandom(singularNouns) + ' ' + takeRandom(pluaralNouns);
+        case 4: return 'The ' + takeRandom(adjectives) + ' ' + takeRandom(singularNouns) + ' ' + takeRandom(pluaralNouns);
+        default: return 'Are We The Baddies?';
+    }
+}
+
 function createAppState(): AppStateType {
     const newArmy = {
         formations: [], points: 0, alliedPoints: 0,
         primaryPoints: 0,
-        uuid: crypto.randomUUID(), name: "", maxPoints: 0, primaryArmyListName: "" as ArmyListName | "",
+        uuid: crypto.randomUUID(), name: defaultArmyName(), maxPoints: 0, primaryArmyListName: "" as ArmyListName | "",
         allegiance: "" as Allegiance | "",
         validationState: { valid: true },
         activations: 0,
@@ -886,7 +942,7 @@ function createAppState(): AppStateType {
 
     const makeNewArmy = () => {
         const newArmy = {
-            formations: [], points: 0, uuid: crypto.randomUUID(), name: "", maxPoints: 0, 
+            formations: [], points: 0, uuid: crypto.randomUUID(), name: defaultArmyName(), maxPoints: 0, 
             primaryArmyListName: "" as ArmyListName | "", allegiance: "" as Allegiance | "",
             alliedPoints: 0,
             primaryPoints: 0,

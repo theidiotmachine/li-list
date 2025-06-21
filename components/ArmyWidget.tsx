@@ -21,7 +21,6 @@ function isEditable(localuuid: string, clouduuid: string, username: string, kvAr
 export type ArmyHeaderProps = {
     localuuid: string;
     clouduuid: string;
-    class: string;
     isLoggedIn: boolean;
     username: string;
 }
@@ -34,7 +33,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     if(username.value != props.username)
         username.value = props.username;
 
-    const bgColour = "bg-blue-50";
+    const bgColour = "bg-gray-100";
     if(props.localuuid != "" && IS_BROWSER)
         localLoad(props.localuuid)
     else if(props.clouduuid != "" && IS_BROWSER)
@@ -51,6 +50,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     let allegiance: Allegiance | "" = "";
     let primaryArmyListName: ArmyListName | "" = "";
     let activations = 0;
+    let storage = "";
     if((props.localuuid != "" && armyLocalLoadState.value == LoadingState.Loaded) 
         || (props.clouduuid != "" && armyKvLoadState.value == LoadingState.Loaded) 
     ) {
@@ -67,11 +67,15 @@ export function ArmyHeader(props: ArmyHeaderProps) {
         allegiance = army.value.allegiance;
         primaryArmyListName = army.value.primaryArmyListName;
         activations = army.value.activations;
+        if(props.clouduuid != "")
+            storage = "Cloud";
+        if(props.localuuid != "")
+            storage = "Stored locally";
     } 
 
-    return <div class={"grid grid-cols-[50%_50%] md:grid-cols-[41%_41%_14%] gap-[1%] md:w-[800px] mr-2 md:ml-8 md:mb-1" + " " + props.class + " " + bgColour}>
+    return <div class={"grid grid-cols-[50%_50%] md:grid-cols-[41%_41%_18%] gap-[0%]" + " " + bgColour}>
         <div class="md:col-span-2 col-start-1">
-            <input disabled={!editable} type="text" placeholder="My army name" class={"text-lg md:text-xl w-full md:w-96 " + bgColour}
+            <input disabled={!editable} type="text" placeholder="My army name" class={"text-lg md:text-xl w-full  " + bgColour}
                 value={name} onChange={(e) => {
                     const target = e.target as HTMLInputElement;
                     changeArmyName(target.value);
@@ -97,7 +101,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             Activations: {activations}
         </div>
 
-        <div class="col-start-1 row-start-3 col-span-2 md:col-span-1 md:col-start-2 md:row-start-2">
+        <div class="col-start-1 row-start-3 col-span-1 md:col-span-1 md:col-start-2 md:row-start-2">
             Allied: {alliedPoints}/{maxAlliedPoints} ({remainingAlliedPoints} left)
         </div>
 
@@ -105,7 +109,11 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             ({remainingPoints} left)
         </div>
 
-        <div class="col-start-1 col-span-2 md:col-span-1 md:row-start-3 hide-on-scroll">
+        <div class="col-start-2 flex flex-row justify-self-end row-start-3 md:col-start-3 md:hide-on-scroll">
+            {storage}
+        </div>
+
+        <div class="col-start-1 col-span-2 md:col-span-1 md:row-start-3 hide-on-scroll md:mr-2">
             <ArmyAllegianceSelect allegiance={allegiance} enabled={editable} class={bgColour}/>
         </div>
 
