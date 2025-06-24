@@ -35,7 +35,11 @@ export function FormationWidget(props: FormationWidgetProps) {
             <div class="row-start-2 md:row-start-1 col-start-2 md:col-start-3 ">
                 <FormationTypeSelect uuid={props.formation.uuid} editable={isOpen && props.editable}/> 
             </div>
-            <div class="row-start-1 col-start-3 md:col-start-4 text-right font-medium text-lg md:text-xl border-b-2 border-gray-400 bg-gray-100">{props.formation.points}</div>
+            <div 
+                class="row-start-1 col-start-3 md:col-start-4 text-right font-medium text-lg md:text-xl border-b-2 border-gray-400 bg-gray-100 w-full"
+            >
+                {props.formation.points}
+            </div>
             {(isLegion)?
                 (<FormationLegionNameListSelect uuid={props.formation.uuid} editable={isOpen && props.editable}
                     class = "row-start-3 md:row-start-2 col-start-2 md:text-lg"

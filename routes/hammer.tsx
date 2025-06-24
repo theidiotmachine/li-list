@@ -1,4 +1,5 @@
 import { PageProps } from "$fresh/server.ts";
+import { Header } from "../components/Header.tsx";
 import { getStatsForModelName } from "../game/lists.ts";
 import {
   HitResultOutcome,
@@ -111,7 +112,9 @@ export default function Hammer(props: PageProps) {
   }
 
   return (
-    <div class="flex flex-row justify-center mt-8">
+    <>
+    <Header/>
+    <div class="flex flex-row justify-center mt-4">
       <div>
         <h1 class="text-xl">Maths Hammer</h1>
         <p class="text-sm">Not all weapons are in the system yet.</p>
@@ -162,5 +165,6 @@ export default function Hammer(props: PageProps) {
         }
       </div>
     </div>
+    </>
   );
 }

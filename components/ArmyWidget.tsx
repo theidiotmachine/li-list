@@ -73,7 +73,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             storage = "Stored locally";
     } 
 
-    return <div class={"grid grid-cols-[50%_50%] md:grid-cols-[41%_41%_18%] gap-[0%]" + " " + bgColour}>
+    return <div class={"grid grid-cols-[70%_30%] md:grid-cols-[41%_41%_18%] gap-[0%]" + " " + bgColour}>
         <div class="md:col-span-2 col-start-1">
             <input disabled={!editable} type="text" placeholder="My army name" class={"text-lg md:text-xl w-full  " + bgColour}
                 value={name} onChange={(e) => {
@@ -83,7 +83,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             />
         </div>
         
-        <div class="md:col-start-3 text-lg md:text-xl flex flex-row justify-self-end ">
+        <div class="md:col-start-3 text-lg md:text-xl flex flex-row justify-self-end">
             <div>{points}/</div>
             <input disabled={!editable}
                 type="number"
@@ -109,7 +109,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
             ({remainingPoints} left)
         </div>
 
-        <div class="col-start-2 flex flex-row justify-self-end row-start-3 md:col-start-3 md:hide-on-scroll">
+        <div class="col-start-2 flex flex-row justify-self-end row-start-3 md:col-start-3 hide-on-scroll">
             {storage}
         </div>
 

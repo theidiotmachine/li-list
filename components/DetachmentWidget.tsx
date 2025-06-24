@@ -58,7 +58,7 @@ function ModelGroupWidget(props: ModelGroupWidgetProps) {
         </a>
     </div>
 
-    <div class="col-start-3 md:col-start-4 justify-self-end">{props.modelGroup.points}</div> 
+    <div class="col-start-3 md:col-start-4 text-right w-full">{props.modelGroup.points}</div> 
 
     {
         (props.modelGroupShape.modelLoadoutSlots.length > 0) ? (
@@ -144,7 +144,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                     armyListName={props.armyListName} allegiance={props.allegiance}/>
             </div>
             
-            <div class="row-start-1 col-start-2 md:col-start-3 justify-self-end font-medium text-lg bg-gray-100">
+            <div class="row-start-1 col-start-2 md:col-start-3 font-medium text-right text-lg bg-gray-100">
                 {props.detachment.points}
             </div>
             <DetachmentValidityText class="col-start-1 row-start-3 md:col-start-2 md:col-span-2" detachment={props.detachment}/>
@@ -187,7 +187,7 @@ export function DisabledDetachmentWidget(props: DisabledDetachmentWidgetProps) {
                 {props.detachment.detachmentName}
             </div>
                 
-            <div class="row-start-1 col-start-2 md:col-start-3 justify-self-end text-lg bg-gray-50 text-gray-500">
+            <div class="row-start-1 col-start-2 md:col-start-3 text-right text-lg bg-gray-50 text-gray-500">
                 {props.detachment.points}
             </div>
         </div>
