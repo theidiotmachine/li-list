@@ -7,7 +7,7 @@ export type HammerModelNameSelectProps = {
     class: string;
 }
 export function HammerModelNameSelect(props: HammerModelNameSelectProps) {
-    return <Select class={props.class}
+    return <Select<string> class={props.class}
         onInput={(e) => props.changeModelName(e)}
     >
         {AllModelNames.map((s)=><SelectOption type="option" selected={props.modelName == s} key={s}>{s}</SelectOption>)}
