@@ -12,7 +12,7 @@ interface FormationLegionNameListSelectProps {
 
 export function FormationLegionNameListSelect(props: FormationLegionNameListSelectProps) {
     const { changeFormationLegionName } = useContext(AppState);
-    if(!props.editable) return <div class={"md:text-xl w-full bg-white " + props.class}>
+    if(!props.editable) return <div class={"md:text-xl w-full dark:bg-black dark:text-white " + props.class}>
         {props.legionName}
     </div>;
     const options = [
