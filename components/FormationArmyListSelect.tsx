@@ -14,7 +14,7 @@ export function FormationArmyListSelect(props: FormationArmyListSelectProps) {
     const formation = army.value.formations.find((f: Formation)=>f.uuid == props.uuid);
     const formationArmyListName = formation?.armyListName ?? "";
 
-    if(!props.editable) return <div class ="font-medium text-lg md:text-xl w-full  bg-gray-100 border-b-2 border-gray-400">
+    if(!props.editable) return <div class ="font-medium text-lg md:text-xl w-full bg-gray-100 border-b-2 border-gray-400 dark:border-gray-600 dark:bg-gray-900 dark:text-white">
         {formationArmyListName}
     </div>;
 
@@ -33,7 +33,7 @@ export function FormationArmyListSelect(props: FormationArmyListSelectProps) {
     options.push({value: "Solar Auxilia", text: "Solar Auxilia"});
     options.push({value: "Strategic Asset", text: "Strategic Asset"});
 
-    return <Select<ArmyListName | ""> class ="font-medium text-lg md:text-xl w-full bg-gray-100 border-b-2 border-gray-400" 
+    return <Select<ArmyListName | ""> class ="font-medium text-lg md:text-xl w-full bg-gray-100 border-b-2 border-gray-400 dark:border-gray-600 dark:bg-gray-900 dark:text-white" 
     onInput={(e) => changeFormationArmyList(props.uuid, e)}>
         {options.map((s)=>{
             return <SelectOption 

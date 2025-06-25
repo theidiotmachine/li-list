@@ -113,7 +113,8 @@ export function Select<T>(props: SelectProps<T>) {
         return overrideBits.join(" ");
     }
 
-    return <div class={mergeClasses("cursor-default border-2 border-transparent focus:border-black", (props.class??""))} tabIndex={0} ref={main} onBlur={close} 
+    return <div class={mergeClasses("cursor-default border-2 border-transparent focus:border-black dark:focus:border-white ", (props.class??""))} 
+        tabIndex={0} ref={main} onBlur={close} 
         onKeyDown={(e)=>{
             if(props.disabled)
                 return;
@@ -176,14 +177,17 @@ export function Select<T>(props: SelectProps<T>) {
         }}
         >
             
-        <div onClick={toggle} class="flex" style={"anchor-name:--" + anchorId }>
+        <div onClick={toggle} class="flex items-center" style={"anchor-name:--" + anchorId }>
             <div class="flex-grow select-none">{
                 ((flattenedChoices[selectedIndex]?.children??"") == "")?(<br/>):(flattenedChoices[selectedIndex]?.children)
             }</div>
-            <img class ={(props.disabled)?"hidden":""} src="/dropdownarrow-clean.svg"></img>
+            <svg class ={(props.disabled?"hidden":"") + " dark:fill-white fill-black justify-center"}  
+                width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg">
+                <path d="m0.52917 0.79375h0.52917l1.0583 1.8521 1.0583-1.8521h0.52917l-1.5875 2.6458z"/>
+            </svg>
         </div>
-        
-        <div class="absolute z-100 hidden flex-col bg-gray-50 border-black border-[1px] max-h-56 overflow-y-auto" 
+        <div 
+            class="absolute z-100 hidden flex-col bg-gray-50 border-black dark:bg-gray-950 dark:border-white  border-[1px] max-h-56 overflow-y-auto" 
             style={"position-anchor:--" + anchorId + "; "} 
             ref={menu}
         > {
@@ -204,7 +208,7 @@ export function Select<T>(props: SelectProps<T>) {
                             "px-1 select-none font-normal " 
                                 + (
                                     ((highlightedIndex != -1 && i == highlightedIndex) || (highlightedIndex == -1 && i==selectedIndex))
-                                        ?"bg-gray-600 text-white"
+                                        ?"bg-gray-600 text-white dark:bg-gray-400 dark:text-black"
                                         :""
                                 )
                         } 

@@ -1,6 +1,7 @@
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { AllLegionNames, LegionName } from "../game/legionTypes.ts";
+import { Select, SelectOption } from "./Select.tsx";
 
 interface FormationLegionNameListSelectProps {
     uuid: string;
@@ -14,11 +15,15 @@ export function FormationLegionNameListSelect(props: FormationLegionNameListSele
     if(!props.editable) return <div class={"md:text-xl w-full bg-white " + props.class}>
         {props.legionName}
     </div>;
-    return <select class={"md:text-xl w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-white " + props.class}
-        onInput={(e) => changeFormationLegionName(props.uuid, e.currentTarget.value as LegionName)}>
-            <option value="" selected={props.legionName == ""}></option>
-            {AllLegionNames.map((s, i)=>{
-                return <option key={"ln"+i} selected={props.legionName == s}>{s}</option>
-            })}
-    </select>
+    const options = [
+        <SelectOption type="option" value="" selected={props.legionName == ""} key=""> </SelectOption>
+    ];
+    AllLegionNames.forEach((s, i)=>{
+        options.push(<SelectOption type="option" key={"ln"+i} selected={props.legionName == s}>{s}</SelectOption>)
+    })
+
+    return <Select class={"md:text-xl w-full bg-right bg-white dark:bg-black dark:text-white " + props.class}
+        onInput={(e) => changeFormationLegionName(props.uuid, e as LegionName)}>
+        {options}
+    </Select>
 }

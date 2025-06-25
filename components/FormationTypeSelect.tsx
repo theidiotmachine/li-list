@@ -15,7 +15,9 @@ export function FormationTypeSelect(props: FormationTypeSelectProps) {
 
     const formationType = formation?.formationName ?? "";
 
-    if(!props.editable) return <div class ="w-full md:font-medium md:text-xl md:bg-gray-100 md:border-b-2 border-gray-400 bg-white">
+    if(!props.editable) return <div 
+        class ="w-full md:font-medium md:text-xl md:bg-gray-100 dark:md:bg-gray-900 md:border-b-2 border-gray-400 dark:border-gray-600 bg-white dark:bg-black dark:text-white"
+    >
         {formationType}
     </div>;
 
@@ -37,7 +39,7 @@ export function FormationTypeSelect(props: FormationTypeSelectProps) {
     }
     
     return <Select 
-        class="w-full md:font-medium md:text-xl appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right md:bg-gray-100 md:border-b-2 border-gray-400 bg-white" 
+        class="w-full md:font-medium md:text-xl md:bg-gray-100 dark:md:bg-gray-900 md:border-b-2 border-gray-400 dark:border-gray-600 bg-white dark:bg-black dark:text-white" 
         onInput={(e) => changeFormationName(props.uuid, e as FormationName)}>
         {
             formationGroups.map((fg)=>{

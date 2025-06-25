@@ -110,19 +110,20 @@ export default function Login(props: PageProps<Data>) {
 
     return (
         <div class="flex flex-col items-center justify-center h-screen">
-            <h1 class="text-4xl font-bold mb-4">Login</h1>
+            <h1 class="text-4xl font-bold mb-4 dark:text-white">Login</h1>
             {
               (props.data.failedString != "")?(<div>
-                <p class="text-red-600 italic mb-4">{error}</p>
+                <p class="text-red-600 dark:text-red-300 italic mb-4">{error}</p>
               </div>):(<div></div>)
             }
             <form action="/api/login" method="POST" class="flex flex-col space-y-4">
-                <input type="text" name="username" placeholder="Username" class="border p-2" required autoFocus/>
-                <input type="password" name="password" placeholder="Password" class="border p-2" required />
-                <button type="submit" class="bg-blue-200 p-2 disabled:text-gray-500 disabled:bg-gray-300" disabled={locked}>Login</button>
+                <input type="text" name="username" placeholder="Username" class="border p-2 dark:bg-black dark:text-white " required autoFocus/>
+                <input type="password" name="password" placeholder="Password" class="border p-2 dark:bg-black dark:text-white" required />
+                <button type="submit" class="bg-blue-200 dark:bg-blue-800 p-2 disabled:text-gray-500 disabled:bg-gray-300 dark:text-white" 
+                  disabled={locked}>Login</button>
                 <input type="hidden" name="redirect" value={props.data.redirect} />
             </form>
-            <p>Don't have a login? <SignupLink text="Sign up here"/>.</p>
+            <p class="dark:text-white">Don't have a login? <SignupLink text="Sign up here"/>.</p>
         </div>
     );
 }

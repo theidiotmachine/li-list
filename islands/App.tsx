@@ -21,13 +21,13 @@ export default function App(props: AppProps) {
       <AppState.Provider value={state}>
         <div class="flex flex-col">
           <div class="fixed z-50">
-            <div class="flex flex-row w-screen justify-center bg-gray-100">
-              <ToolBar class="grow md:min-w-8 bg-white" />
-              <div class="w-full bg-gray-100 content-center text-lg text-center font-semibold">
+            <div class="flex flex-row w-screen justify-center bg-gray-100 dark:bg-gray-900">
+              <ToolBar class="grow md:min-w-8" />
+              <div class="w-full bg-gray-100 dark:bg-gray-900 content-center text-lg text-center font-semibold dark:text-white">
                 LI List Builder
               </div>
             </div>
-            <div class="flex flex-row w-screen justify-center bg-gray-100">
+            <div class="flex flex-row w-screen justify-center bg-gray-100 dark:bg-gray-900">
               <div class="flex flex-col mx-4 md:w-[800px]">
                 <div class="flex flex-row justify-center">
                 </div>

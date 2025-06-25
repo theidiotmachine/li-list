@@ -4,6 +4,7 @@ import { SaveArc, StatsModelLoadoutForSlot, StatsModelLoadoutSlot } from "../gam
 import { HammerModelNameSelect } from "./HammerModelNameSelect.tsx";
 import { getStatsForModelName } from "../game/lists.ts";
 import { HammerScenarioLoadout } from "../state/hammerScenarioState.ts";
+import { Select, SelectOption } from "./Select.tsx";
 
 type HammerModelLoadoutSelectProps = {
     name: string;
@@ -12,13 +13,13 @@ type HammerModelLoadoutSelectProps = {
 }
 function HammerModelLoadoutSelect(props: HammerModelLoadoutSelectProps) {
     const {changeLoadout} = useContext(HammerScenarioState);
-    return <select class="w-full" onInput={(e)=>{
-        changeLoadout({name: props.name, loadout: e.currentTarget.value})
+    return <Select<string> class="w-full dark:text-white dark:bg-black" onInput={(e)=>{
+        changeLoadout({name: props.name, loadout: e as string})
     }}>
         {props.possibleModelLoadouts.map((s)=>{
-            return <option key={s.loadout} selected={s.loadout != undefined && s.loadout==props.loadout}>{s.loadout}</option>
+            return <SelectOption type="option" key={s.loadout} selected={s.loadout != undefined && s.loadout==props.loadout}>{s.loadout}</SelectOption>
         })}
-    </select>
+    </Select>
 }
 
 type HammerModelLoadoutSlotProps = {
@@ -41,7 +42,7 @@ export function HammerScenario() {
     const stats = getStatsForModelName(shooter.value);
     
     return <div class="flex flex-col">  
-        <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400">Scenario</div>
+        <div class="font-medium text-lg bg-gray-100 dark:bg-gray-900 border-b-2 border-gray-400 dark:border-gray-600">Scenario</div>
         <div class="flex flex-row">
             <label class="font-medium w-32">Shooter</label>
             <HammerModelNameSelect class="w-56" modelName={shooter.value} changeModelName={changeShooter}/>
@@ -54,7 +55,7 @@ export function HammerScenario() {
             <label class="font-medium w-32">Range</label>
             <input type="number"
                 //this madness removes the spinners
-                class="w-56 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" 
+                class="w-56 text-right [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none dark:bg-black dark:text-white" 
                 min="0" 
                 value={range.value} onChange={(e) => {
                     const target = e.target as HTMLInputElement;
@@ -64,10 +65,10 @@ export function HammerScenario() {
         </div>
         <div class="flex flex-row">
             <label class="font-medium w-32">Target Arc</label>
-            <select class="w-56" onInput={(e) => changeArc(e.currentTarget.value as SaveArc)}>
-                <option selected={arc.value == "Front"}>Front</option>
-                <option selected={arc.value == "Rear"}>Rear</option>
-            </select>
+            <Select class="w-56" onInput={(e) => changeArc(e as SaveArc)}>
+                <SelectOption type="option" selected={arc.value == "Front"}>Front</SelectOption>
+                <SelectOption type="option" selected={arc.value == "Rear"}>Rear</SelectOption>
+            </Select>
         </div>
         <div class="flex flex-col">
             <label class="font-medium">Loadout options</label>
@@ -80,8 +81,10 @@ export function HammerScenario() {
             }
             </div>
         <div>
-            <button type="button" disabled={!changed.value} class="disabled:text-gray-500 disabled:bg-gray-200 bg-blue-200 pl-1 pr-1 w-full mt-4" onClick={()=>{
-                globalThis.location.href = newUrl.value;
+            <button type="button" disabled={!changed.value} 
+                class="disabled:text-gray-500 disabled:bg-gray-200 dark:disabled:bg-gray-800 bg-blue-200 dark:bg-blue-800 pl-1 pr-1 w-full mt-4" 
+                onClick={()=>{
+                    globalThis.location.href = newUrl.value;
             }}>Rerun</button>
         </div>
     </div>

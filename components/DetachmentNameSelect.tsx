@@ -33,7 +33,7 @@ export function DetachmentNameSelect(props: DetachmentNameSelectProps) {
         return <SelectOption type="option" key={u} selected={unit == u} optionText={optionText}>{u}</SelectOption>
     });
     return <Select<DetachmentName | "">
-        class="w-full md:font-medium md:text-lg bg-white md:bg-gray-100" 
+        class="w-full md:font-medium md:text-lg bg-white md:bg-gray-100 dark:bg-black md:dark:bg-gray-900 dark:text-white" 
         disabled={!props.editable}
         onInput={(e) => changeDetachmentName(props.uuid, props.detachmentIndex, e)}>
         {options}

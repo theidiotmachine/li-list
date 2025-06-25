@@ -33,7 +33,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
     if(username.value != props.username)
         username.value = props.username;
 
-    const bgColour = "bg-gray-100";
+    const bgColour = "bg-gray-100 dark:bg-gray-900 dark:text-white";
     if(props.localuuid != "" && IS_BROWSER)
         localLoad(props.localuuid)
     else if(props.clouduuid != "" && IS_BROWSER)
@@ -84,7 +84,7 @@ export function ArmyHeader(props: ArmyHeaderProps) {
         </div>
         
         <div class="md:col-start-3 text-lg md:text-xl flex flex-row justify-self-end">
-            <div>{points}/</div>
+            <div class="dark:text-white">{points}/</div>
             <input disabled={!editable}
                 type="number"
                 //this madness removes the spinners
@@ -213,7 +213,7 @@ export function ArmyWidget(props: ArmyWidgetProps) {
                         {army.value.formations.map((x) => FormationWidget({formation: x, allegiance: army.value.allegiance, editable: editable})) }
                     </div>               
 
-                    <button type="button" class="text-lg md:text-xl w-full text-centre justify-center bg-blue-200" 
+                    <button type="button" class="text-lg md:text-xl w-full text-centre justify-center bg-blue-200 dark:text-white dark:bg-blue-800" 
                         hidden={!editable}
                         onClick={() => addFormation()}
                     >New Formation</button>

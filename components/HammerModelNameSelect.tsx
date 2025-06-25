@@ -1,4 +1,5 @@
 import { AllModelNames, ModelName } from "../game/types.ts";
+import { Select, SelectOption } from "./Select.tsx";
 
 export type HammerModelNameSelectProps = {
     modelName: ModelName;
@@ -6,9 +7,9 @@ export type HammerModelNameSelectProps = {
     class: string;
 }
 export function HammerModelNameSelect(props: HammerModelNameSelectProps) {
-    return <select class={props.class}
-        onInput={(e) => props.changeModelName(e.currentTarget.value)}
+    return <Select class={props.class}
+        onInput={(e) => props.changeModelName(e)}
     >
-        {AllModelNames.map((s)=><option selected={props.modelName == s} key={s}>{s}</option>)}
-    </select>
+        {AllModelNames.map((s)=><SelectOption type="option" selected={props.modelName == s} key={s}>{s}</SelectOption>)}
+    </Select>
 }

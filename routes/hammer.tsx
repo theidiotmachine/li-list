@@ -18,7 +18,7 @@ const ResultTable = (props: HammerResultTableProps) => {
   return (
     <table class="border-collapse border text-sm">
       <thead>
-        <tr class="border-b-2 border-gray-400 font-bold bg-gray-100">
+        <tr class="border-b-2 border-gray-400 font-bold bg-gray-100 dark:bg-gray-900 dark:text-white dark:border-gray-600">
           <td class="w-16">W</td>
           <td class="w-16">%</td>
         </tr>
@@ -114,7 +114,7 @@ export default function Hammer(props: PageProps) {
   return (
     <>
     <Header/>
-    <div class="flex flex-row justify-center mt-4">
+    <div class="flex flex-row justify-center mt-4 dark:text-white">
       <div>
         <h1 class="text-xl">Maths Hammer</h1>
         <p class="text-sm">Not all weapons are in the system yet.</p>
@@ -122,13 +122,13 @@ export default function Hammer(props: PageProps) {
         <HammerScenarioIsland urlString={props.url.toString()} />
         {
           <div>
-            <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400 mt-8">
+            <div class="font-medium text-lg bg-gray-100 dark:bg-gray-900 border-b-2 border-gray-400 dark:border-gray-600 mt-8 dark:text-white">
               Net results
             </div>
             Wounds: {shootResults.netResults.reduce((a, s) =>
               a + s.fraction * s.wounds, 0).toFixed(2)}
             <ResultTable resultTable={shootResults.netResults}></ResultTable>
-            <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400 mt-8">
+            <div class="font-medium text-lg bg-gray-100 dark:bg-gray-900 border-b-2 border-gray-400 dark:border-gray-600 mt-8">
               Individual results
             </div>
             {shootResults.individualResults.map(
@@ -154,11 +154,11 @@ export default function Hammer(props: PageProps) {
               ),
             )}
             <div hidden={shootResults.unknownWeapons.length == 0}>
-              <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400 mt-8">
+              <div class="font-medium text-lg bg-gray-100 dark:bg-gray-900 border-b-2 border-gray-400 dark:border-gray-600 mt-8">
                 Weapons without stats
               </div>
               {shootResults.unknownWeapons.map((uw, i) => (
-                <div key={i} class="border-b-4 border-white">{uw}</div>
+                <div key={i} class="border-b-4 border-white dark:border-black">{uw}</div>
               ))}
             </div>
           </div>

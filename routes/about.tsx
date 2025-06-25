@@ -4,7 +4,7 @@ export default function AboutPage() {
     return (
       <>
       <Header/>
-      <div class="flex flex-row justify-center mt-8">
+      <div class="flex flex-row justify-center mt-8 dark:text-white">
         <div>
           <p class="m-1">This is not an official Games Workshop website.</p>
           <p class="m-1">If you want to contact me, mail the idiot machine (all one word) at gmail dot com, or join the London Warhammer Gaming Guild.</p>

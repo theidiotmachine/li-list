@@ -2,6 +2,7 @@ import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { Formation, statsHasTraitLike } from "../game/types.ts";
 import { getStatsForModelName } from "../game/lists.ts";
+import { Select, SelectOption } from "./Select.tsx";
 
 interface DetachmentAttachmentSelectProps {
     uuid: string;
@@ -52,13 +53,13 @@ export function DetachmentAttachmentSelect(props: DetachmentAttachmentSelectProp
         possibleDetachmentData.forEach((s)=>detachmentAttachmentsForSlot.push(s));
     }
     if(props.editable)
-        return <select
-            class={"w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white italic text-sm " + props.class} 
-            onInput={(e) => changeDetachmentAttachment(props.uuid, props.detachmentIndex, parseInt(e.currentTarget.value))}>
-            {detachmentAttachmentsForSlot.map((s)=>{return <option value={s.index.toString()} key={s.text} selected={props.detachmentAttachmentIndex==s.index}>
+        return <Select
+            class={"w-full appearance-none bg-[url(dropdownarrow-clean.svg)] bg-no-repeat bg-right bg-opacity-0 bg-white italic text-sm dark:text-white dark:bg-black " + props.class} 
+            onInput={(e) => changeDetachmentAttachment(props.uuid, props.detachmentIndex, parseInt(e as string))}>
+            {detachmentAttachmentsForSlot.map((s)=>{return <SelectOption type="option" value={s.index.toString()} key={s.text} selected={props.detachmentAttachmentIndex==s.index}>
                 {s.text}
-            </option>})}
-        </select>
+            </SelectOption>})}
+        </Select>
     else {
         const dafs = detachmentAttachmentsForSlot.find((s)=>props.detachmentAttachmentIndex==s.index);
         let selectedText = "";
