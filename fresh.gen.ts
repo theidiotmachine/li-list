@@ -10,6 +10,7 @@ import * as $api_data_armies_for_user from "./routes/api/data/armies-for-user.ts
 import * as $api_data_armies_aid_ from "./routes/api/data/armies/[aid].ts";
 import * as $api_login from "./routes/api/login.ts";
 import * as $api_signup from "./routes/api/signup.ts";
+import * as $cheatsheet from "./routes/cheatsheet.tsx";
 import * as $export from "./routes/export.tsx";
 import * as $hammer from "./routes/hammer.tsx";
 import * as $hello from "./routes/hello.tsx";
@@ -36,6 +37,7 @@ const manifest = {
     "./routes/api/data/armies/[aid].ts": $api_data_armies_aid_,
     "./routes/api/login.ts": $api_login,
     "./routes/api/signup.ts": $api_signup,
+    "./routes/cheatsheet.tsx": $cheatsheet,
     "./routes/export.tsx": $export,
     "./routes/hammer.tsx": $hammer,
     "./routes/hello.tsx": $hello,

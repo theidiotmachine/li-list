@@ -1230,7 +1230,7 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
     ["Valdor", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 3, arc: "Rear"},
+            {saveType: "Armour", save: 4, arc: "Rear"},
         ],
         caf: 1, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [

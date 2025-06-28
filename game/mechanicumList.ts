@@ -913,7 +913,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     ["Errax", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 4, arc: "Front"},
-            {saveType: "Armour", save: 5, arc: "Front"},
+            {saveType: "Armour", save: 5, arc: "Rear"},
         ],
         caf: 6, wounds: 2, tacticalStrength: 2, constructShields: 1,
         modelLoadoutSlots: [
@@ -941,7 +941,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     ["Karacnos", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Rear"},
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [
@@ -954,7 +954,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     ["Krios", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Rear"},
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [
@@ -971,7 +971,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     ["Krios Venator", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Rear"},
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [
@@ -1008,7 +1008,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     ["Serperos", {
         detachmentType: "Super-heavy vehicle", scale: 3, move: 7, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
-            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 3, wounds: 2, tacticalStrength: 2, constructShields: 2,
         modelLoadoutSlots: [
@@ -1026,7 +1026,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     ["Scintillax", {
         detachmentType: "Vehicle", scale: 2, move: 7, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Rear"},
         ],
         caf: 3, wounds: 2, tacticalStrength: 2, constructShields: 1,
         modelLoadoutSlots: [
@@ -1063,7 +1063,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     ["Tenebrax", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 4, arc: "Front"},
-            {saveType: "Armour", save: 5, arc: "Front"},
+            {saveType: "Armour", save: 5, arc: "Rear"},
         ],
         caf: 1, wounds: 2, tacticalStrength: 2,
         modelLoadoutSlots: [
@@ -1107,7 +1107,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     ["Triaros", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
             {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 4, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Rear"},
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [

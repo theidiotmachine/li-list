@@ -16,25 +16,6 @@ export function ToolBar(props: ToolBarProps) {
         redirectPath = url.pathname + url.search;
     }
 
-    /*
-    <img src="/menu-clean.svg" class="bg-gray-100 p-1 w-8" id="menu-button" onClick={(e) => {
-            const menu = document.getElementById("menu");
-            const menuButton = (e.target as HTMLImageElement);
-            if (menu) {
-                if (menu.classList.contains("hidden")) {
-                    menu.classList.remove("hidden");
-                    menu.classList.add("flex");
-                    menuButton.src = "/cross-clean.svg";
-                } else {
-                    menu.classList.add("hidden");
-                    menu.classList.remove("flex");
-                    menuButton.src = "/menu-clean.svg"
-                }
-                menu.focus();
-            }
-        }}></img>
-    */
-
     return <div class={props.class}>
         <svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xml:space="preserve"
             class="bg-gray-100 dark:fill-white dark:bg-gray-900 p-1 w-8 h-8" id="menu-button" onClick={(_e) => {
@@ -139,7 +120,14 @@ export function ToolBar(props: ToolBarProps) {
                 :
                     <span class="flex-none text-gray-500">QR code</span>
             }
-
+            <a onClick={()=>{
+                if(isLoggedIn.value && armyLoadSource.value == ArmyLoadSource.KV) {
+                    location.href='./cheatsheet?clouduuid='+army.value.uuid
+                } else {
+                    const encodedPromise = encodeArmyJsonGzipBase64(army.value);
+                    encodedPromise.then((encoded)=>{location.href='./cheatsheet?army='+encoded;})
+                }
+            }} class="flex-none cursor-pointer dark:text-white">Export stats</a>
             
             <a class="flex-none cursor-pointer dark:text-white" href="./hammer">Maths hammer</a>
             <a class="flex-none cursor-pointer dark:text-white" href="./about">About</a>
