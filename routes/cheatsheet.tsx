@@ -498,7 +498,7 @@ async function createPdf(army: Army) {
     const pageData = {y, width, height, pdfDoc, font, page, italicFont, pageNumber: 1};
 
     page.drawText(army.name + " stats", {size: h1FontSize, font, x: xMargin,y: pageData.y});
-    const betaText = "(beta)";
+    const betaText = "(beta version)";
     const textWidth = pageData.font.widthOfTextAtSize(betaText, bodyFontSize);
     page.drawText(betaText, {size: bodyFontSize, font, x: pageData.width - xMargin - textWidth, y: pageData.y});
     pageData.y -= lineGapSize;
