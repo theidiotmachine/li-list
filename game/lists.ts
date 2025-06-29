@@ -48,6 +48,8 @@ export function getShapeForFormationName(armyListName: ArmyListName | "", format
             return getShapeForAuxiliaFormationName(formationName as AuxiliaFormationName);
         case "Strategic Asset":
             return getShapeForStrategicAssetFormationName(formationName as StrategicAssetFormationName);
+        default:
+            return { slotRequirements: [] };
     }
 }
 
@@ -69,6 +71,8 @@ export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: Form
             return getAuxiliaDetachmentNamesForSlot(slot);
         case "Strategic Asset":
             return getStrategicAssetDetachmentNamesForSlot(slot, allegiance);
+        default:
+            return [];
     }
 }
 
@@ -86,6 +90,8 @@ export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyLi
         case "Strategic Asset":
         case "Collegia Titanica":
             return getStrategicAssetDetachmentConfigurationForDetachmentName(detachmentName as StrategicAssetDetachmentName);
+        default:
+            return { modelGroupShapes: [] };
     }
 }
 

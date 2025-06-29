@@ -14,7 +14,7 @@ export default async function QR(props: PageProps) {
     }
   
     let urlOut = "";
-    urlOut = urlIn.origin + '/?clouduuid' + clouduuid;
+    urlOut = urlIn.origin + '/?clouduuid=' + clouduuid;
 
     const dataURL = await QRCode.toDataURL(urlOut);
     return <div class="flex flex-row justify-center mt-8">

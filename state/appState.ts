@@ -322,8 +322,8 @@ function calcDetachmentCommanderValidation(formation: Formation, detachmentIndex
                     if(otherStats != undefined) {
                         if(statsHasTrait(otherStats, "Commander"))
                             return {valid: false, error: "Multiple Commanders in Formation"}
-                        if(detachment.attachedDetachmentIndex == -1 && otherStats?.detachmentType == stats.detachmentType)
-                            return {valid: false, error: "Commander not attached to detachment"}
+                        //if(detachment.attachedDetachmentIndex == -1 && otherStats?.detachmentType == stats.detachmentType)
+                            //return {valid: false, error: "Commander not attached to detachment"}
                     }
                 }
             }
