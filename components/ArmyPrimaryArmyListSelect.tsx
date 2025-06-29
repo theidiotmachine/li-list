@@ -18,7 +18,7 @@ export function ArmyPrimaryArmyListSelect(props: ArmyPrimaryArmyListSelectProps)
     ];
     if(props.allegiance == "Traitor")
         options.push({optionText: "Dark Mechanicum", value: "Dark Mechanicum", text: "Dark Mechanicum"});
-    options.push({optionText: "Legions Astartes", value: "Legions Astartes", text: "Legions Astartes"});
+    options.push({optionText: "Legiones Astartes", value: "Legiones Astartes", text: "Legiones Astartes"});
     options.push({optionText: "Mechanicum Taghmata", value: "Mechanicum Taghmata", text: "Mechanicum Taghmata"});
     options.push({optionText: "Questoris Familia", value: "Questoris Familia", text: "Questoris Familia"});
     options.push({optionText: "Solar Auxilia", value: "Solar Auxilia", text: "Solar Auxilia"});

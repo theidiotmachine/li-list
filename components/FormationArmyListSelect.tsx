@@ -26,7 +26,7 @@ export function FormationArmyListSelect(props: FormationArmyListSelectProps) {
         options.push({value: "Collegia Titanica", text: "Collegia Titanica"});
     if(allegiance == "Traitor")
         options.push({value: "Dark Mechanicum", text: "Dark Mechanicum"});
-    options.push({value: "Legions Astartes", text: "Legions Astartes"});
+    options.push({value: "Legiones Astartes", text: "Legiones Astartes"});
     options.push({value: "Mechanicum Taghmata", text: "Mechanicum Taghmata"});
     if(primaryArmyListName == "Questoris Familia")
         options.push({value: "Questoris Familia", text: "Questoris Familia"});

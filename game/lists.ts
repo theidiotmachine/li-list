@@ -13,7 +13,8 @@ const formationNamesForArmyListName: Map<ArmyListName, FormationName[]> = new Ma
     //yes this is bad, but whatever
     ["Collegia Titanica", CollegiaTitanicaFormationNames as unknown as FormationName[]], 
     ["Dark Mechanicum", DarkMechanicumFormationNames as unknown as FormationName[]],
-    ["Legions Astartes", LegionFormationNames as unknown as FormationName[]], 
+    ["Legiones Astartes", LegionFormationNames as unknown as FormationName[]], 
+    ["Legions Astartes" as ArmyListName, LegionFormationNames as unknown as FormationName[]], 
     ["Mechanicum Taghmata", MechanicumFormationNames as unknown as FormationName[]],
     ["Questoris Familia", QuestorisFamiliaFormationNames as unknown as FormationName[]],
     ["Solar Auxilia", AuxiliaFormationNames as unknown as FormationName[]],
@@ -35,7 +36,9 @@ export function getShapeForFormationName(armyListName: ArmyListName | "", format
             return getShapeForCollegiaTitanicaFormationName(formationName as CollegiaTitanicaFormationName);
         case "Dark Mechanicum":
             return getShapeForDarkMechanicumFormationName(formationName as DarkMechanicumFormationName)
-        case "Legions Astartes":
+        case "Legiones Astartes":
+            return getShapeForLegionFormationName(formationName as LegionFormationName);
+        case "Legions Astartes" as ArmyListName:
             return getShapeForLegionFormationName(formationName as LegionFormationName);
         case "Mechanicum Taghmata":
             return getShapeForMechanicumFormationName(formationName as MechanicumFormationName)
@@ -54,7 +57,9 @@ export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: Form
             return getCollegiaTitanicaDetachmentNamesForSlot(slot, allegiance);
         case "Dark Mechanicum":
                 return getDarkMechanicumDetachmentNamesForSlot(slot, allegiance);
-        case "Legions Astartes":
+        case "Legiones Astartes":
+            return getLegionDetachmentNamesForSlot(slot);
+        case "Legions Astartes" as ArmyListName:
             return getLegionDetachmentNamesForSlot(slot);
         case "Mechanicum Taghmata":
             return getMechanicumDetachmentNamesForSlot(slot, allegiance);
@@ -69,11 +74,12 @@ export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: Form
 
 export function getDetachmentConfigurationForDetachmentName(armyListName: ArmyListName, detachmentName: DetachmentName): DetachmentConfiguration {
     switch(armyListName) {
-        case "Legions Astartes":
+        case "Legiones Astartes":
+        case "Legions Astartes" as ArmyListName:
             return getLegionDetachmentConfigurationForDetachmentName(detachmentName as LegionDetachmentName);
         case "Solar Auxilia":
             return getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName as AuxiliaDetachmentName);
-            case "Dark Mechanicum":
+        case "Dark Mechanicum":
         case "Mechanicum Taghmata":
             return getMechanicumDetachmentConfigurationForDetachmentName(detachmentName as MechanicumDetachmentName);
         case "Questoris Familia":

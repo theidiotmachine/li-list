@@ -1,5 +1,5 @@
 import { useContext } from "preact/hooks";
-import { Allegiance, Formation, FormationName } from "../game/types.ts";
+import { Allegiance, ArmyListName, Formation, FormationName } from "../game/types.ts";
 import { DetachmentTable } from "./DetachmentTable.tsx";
 import { AppState } from "../islands/App.tsx";
 import { FormationTypeSelect } from "./FormationTypeSelect.tsx";
@@ -35,7 +35,7 @@ interface FormationWidgetProps {
 
 export function FormationWidget(props: FormationWidgetProps) {
     const { removeFormation, formationClosedState } = useContext(AppState);
-    const isLegion = props.formation.armyListName == "Legions Astartes";
+    const isLegion = props.formation.armyListName == "Legiones Astartes" || props.formation.armyListName == "Legions Astartes" as ArmyListName;
     const isOpen = !formationClosedState.value.has(props.formation.uuid);
     return <div class="mb-6 md:mb-8">
         <div class ="grid grid-cols-[6%_82%_10%] md:grid-cols-[5%_41%_41%_10%] gap-[1%] mb-4">   

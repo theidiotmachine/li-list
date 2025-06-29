@@ -1086,12 +1086,19 @@ function createAppState(): AppStateType {
         if(army.value.formations[formationIdx].armyListName == armyListName)
             return;
 
+        if(army.value.formations[formationIdx].armyListName == "Legions Astartes" as ArmyListName && armyListName == "Legiones Astartes") {
+            const newFormation = structuredClone(army.value.formations[formationIdx]);
+            newFormation.armyListName = armyListName;
+            setFormationAtIdx(newFormation, formationIdx);    
+            return;
+        }
+        
         const newFormation = structuredClone(army.value.formations[formationIdx])
 
         newFormation.armyListName = armyListName;
         newFormation.formationName = "";
         newFormation.detachments = [];
-        if(armyListName == "Legions Astartes") {
+        if(armyListName == "Legiones Astartes") {
             newFormation.legionName = "";
         } else {
             delete newFormation.legionName;

@@ -16,6 +16,7 @@ export type LegionFormationSlot =
     "Brethren of Iron Core" |
     "Brethren of Iron Support" |
     "Brethren of Iron Vanguard" |
+    "Legion Aerial Assault HQ" |
     "Legion Heavy Assault Spearhead Support Compulsory" |
     "Legion Terminators" |
     "Sky-hunter Phalanx Vanguard Compulsory" //This just makes it easier. It can't have bikes

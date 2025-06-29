@@ -49,18 +49,19 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Air Support",    slotRequirementType: "One Of",  oneOfGroup: 1   },
         {   slot: "Heavy Armour",   slotRequirementType: "One Of",  oneOfGroup: 1   },
     ] } ],
-    [ "Legion Aerial Assault", { slotRequirements: [
-        {   slot: "HQ",             slotRequirementType: "Required"                 },
-        {   slot: "Support",        slotRequirementType: "Required"                 },
-        {   slot: "Core",           slotRequirementType: "Required"                 },
-        {   slot: "Core",           slotRequirementType: "Required"                 },
-        {   slot: "Support",        slotRequirementType: "Optional"                 },
-        {   slot: "Core",           slotRequirementType: "Optional"                 },
-        {   slot: "Air Support",    slotRequirementType: "Optional"                 },
-        {   slot: "Support",        slotRequirementType: "Optional"                 },
-        {   slot: "Vanguard",       slotRequirementType: "Optional"                 },
-        {   slot: "Air Support",    slotRequirementType: "Optional"                 },
-    ] } ],
+    ["Legion Aerial Assault", {slotRequirements: [
+        {slot: "Legion Aerial Assault HQ",             
+            slotRequirementType: "Required", displayName: "HQ"},
+        {slot: "Support",        slotRequirementType: "Required"                 },
+        {slot: "Core",           slotRequirementType: "Required"                 },
+        {slot: "Core",           slotRequirementType: "Required"                 },
+        {slot: "Support",        slotRequirementType: "Optional"                 },
+        {slot: "Core",           slotRequirementType: "Optional"                 },
+        {slot: "Air Support",    slotRequirementType: "Optional"                 },
+        {slot: "Support",        slotRequirementType: "Optional"                 },
+        {slot: "Vanguard",       slotRequirementType: "Optional"                 },
+        {slot: "Air Support",    slotRequirementType: "Optional"                 },
+    ]}],
     //TGS
     [ "Legion Sky-hunter Phalanx", { slotRequirements: [
         {   slot: "Sky-hunter Phalanx Vanguard Compulsory", displayName: "Vanguard",
@@ -197,6 +198,7 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Predator Commander",
         "Legion Sicaran Commander"
     ]],
+    ["Legion Aerial Assault HQ", ["Legion Command",]],
     ["Legion Heavy Assault Spearhead Support Compulsory", [
         "Legion Dreadnought Talon",
         "Legion Terminator Detachment", 

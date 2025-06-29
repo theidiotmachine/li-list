@@ -50,7 +50,7 @@ export type Allegiance = (typeof Allegiances)[number];
 export const ArmyListNames = [
     "Collegia Titanica",
     "Dark Mechanicum",
-    "Legions Astartes",
+    "Legiones Astartes",
     "Mechanicum Taghmata",
     "Questoris Familia",
     "Solar Auxilia",
