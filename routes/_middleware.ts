@@ -15,7 +15,10 @@ export async function handler(req: Request, ctx: FreshContext<RouteState>) {
     const authCookie = cookies.auth;
     if (authCookie === undefined) {
       if (ctx.route.startsWith("/api/data")) {
-        return new Response("Not signed in", { status: 401 });
+        if(req.method == "GET" && ctx.route.startsWith("/api/data/armies"))
+          ctx.state.username = "";
+        else
+          return new Response("Not signed in", { status: 401 });
       }
     } else {
       //is it one of ours?

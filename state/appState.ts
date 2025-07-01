@@ -867,11 +867,6 @@ function createAppState(): AppStateType {
         if(armyKvLoadState.value === LoadingState.Loading || armyKvLoadState.value === LoadingState.Loaded || armyKvLoadState.value === LoadingState.Failed)
             return;
 
-        if(!isLoggedIn.value) {
-            armyKvLoadState.value = LoadingState.Failed;
-            return;
-        }
-
         armyKvLoadState.value = LoadingState.Loading;
         const url = new URL(globalThis.location.href);
         const response = await fetch(url.origin + "/api/data/armies/" + uuid);
