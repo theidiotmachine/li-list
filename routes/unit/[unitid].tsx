@@ -185,10 +185,10 @@ export default function Unit(props: PageProps) {
   const stats = getStatsForModelName(modelType);
   if (stats) {
     return (
-      <div class="flex flex-row justify-center mt-8 m-2">
+      <div class="flex flex-row justify-center mt-8 m-2 dark:text-white">
         <div>
           <h1 class="text-xl">{modelType}</h1>
-          <div class="font-medium text-lg bg-gray-100 border-b-2 border-gray-400">Armed with</div>
+          <div class="font-medium text-lg bg-gray-100 dark:bg-gray-900 border-b-2 border-gray-400 dark:border-gray-600 dark:text-white">Armed with</div>
           <ul>
             {stats.modelLoadoutSlots.map((smlfs, i) => {
               return (
