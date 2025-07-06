@@ -584,6 +584,7 @@ const darkMechDetachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachm
     ]],
     ["Battle Tank", [
         "Karacnos Assault Tank Squadron",
+        "Krios Battle Tank Squadron",
     ]],
     ["Core", [
         "Adsecularis Tech-Thrall Covenant",
