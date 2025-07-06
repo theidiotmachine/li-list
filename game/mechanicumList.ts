@@ -583,6 +583,7 @@ const darkMechDetachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachm
     ["Bastion", [
     ]],
     ["Battle Tank", [
+        //no venators in dark mech
         "Karacnos Assault Tank Squadron",
         "Krios Battle Tank Squadron",
     ]],
