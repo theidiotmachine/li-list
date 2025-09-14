@@ -17,6 +17,7 @@ export type LegionFormationSlot =
     "Brethren of Iron Support" |
     "Brethren of Iron Vanguard" |
     "Legion Aerial Assault HQ" |
+    "Legion Armoured Company HQ" |
     "Legion Heavy Assault Spearhead Support Compulsory" |
     "Legion Terminators" |
     "Sky-hunter Phalanx Vanguard Compulsory" //This just makes it easier. It can't have bikes
@@ -25,11 +26,11 @@ export type LegionFormationSlot =
 export type LegionDetachmentName = 
     "Legion Assault Detachment" | 
     "Legion Command" | 
+    "Legion Contemptor Dreadnought Talon" | 
     "Legion Kratos Commander" | 
     "Legion Kratos Squadron" | 
     "Legion Deathstorm Drop Pod Battery" |
     "Legion Deredeo Dreadnought Detachment" |
-    "Legion Dreadnought Talon" | 
     "Legion Dreadnought Drop Pod Detachment" |
     "Legion Drop Pod Detachment" |
     "Legion Fire Raptor Squadron" |
@@ -38,6 +39,7 @@ export type LegionDetachmentName =
     "Legion Land Speeder Squadron" |
     "Legion Missile Launcher Support Detachment" |
     "Legion Outrider Squadron" |
+    "Legion Palisade Drop Pod" |
     "Legion Plasma Gun Support Detachment" |
     "Legion Predator Commander" |
     "Legion Predator Squadron" |
@@ -47,6 +49,7 @@ export type LegionDetachmentName =
     "Legion Scimitar Jetbike Squadron" |
     "Legion Sicaran Arcus Squadron" |
     "Legion Sicaran Commander" |
+    "Legion Sicaran Omega Squadron" |
     "Legion Sicaran Punisher Squadron" |
     "Legion Sicaran Squadron" |
     "Legion Siege Dreadnought Detachment" |
@@ -57,6 +60,8 @@ export type LegionDetachmentName =
     "Legion Termite Detachment" |
     "Legion Terminator Detachment" |
     "Legion Thunderhawk Gunship" |
+    "Legion Vindicator Squadron" |
+    "Legion Whirlwind Battery" |
     "Legion Xiphon Interceptor Squadron" |
     "Leviathan Siege Dreadnought Detachment"
 ;
@@ -93,12 +98,15 @@ export const AllLegionModelNames = [
     "Scimitar Jetbike",
     "Sicaran Arcus",
     "Sicaran Commander",
+    "Sicaran Omega",
     "Sicaran Punisher",
     "Spartan",
     "Storm Eagle",
     "Tactical Legionaries",
     "Termite",
     "Thunderhawk Gunship",
+    "Vindicator",
+    "Whirlwind",
     "Xiphon Interceptor"
 ] as const;
 export type LegionModelName = (typeof AllLegionModelNames)[number];

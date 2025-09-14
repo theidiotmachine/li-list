@@ -68,6 +68,7 @@ export type WeaponType =
     "Hull mounted multi-melta" |
     "Hull Mounted neutron blaster" |
     "Hull Mounted twin lascannon" |
+    "Hunter-killer missile" |
     "Hyperios air-defence missile launcher" |
     "In-built bolters" |
     "In-built twin-linked bolter" |
@@ -125,8 +126,10 @@ export type WeaponType =
     "Phased plasma-fusil" |
     "Phosphex bomb clusters" |
     "Pintle Mounted havoc launcher" |
+    "Pintle Mounted heavy bolter" |
     "Pintle Mounted multi-melta" |
     "Pintle Mounted twin bolter" |
+    "Pintle Mounted twin-linked bolter" |
     "Plasma blastgun" |
     "Plasma cannon" |
     "Plasma guns" |
@@ -212,6 +215,7 @@ export type WeaponType =
     "Warhound shudder missiles" |
     "Warhound swarmer missiles" |
     "Warlord graviton ruinator" |
+    "Whirlwind missile launcher" |
     "Wing bombs" |
     "Wing Mounted lascannon" |
     "Xiphon lascannon array" |

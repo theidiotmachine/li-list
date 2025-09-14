@@ -1,7 +1,7 @@
 import { LegionDetachmentName, LegionFormationName, LegionModelName } from "./legionTypes.ts";
 import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
 import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
-import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment } from "./types.ts";
+import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment, ModelGroupQuantity, ModelLoadoutSlotShape } from "./types.ts";
 
 const formationShapes = new Map<LegionFormationName, FormationShape>([
     //CRB
@@ -38,7 +38,9 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Heavy Armour",   slotRequirementType: "One Of",  oneOfGroup: 1   },
         {   slot: "Artillery",      slotRequirementType: "One Of",  oneOfGroup: 1   },
     ] } ],
-    [ "Legion Armoured Company", { slotRequirements: [
+    ["Legion Armoured Company", {slotRequirements: [
+        {slot: "Legion Armoured Company HQ",             
+            slotRequirementType: "Required" , displayName: "HQ"},
         {   slot: "Battle Tank",    slotRequirementType: "Required"                 },
         {   slot: "Battle Tank",    slotRequirementType: "Required"                 },
         {   slot: "Heavy Armour",   slotRequirementType: "Required"                 },
@@ -163,7 +165,9 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Thunderhawk Gunship",
         "Legion Xiphon Interceptor Squadron",
     ]],
-    ["Artillery", []], 
+    ["Artillery", [
+        "Legion Whirlwind Battery",
+    ]], 
     ["Bastion", [
         "Legion Deredeo Dreadnought Detachment",
         "Legion Tarantula Battery",
@@ -173,8 +177,10 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Predator Squadron",
         "Legion Sicaran Arcus Squadron",
         "Legion Sicaran Commander",
+        "Legion Sicaran Omega Squadron",
         "Legion Sicaran Punisher Squadron",
         "Legion Sicaran Squadron",
+        "Legion Vindicator Squadron",
     ]],
     ["Brethren of Iron Bastion", ["Thanatar Siege-automata Maniple"]],
     ["Brethren of Iron Core", ["Legion Tactical Detachment", "Thallax Cohort"]],
@@ -199,8 +205,13 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Sicaran Commander"
     ]],
     ["Legion Aerial Assault HQ", ["Legion Command",]],
+    ["Legion Armoured Company HQ", [
+        "Legion Kratos Commander",
+        "Legion Predator Commander",
+        "Legion Sicaran Commander"
+    ]],
     ["Legion Heavy Assault Spearhead Support Compulsory", [
-        "Legion Dreadnought Talon",
+        "Legion Contemptor Dreadnought Talon",
         "Legion Terminator Detachment", 
         "Leviathan Siege Dreadnought Detachment",
     ]],
@@ -213,9 +224,10 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
     ] ],
     [ "Support", [ 
         "Legion Assault Detachment", 
+        "Legion Contemptor Dreadnought Talon",
         "Legion Deathstorm Drop Pod Battery",
-        "Legion Dreadnought Talon",
         "Legion Missile Launcher Support Detachment", 
+        "Legion Palisade Drop Pod",
         "Legion Plasma Gun Support Detachment", 
         "Legion Rapier Battery Detachment",
         "Legion Terminator Detachment", 
@@ -241,32 +253,40 @@ export function getLegionDetachmentNamesForSlot(slot: FormationSlot): (LegionDet
     return detachmentNamesForSlot.get(slot) ?? [];
 }
 
+const rhinoModelLoadoutSlots: ModelLoadoutSlotShape[] = [
+    {name: "Extra pintle mounted", possibleModelLoadouts: [
+        {loadout: "None", points: 0},
+        {loadout: "Havoc launcher", points: 5},
+        {loadout: "Multi-melta", points: 5},
+    ]}, 
+    {name: "Missile", possibleModelLoadouts: [
+        {loadout: "None", points: 0}, 
+        {loadout: "Hunter-killer missile", points: 5}, 
+    ]}
+];
+
 const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentConfiguration> = new Map([
     //CRB
     ["Legion Command", {modelGroupShapes: [
         {modelName: "Command Squad", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]},
-        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: [
-            {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0}, 
-                {loadout: "Havoc launcher", points: 2},
-                {loadout: "Multi-melta", points: 4},
+        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: rhinoModelLoadoutSlots,
+            possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 1, points: 10}, 
             ]},
-        ], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 10}, 
-        ]},
         {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 100}, 
+            {num: 0, points: 0}, {num: 1, points: 85}, 
         ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150},
         ]},
         {modelName: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 6}
+            {num: 1, points: 10}
         ]},
         {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 18}
+            {num: 1, points: 14}
         ]}
     ]}],
+    //TODO medic
     ["Legion Tactical Detachment", {maxModels: 12, modelGroupShapes: [
         {modelName: "Tactical Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 35}, {num: 6, points: 35+12}, {num: 8, points: 35+12*2}, {num: 10, points: 35+12*3}, {num: 12, points: 35+12*4},
@@ -275,89 +295,74 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 0, points: 0}, {num: 2, points: 12}, {num: 4, points: 24}, {num: 6, points: 36}, {num: 8, points: 48},
         ], unitTraits: ["Independent"]},
         {modelName: "Legion Terminators", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 30}, {num: 6, points: 45}, {num: 8, points: 60},
+            {num: 0, points: 0}, {num: 2, points: 20}, {num: 4, points: 40}, {num: 6, points: 60}, {num: 8, points: 80},
         ]},
         {modelName: "Missile Launcher Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 30}, {num: 6, points: 45}, {num: 8, points: 60},
+            {num: 0, points: 0}, {num: 2, points: 20}, {num: 4, points: 40}, {num: 6, points: 60}, {num: 8, points: 80},
         ]},
         {modelName: "Plasma Support Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 30}, {num: 6, points: 45}, {num: 8, points: 60},
         ]},
-        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: [
-            {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0}, 
-                {loadout: "Havoc launcher", points: 2},
-                {loadout: "Multi-melta", points: 4},
-            ]},
-        ], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
-            {num: 4, points: 40}, {num: 5, points: 50}, {num: 6, points: 60}
+        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: rhinoModelLoadoutSlots, 
+            possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
+                {num: 4, points: 40}, {num: 5, points: 50}, {num: 6, points: 60}
         ]},
         {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 100+200}
+            {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}, {num: 3, points: 85*3}
         ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+150}
+            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+140}
         ]},
         {modelName: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}, {num: 5, points: 6*5}, {num: 6, points: 6*6}
+            {num: 2, points: 10*2}, {num: 3, points: 10*3}, {num: 4, points: 10*4}, {num: 5, points: 10*5}, {num: 6, points: 10*6}
         ]},
         {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}, {num: 5, points: 18*5}, {num: 6, points: 18*6}
+            {num: 2, points: 14*2}, {num: 3, points: 14*3}, {num: 4, points: 14*4}, {num: 5, points: 14*5}, {num: 6, points: 14*6}
         ]}
     ]}],
     ["Legion Plasma Gun Support Detachment", {modelGroupShapes: [
         {modelName: "Plasma Support Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 35}, {num: 4+2, points: 35+15}, {num: 4+4, points: 35+30},
         ]},
-        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: [
-            {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0}, 
-                {loadout: "Havoc launcher", points: 2},
-                {loadout: "Multi-melta", points: 4},
-            ]},
-        ], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
-            {num: 4, points: 40},
+        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: rhinoModelLoadoutSlots, 
+            possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
+                {num: 4, points: 40},
         ]},
         {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}
+            {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}
         ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
         ]},
         {modelName: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
+            {num: 2, points: 10*2}, {num: 3, points: 10*3}, {num: 4, points: 10*4}
         ]},
         {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}
+            {num: 2, points: 14*2}, {num: 3, points: 14*3}, {num: 4, points: 14*4}
         ]}
     ]}],
     ["Legion Missile Launcher Support Detachment", {modelGroupShapes: [
         {modelName: "Missile Launcher Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 4, points: 40}, {num: 4+2, points: 40+15}, {num: 4+4, points: 40+30},
+            {num: 4, points: 50}, {num: 4+2, points: 50+20}, {num: 4+4, points: 40+40},
         ]},
-        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: [
-            {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0}, 
-                {loadout: "Havoc launcher", points: 2},
-                {loadout: "Multi-melta", points: 4},
-            ]},
-        ], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
-            {num: 4, points: 40},
+        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: rhinoModelLoadoutSlots, 
+            possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
+                {num: 4, points: 40},
         ]},
         {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}
+            {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}
         ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
         ]},
         {modelName: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 6*2}, {num: 3, points: 6*3}, {num: 4, points: 6*4}
+            {num: 2, points: 10*2}, {num: 3, points: 10*3}, {num: 4, points: 10*4}
         ]},
         {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 18*2}, {num: 3, points: 18*3}, {num: 4, points: 18*4}
+            {num: 2, points: 14*2}, {num: 3, points: 14*3}, {num: 4, points: 14*4}
         ]}
     ]}],
     ["Legion Assault Detachment", {modelGroupShapes: [
@@ -365,7 +370,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 4, points: 30}, {num: 4+2, points: 30+12}, {num: 4+4, points: 30+24},
         ]},
         {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 300}, {num: 4, points: 400}
+            {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}, {num: 3, points: 3*85}, {num: 4, points: 4*85}
         ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
@@ -386,10 +391,10 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         },
         modelGroupShapes: [
         {modelName: "Legion Terminators", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 4, points: 50}, {num: 4+2, points: 50+15}, {num: 4+4, points: 50+30},
+            {num: 4, points: 50}, {num: 4+2, points: 50+20}, {num: 4+4, points: 50+40},
         ]},
         {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 300}, {num: 4, points: 400}
+            {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}, {num: 3, points: 85*3}, {num: 4, points: 85*4}
         ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
@@ -397,10 +402,11 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelName: "Land Raider", dedicatedTransport: true, formationNames: ["Legion Heavy Assault Spearhead"], modelLoadoutSlots: [
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
                 {loadout: "Multi-melta", points: 5},
             ]},
         ], possibleModelGroupQuantities: [ 
-            {num: 0, points: 0}, {num: 4, points: 4*40}, {num: 6, points: 6*40}, {num: 8, points: 8*40}, 
+            {num: 0, points: 0}, {num: 4, points: 4*35}, {num: 6, points: 6*35}, {num: 8, points: 8*35}, 
         ]},
         {modelName: "Spartan", dedicatedTransport: true, formationNames: ["Legion Heavy Assault Spearhead"], modelLoadoutSlots: [
             {name: "Sponson mounted", possibleModelLoadouts: [
@@ -414,9 +420,10 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "None", points: 0}, 
                 {loadout: "Multi-melta", points: 5},
+                {loadout: "Heavy bolter", points: 5},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 2*80}, {num: 3, points: 3*80}, {num: 4, points: 4*80}, 
+            {num: 0, points: 0}, {num: 2, points: 2*70}, {num: 3, points: 3*70}, {num: 4, points: 4*70}, 
         ]}
     ]}],
     ["Legion Rapier Battery Detachment", {minModels: 2, maxModels: 8, modelGroupShapes: [
@@ -429,7 +436,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 2, points: 40}, {num: 2+2, points: 40+30}, {num: 2+4, points: 40+60}, {num: 2+6, points: 40+90},
         ]},
         {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 300}, {num: 4, points: 400}
+            {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}, {num: 3, points: 3*85}, {num: 4, points: 4*85}
         ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 150}
@@ -445,14 +452,15 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 4, points: 75}, {num: 4+2, points: 75+35}, {num: 4+4, points: 75+70},
         ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 300}
+            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+140}
         ]},
         {modelName: "Dreadnought Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 7}, {num: 2, points: 7*2}, {num: 3, points: 7*3}, {num: 4, points: 7*4},
-            {num: 5, points: 7*5}, {num: 6, points: 7*6}, {num: 7, points: 7*7}, {num: 8, points: 7*8}
+            {num: 4, points: 12*4},
+            {num: 6, points: 12*6}, 
+            {num: 8, points: 12*8}
         ]}
     ]}],
-    ["Legion Dreadnought Talon", {minModels: 4, maxModels: 4+3*2, modelGroupShapes: [
+    ["Legion Contemptor Dreadnought Talon", {minModels: 4, maxModels: 4+3*2, modelGroupShapes: [
         {modelName: "Contemptor Dreadnought", minModels:4, maxModels: 10, modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts:[
                 {loadout: "Kheres assault cannon", points: 0},
@@ -462,23 +470,14 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 4, points: 70}, {num: 6, points: 70+30}, {num: 8, points: 70+30*2},
             {num: 10, points: 70+30*3}
         ]},
-        {modelName: "Leviathan Dreadnought", minModels: 0, maxModels: 6, modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts:[
-                {loadout: "Leviathan storm cannon", points: 0},
-                {loadout: "Cyclonic melta lance", points: 0},
-            ]},
-        ], possibleModelGroupQuantities: [
-            {num: 0, points: 0},
-            {num: 2, points: 35}, {num: 4, points: 35*2},
-            {num: 6, points: 35*3}
-        ]},
         {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 300}, {num: 3, points: 450}
+            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+140}, {num: 3, points: 150+280}
         ]},
         {modelName: "Dreadnought Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 4, points: 7*4},
-            {num: 5, points: 7*5}, {num: 6, points: 7*6}, {num: 7, points: 7*7}, {num: 8, points: 7*8}, 
-            {num: 9, points: 7*9}, {num: 10, points: 7*10}
+            {num: 4, points: 12*4},
+            {num: 6, points: 12*6}, 
+            {num: 8, points: 12*8}, 
+            {num: 10, points: 12*10}
         ]}
     ]}],
     ["Legion Tarantula Battery", {minModels: 4, maxModels: 8, modelGroupShapes: [
@@ -513,7 +512,11 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0}, 
                 {loadout: "Heavy bolters", points: 0},
-            ]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+            ]},
         ], possibleModelGroupQuantities: [
             {num: 3, points: 115}, {num: 4, points: 115+35}, {num: 5, points: 115+35+35},
             {num: 6, points: 115+95}, {num: 7, points: 115+95+35}, {num: 8, points: 115+95+35+35}, 
@@ -522,17 +525,32 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     ]}],
     ["Legion Sicaran Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
         {modelName: "Legion Sicaran", modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Twin-linked accelerator autocannon", points: 0}, 
-                {loadout: "Omega plasma array", points: 0}
-            ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0}, 
                 {loadout: "Heavy bolters", points: 0}
-            ]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 2, points: 105}, {num: 3, points: 105+40}, {num: 4, points: 105+70},
-            {num: 5, points: 105+70+40}, {num: 6, points: 105+140} 
+            {num: 2, points: 90}, {num: 3, points: 90+40}, {num: 4, points: 90+80},
+            {num: 5, points: 90+80+40}, {num: 6, points: 90+150} 
+        ]}
+    ]}],
+    ["Legion Sicaran Omega Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelName: "Sicaran Omega", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 2, points: 90}, {num: 3, points: 90+40}, {num: 4, points: 90+80},
+            {num: 5, points: 90+80+40}, {num: 6, points: 90+150} 
         ]}
     ]}],
     ["Legion Kratos Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
@@ -549,23 +567,22 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0}, 
                 {loadout: "Heavy bolters", points: 0}
-            ]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 2, points: 150}, {num: 3, points: 150+60}, {num: 4, points: 150+110},
-            {num: 5, points: 150+60+110}, {num: 6, points: 150+200} 
+            {num: 2, points: 140}, {num: 3, points: 140+65}, {num: 4, points: 140+130},
+            {num: 5, points: 140+65+130}, {num: 6, points: 140+250} 
         ]}
     ]}],
     ["Legion Rhino Detachment", {modelGroupShapes: [
-        {modelName: "Rhino", modelLoadoutSlots: [
-            {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", points: 0}, 
-                {loadout: "Havoc launcher", points: 2},
-                {loadout: "Multi-melta", points: 4},
-            ]},
-        ], possibleModelGroupQuantities: [
-            //p128 - max transport size is 8
-            {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, {num: 4, points: 40}, 
-            {num: 5, points: 50}, {num: 6, points: 60}, {num: 7, points: 70}, {num: 8, points: 80}, 
+        {modelName: "Rhino", modelLoadoutSlots: rhinoModelLoadoutSlots,
+            possibleModelGroupQuantities: [
+                //p128 - max transport size is 8
+                {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, {num: 4, points: 40}, 
+                {num: 5, points: 50}, {num: 6, points: 60}, {num: 7, points: 70}, {num: 8, points: 80}, 
         ]}
     ]}],
     ["Legion Xiphon Interceptor Squadron", {modelGroupShapes: [
@@ -575,7 +592,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     ]}],
     ["Legion Storm Eagle Squadron", {modelGroupShapes: [
         {modelName: "Storm Eagle", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 100+190}
+            {num: 1, points: 85}, {num: 2, points: 85+75}, {num: 3, points: 85+150}
         ]}
     ]}],
     ["Legion Fire Raptor Squadron", {modelGroupShapes: [
@@ -586,7 +603,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {loadout: "Gravis autocannon batteries", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 100}, {num: 2, points: 100+100}, {num: 3, points: 100+190}
+            {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180}
         ]}
     ]}],
     ["Legion Thunderhawk Gunship", {modelGroupShapes: [
@@ -597,31 +614,15 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     //TGS
     ["Legion Outrider Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
         {modelName: "Legion Outrider", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 30}, {num: 4, points: 30+30}, {num: 6, points: 30+60}
+            {num: 2, points: 25}, {num: 4, points: 25+20}, {num: 6, points: 25+40}
         ]}
     ]}],
     ["Legion Scimitar Jetbike Squadron", {minModels: 3, maxModels: 9, modelGroupShapes: [
         {modelName: "Scimitar Jetbike", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 3, points: 35}, {num: 6, points: 35+35}, {num: 9, points: 35+70}
+            {num: 3, points: 35}, {num: 6, points: 35+30}, {num: 9, points: 35+60}
         ]}
     ]}],
     ["Legion Land Speeder Squadron", {minModels: 2, maxModels: 6, 
-        customValidation: (detachment: Detachment): DetachmentValidationState => {
-            const data = detachment.modelGroups[0].modelLoadoutGroups.reduce((acc: number[], modelLoadout) => {
-                if (modelLoadout.modelLoadoutSlots[0].modelLoadout.loadout === "Plasma cannon and heavy bolter") {
-                    acc[0] += modelLoadout.number;
-                } else {
-                    acc[1] += modelLoadout.number;
-                }
-                return acc;
-            }, [0, 0]);
-            //This is my least favourite rule in the whole book
-            if(data[1] > data[0]) {
-                return {valid: false, error: "Invalid loadouts of models in group", 
-                    data: "Land Speeders can't have more than half armed with flamers/multi meltas"};
-            }
-            return {valid: true};
-        },
         modelGroupShapes: [
             {modelName: "Land Speeder", modelLoadoutSlots: [
                 {name: "Guns", possibleModelLoadouts: [
@@ -629,7 +630,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                     {loadout: "Nose mounted heavy flamer and multi-melta", points: 0},
                 ]},
             ], possibleModelGroupQuantities: [
-                {num: 2, points: 30}, {num: 4, points: 30+30}, {num: 6, points: 30+60}
+                {num: 2, points: 30}, {num: 4, points: 30+25}, {num: 6, points: 30+50}
             ]}
     ]}],
     ["Legion Javelin Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
@@ -638,7 +639,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {loadout: "Lascannon", points: 0}, {loadout: "Cyclone missile launcher", points: 2}
             ]}
         ], possibleModelGroupQuantities: [
-            {num: 2, points: 33}, {num: 4, points: 33+33}, {num: 6, points: 33+66}
+            {num: 2, points: 35}, {num: 4, points: 35+30}, {num: 6, points: 35+60}
         ]}
     ]}],
     ["Legion Spartan Detachment", {modelGroupShapes: [
@@ -654,99 +655,53 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "None", points: 0}, 
                 {loadout: "Multi-melta", points: 5},
+                {loadout: "Heavy bolter", points: 5},
             ]},
         ], possibleModelGroupQuantities: [
             //p128 - max transport size is 8
-            {num: 1, points: 80}, {num: 2, points: 2*80}, {num: 3, points: 3*80}, {num: 4, points: 4*80}, 
-            {num: 5, points: 5*80}, {num: 6, points: 6*80}, {num: 7, points: 7*80}, {num: 8, points: 8*80}, 
+            {num: 1, points: 70}, {num: 2, points: 2*70}, {num: 3, points: 3*70}, {num: 4, points: 4*70}, 
+            {num: 5, points: 5*70}, {num: 6, points: 6*70}, {num: 7, points: 7*70}, {num: 8, points: 8*70}, 
         ]}
     ]}],
     ["Legion Land Raider Detachment", {
-        customValidation: (detachment: Detachment): DetachmentValidationState => {
-            const data = detachment.modelGroups[0].modelLoadoutGroups.reduce((acc: number[], modelLoadout) => {
-                if (modelLoadout.modelLoadoutSlots[0].modelLoadout.loadout === "None") {
-                    acc[0] += modelLoadout.number;
-                } else {
-                    acc[1] += modelLoadout.number;
-                }
-                return acc;
-            }, [0, 0]);
-
-            //another stupid rule
-            if(data[1]*2 > data[0])
-                return {valid: false, error: "Invalid loadouts of models in group", 
-                    data: "No more than one in three Land Raiders can have multi-meltas"};
-
-            return {valid: true};
-        },
         modelGroupShapes: [
             {modelName: "Land Raider", modelLoadoutSlots: [
                 {name: "Pintle mounted", possibleModelLoadouts: [
                     {loadout: "None", points: 0}, 
                     {loadout: "Multi-melta", points: 5},
+                    {loadout: "Heavy bolter", points: 5},
                 ]},
             ], possibleModelGroupQuantities: [
                 //p128 - max transport size is 8
-                {num: 1, points: 40}, {num: 2, points: 2*40}, {num: 3, points: 3*40}, {num: 4, points: 4*40}, 
-                {num: 5, points: 5*40}, {num: 6, points: 6*40}, {num: 7, points: 7*40}, {num: 8, points: 8*40}, 
+                {num: 1, points: 35}, {num: 2, points: 2*35}, {num: 3, points: 3*35}, {num: 4, points: 4*35}, 
+                {num: 5, points: 5*35}, {num: 6, points: 6*35}, {num: 7, points: 7*35}, {num: 8, points: 8*35}, 
             ]}
     ]}],
+    ["Legion Palisade Drop Pod", {
+        modelGroupShapes:[
+        {modelName: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
+            {num: 1, points: 25}
+        ]},
+    ]}],
     ["Legion Drop Pod Detachment", {
-        //why does TGS have lots of stupid list restrictions
-        customValidation: (detachment: Detachment): DetachmentValidationState => {
-            const dropPods = detachment.modelGroups.find((a)=>a.modelName == "Drop Pod");
-            const palisadeDropPods = detachment.modelGroups.find((a)=>a.modelName == "Palisade Drop Pod");
-
-            if(palisadeDropPods == undefined)
-                return {valid: true};
-
-            if(dropPods == undefined || palisadeDropPods.number > dropPods.number)
-                return {valid: false, error: "Invalid loadouts of models in group", 
-                    data: "Can't have more Drop pods than Palisade Drop pod"};
-
-            return {valid: true};
-        },
         modelGroupShapes:[
         {modelName: "Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 1, points: 6}, {num: 2, points: 2*6}, {num: 3, points: 3*6}, {num: 4, points: 4*6}, 
-            {num: 5, points: 5*6}, {num: 6, points: 6*6}, {num: 7, points: 7*6}, {num: 8, points: 8*6}, 
-        ]},
-        {modelName: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
-            //p128 - max transport size is 8
-            {num: 0, points: 0}, {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 3*32}, {num: 4, points: 4*32}, 
-            {num: 5, points: 5*32}, {num: 6, points: 6*32}, {num: 7, points: 7*32}, {num: 8, points: 8*32}, 
+            {num: 1, points: 10}, {num: 2, points: 2*10}, {num: 3, points: 3*10}, {num: 4, points: 4*10}, 
+            {num: 5, points: 5*10}, {num: 6, points: 6*10}, {num: 7, points: 7*10}, {num: 8, points: 8*10}, 
         ]},
     ]}],
     ["Legion Dreadnought Drop Pod Detachment", {
-        customValidation: (detachment: Detachment): DetachmentValidationState => {
-            const dropPods = detachment.modelGroups.find((a)=>a.modelName == "Dreadnought Drop Pod");
-            const palisadeDropPods = detachment.modelGroups.find((a)=>a.modelName == "Palisade Drop Pod");
-
-            if(palisadeDropPods == undefined)
-                return {valid: true};
-
-            if(dropPods == undefined || palisadeDropPods.number > dropPods.number)
-                return {valid: false, error: "Invalid loadouts of models in group", 
-                    data: "Can't have more Dreadnought Drop pods than Palisade Drop pods"};
-
-            return {valid: true};
-        },
         modelGroupShapes:[
         {modelName: "Dreadnought Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
             //p128 - max transport size is 8
-            {num: 1, points: 7}, {num: 2, points: 2*7}, {num: 3, points: 3*7}, {num: 4, points: 4*7}, 
-            {num: 5, points: 5*7}, {num: 6, points: 6*7}, {num: 7, points: 7*7}, {num: 8, points: 8*7}, 
-        ]},
-        {modelName: "Palisade Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
-            //p128 - max transport size is 8
-            {num: 0, points: 0}, {num: 1, points: 32}, {num: 2, points: 2*32}, {num: 3, points: 3*32}, {num: 4, points: 4*32}, 
-            {num: 5, points: 5*32}, {num: 6, points: 6*32}, {num: 7, points: 7*32}, {num: 8, points: 8*32}, 
+            {num: 1, points: 12}, {num: 2, points: 2*12}, {num: 3, points: 3*12}, {num: 4, points: 4*12}, 
+            {num: 5, points: 5*12}, {num: 6, points: 6*12}, {num: 7, points: 7*12}, {num: 8, points: 8*12}, 
         ]},
     ]}],
     ["Legion Deathstorm Drop Pod Battery", {modelGroupShapes:[
         {modelName: "Deathstorm Drop Pod", modelLoadoutSlots: [], possibleModelGroupQuantities:[
-            {num: 2, points: 32}, {num: 2+2, points: 32+32}, {num: 2+4, points: 32+64}
+            {num: 2, points: 40}, {num: 2+2, points: 40+35}, {num: 2+4, points: 40+70}
         ]},
     ]}],
     //TDOT
@@ -755,10 +710,14 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0}, 
                 {loadout: "Heavy bolters", points: 0}
-            ]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 2, points: 110}, {num: 3, points: 110+50}, {num: 4, points: 110+100},
-            {num: 5, points: 110+100+50}, {num: 6, points: 110+200} 
+            {num: 2, points: 90}, {num: 3, points: 90+40}, {num: 4, points: 90+80},
+            {num: 5, points: 90+40+80}, {num: 6, points: 90+150} 
         ]}
     ]}],
     ["Legion Sicaran Arcus Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
@@ -768,8 +727,8 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {loadout: "Heavy bolters", points: 0}
             ]}
         ], possibleModelGroupQuantities: [
-            {num: 2, points: 115}, {num: 3, points: 115+60}, {num: 4, points: 115+110},
-            {num: 5, points: 115+110+60}, {num: 6, points: 115+220} 
+            {num: 2, points: 95}, {num: 3, points: 95+45}, {num: 4, points: 95+90},
+            {num: 5, points: 95+90+45}, {num: 6, points: 95+170} 
         ]}
     ]}],
     ["Legion Sabre Squadron", {minModels: 4, maxModels: 8, modelGroupShapes: [
@@ -789,8 +748,8 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     ["Legion Termite Detachment", {modelGroupShapes: [
         {modelName: "Termite", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             //p128 - max transport size is 8
-            {num: 1, points: 18}, {num: 2, points: 2*18}, {num: 3, points: 3*18}, {num: 4, points: 4*18}, 
-            {num: 5, points: 5*18}, {num: 6, points: 6*18}, {num: 7, points: 7*18}, {num: 8, points: 8*18}, 
+            {num: 1, points: 14}, {num: 2, points: 2*14}, {num: 3, points: 3*14}, {num: 4, points: 4*14}, 
+            {num: 5, points: 5*14}, {num: 6, points: 6*14}, {num: 7, points: 7*14}, {num: 8, points: 8*14}, 
         ]}
     ]}],
     ["Legion Predator Commander", {minModels: 1, maxModels: 1, modelGroupShapes: [
@@ -802,6 +761,10 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0}, 
                 {loadout: "Heavy bolters", points: 0},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5, weaponTypes: ["Pintle Mounted heavy bolters"]},
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 60}
@@ -811,11 +774,16 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelName: "Sicaran Commander", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts: [
                 {loadout: "Twin-linked accelerator autocannon", points: 0}, 
-                {loadout: "Omega plasma array", points: 0}
+                {loadout: "Omega plasma array", points: 0},
+                {loadout: "Punisher rotary cannon", points: 0}
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0}, 
                 {loadout: "Heavy bolters", points: 0}
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5, weaponTypes: ["Pintle Mounted heavy bolters"]},
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 70}
@@ -835,9 +803,32 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0}, 
                 {loadout: "Heavy bolters", points: 0}
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5, weaponTypes: ["Pintle Mounted heavy bolters"]},
             ]}
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}
+        ]}
+    ]}],
+    //Libre
+    ["Legion Vindicator Squadron", {minModels: 4, maxModels: 8, modelGroupShapes: [
+        {modelName: "Vindicator", modelLoadoutSlots: [], 
+            possibleModelGroupQuantities: [
+                {num: 4, points: 140}, {num: 6, points: 140+65}, {num: 4+4, points: 140+130},
+                {num: 4+6, points: 140+180}
+        ]}
+    ]}],
+    //TODO: cerberus
+    //TODO: typhon
+    //TODO: mastadon
+    //TODO: scorpius
+    ["Legion Whirlwind Battery", {minModels: 2, maxModels: 8, modelGroupShapes: [
+        {modelName: "Whirlwind", modelLoadoutSlots: [], 
+            possibleModelGroupQuantities: [
+                {num: 2, points: 90}, {num: 2+2, points: 90+80}, {num: 2+4, points: 90+160},
+                {num: 2+6, points: 90+240}
         ]}
     ]}],
 ]);
@@ -863,7 +854,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
     }],
     ["Contemptor Dreadnought", {
         detachmentType: "Walker", scale: 1, move: 5, saves: [
-            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
         ],
         caf: 5, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
         modelLoadoutSlots: [
@@ -884,7 +875,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         caf: 4, morale: 2, wounds: 1, tacticalStrength: 5, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
-                {loadout: "", weaponTypes: ["Combi bolters"]}
+                {loadout: "", weaponTypes: ["Legion bolters"]}
             ]},
         ],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Medicae"], //and whatever gives them invuln
@@ -957,7 +948,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         unitTraits: ["Flyer", "Hover"]
     }],
     ["Javelin", {
-        detachmentType: "Cavalry", scale: 1, move: 10, saves: [
+        detachmentType: "Cavalry", scale: 1, move: 11, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -995,12 +986,15 @@ const statsForModelType = new Map<LegionModelName, Stats>([
                 {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolters"]},
                 {loadout: "Kratos lascannon"}, 
                 {loadout: "Kratos autocannon"}, 
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]}
         ],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician"]
     }],
     ["Land Speeder", {
-        detachmentType: "Cavalry", scale: 1, move: 10, saves: [
+        detachmentType: "Cavalry", scale: 1, move: 11, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 1, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -1024,6 +1018,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "None", weaponTypes: []}, 
                 {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]},
         ],
         unitTraits: ["Assault Transport (2)", "Forward Deployment"]
@@ -1050,6 +1045,9 @@ const statsForModelType = new Map<LegionModelName, Stats>([
                 {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolters"]},
                 {loadout: "Kratos lascannon"}, 
                 {loadout: "Kratos autocannon"}, 
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]}
         ],
         unitTraits: []
@@ -1080,6 +1078,9 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
                 {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]}
         ],
         unitTraits: []
@@ -1105,15 +1106,14 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
-                {loadout: "", weaponTypes:  ["Hull Mounted heavy bolter"],}
-            ]},
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Twin-linked accelerator autocannon"}, 
-                {loadout: "Omega plasma array"}
+                {loadout: "", weaponTypes:  ["Hull Mounted heavy bolter", "Twin-linked accelerator autocannon"]}
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
                 {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]}
         ],
         unitTraits: [],
@@ -1141,7 +1141,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
                 {loadout: "", weaponTypes: ["Combi bolters"]}
             ]},
         ],
-        unitTraits: ["Bulky", "Deep Strike", "Implacable", "Steadfast"] //and whatever gives invuln
+        unitTraits: ["Armoured", "Bulky", "Deep Strike", "Implacable", "Steadfast"] //and whatever gives invuln
     }],
     ["Leviathan Dreadnought", {
         detachmentType: "Walker", scale: 1, move: 5, saves: [
@@ -1163,7 +1163,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
         ],
-        caf: 2, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
+        caf: 1, morale: 3, wounds: 1, tacticalStrength: 5, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Missile launchers"]}
@@ -1206,6 +1206,9 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
                 {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]}
         ],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician"]
@@ -1216,10 +1219,17 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         ],
         caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
-            {name: "Pintle mounted", possibleModelLoadouts: [
-                {loadout: "Twin-linked bolter", weaponTypes: ["Pintle Mounted twin bolter"]}, 
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Pintle Mounted twin bolter"]}
+            ]},
+            {name: "Extra pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []},
                 {loadout: "Havoc launcher", weaponTypes: ["Pintle Mounted havoc launcher"]},
                 {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+            ]},
+            {name: "Missile", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Hunter-killer missile", weaponTypes: ["Hunter-killer missile"]},
             ]},
         ],
         unitTraits: ["Transport (2)"]
@@ -1246,7 +1256,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         unitTraits: ["Nimble"]
     }],
     ["Scimitar Jetbike", {
-        detachmentType: "Cavalry", scale: 1, move: 10, saves: [
+        detachmentType: "Cavalry", scale: 1, move: 12, saves: [
             {saveType: "Armour", save: 5, arc: "All"}, {saveType: "Jink", save: 6, arc: "All"}
         ],
         caf: 2, morale: 3, wounds: 1, tacticalStrength: 3, voidShields: 0,
@@ -1287,14 +1297,38 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             ]},
             {name: "Primary", possibleModelLoadouts: [
                 {loadout: "Twin-linked accelerator autocannon"}, 
-                {loadout: "Omega plasma array"}
+                {loadout: "Omega plasma array"},
+                {loadout: "Punisher rotary cannon"},
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
                 {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]}
         ],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician"],
+    }],
+    ["Sicaran Omega", {
+        detachmentType: "Vehicle", scale: 2, move: 10, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 2, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes:  ["Hull Mounted heavy bolter", "Omega plasma array"]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
+            ]}
+        ],
+        unitTraits: [],
     }],
     ["Sicaran Punisher", {
         detachmentType: "Vehicle", scale: 2, move: 10, saves: [
@@ -1309,6 +1343,9 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
                 {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]}
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]}
         ],
         unitTraits: [],
@@ -1329,7 +1366,8 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             ]},
             {name: "Pintle mounted", possibleModelLoadouts: [
                 {loadout: "None", weaponTypes: []}, 
-                {loadout: "Multi-melta"},
+                {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
             ]},
         ],
         unitTraits: ["Assault Transport (5)"]
@@ -1376,7 +1414,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         unitTraits: ["Deep Strike", "Transport (2)"]
     }],
     ["Thunderhawk Gunship", {
-        detachmentType: "Vehicle", scale: 2, move: 25, saves: [
+        detachmentType: "Vehicle", scale: 2, move: 20, saves: [
             {saveType: "Armour", save: 2, arc: "Front"}, {saveType: "Armour", save: 3, arc: "Rear"},
             {saveType: "Jink", save: 5, arc: "All"}
         ],
@@ -1392,6 +1430,32 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             ]},
         ],
         unitTraits: ["Large Assault Transport (5)", "Flyer", "Hover"]
+    }],
+    ["Vindicator", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes:  ["Hull Mounted demolisher cannon", "Pintle Mounted twin-linked bolter"],}
+            ]},
+        ],
+        unitTraits: [],
+    }],
+    ["Whirlwind", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes:  ["Whirlwind missile launcher", "Pintle Mounted twin-linked bolter"],}, 
+            ]},
+        ],
+        unitTraits: []
     }],
     ["Xiphon Interceptor", {
         detachmentType: "Vehicle", scale: 2, move: 30, saves: [

@@ -1,9 +1,8 @@
-# Fresh project
+# Legions Imperialis List Builder
 
-Your new Fresh project is ready to go. You can follow the Fresh "Getting
-Started" guide here: https://fresh.deno.dev/docs/getting-started
 
-### Usage
+
+## Building
 
 Make sure to install Deno: https://deno.land/manual/getting_started/installation
 
