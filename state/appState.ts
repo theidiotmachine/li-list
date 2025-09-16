@@ -52,6 +52,7 @@ export type AppStateType = {
     addModelLoadoutGroup: AddModelLoadoutGroup;
     removeModelLoadoutGroup: RemoveModelLoadoutGroup;
     changeModelLoadoutGroupNumber: ChangeModelLoadoutGroupNumber;
+    changeExtraHas: (uuid: string, detachmentIndex: number, extraName: string, has: boolean) => void;
     undo: Undo;
     canUndo: Signal<boolean>;
     redo: Redo;
@@ -107,7 +108,7 @@ function calcModelGroupPoints(armyListName: ArmyListName, modelGroup: ModelGroup
 }
 
 function calcDetachmentPoints(detachment: Detachment) {
-    return detachment.modelGroups.reduce((p, m) => p + m.points, 0);
+    return detachment.modelGroups.reduce((p, m) => p + m.points, 0) + (detachment.extras?.reduce((p, e) => p + (e.has?e.points:0), 0) ?? 0);
 }
 
 /*
@@ -1145,6 +1146,9 @@ function createAppState(): AppStateType {
                         if(stats && (statsHasTrait(stats, "Commander") || statsHasTrait(stats, "Attached Deployment")))
                             out.attachedDetachmentIndex = -1;
                     }
+                    if(config.extras != undefined) {
+                        out.extras = config.extras.map((e)=>{return{name: e.name, points: e.points, has: false}});
+                    }
                     return out;
                 }
             }
@@ -1182,6 +1186,12 @@ function createAppState(): AppStateType {
                             newFormation.detachments[detachmentIndex].attachedDetachmentIndex = -1;
                         }
                     }
+
+                    if(config.extras != undefined) {
+                        newFormation.detachments[detachmentIndex].extras = config.extras.map((e)=>{return{name: e.name, points: e.points, has: false}});
+                    } else {
+                        newFormation.detachments[detachmentIndex].extras = undefined;
+                    }
                 }
             } else {
                 //clear down any other linked tech priests.
@@ -1214,6 +1224,28 @@ function createAppState(): AppStateType {
 
         setFormationAtIdx(newFormation, formationIdx);
     };
+
+    const changeExtraHas = (uuid: string, detachmentIndex: number, extraName: string, has: boolean): void => {
+        const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
+        if(formationIdx === -1)
+            return;
+
+        if(army.value.formations[formationIdx].detachments[detachmentIndex].extras === undefined)
+            return;
+
+        const extraIdx = army.value.formations[formationIdx].detachments[detachmentIndex].extras.findIndex((e)=>e.name == extraName);
+        if(extraIdx === -1)
+            return;
+
+        if(army.value.formations[formationIdx].detachments[detachmentIndex].extras[extraIdx].has === has)
+            return;
+
+        const newFormation = structuredClone(army.value.formations[formationIdx]);
+        if(newFormation.detachments[detachmentIndex].extras !== undefined)
+            newFormation.detachments[detachmentIndex].extras[extraIdx].has = has;
+
+        setFormationAtIdx(newFormation, formationIdx);
+    }
 
     const changeModelNumber: ChangeModelNumber = (uuid: string, detachmentIndex: number, modelName: ModelName, num: number) => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
@@ -1350,7 +1382,7 @@ function createAppState(): AppStateType {
 
     return {army, makeNewArmy, changeArmyName, changeArmyMaxPoints, changePrimaryArmyListName, changeArmyAllegiance,
         addFormation, removeFormation, changeFormationArmyList, changeFormationLegionName,
-        changeFormationName, changeDetachmentName, changeDetachmentAttachment, changeModelNumber, 
+        changeFormationName, changeDetachmentName, changeDetachmentAttachment, changeModelNumber, changeExtraHas,
         changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
         armyLoadSource, isLoggedIn, username,
         armiesLocalLoadState, armyLocalLoadState, localSaves, refreshLocalSaves, localLoad, deleteLocalSave, canCloneArmy, cloneArmy,

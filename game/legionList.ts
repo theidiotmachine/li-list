@@ -1,7 +1,7 @@
 import { LegionDetachmentName, LegionFormationName, LegionModelName } from "./legionTypes.ts";
 import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
 import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
-import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment, ModelGroupQuantity, ModelLoadoutSlotShape } from "./types.ts";
+import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment, ModelLoadoutSlotShape } from "./types.ts";
 
 const formationShapes = new Map<LegionFormationName, FormationShape>([
     //CRB
@@ -286,41 +286,42 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 1, points: 14}
         ]}
     ]}],
-    //TODO medic
-    ["Legion Tactical Detachment", {maxModels: 12, modelGroupShapes: [
-        {modelName: "Tactical Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 4, points: 35}, {num: 6, points: 35+12}, {num: 8, points: 35+12*2}, {num: 10, points: 35+12*3}, {num: 12, points: 35+12*4},
-        ]},
-        {modelName: "Assault Marines", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 12}, {num: 4, points: 24}, {num: 6, points: 36}, {num: 8, points: 48},
-        ], unitTraits: ["Independent"]},
-        {modelName: "Legion Terminators", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 20}, {num: 4, points: 40}, {num: 6, points: 60}, {num: 8, points: 80},
-        ]},
-        {modelName: "Missile Launcher Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 20}, {num: 4, points: 40}, {num: 6, points: 60}, {num: 8, points: 80},
-        ]},
-        {modelName: "Plasma Support Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 30}, {num: 6, points: 45}, {num: 8, points: 60},
-        ]},
-        {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: rhinoModelLoadoutSlots, 
-            possibleModelGroupQuantities: [
-                {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
-                {num: 4, points: 40}, {num: 5, points: 50}, {num: 6, points: 60}
-        ]},
-        {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}, {num: 3, points: 85*3}
-        ]},
-        {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+140}
-        ]},
-        {modelName: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 10*2}, {num: 3, points: 10*3}, {num: 4, points: 10*4}, {num: 5, points: 10*5}, {num: 6, points: 10*6}
-        ]},
-        {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 14*2}, {num: 3, points: 14*3}, {num: 4, points: 14*4}, {num: 5, points: 14*5}, {num: 6, points: 14*6}
-        ]}
-    ]}],
+    ["Legion Tactical Detachment", {maxModels: 12, 
+        modelGroupShapes: [
+            {modelName: "Tactical Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 4, points: 35}, {num: 6, points: 35+12}, {num: 8, points: 35+12*2}, {num: 10, points: 35+12*3}, {num: 12, points: 35+12*4},
+            ]},
+            {modelName: "Assault Marines", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 2, points: 12}, {num: 4, points: 24}, {num: 6, points: 36}, {num: 8, points: 48},
+            ], unitTraits: ["Independent"]},
+            {modelName: "Legion Terminators", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 2, points: 20}, {num: 4, points: 40}, {num: 6, points: 60}, {num: 8, points: 80},
+            ]},
+            {modelName: "Missile Launcher Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 2, points: 20}, {num: 4, points: 40}, {num: 6, points: 60}, {num: 8, points: 80},
+            ]},
+            {modelName: "Plasma Support Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 30}, {num: 6, points: 45}, {num: 8, points: 60},
+            ]},
+            {modelName: "Rhino", dedicatedTransport: true, formationNames: ["Legion Demi-Company"], modelLoadoutSlots: rhinoModelLoadoutSlots, 
+                possibleModelGroupQuantities: [
+                    {num: 0, points: 0}, {num: 1, points: 10}, {num: 2, points: 20}, {num: 3, points: 30}, 
+                    {num: 4, points: 40}, {num: 5, points: 50}, {num: 6, points: 60}
+            ]},
+            {modelName: "Storm Eagle", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}, {num: 3, points: 85*3}
+            ]},
+            {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+140}
+            ]},
+            {modelName: "Drop Pod", dedicatedTransport: true, formationNames: ["Legion Drop Pod Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 2, points: 10*2}, {num: 3, points: 10*3}, {num: 4, points: 10*4}, {num: 5, points: 10*5}, {num: 6, points: 10*6}
+            ]},
+            {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+                {num: 2, points: 14*2}, {num: 3, points: 14*3}, {num: 4, points: 14*4}, {num: 5, points: 14*5}, {num: 6, points: 14*6}
+            ]}
+        ], extras: [{name: "Apothecary", points: 10}]
+    }],
     ["Legion Plasma Gun Support Detachment", {modelGroupShapes: [
         {modelName: "Plasma Support Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 4, points: 35}, {num: 4+2, points: 35+15}, {num: 4+4, points: 35+30},

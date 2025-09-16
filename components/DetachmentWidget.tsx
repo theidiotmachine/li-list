@@ -7,6 +7,7 @@ import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
 import { Allegiance, ArmyListName, Detachment, DetachmentName, FormationName, ModelGroup, ModelGroupShape } from "../game/types.ts";
 import { DetachmentAttachmentSelect } from "./DetachmentAttachmentSelect.tsx";
+import { YesNoExtraSelect } from "./YesNoExtraSelect.tsx";
 
 function EditButton(props: { detachmentIndex: number, modelGroupShape: ModelGroupShape; uuid: string, modelGroup: ModelGroup }) {
     const {openModelGroup, closeModelGroup, modelGroupOpenState, getModelGroupKey} = useContext(AppState);
@@ -42,7 +43,7 @@ type ModelGroupWidgetProps = {
     editable: boolean
 }
 function ModelGroupWidget(props: ModelGroupWidgetProps) {
-    const {addModelLoadoutGroup, openModelGroup, modelGroupOpenState, closeModelGroup, getModelGroupKey} = useContext(AppState);
+    const {addModelLoadoutGroup, modelGroupOpenState, getModelGroupKey} = useContext(AppState);
 
     return <div 
         class={"grid gap-[1%] grid-cols-[10%_78%_10%] md:gap-[0%] md:grid-cols-[20%_8%_62%_10%] dark:text-white " + ((props.modelGroupShapeIndex%2)?"bg-gray-50 dark:bg-gray-950 ":"bg-white dark:bg-black")}
@@ -106,6 +107,32 @@ function ModelGroupWidget(props: ModelGroupWidgetProps) {
     </div>
 }
 
+type DetachmentExtraWidgetProps = {
+    uuid: string;
+    detachmentIndex: number;
+    detachmentExtraIndex: number;
+    extraName: string;
+    points: number;
+    has: boolean;
+    editable: boolean
+}
+function DetachmentExtraWidget(props: DetachmentExtraWidgetProps) {
+    return <div 
+        class={"grid gap-[1%] grid-cols-[10%_78%_10%] md:gap-[0%] md:grid-cols-[20%_8%_62%_10%] dark:text-white " + ((props.detachmentExtraIndex%2)?"bg-gray-50 dark:bg-gray-950 ":"bg-white dark:bg-black")}
+    >
+        <div class="col-start-1 md:col-start-2">
+            <YesNoExtraSelect uuid={props.uuid} detachmentIndex={props.detachmentIndex} 
+                extraName={props.extraName} has={props.has} points={props.points} editable={props.editable}/>
+        </div>
+
+        <div class="col-start-2 md:col-start-3">
+            {props.extraName}
+        </div>
+
+        <div class="col-start-3 md:col-start-4 text-right w-full">{props.has?props.points:0}</div> 
+    </div>
+}
+
 interface DetachmentWidgetProps {
     uuid: string;
     armyListName: ArmyListName;
@@ -123,6 +150,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
     const shape = getShapeForFormationName(props.armyListName, formationName);
 
     let modelGroups = <div></div>;
+    let extras = <div></div>
     const detachmentName = props.detachment.detachmentName;
     if(detachmentName != "") {
         const config = getDetachmentConfigurationForDetachmentName(props.armyListName, detachmentName);
@@ -140,7 +168,17 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                         editable={props.editable}
                     />
                 })
-        } </div>   
+        } </div>
+        if(props.detachment.extras != undefined) {
+            extras = <div>{
+                props.detachment.extras.map((u, i) => {
+                    return <DetachmentExtraWidget uuid={props.uuid} detachmentIndex={props.detachmentIndex}
+                        detachmentExtraIndex={i} key={i} extraName={u.name} 
+                        has={u.has} points={u.points} editable={props.editable}/>
+                })
+            }</div>
+        }
+        
     }
 
     const slotDisplayName = (props.detachmentIndex+1).toString() 
@@ -174,6 +212,7 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
             }
         </div>
         {modelGroups}
+        {extras}
     </div>
 }
 

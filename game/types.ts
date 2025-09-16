@@ -202,6 +202,14 @@ export type ModelGroup = {
     unitTraits: UnitTrait[];
 };
 
+//This is an optional extra which a detachment (rather than a model) can have
+export type DetachmentExtra = {
+    name: string;
+    points: number;
+    has: boolean;
+}
+
+//This is the editable representation of a detachment in this army
 export type Detachment = {
     slot: FormationSlot;
     detachmentName: DetachmentName | "";
@@ -209,6 +217,7 @@ export type Detachment = {
     points: number;
     validationState: DetachmentValidationState;
     attachedDetachmentIndex?: number;
+    extras?: DetachmentExtra[];
 };
 
 export type Formation = {
@@ -236,12 +245,19 @@ export type Army = {
     activations: number;
 };
 
+//This is an optional extra which a detachment (rather than a model) can have
+export type DetachmentExtraShape = {
+    name: string;
+    points: number;
+}
+
 //this is a top level box in the lists
 export type DetachmentConfiguration = {
     maxModels?: number,
     minModels?: number,
     modelGroupShapes: ModelGroupShape[],
-    customValidation?: (detachment: Detachment) => DetachmentValidationState
+    customValidation?: (detachment: Detachment) => DetachmentValidationState,
+    extras?: DetachmentExtraShape[]
 }
 
 export type DetachmentType = 
