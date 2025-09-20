@@ -327,6 +327,7 @@ export type UnitTrait =
     "Ionic Flare Shield" |
     "Jump Packs" |
     "Large Assault Transport (5)" |
+    "Large Assault Transport (8)" |
     "Large Transport (2)" |
     "Large Transport (4)" |
     "Line" |

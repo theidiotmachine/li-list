@@ -166,6 +166,7 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Xiphon Interceptor Squadron",
     ]],
     ["Artillery", [
+        "Legion Scorpius Battery",
         "Legion Whirlwind Battery",
     ]], 
     ["Bastion", [
@@ -173,10 +174,8 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Tarantula Battery",
     ]],
     ["Battle Tank", [
-        "Legion Predator Commander",
         "Legion Predator Squadron",
         "Legion Sicaran Arcus Squadron",
-        "Legion Sicaran Commander",
         "Legion Sicaran Omega Squadron",
         "Legion Sicaran Punisher Squadron",
         "Legion Sicaran Squadron",
@@ -195,8 +194,10 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
     ]],
     ["Core", ["Legion Tactical Detachment"]],  
     ["Heavy Armour", [
-        "Legion Kratos Commander",
-        "Legion Kratos Squadron"
+        "Legion Cerberus Squadron",
+        "Legion Kratos Squadron",
+        "Legion Mastadon Squadron",
+        "Legion Typhon Squadron"
     ]],
     ["HQ", [ 
         "Legion Command",
@@ -821,10 +822,59 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {num: 4+6, points: 140+180}
         ]}
     ]}],
-    //TODO: cerberus
-    //TODO: typhon
-    //TODO: mastadon
-    //TODO: scorpius
+    ["Legion Cerberus Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Cerberus", modelLoadoutSlots: [
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+                {loadout: "Multi-melta", points: 5},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
+            ]},
+        ], 
+            possibleModelGroupQuantities: [
+                {num: 1, points: 85}, {num: 2, points: 85+80}, {num: 3, points: 85+150},
+                {num: 4, points: 85+210}
+        ]}
+    ]}],
+    ["Legion Typhon Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Typhon", modelLoadoutSlots: [
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+                {loadout: "Multi-melta", points: 5},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
+            ]},
+        ], 
+            possibleModelGroupQuantities: [
+                {num: 1, points: 80}, {num: 2, points: 80+75}, {num: 3, points: 80+140},
+                {num: 4, points: 80+200}
+        ]}
+    ]}],
+    ["Legion Mastadon Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Mastadon", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", points: 0}, 
+                {loadout: "Heavy bolters", points: 0}
+            ]},
+        ], 
+            possibleModelGroupQuantities: [
+                {num: 1, points: 130}, {num: 2, points: 130+120}, {num: 3, points: 130+240},
+                {num: 4, points: 130+350}
+        ]}
+    ]}],
+    ["Legion Scorpius Battery", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Scorpius", modelLoadoutSlots: [], 
+            possibleModelGroupQuantities: [
+                {num: 2, points: 100}, {num: 2+2, points: 100+90}, {num: 2+4, points: 100+180},
+                {num: 2+6, points: 100+270}
+            ]}
+    ]}],
     ["Legion Whirlwind Battery", {minModels: 2, maxModels: 8, modelGroupShapes: [
         {modelName: "Whirlwind", modelLoadoutSlots: [], 
             possibleModelGroupQuantities: [
@@ -852,6 +902,27 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             ]},
         ],
         unitTraits: ["Jump Packs"] //counts as Bulky
+    }],
+    ["Cerberus", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 3, morale: 3, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "Hull Mounted neutron laser battery"}, 
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
+                {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+            ]}
+        ],
+        unitTraits: []
     }],
     ["Contemptor Dreadnought", {
         detachmentType: "Walker", scale: 1, move: 5, saves: [
@@ -1160,6 +1231,25 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         ],
         unitTraits: ["Armoured"],
     }],
+    ["Mastadon", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 4, morale: 3, wounds: 3, tacticalStrength: 2, voidShields: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Siege melta array", "Skyreaper battery", "Sponson Mounted heavy flamers"
+                ]}, 
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]},
+        ],
+        unitTraits: ["Large Assault Transport (8)"]
+    }],
     ["Missile Launcher Legionaries",{
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
@@ -1267,6 +1357,19 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             ]},
         ],
         unitTraits: ["Skimmer"]
+    }],
+    ["Scorpius", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 3, arc: "Front"},
+            {saveType: "Armour", save: 4, arc: "Front"},
+        ],
+        caf: 0, morale: 3, wounds: 1, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes:  ["Scorpius missile launcher", "Pintle Mounted twin-linked bolter"],}, 
+            ]},
+        ],
+        unitTraits: []
     }],
     ["Sicaran Arcus", {
         detachmentType: "Vehicle", scale: 2, move: 10, saves: [
@@ -1431,6 +1534,27 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             ]},
         ],
         unitTraits: ["Large Assault Transport (5)", "Flyer", "Hover"]
+    }],
+    ["Typhon", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 3, morale: 3, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "Hull Mounted dreadhammer siege cannon"}, 
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Lascannon", weaponTypes: ["Sponson Mounted lascannon"]}, 
+                {loadout: "Heavy bolters", weaponTypes: ["Sponson Mounted heavy bolters"]},
+            ]},
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
+                {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+            ]}
+        ],
+        unitTraits: []
     }],
     ["Vindicator", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [

@@ -24,19 +24,21 @@ export type LegionFormationSlot =
 ;
 
 export type LegionDetachmentName = 
-    "Legion Assault Detachment" | 
+    "Legion Assault Detachment" |
+    "Legion Cerberus Squadron" |
     "Legion Command" | 
     "Legion Contemptor Dreadnought Talon" | 
-    "Legion Kratos Commander" | 
-    "Legion Kratos Squadron" | 
     "Legion Deathstorm Drop Pod Battery" |
     "Legion Deredeo Dreadnought Detachment" |
     "Legion Dreadnought Drop Pod Detachment" |
     "Legion Drop Pod Detachment" |
     "Legion Fire Raptor Squadron" |
     "Legion Javelin Squadron" |
+    "Legion Kratos Commander" | 
+    "Legion Kratos Squadron" | 
     "Legion Land Raider Detachment" |
     "Legion Land Speeder Squadron" |
+    "Legion Mastadon Squadron" |
     "Legion Missile Launcher Support Detachment" |
     "Legion Outrider Squadron" |
     "Legion Palisade Drop Pod" |
@@ -47,6 +49,7 @@ export type LegionDetachmentName =
     "Legion Rhino Detachment" |
     "Legion Sabre Squadron" |
     "Legion Scimitar Jetbike Squadron" |
+    "Legion Scorpius Battery" |
     "Legion Sicaran Arcus Squadron" |
     "Legion Sicaran Commander" |
     "Legion Sicaran Omega Squadron" |
@@ -60,6 +63,7 @@ export type LegionDetachmentName =
     "Legion Termite Detachment" |
     "Legion Terminator Detachment" |
     "Legion Thunderhawk Gunship" |
+    "Legion Typhon Squadron" |
     "Legion Vindicator Squadron" |
     "Legion Whirlwind Battery" |
     "Legion Xiphon Interceptor Squadron" |
@@ -79,6 +83,7 @@ export const AllLegionModelNames = [
     "Kratos Commander",
     "Land Raider",
     "Land Speeder",
+    "Cerberus",
     "Legion Kratos",
     "Legion Outrider", 
     "Legion Predator", 
@@ -88,6 +93,7 @@ export const AllLegionModelNames = [
     "Legion Terminators",
     "Legion Termite",
     "Leviathan Dreadnought",
+    "Mastadon",
     "Missile Launcher Legionaries", //renamed from "Missile Launcher Heavy Support Legionaries" because come on
     "Outrider",
     "Palisade Drop Pod",
@@ -96,6 +102,7 @@ export const AllLegionModelNames = [
     "Rhino",
     "Sabre",
     "Scimitar Jetbike",
+    "Scorpius",
     "Sicaran Arcus",
     "Sicaran Commander",
     "Sicaran Omega",
@@ -105,6 +112,7 @@ export const AllLegionModelNames = [
     "Tactical Legionaries",
     "Termite",
     "Thunderhawk Gunship",
+    "Typhon",
     "Vindicator",
     "Whirlwind",
     "Xiphon Interceptor"

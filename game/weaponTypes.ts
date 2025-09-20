@@ -61,12 +61,14 @@ export type WeaponType =
     "Hull Mounted autocannon" |
     "Hull Mounted Anvilus autocannon" |
     "Hull Mounted demolisher cannon" |
+    "Hull Mounted dreadhammer siege cannon" |
     "Hull Mounted heavy bolter" |
     "Hull Mounted heavy bolter turret" |
     "Hull Mounted heavy bolters" |
     "Hull Mounted lascannon" |
     "Hull mounted multi-melta" |
     "Hull Mounted neutron blaster" |
+    "Hull Mounted neutron laser battery" |
     "Hull Mounted twin lascannon" |
     "Hunter-killer missile" |
     "Hyperios air-defence missile launcher" |
@@ -160,14 +162,18 @@ export type WeaponType =
     "Sarcophagus mounted weapon" |
     "Scimitar heavy bolter" |
     "Scintillax lascutter" |
+    "Scorpius missile launcher" |
     "Sentinel missile launcher" |
     "Serperos lascutters" |
     "Shadowsword heavy bolter sponsons" |
     "Shock lance" |
     "Shock ram" |
+    "Siege melta array" |
+    "Skyreaper battery" |
     "Skystrike missiles" |
     "Sollex heavy-las" |
     "Sponson Mounted heavy bolters" |
+    "Sponson Mounted heavy flamers" |
     "Sponson Mounted lascannon" |
     "Sponson mounted laser destroyers" |
     "Sponson Mounted quad lascannon" |
