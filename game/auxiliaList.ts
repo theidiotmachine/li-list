@@ -18,8 +18,8 @@ const tankCommanderValidation = (formation: Formation, detachmentIndex: number):
         totalNumTankCommanders += numTankCommanders;
     }
 
-    if(totalNumTankCommanders == 0)
-        return {valid: false, error: "Tank Commander rules broken", data : "must have one Tank Commander"};
+    if(totalNumTankCommanders != 1)
+        return {valid: false, error: "Tank Commander rules broken", data : "must have one Tank Commander in this Formation"};
     
     return {valid: true};
 }
@@ -382,11 +382,12 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 4, points: 160}, {num: 4+2, points: 160+70}, {num: 4+4, points: 160+140},
             {num: 4+6, points: 160+210}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
             "Solar Auxilia Leman Russ Spearhead"
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Leman Russ Vanquisher Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Vanquisher", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
@@ -398,11 +399,12 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+170},
             {num: 4+6, points: 175+230}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
             "Solar Auxilia Leman Russ Spearhead"
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Malcador Tank Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
         {modelName: "Malcador Tank", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
@@ -418,10 +420,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 2, points: 150}, {num: 2+1, points: 150+70}, {num: 2+2, points: 150+140},
             {num: 2+1+2, points: 150+70+140}, {num: 2+4, points: 150+260}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Malcador Vanquisher Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
         {modelName: "Malcador Vanquisher", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
@@ -437,10 +440,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 2, points: 160}, {num: 2+1, points: 160+75}, {num: 2+2, points: 160+150},
             {num: 2+1+2, points: 160+75+150}, {num: 2+4, points: 160+280}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Malcador Annihilator Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
         {modelName: "Malcador Annihilator", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
@@ -456,10 +460,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 2, points: 150}, {num: 2+1, points: 150+70}, {num: 2+2, points: 150+140},
             {num: 2+1+2, points: 150+70+140}, {num: 2+4, points: 150+260}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Auxilia Baneblade Squadron", {minModels: 1, maxModels: 3, modelGroupShapes: [
         {modelName: "Auxilia Baneblade", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
@@ -467,10 +472,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Auxilia Hellhammer Squadron", {minModels: 1, maxModels: 3, modelGroupShapes: [
         {modelName: "Auxilia Hellhammer", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
@@ -478,10 +484,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Auxilia Thunderbolt Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
         {modelName: "Thunderbolt Fighter", modelLoadoutSlots: [
             {name: "Cannon", possibleModelLoadouts: [
@@ -617,10 +624,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 60}, {num: 2, points: 60+55}, {num: 3, points: 60+110},
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Auxilia Valdor Squadron", {modelGroupShapes: [
         {modelName: "Valdor", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
@@ -631,10 +639,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 60}, {num: 2, points: 60+55}, {num: 3, points: 60+110},
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Auxilia Stormhammer Squadron", {modelGroupShapes: [
         {modelName: "Stormhammer", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
@@ -645,10 +654,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Auxilia Medusa Battery", {modelGroupShapes: [
         {modelName: "Medusa", modelLoadoutSlots: [],
             possibleModelGroupQuantities: [
@@ -671,11 +681,12 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 120}, {num: 2, points: 120+110}, {num: 3, points: 120+220},
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
             "Solar Auxilia Titan Hunter Company"
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Auxilia Stormsword Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
         {modelName: "Stormsword", modelLoadoutSlots: [
             {name: "Pintle Mounted", possibleModelLoadouts: [
@@ -683,10 +694,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Auxilia Stormblade Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
         {modelName: "Stormblade", modelLoadoutSlots: [
             {name: "Pintle Mounted", possibleModelLoadouts: [
@@ -694,10 +706,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 110}, {num: 2, points: 110+100}, {num: 3, points: 110+200},
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Leman Russ Executioner Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Executioner", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
@@ -709,11 +722,12 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 4, points: 160}, {num: 4+2, points: 160+70}, {num: 4+4, points: 160+140},
             {num: 4+6, points: 160+210}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
             "Solar Auxilia Leman Russ Spearhead"
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Leman Russ Demolisher Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Demolisher", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
@@ -725,11 +739,12 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 4, points: 165}, {num: 4+2, points: 165+75}, {num: 4+4, points: 165+150},
             {num: 4+6, points: 165+225}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
             "Solar Auxilia Leman Russ Spearhead"
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Leman Russ Annihilator Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Annihilator", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
@@ -741,11 +756,12 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 4, points: 170}, {num: 4+2, points: 170+75}, {num: 4+4, points: 170+150},
             {num: 4+6, points: 170+225}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
             "Solar Auxilia Leman Russ Spearhead"
-        ]}]}
-    ]}],
+        ]}]
+    }],
     ["Leman Russ Exterminator Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Exterminator", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
@@ -757,11 +773,12 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ], possibleModelGroupQuantities: [
             {num: 4, points: 160}, {num: 4+2, points: 160+70}, {num: 4+4, points: 160+140},
             {num: 4+6, points: 160+210}, 
-        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+        ]}
+        ], extras: [{name: "Tank Commander", points: 10, slotRequirementType: "Required", formationNames: [
             "Solar Auxilia Armoured Company",
             "Solar Auxilia Leman Russ Spearhead"
-        ]}]}
-    ]}],
+        ]}]
+    }],
 ]);
 
 export function getAuxiliaDetachmentConfigurationForDetachmentName(detachmentName: (AuxiliaDetachmentName|MechanicumDetachmentName)): DetachmentConfiguration {

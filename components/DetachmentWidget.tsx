@@ -175,7 +175,12 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                 props.detachment.extras.
                     filter((u) => {
                         const extraShape = extrasShape.find((s) => s.name === u.name);
-                        if(extraShape === undefined) return false;
+                        if(extraShape === undefined) { return false };
+
+                        if(extraShape.slotRequirementType !== undefined)
+                            if(shape.slotRequirements[props.detachmentIndex].slotRequirementType !== extraShape.slotRequirementType)
+                                return false;
+
                         return extraShape.formationNames === undefined || extraShape.formationNames.findIndex((s)=>s===formationName) != -1
                     }).
                     map((u, i) => {

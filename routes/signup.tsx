@@ -18,7 +18,6 @@ export const handler: Handlers = {
 
 export default function Signup(props: PageProps<Data>) {
   let error = "";
-  console.log(props.data.failedString);
   switch(props.data.failedString) {
     case "false":
       break;
