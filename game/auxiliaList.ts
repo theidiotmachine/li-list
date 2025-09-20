@@ -10,43 +10,17 @@ const tankCommanderValidation = (formation: Formation, detachmentIndex: number):
 
     //we want exactly one tank commander in the required slots
     let totalNumTankCommanders = 0;
-    let numTankCommandersInThisDetachment = 0;
     for(let i = 0; i < 3; ++i) {
         const detachment = formation.detachments[i];
         let numTankCommanders = 0;
 
-        for(let j = 0; j < detachment.modelGroups.length; ++j){
-            const modelGroup = detachment.modelGroups[j];
-
-            for(let k = 0; k < modelGroup.modelLoadoutGroups.length; ++k) {
-                const modelLoadoutGroup = modelGroup.modelLoadoutGroups[k];
-
-                const slot = modelLoadoutGroup.modelLoadoutSlots.find((t)=>t.name == "Tank Commander");
-                if(slot != undefined) {
-                    if(slot.modelLoadout.loadout == "Tank Commander") {
-                        numTankCommanders += modelLoadoutGroup.number;
-                        if(detachmentIndex == i)
-                            numTankCommandersInThisDetachment += modelLoadoutGroup.number;
-                    }
-                }
-            }
-        }
-
-        if(i == detachmentIndex && numTankCommandersInThisDetachment > 1)
-            return { 
-                valid: false, 
-                error: "Tank Commander rules broken", 
-                data : "should have maximum one Tank Commander, found " + numTankCommandersInThisDetachment.toString() + " in this detachment"
-            };
-
+        numTankCommanders = detachment.extras?.filter((e) => e.name == "Tank Commander" && e.has)?.length ?? 0;
         totalNumTankCommanders += numTankCommanders;
     }
 
     if(totalNumTankCommanders == 0)
         return {valid: false, error: "Tank Commander rules broken", data : "must have one Tank Commander"};
-    if(totalNumTankCommanders > 1 && numTankCommandersInThisDetachment > 0)
-        return {valid: false, error: "Tank Commander rules broken", data : "should have maximum one Tank Commander"};
-
+    
     return {valid: true};
 }
 
@@ -54,16 +28,13 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
     [ "Solar Auxilia Armoured Company", { 
         customValidation: tankCommanderValidation,
         slotRequirements: [
-        {   slot: "Solar Auxilia Armoured Company Compulsory Battle Tank",
-            displayName: "Battle Tank",        
+        {slot: "Battle Tank",       
             slotRequirementType: "Required"                 
         },
-        {   slot: "Solar Auxilia Armoured Company Compulsory Battle Tank",
-            displayName: "Battle Tank",        
+        {slot: "Battle Tank",
             slotRequirementType: "Required"                 
         },
-        {   slot: "Solar Auxilia Armoured Company Compulsory Heavy Armour",
-            displayName: "Heavy Armour",        
+        {slot: "Heavy Armour",        
             slotRequirementType: "Required"                 
         },
         {   slot: "Battle Tank",        slotRequirementType: "Optional"                 },
@@ -128,6 +99,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         {   slot: "Transport",          slotRequirementType: "Optional"                 },
         {   slot: "Support",            slotRequirementType: "Optional"                 },
         {   slot: "Support",            slotRequirementType: "Optional"                 },
+        {   slot: "Battle Tank",        slotRequirementType: "Optional"                 },
         {   slot: "Core",               slotRequirementType: "Optional"                 },
         {   slot: "Light Armour",       slotRequirementType: "One Of",  oneOfGroup: 1   },
         {   slot: "Vanguard",           slotRequirementType: "One Of",  oneOfGroup: 1   },
@@ -138,20 +110,21 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
     [ "Solar Auxilia Super-Heavy Company", {
         customValidation: tankCommanderValidation,
         slotRequirements: [
-        {   slot: "Solar Auxilia Armoured Company Compulsory Heavy Armour",
-            displayName: "Heavy Armour",        
+        {slot: "Heavy Armour",        
             slotRequirementType: "Required"                 
         },
-        {   slot: "Solar Auxilia Armoured Company Compulsory Heavy Armour",
-            displayName: "Heavy Armour",        
+        {slot: "Heavy Armour",        
             slotRequirementType: "Required"                 
         },
-        {   slot: "Solar Auxilia Armoured Company Compulsory Heavy Armour",
-            displayName: "Heavy Armour",        
+        {slot: "Heavy Armour",        
             slotRequirementType: "Required"                 
         },
-        {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
-        {   slot: "Heavy Armour",       slotRequirementType: "Optional"                 },
+        {slot: "Heavy Armour",       
+            slotRequirementType: "Optional"                 
+        },
+        {slot: "Heavy Armour",       
+            slotRequirementType: "Optional"                 
+        },
     ]}],
     [ "Solar Auxilia Titan Hunter Company", {
         customValidation: tankCommanderValidation,
@@ -246,18 +219,22 @@ const detachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachmentName|
         "Leman Russ Executioner Squadron",
         "Leman Russ Exterminator Squadron",
         "Leman Russ Strike Squadron",
+        "Leman Russ Vanquisher Squadron",
         "Malcador Tank Squadron",
+        "Malcador Vanquisher Squadron",
+        "Malcador Annihilator Squadron"
     ]],
     ["Core", [ 
         "Auxilia Lasrifle Tercio"
     ]],  
     ["Extra Tech-Priest Auxilia", ["Tech-Priest Auxilia"]],
     ["Heavy Armour", [
+        "Auxilia Baneblade Squadron",
+        "Auxilia Hellhammer Squadron",
         "Auxilia Shadowsword Squadron",
         "Auxilia Stormblade Squadron",
         "Auxilia Stormhammer Squadron",
         "Auxilia Stormsword Squadron",
-        "Auxilia Super-Heavy Tank Squadron"
     ]],
     ["HQ", [ 
         "Auxilia Tactical Command Detachment",
@@ -280,16 +257,7 @@ const detachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachmentName|
         "Leman Russ Executioner Squadron",
         "Leman Russ Exterminator Squadron",
         "Leman Russ Strike Squadron",
-    ]],
-    ["Solar Auxilia Armoured Company Compulsory Battle Tank", [
-        "Auxilia Malcador Infernus Squadron",
-        "Auxilia Valdor Squadron",
-        "Leman Russ Strike Squadron",
-        "Malcador Tank Squadron",
-    ]],
-    ["Solar Auxilia Armoured Company Compulsory Heavy Armour", [ 
-        "Auxilia Stormhammer Squadron",
-        "Auxilia Super-Heavy Tank Squadron"
+        "Leman Russ Vanquisher Squadron",
     ]],
     ["Storm Section", ["Auxilia Veletaris Storm Section"]],
     ["Support", [ 
@@ -310,31 +278,30 @@ export function getAuxiliaDetachmentNamesForSlot(slot: FormationSlot): (Mechanic
     return detachmentNamesForSlot.get(slot) ?? [];
 }
 
+const dracosanModelLoadoutSlots = [
+                {name: "Primary", possibleModelLoadouts: [
+                    {loadout: "Hull Mounted twin lascannon", points: 0},
+                    {loadout: "Hull Mounted demolisher cannon", points: 5},
+                ]},
+                {name: "Pintle", possibleModelLoadouts: [
+                    {loadout: "None", points: 0},
+                    {loadout: "Multi-laser", points: 5},
+                ]},
+        ];
+
 const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|AuxiliaDetachmentName, DetachmentConfiguration> = new Map([
     ["Legate Commander Detachment", {modelGroupShapes: [
         {modelName: "Auxilia Commander", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 16}]},
         {modelName: "Dracosan", dedicatedTransport: true, formationNames: ["Solar Auxilia Mechanised Infantry Sub-Cohort"],
-            modelLoadoutSlots: [{
-                name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5},
-            ]}
-        ], possibleModelGroupQuantities: [
-            //p128 - max transport size is 8
-            {num: 1, points: 37},
+            modelLoadoutSlots: dracosanModelLoadoutSlots, possibleModelGroupQuantities: [
+            {num: 1, points: 42},
         ]}
     ]}],
     ["Auxilia Tactical Command Detachment", {modelGroupShapes: [
         {modelName: "Tactical Command", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 10}]},
         {modelName: "Dracosan", dedicatedTransport: true, formationNames: ["Solar Auxilia Mechanised Infantry Sub-Cohort"],
-            modelLoadoutSlots: [{
-                name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5},
-            ]}
-        ], possibleModelGroupQuantities: [
-            //p128 - max transport size is 8
-            {num: 1, points: 37},
+            modelLoadoutSlots: dracosanModelLoadoutSlots, possibleModelGroupQuantities: [
+            {num: 1, points: 42},
         ]}
     ]}],
     ["Auxilia Lasrifle Tercio", {maxModels: 16, modelGroupShapes: [
@@ -351,32 +318,22 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             {num: 8, points: 12*4}, {num: 10, points: 12*5}, {num: 12, points: 12*6}
         ]},
         {modelName: "Charonite Ogryns", modelLoadoutSlots: [], unitTraits: ["Independent"], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 2, points: 15}, {num: 4, points: 15*2}, {num: 6, points: 15*3},
-            {num: 8, points: 15*4}, {num: 10, points: 15*5}, {num: 12, points: 15*6}
+            {num: 0, points: 0}, {num: 2, points: 30}, {num: 4, points: 30*2}, {num: 6, points: 30*3},
+            {num: 8, points: 30*4}, {num: 10, points: 30*5}, {num: 12, points: 30*6}
         ]},
         {modelName: "Dracosan", dedicatedTransport: true, formationNames: ["Solar Auxilia Mechanised Infantry Sub-Cohort"],
-            modelLoadoutSlots: [{
-                name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5},
-            ]}
-        ], possibleModelGroupQuantities: [
-            {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
-            {num: 5, points: 37*5}, {num: 6, points: 37*6}, {num: 7, points: 37*7}, {num: 8, points: 37*8}, 
+            modelLoadoutSlots: dracosanModelLoadoutSlots, possibleModelGroupQuantities: [
+            {num: 1, points: 42}, {num: 2, points: 42*2}, {num: 3, points: 42*3}, {num: 4, points: 42*4}, 
+            {num: 5, points: 42*5}, {num: 6, points: 42*6}, {num: 7, points: 42*7}, {num: 8, points: 42*8}, 
         ]}
     ]}],
     ["Auxilia Ogryn Charonite Section", {maxModels: 8, modelGroupShapes: [
         {modelName: "Charonite Ogryns", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 4, points: 50}, {num: 4+2, points: 50+15}, {num: 4+4, points: 50+30}
+            {num: 4, points: 70}, {num: 4+2, points: 70+30}, {num: 4+4, points: 70+60}
         ]},
         {modelName: "Dracosan", dedicatedTransport: true, formationNames: ["Solar Auxilia Mechanised Infantry Sub-Cohort"],
-            modelLoadoutSlots: [{
-                name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5},
-            ]}
-        ], possibleModelGroupQuantities: [
-            {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
+            modelLoadoutSlots: dracosanModelLoadoutSlots, possibleModelGroupQuantities: [
+            {num: 1, points: 42}, {num: 2, points: 42*2}, {num: 3, points: 42*3}, {num: 4, points: 42*4}, 
         ]}
     ]}],
     ["Auxilia Veletaris Storm Section", {maxModels: 8, modelGroupShapes: [
@@ -384,16 +341,11 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             {num: 4, points: 40}, {num: 4+2, points: 40+10}, {num: 4+4, points: 40+20}
         ]},
         {modelName: "Dracosan", dedicatedTransport: true, formationNames: ["Solar Auxilia Mechanised Infantry Sub-Cohort"],
-            modelLoadoutSlots: [{
-                name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5},
-            ]}
-        ], possibleModelGroupQuantities: [
-            {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
+            modelLoadoutSlots: dracosanModelLoadoutSlots, possibleModelGroupQuantities: [
+            {num: 1, points: 42}, {num: 2, points: 42*2}, {num: 3, points: 42*3}, {num: 4, points: 42*4}, 
         ]}
     ]}],
-    ["Auxilia Rapier Battery", {minModels: 3, maxModels: 9, modelGroupShapes: [
+    ["Auxilia Rapier Battery", {minModels: 4, maxModels: 12, modelGroupShapes: [
         {modelName: "Auxilia Rapier", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts:[
                 {loadout: "Laser destroyer array", points: 0},
@@ -401,17 +353,17 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 {loadout: "Mole mortar", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 3, points: 50}, {num: 3+3, points: 50+40}, {num: 3+6, points: 50+70}
+            {num: 4, points: 60}, {num: 4+4, points: 60+50}, {num: 4+8, points: 60+100}
         ]},
     ]}],
-    ["Auxilia Tarantula Battery", {minModels: 4, maxModels: 8, modelGroupShapes: [
+    ["Auxilia Tarantula Battery", {minModels: 3, maxModels: 9, modelGroupShapes: [
         {modelName: "Auxilia Tarantula", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts:[
                 {loadout: "Tarantula lascannon battery", points: 0},
                 {loadout: "Hyperios air-defence missile launcher", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 4, points: 36}, {num: 4+2, points: 36+15}, {num: 4+4, points: 36+30}
+            {num: 3, points: 30}, {num: 3+3, points: 30+25}, {num: 3+6, points: 30+50}
         ]},
     ]}],
     ["Auxilia Aethon Heavy Sentinel Patrol", {modelGroupShapes: [
@@ -421,31 +373,38 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
     ]}],
     ["Leman Russ Strike Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Tank", modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Leman Russ battlecannon", points: 0}, 
-                {loadout: "Vanquisher battlecannon", points: 0}
-            ]},
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: [
-                "Solar Auxilia Armoured Company",
-                "Solar Auxilia Leman Russ Spearhead"
-            ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "None", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
-            {num: 4+6, points: 175+220}, 
-        ]}
+            {num: 4, points: 160}, {num: 4+2, points: 160+70}, {num: 4+4, points: 160+140},
+            {num: 4+6, points: 160+210}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+            "Solar Auxilia Leman Russ Spearhead"
+        ]}]}
+    ]}],
+    ["Leman Russ Vanquisher Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
+        {modelName: "Leman Russ Vanquisher", modelLoadoutSlots: [
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+170},
+            {num: 4+6, points: 175+230}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+            "Solar Auxilia Leman Russ Spearhead"
+        ]}]}
     ]}],
     ["Malcador Tank Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
         {modelName: "Malcador Tank", modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Malcador battlecannon", points: 0}, 
-                {loadout: "Malcador Vanquisher battlecannon", points: 0},
-                {loadout: "Malcador lascannon turret", points: 0}
-            ]},
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
                 {loadout: "Autocannon", points: 0}, {loadout: "Demolisher cannon", points: 0}, 
@@ -453,35 +412,80 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador heavy bolters", points: 0}, {loadout: "Malcador lascannon", points: 0}, {loadout: "Malcador autocannon", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
-            ]}
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 2, points: 165}, {num: 2+1, points: 165+70}, {num: 2+2, points: 165+130},
-            {num: 2+1+2, points: 165+70+130}, {num: 2+4, points: 165+240}, 
-        ]}
+            {num: 2, points: 150}, {num: 2+1, points: 150+70}, {num: 2+2, points: 150+140},
+            {num: 2+1+2, points: 150+70+140}, {num: 2+4, points: 150+260}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
     ]}],
-    ["Auxilia Super-Heavy Tank Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
-        {modelName: "Auxilia Super-heavy", modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Baneblade cannon", points: 0}, 
-                {loadout: "Hellhammer cannon", points: 0},
+    ["Malcador Vanquisher Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelName: "Malcador Vanquisher", modelLoadoutSlots: [
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
+                {loadout: "Autocannon", points: 0}, {loadout: "Demolisher cannon", points: 0}, 
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Baneblade heavy bolters", points: 0}, {loadout: "Baneblade heavy flamer", points: 0}, {loadout: "Baneblade autocannon", points: 0}, 
+                {loadout: "Malcador heavy bolters", points: 0}, {loadout: "Malcador lascannon", points: 0}, {loadout: "Malcador autocannon", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
-            ]}
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+90+90},
-            {num: 1+3, points: 100+255}, {num: 1+1+3, points: 100+90+255}, {num: 1+5, points: 100+390}, 
-        ]}
+            {num: 2, points: 160}, {num: 2+1, points: 160+75}, {num: 2+2, points: 160+150},
+            {num: 2+1+2, points: 160+75+150}, {num: 2+4, points: 160+280}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
+    ]}],
+    ["Malcador Annihilator Squadron", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelName: "Malcador Annihilator", modelLoadoutSlots: [
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
+                {loadout: "Autocannon", points: 0}, {loadout: "Demolisher cannon", points: 0}, 
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Malcador heavy bolters", points: 0}, {loadout: "Malcador lascannon", points: 0}, {loadout: "Malcador autocannon", points: 0}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 2, points: 150}, {num: 2+1, points: 150+70}, {num: 2+2, points: 150+140},
+            {num: 2+1+2, points: 150+70+140}, {num: 2+4, points: 150+260}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
+    ]}],
+    ["Auxilia Baneblade Squadron", {minModels: 1, maxModels: 3, modelGroupShapes: [
+        {modelName: "Auxilia Baneblade", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Super-heavy heavy bolters", points: 0}, {loadout: "Super-heavy heavy flamer", points: 0}, {loadout: "Super-heavy autocannon", points: 0}, 
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
+    ]}],
+    ["Auxilia Hellhammer Squadron", {minModels: 1, maxModels: 3, modelGroupShapes: [
+        {modelName: "Auxilia Hellhammer", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Super-heavy heavy bolters", points: 0}, {loadout: "Super-heavy heavy flamer", points: 0}, {loadout: "Super-heavy autocannon", points: 0}, 
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
     ]}],
     ["Auxilia Thunderbolt Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
         {modelName: "Thunderbolt Fighter", modelLoadoutSlots: [
             {name: "Cannon", possibleModelLoadouts: [
-                {loadout: "Thunderbolt twin-linked lascannon", points: 0}, 
+                {loadout: "Quad autocannon", points: 0}, 
                 {loadout: "Avenger bolt cannon", points: 3},
             ]},
             {name: "Missiles", possibleModelLoadouts: [
@@ -496,7 +500,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         {modelName: "Avenger Strike Fighter", modelLoadoutSlots: [
             {name: "Cannon", possibleModelLoadouts: [
                 {loadout: "Avenger lascannon", points: 0}, 
-                {loadout: "Avenger autocannon", points: 3},
+                {loadout: "Avenger autocannon", points: 0},
             ]},
             {name: "Missiles", possibleModelLoadouts: [
                 {loadout: "Hellstrike missiles", points: 0}, {loadout: "Skystrike missiles", points: 0}, {loadout: "Wing bombs", points: 0}, 
@@ -565,8 +569,8 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 {loadout: "Hellstrike missiles", points: 0}, {loadout: "Skystrike missiles", points: 0}, {loadout: "Wing bombs", points: 0}, 
             ]}
         ], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 85+10}, {num: 2, points: 85+85+10}, {num: 1+2, points: 85+160+10},
-            {num: 1+3, points: 85+220+10},
+            {num: 0, points: 0}, {num: 1, points: 85}, {num: 2, points: 85+85}, {num: 1+2, points: 85+160},
+            {num: 1+3, points: 85+220},
         ]}
     ]}],
     ["Auxilia Arvus Lighter", {modelGroupShapes: [
@@ -578,15 +582,10 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
     ]}],
     //TGS
     ["Auxilia Dracosan Detachment", {modelGroupShapes: [
-        {modelName: "Dracosan", modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Hull Mounted twin lascannon", points: 0, unitTraits: ["Transport (4)"]},
-                {loadout: "Hull Mounted demolisher cannon", points: 5, unitTraits: ["Transport (2)"]},
-            ]}
-        ], possibleModelGroupQuantities: [
+        {modelName: "Dracosan", modelLoadoutSlots: dracosanModelLoadoutSlots, possibleModelGroupQuantities: [
             //p128 - max transport size is 8
-            {num: 1, points: 37}, {num: 2, points: 37*2}, {num: 3, points: 37*3}, {num: 4, points: 37*4}, 
-            {num: 5, points: 37*5}, {num: 6, points: 37*6}, {num: 7, points: 37*7}, {num: 8, points: 37*8}, 
+            {num: 1, points: 42}, {num: 2, points: 42*2}, {num: 3, points: 42*3}, {num: 4, points: 42*4}, 
+            {num: 5, points: 42*5}, {num: 6, points: 42*6}, {num: 7, points: 42*7}, {num: 8, points: 42*8}, 
         ]}
     ]}],
     ["Auxilia Cyclops Detachment", {
@@ -605,7 +604,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
                 ]}
             ], 
         possibleModelGroupQuantities: [
-            {num: 2, points: 40}, {num: 4, points: 80}, {num: 6, points: 40+80}
+            {num: 2, points: 40}, {num: 4, points: 40+35}, {num: 6, points: 40+70}
         ]},
     ]}],
     ["Auxilia Malcador Infernus Squadron", {modelGroupShapes: [
@@ -613,145 +612,155 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador lascannon sponsons", points: 0}, {loadout: "Malcador autocannon sponsons", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
-            ]}
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 70}, {num: 2, points: 140}, {num: 3, points: 70+140},
-        ]}
+            {num: 1, points: 60}, {num: 2, points: 60+55}, {num: 3, points: 60+110},
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
     ]}],
     ["Auxilia Valdor Squadron", {modelGroupShapes: [
         {modelName: "Valdor", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador lascannon sponson", points: 0}, {loadout: "Malcador autocannon sponson", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
-            ]}
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 70}, {num: 2, points: 140}, {num: 3, points: 70+140},
-        ]}
+            {num: 1, points: 60}, {num: 2, points: 60+55}, {num: 3, points: 60+110},
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
     ]}],
     ["Auxilia Stormhammer Squadron", {modelGroupShapes: [
         {modelName: "Stormhammer", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Stormhammer multi-laser sponsons", points: 0}, {loadout: "Stormhammer lascannon sponsons", points: 4}, 
+                {loadout: "Stormhammer multi-laser sponsons", points: 0}, {loadout: "Stormhammer lascannon sponsons", points: 5}, 
             ]},
-            {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
-            ]}
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Multi-laser", points: 5}, 
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 100}, {num: 2, points: 200}, {num: 3, points: 300},
-        ]}
+            {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
     ]}],
     ["Auxilia Medusa Battery", {modelGroupShapes: [
         {modelName: "Medusa", modelLoadoutSlots: [],
             possibleModelGroupQuantities: [
-                {num: 4, points: 130}, {num: 8, points: 260}, {num: 12, points: 390},
+                {num: 4, points: 120}, {num: 8, points: 120+110}, {num: 12, points: 120+220},
             ]
         }
     ]}],
     ["Auxilia Basilisk Battery", {modelGroupShapes: [
         {modelName: "Basilisk", modelLoadoutSlots: [],
             possibleModelGroupQuantities: [
-                {num: 4, points: 140}, {num: 8, points: 280}, {num: 12, points: 420},
+                {num: 4, points: 130}, {num: 8, points: 130+120}, {num: 12, points: 130+240},
             ]
         }
     ]}],
     //TDOT
-    ["Auxilia Shadowsword Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
+    ["Auxilia Shadowsword Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
         {modelName: "Shadowsword", modelLoadoutSlots: [
-            {name: "Tank Commander", formationNames: [
-                "Solar Auxilia Armoured Company",
-                "Solar Auxilia Titan Hunter Company"
-            ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
-            ]},
-        ], possibleModelGroupQuantities: [
-            {num: 1, points: 140}, {num: 2, points: 140+130}, {num: 3, points: 140+260},
-        ]}
-    ]}],
-    ["Auxilia Stormsword Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
-        {modelName: "Stormsword", modelLoadoutSlots: [
-            {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
-            ]},
-        ], possibleModelGroupQuantities: [
-            {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
-        ]}
-    ]}],
-    ["Auxilia Stormblade Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
-        {modelName: "Stormsword", modelLoadoutSlots: [
-            {name: "Tank Commander", formationNames: ["Solar Auxilia Armoured Company"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
             ]},
         ], possibleModelGroupQuantities: [
             {num: 1, points: 120}, {num: 2, points: 120+110}, {num: 3, points: 120+220},
-        ]}
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+            "Solar Auxilia Titan Hunter Company"
+        ]}]}
+    ]}],
+    ["Auxilia Stormsword Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
+        {modelName: "Stormsword", modelLoadoutSlots: [
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 100}, {num: 2, points: 100+90}, {num: 3, points: 100+180},
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
+    ]}],
+    ["Auxilia Stormblade Squadron", {minModels: 1, maxModels: 6, modelGroupShapes: [
+        {modelName: "Stormblade", modelLoadoutSlots: [
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 110}, {num: 2, points: 110+100}, {num: 3, points: 110+200},
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+        ]}]}
     ]}],
     ["Leman Russ Executioner Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Executioner", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: [
-                "Solar Auxilia Armoured Company",
-                "Solar Auxilia Leman Russ Spearhead"
-            ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
-            ]}
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
+            ]},
         ], possibleModelGroupQuantities: [
-            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
-            {num: 4+6, points: 175+220}, 
-        ]}
+            {num: 4, points: 160}, {num: 4+2, points: 160+70}, {num: 4+4, points: 160+140},
+            {num: 4+6, points: 160+210}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+            "Solar Auxilia Leman Russ Spearhead"
+        ]}]}
     ]}],
     ["Leman Russ Demolisher Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Demolisher", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: [
-                "Solar Auxilia Armoured Company",
-                "Solar Auxilia Leman Russ Spearhead"
-            ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
-            {num: 4+6, points: 175+220}, 
-        ]}
+            {num: 4, points: 165}, {num: 4+2, points: 165+75}, {num: 4+4, points: 165+150},
+            {num: 4+6, points: 165+225}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+            "Solar Auxilia Leman Russ Spearhead"
+        ]}]}
     ]}],
     ["Leman Russ Annihilator Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Annihilator", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: [
-                "Solar Auxilia Armoured Company",
-                "Solar Auxilia Leman Russ Spearhead"
-            ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
-            {num: 4+6, points: 175+220}, 
-        ]}
+            {num: 4, points: 170}, {num: 4+2, points: 170+75}, {num: 4+4, points: 170+150},
+            {num: 4+6, points: 170+225}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+            "Solar Auxilia Leman Russ Spearhead"
+        ]}]}
     ]}],
     ["Leman Russ Exterminator Squadron", {minModels: 4, maxModels: 10, modelGroupShapes: [
         {modelName: "Leman Russ Exterminator", modelLoadoutSlots: [
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", points: 0}, {loadout: "Lascannon", points: 0}, 
             ]},
-            {name: "Tank Commander", formationNames: [
-                "Solar Auxilia Armoured Company",
-                "Solar Auxilia Leman Russ Spearhead"
-            ], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Tank Commander", points: 10, unitTraits: ["Solar Auxilia HQ (6)"]}, 
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, {loadout: "Heavy stubber", points: 5}, 
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 4, points: 175}, {num: 4+2, points: 175+85}, {num: 4+4, points: 175+160},
-            {num: 4+6, points: 175+220}, 
-        ]}
+            {num: 4, points: 160}, {num: 4+2, points: 160+70}, {num: 4+4, points: 160+140},
+            {num: 4+6, points: 160+210}, 
+        ], extras: [{name: "Tank Commander", points: 10, formationNames: [
+            "Solar Auxilia Armoured Company",
+            "Solar Auxilia Leman Russ Spearhead"
+        ]}]}
     ]}],
 ]);
 
@@ -772,6 +781,34 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
         ]}],
         unitTraits: ["Forward Deployment"]
     }],
+    ["Auxilia Baneblade", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 7, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 4, morale: 4, wounds: 3, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Hull Mounted demolisher cannon",
+                    "Hull Mounted heavy bolter turret",
+                    "Lascannon sponson turrets",
+                    "Baneblade cannon", 
+                    "Co-axial autocannon"
+                ]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Super-heavy heavy bolters", weaponTypes: ["Super-heavy heavy bolter sponsons"]},
+                {loadout: "Super-heavy heavy flamer", weaponTypes: ["Super-heavy heavy flamer sponsons"]},
+                {loadout: "Super-heavy autocannon", weaponTypes: ["Super-heavy autocannon sponsons"]},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
     ["Auxilia Commander", {
         detachmentType: "Infantry", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 6, arc: "All"},
@@ -785,6 +822,33 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
         ],
         unitTraits: ["Commander", "Inspire (8)", "Master Tactician", "Solar Auxilia HQ (10)"]
     }],
+    ["Auxilia Hellhammer", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 7, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 4, morale: 4, wounds: 3, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Hull Mounted demolisher cannon",
+                    "Hull Mounted heavy bolter turret",
+                    "Lascannon sponson turrets",
+                    "Hellhammer cannon", "Co-axial autocannon"
+                ]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Super-heavy heavy bolters", weaponTypes: ["Super-heavy heavy bolter sponsons"]},
+                {loadout: "Super-heavy heavy flamer", weaponTypes: ["Super-heavy heavy flamer sponsons"]},
+                {loadout: "Super-heavy autocannon", weaponTypes: ["Super-heavy autocannon sponsons"]},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
     ["Auxilia Rapier", {
         detachmentType: "Infantry", scale: 1, move: 4, saves:[
             {saveType: "Armour", save: 6, arc: "All"},
@@ -796,32 +860,6 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {loadout: "Mole mortar"},
         ]}],
         unitTraits: ["Bulky", "Chain of Command"],
-    }],
-    ["Auxilia Super-heavy", {
-        detachmentType: "Super-heavy vehicle", scale: 3, move: 7, saves: [
-            {saveType: "Armour", save: 2, arc: "Front"},
-            {saveType: "Armour", save: 3, arc: "Rear"},
-        ],
-        caf: 4, morale: 4, wounds: 2, tacticalStrength: 2,
-        modelLoadoutSlots: [
-            {name: "", possibleModelLoadouts: [
-                {loadout: "", weaponTypes: [
-                    "Hull Mounted demolisher cannon",
-                    "Hull Mounted heavy bolter turret",
-                    "Lascannon sponson turrets",
-                ]},
-            ]},
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Baneblade cannon", weaponTypes: ["Baneblade cannon", "Co-axial autocannon"]},
-                {loadout: "Hellhammer cannon", weaponTypes: ["Hellhammer cannon", "Co-axial autocannon"]},
-            ]},
-            {name: "Sponson Mounted", possibleModelLoadouts: [
-                {loadout: "Baneblade heavy bolters", weaponTypes: ["Baneblade heavy bolter sponsons"]},
-                {loadout: "Baneblade heavy flamer", weaponTypes: ["Baneblade heavy flamer sponsons"]},
-                {loadout: "Baneblade autocannon", weaponTypes: ["Baneblade autocannon sponsons"]},
-            ]},
-        ],
-        unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
     ["Auxilia Tarantula", {
         detachmentType: "Infantry", scale: 1, move: 0, saves:[
@@ -895,7 +933,8 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
     }],
     ["Cyclops", {
         detachmentType: "Vehicle", scale: 2, move: 9, saves: [
-            {saveType: "Armour", save: 5, arc: "All"},
+            {saveType: "Armour", save: 5, arc: "Front"},
+            {saveType: "Armour", save: 6, arc: "Rear"},
         ],
         caf: -8, wounds: 1, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
@@ -914,9 +953,13 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
         caf: 2, morale: 4, wounds: 1, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Hull Mounted twin lascannon", unitTraits: ["Transport (4)"]},
-                {loadout: "Hull Mounted demolisher cannon", unitTraits: ["Transport (2)"]},
-            ]}
+                {loadout: "Hull Mounted twin lascannon", unitTraits: ["Large Transport (4)"]},
+                {loadout: "Hull Mounted demolisher cannon", unitTraits: ["Large Transport (2)"]},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Multi-laser", weaponTypes: ["Pintle Mounted multi-laser"]}, 
+            ]},
         ], 
         unitTraits: ["Explorer Adaptation"]
     }],
@@ -933,6 +976,10 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
                 {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
             ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
@@ -951,6 +998,10 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
                 {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
                 {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
             ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
@@ -967,6 +1018,10 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
                 {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
             ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
@@ -985,6 +1040,10 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
                 {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
                 {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
             ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
@@ -995,13 +1054,37 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
         ],
         caf: 2, morale: 4, wounds: 1, tacticalStrength: 2,
         modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Leman Russ battlecannon"},
-                {loadout: "Vanquisher battlecannon"},
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Leman Russ battlecannon"]},
             ]},
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
                 {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Leman Russ Vanquisher", {
+        detachmentType: "Vehicle", scale: 2, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 1, tacticalStrength: 2,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Vanquisher battlecannon"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]}, 
+                {loadout: "Lacannon", weaponTypes: ["Hull Mounted lascannon"]}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
             ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
@@ -1028,8 +1111,8 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
     }],
     ["Malcador Infernus", {
         detachmentType: "Vehicle", scale: 2, move: 8, saves: [
-            {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 1, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
@@ -1039,20 +1122,22 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
             ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
-    ["Malcador Tank", {
+    ["Malcador Annihilator", {
         detachmentType: "Vehicle", scale: 2, move: 9, saves: [
-            {saveType: "Armour", save: 3, arc: "Front"},
-            {saveType: "Armour", save: 4, arc: "Rear"},
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
         ],
         caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
-            {name: "Primary", possibleModelLoadouts: [
-                {loadout: "Malcador battlecannon"},
-                {loadout: "Malcador Vanquisher battlecannon"},
-                {loadout: "Malcador lascannon turret"},
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Malcador Vanquisher battlecannon"]},
             ]},
             {name: "Hull Mounted", possibleModelLoadouts: [
                 {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]},
@@ -1062,6 +1147,62 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Malcador Tank", {
+        detachmentType: "Vehicle", scale: 2, move: 9, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Malcador battlecannon"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]},
+                {loadout: "Lascannon", weaponTypes: ["Hull Mounted lascannon"]},
+                {loadout: "Autocannon", weaponTypes: ["Hull Mounted autocannon"]},
+                {loadout: "Demolisher cannon", weaponTypes: ["Hull Mounted demolisher cannon"]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Malcador Vanquisher", {
+        detachmentType: "Vehicle", scale: 2, move: 9, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Malcador Vanquisher battlecannon"]},
+            ]},
+            {name: "Hull Mounted", possibleModelLoadouts: [
+                {loadout: "Heavy bolter", weaponTypes: ["Hull Mounted heavy bolter"]},
+                {loadout: "Lascannon", weaponTypes: ["Hull Mounted lascannon"]},
+                {loadout: "Autocannon", weaponTypes: ["Hull Mounted autocannon"]},
+                {loadout: "Demolisher cannon", weaponTypes: ["Hull Mounted demolisher cannon"]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
             ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
@@ -1147,7 +1288,7 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        caf: 2, morale: 4, wounds: 3, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: [
@@ -1157,6 +1298,10 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
                     "Volcano cannon"
                 ]},
             ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
     }],
@@ -1165,15 +1310,43 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        caf: 2, morale: 4, wounds: 3, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: [
                     "Hull Mounted heavy bolter turret",
                     "Lascannon sponson turrets",
                     "Plasma blastgun",
-                    "Stormsword heavy bolter sponsons",
+                    "Super-heavy heavy bolter sponsons",
                 ]},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
+            ]},
+        ],
+        unitTraits: ["Chain of Command", "Explorer Adaptation"]
+    }],
+    ["Stormhammer", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 6, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Rear"},
+        ],
+        caf: 2, morale: 4, wounds: 3, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: [
+                    "Stormhammer cannon",
+                    "Co-axial multi-laser",
+                    "Hull Mounted lascannon",
+                ]},
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Stormhammer multi-laser sponsons"}, {loadout: "Stormhammer lascannon sponsons"}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Multi-laser", weaponTypes: ["Pintle Mounted multi-laser"]}, 
             ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]
@@ -1183,13 +1356,13 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 2, morale: 4, wounds: 2, tacticalStrength: 2, voidShields: 0,
+        caf: 2, morale: 4, wounds: 3, tacticalStrength: 2, voidShields: 0,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: [
                     "Hull Mounted heavy bolter turret",
                     "Lascannon sponson turrets",
-                    "Stormsword heavy bolter sponsons",
+                    "Super-heavy heavy bolter sponsons",
                     "Stormsword siege cannon",
                 ]},
             ]},
@@ -1239,6 +1412,10 @@ const statsForModelType = new Map<AuxiliaModelName, Stats>([
             ]},
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador lascannon sponsons"}, {loadout: "Malcador autocannon sponsons"}, 
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", weaponTypes: []}, 
+                {loadout: "Heavy stubber", weaponTypes: ["Pintle Mounted heavy stubber"]}, 
             ]},
         ],
         unitTraits: ["Chain of Command", "Explorer Adaptation"]

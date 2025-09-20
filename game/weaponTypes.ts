@@ -17,13 +17,11 @@ export type WeaponType =
     "Avenger bolt cannon" |
     "Avenger lascannon" |
     "Baneblade cannon" |
-    "Baneblade autocannon sponsons" |
-    "Baneblade heavy bolter sponsons" |
-    "Baneblade heavy flamer sponsons" |
     "Bolt pistols" |
     "Castigator pattern bolt cannon" |
     "Charonite claws" |
     "Co-axial autocannon" |
+    "Co-axial multi-laser" |
     "Colossus Bomb" |
     "Combi bolters" |
     "Conversion beam dissipator" |
@@ -129,6 +127,8 @@ export type WeaponType =
     "Phosphex bomb clusters" |
     "Pintle Mounted havoc launcher" |
     "Pintle Mounted heavy bolter" |
+    "Pintle Mounted heavy stubber" |
+    "Pintle Mounted multi-laser" |
     "Pintle Mounted multi-melta" |
     "Pintle Mounted twin bolter" |
     "Pintle Mounted twin-linked bolter" |
@@ -183,8 +183,13 @@ export type WeaponType =
     "Storm laser" |
     "Storm laser array" |
     "Storm laser flenser" |
-    "Stormsword heavy bolter sponsons" |
+    "Stormhammer cannon" |
+    "Stormhammer lascannon sponsons" |
+    "Stormhammer multi-laser sponsons" |
     "Stormsword siege cannon" |
+    "Super-heavy autocannon sponsons" |
+    "Super-heavy heavy bolter sponsons" |
+    "Super-heavy heavy flamer sponsons" |
     "Tarantula lascannon battery" |
     "Tempest rockets" |
     "Tempest warblade" |

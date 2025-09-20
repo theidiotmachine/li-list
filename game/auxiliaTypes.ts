@@ -28,9 +28,11 @@ export type AuxiliaDetachmentName =
     "Auxilia Aethon Heavy Sentinel Patrol" |
     "Auxilia Arvus Lighter" |
     "Auxilia Avenger Strike Fighter Squadron" |
+    "Auxilia Baneblade Squadron" |
     "Auxilia Basilisk Battery" |
     "Auxilia Cyclops Detachment" |
     "Auxilia Dracosan Detachment" |
+    "Auxilia Hellhammer Squadron" |
     "Auxilia Lasrifle Tercio" |
     "Auxilia Lightning Fighter Squadron" |
     "Auxilia Malcador Infernus Squadron" |
@@ -42,7 +44,6 @@ export type AuxiliaDetachmentName =
     "Auxilia Stormblade Squadron" |
     "Auxilia Stormhammer Squadron" |
     "Auxilia Stormsword Squadron" |
-    "Auxilia Super-Heavy Tank Squadron" |
     "Auxilia Tactical Command Detachment" | 
     "Auxilia Tarantula Battery" |
     "Auxilia Thunderbolt Squadron" |
@@ -54,15 +55,19 @@ export type AuxiliaDetachmentName =
     "Leman Russ Executioner Squadron" |
     "Leman Russ Exterminator Squadron" |
     "Leman Russ Strike Squadron" |
-    "Malcador Tank Squadron"
+    "Leman Russ Vanquisher Squadron" |
+    "Malcador Annihilator Squadron" |
+    "Malcador Tank Squadron" |
+    "Malcador Vanquisher Squadron"
 ;
 
 export const AllAuxiliaModelNames = [
     "Aethon Heavy Sentinel",
     "Arvus Lighter",
+    "Auxilia Baneblade",
     "Auxilia Commander",
+    "Auxilia Hellhammer",
     "Auxilia Rapier",
-    "Auxilia Super-heavy",
     "Auxilia Tarantula",
     "Auxiliaries",
     "Auxiliaries with Flamers",
@@ -76,9 +81,12 @@ export const AllAuxiliaModelNames = [
     "Leman Russ Executioner",
     "Leman Russ Exterminator",
     "Leman Russ Tank",
+    "Leman Russ Vanquisher",
     "Lightning Fighter",
+    "Malcador Annihilator",
     "Malcador Infernus",
     "Malcador Tank",
+    "Malcador Vanquisher",
     "Marauder Bomber", 
     "Marauder Colossus", 
     "Marauder Destroyer", 

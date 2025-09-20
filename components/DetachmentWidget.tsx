@@ -170,8 +170,15 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                 })
         } </div>
         if(props.detachment.extras != undefined) {
+            const extrasShape = config.extras ?? [];
             extras = <div>{
-                props.detachment.extras.map((u, i) => {
+                props.detachment.extras.
+                    filter((u) => {
+                        const extraShape = extrasShape.find((s) => s.name === u.name);
+                        if(extraShape === undefined) return false;
+                        return extraShape.formationNames === undefined || extraShape.formationNames.findIndex((s)=>s===formationName) != -1
+                    }).
+                    map((u, i) => {
                     return <DetachmentExtraWidget uuid={props.uuid} detachmentIndex={props.detachmentIndex}
                         detachmentExtraIndex={i} key={i} extraName={u.name} 
                         has={u.has} points={u.points} editable={props.editable}/>

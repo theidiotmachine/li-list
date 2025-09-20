@@ -249,6 +249,7 @@ export type Army = {
 export type DetachmentExtraShape = {
     name: string;
     points: number;
+    formationNames?: FormationName[];
 }
 
 //this is a top level box in the lists
