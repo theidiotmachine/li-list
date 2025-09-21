@@ -10,15 +10,18 @@ const tankCommanderValidation = (formation: Formation, detachmentIndex: number):
 
     //we want exactly one tank commander in the required slots
     let totalNumTankCommanders = 0;
+    let thisHasTankCommander = false;
     for(let i = 0; i < 3; ++i) {
         const detachment = formation.detachments[i];
         let numTankCommanders = 0;
 
         numTankCommanders = detachment.extras?.filter((e) => e.name == "Tank Commander" && e.has)?.length ?? 0;
+        if(i == detachmentIndex && numTankCommanders != 0)
+            thisHasTankCommander = true;
         totalNumTankCommanders += numTankCommanders;
     }
 
-    if(totalNumTankCommanders != 1)
+    if(totalNumTankCommanders != 1 && thisHasTankCommander)
         return {valid: false, error: "Tank Commander rules broken", data : "must have one Tank Commander in this Formation"};
     
     return {valid: true};

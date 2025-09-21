@@ -34,6 +34,7 @@ export type WeaponType =
     "Demolisher cannon" |
     "Demolition charge" |
     "Destroyer bomb bay" |
+    "Domitar missile launcher" |
     "Errax lascutters" |
     "Errax meltagun" |
     "Executioner plasma cannon" |

@@ -2,6 +2,7 @@ export const MechanicumFormationNames = [
     "Autokratorii Regiment",
     "Ordo Reductor Subdivision",
     "Legio Cybernetica Cohort",
+    "Myrmidax Conclave",
     "Taghma Sub-covenant",
 
     //support formations
@@ -23,6 +24,7 @@ export type MechanicumSlot =
     "Adsecularis Tech-Thrall Covenant" |
     "Extra Tech-Priest Auxilia" |
     "Support Legio Cybernetica Cohort" |
+    "Support Myrmidax Conclave" |
     "Tech-Priest Auxilia" |
     "Vanguard Legio Cybernetica Cohort"
 ;

@@ -4,45 +4,22 @@ import { StrategicAssetDetachmentName } from "./strategicAssetTypes.ts";
 import { Allegiance, DetachmentConfiguration, DetachmentName, DetachmentValidationState, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const cortexControllerValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
-    if(detachmentIndex > 2) {
-        return { valid: true };
-    }
+    if(detachmentIndex > 2)
+        return {valid: true};
 
     //we want exactly one cortex controller in the required slots
     let totalNumCortexControllers = 0;
-    let numCortexControllersInThisDetachment = 0;
+    let thisHasTankCommander = false;
+
     for(let i = 0; i < 3; ++i) {
         const detachment = formation.detachments[i];
-        let numCortexControllers = 0;
-
-        for(let j = 0; j < detachment.modelGroups.length; ++j){
-            const modelGroup = detachment.modelGroups[j];
-
-            for(let k = 0; k < modelGroup.modelLoadoutGroups.length; ++k) {
-                const modelLoadoutGroup = modelGroup.modelLoadoutGroups[k];
-
-                const slot = modelLoadoutGroup.modelLoadoutSlots.find((t)=>t.name == "Cortex Controller");
-                if(slot != undefined) {
-                    if(slot.modelLoadout.loadout == "Cortex Controller") {
-                        numCortexControllers += modelLoadoutGroup.number;
-                        if(detachmentIndex == i)
-                            numCortexControllersInThisDetachment += modelLoadoutGroup.number;
-                    }
-                }
-            }
-        }
-
-        if(i == detachmentIndex && numCortexControllersInThisDetachment > 1)
-            return { 
-                valid: false, 
-                error: "Cortex Controller rules broken", 
-                data : "should have maximum one optional Cortex Controller, found " + numCortexControllersInThisDetachment.toString() + " in this detachment"
-            };
-
+        const numCortexControllers = detachment.extras?.filter((e) => e.name == "Cortex Controller" && e.has)?.length ?? 0;
+        if(numCortexControllers != 0 && i == detachmentIndex)
+            thisHasTankCommander = true;
         totalNumCortexControllers += numCortexControllers;
     }
 
-    if(totalNumCortexControllers > 1 && numCortexControllersInThisDetachment > 0)
+    if(totalNumCortexControllers > 1 && thisHasTankCommander)
         return {valid: false, error: "Cortex Controller rules broken", data : "should have maximum one optional Cortex Controller"};
 
     return {valid: true};
@@ -56,9 +33,7 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
             {slot: "Battle Tank",           slotRequirementType: "Required"},       //1
             {slot: "Battle Tank",           slotRequirementType: "Required"},       //2
             {slot: "HQ",                    slotRequirementType: "Optional"},       //3
-            {slot: "Tech-Priest Auxilia",   slotRequirementType: "Optional",        //4
-                displayName: "Tech-Priest"
-            },       
+            {slot: "Support",               slotRequirementType: "Optional"},       //4
             {slot: "Transport",             slotRequirementType: "Optional"},       //5
             {slot: "Support",               slotRequirementType: "Optional"},       //6
             {slot: "Support",               slotRequirementType: "Optional"},       //7
@@ -147,6 +122,29 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
             {slot: "Titan",                 slotRequirementType: "Optional"},
         ]
     }], 
+    ["Myrmidax Conclave", {
+        slotRequirements: [
+            {slot: "HQ",                    slotRequirementType: "Required"},
+            {slot: "Support Myrmidax Conclave",
+                displayName: "Support",
+                slotRequirementType: "Required" 
+            },
+            {slot: "Support Myrmidax Conclave",
+                displayName: "Support",
+                slotRequirementType: "Required" 
+            },
+            {slot: "HQ",                    slotRequirementType: "Optional"},
+            {slot: "Transport",             slotRequirementType: "Optional" },
+            {slot: "Support Myrmidax Conclave",
+                displayName: "Support",
+                slotRequirementType: "Optional" 
+            },
+            {slot: "Support Myrmidax Conclave",
+                displayName: "Support",
+                slotRequirementType: "Optional" 
+            },
+        ]
+    }],
     ["Ordo Reductor Subdivision", {
         slotRequirements: [
             {slot: "HQ",                    slotRequirementType: "Required"},       //0
@@ -557,7 +555,10 @@ const mechDetachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentNa
         "Castellax Battle-automata Maniple",
         "Domitar Battle-automata Maniple",
     ]],
-    ["Tech-Priest Auxilia", ["Tech-Priest Auxilia"]],
+    ["Support Myrmidax Conclave", [
+        "Myrmidon Destructor Host",
+        "Myrmidon Secutor Host",
+    ]],
     ["Transport", ["Triaros Armoured Conveyor"]],
     ["Vanguard", [
         "Ursarax Cohort",
@@ -641,30 +642,30 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     //mech
     ["Archmagos Prime", {modelGroupShapes: [
         {modelName: "Archmagos Prime", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 15}
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 22}
         ]},
     ]}],
     ["Archmagos Prime on Abeyant", {modelGroupShapes: [
         {modelName: "Archmagos on Abeyant", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 45}]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 15}
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 22}
         ]},
     ]}],
     ["Adsecularis Tech-Thrall Covenant", {modelGroupShapes: [
         {modelName: "Tech-thrall", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 4, points: 30}, {num: 6, points: 30+12}, {num: 8, points: 30+22}, {num: 10, points: 30+30}
+            {num: 5, points: 40}, {num: 5+5, points: 40+35}, {num: 5+10, points: 40+70}
         ]},
         {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}, {num: 3, points: 15*3}
+            {num: 0, points: 0}, {num: 2, points: 22*2}, {num: 3, points: 22*3}, {num: 4, points: 22*4}
         ]},
     ]}],
     ["Thallax Cohort", {modelGroupShapes: [
         {modelName: "Thallax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 25}, {num: 4, points: 25+25}, {num: 6, points: 25+40}, {num: 8, points: 25+60}
+            {num: 2, points: 25}, {num: 4, points: 25+20}, {num: 6, points: 25+40}, {num: 8, points: 25+60}
         ]},
         {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}
+            {num: 0, points: 0}, {num: 1, points: 22}, {num: 2, points: 22*2}
         ]},
     ]}],
     ["Tech-Priest Auxilia", {modelGroupShapes: [
@@ -672,20 +673,20 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 1, points: 15}
         ]},
         {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 15}
+            {num: 0, points: 0}, {num: 1, points: 22}
         ]},
     ]}],
     ["Myrmidon Secutor Host", {modelGroupShapes: [
         {modelName: "Myrmidon Secutor", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+0}, {num: 8, points: 30+60}
+            {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+50}, {num: 8, points: 30+75}
         ]},
         {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}
+            {num: 0, points: 0}, {num: 1, points: 22}, {num: 2, points: 22*2}
         ]},
     ]}],
     ["Myrmidon Destructor Host", {modelGroupShapes: [
         {modelName: "Myrmidon Destructor", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+0}, {num: 8, points: 30+60}
+            {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+50}, {num: 8, points: 30+75}
         ]},
         {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}
@@ -705,23 +706,23 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     ]}],
     ["Castellax Battle-automata Maniple", {modelGroupShapes: [
         {modelName: "Castellax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 70}, {num: 2+2, points: 70+70}, {num: 2+4, points: 70+130}, {num: 2+6, points: 70+180},
+            {num: 2, points: 70}, {num: 2+2, points: 70+65}, {num: 2+4, points: 70+130}, {num: 2+6, points: 70+180},
         ]},
     ]}],
     ["Ursarax Cohort", {modelGroupShapes: [
         {modelName: "Thallax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 2, points: 20}, {num: 4, points: 20+20}, {num: 6, points: 20+35}, {num: 8, points: 20+50}
+            {num: 2, points: 30}, {num: 4, points: 30+25}, {num: 6, points: 30+50}, {num: 8, points: 30+75}
         ]}
     ]}],
     ["Vorax Battle-automata Maniple", {modelGroupShapes: [
         {modelName: "Vorax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 40}, {num: 1+1, points: 40+40}, {num: 1+2, points: 40+70}, {num: 1+1+2, points: 40+40+70},
-            {num: 1+4, points: 40+105}, {num: 1+1+4, points: 40+40+105},
+            {num: 1, points: 40}, {num: 1+1, points: 40+35}, {num: 1+2, points: 40+70}, {num: 1+1+2, points: 40+35+70},
+            {num: 1+4, points: 40+105}, {num: 1+1+4, points: 40+35+105},
         ]},
     ]}],
     ["Vultarax Battle-automata Squadron", {modelGroupShapes: [
         {modelName: "Vultarax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
-            {num: 1, points: 35}, {num: 1+1, points: 35+35}, {num: 1+2, points: 35+60}, {num: 1+3, points: 35+85},
+            {num: 1, points: 35}, {num: 1+1, points: 35+30}, {num: 1+2, points: 35+60}, {num: 1+3, points: 35+85},
         ]},
     ]}],
     ["Thanatar Siege-automata Maniple", {minModels: 1, maxModels: 8, modelGroupShapes: [
@@ -731,20 +732,17 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {loadout: "Heavy-las and Graviton ram", points: 5},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 2, points: 110}, {num: 2+1, points: 110+55}, {num: 2+2, points: 110+100}, {num: 2+1+2, points: 110+55+100},
-            {num: 2+4, points: 110+185}, {num: 2+1+4, points: 110+55+185}, {num:2+2+4, points: 110+100+185}
+            {num: 2, points: 110}, {num: 2+1, points: 110+50}, {num: 2+2, points: 110+100}, {num: 2+1+2, points: 110+50+100},
+            {num: 2+4, points: 110+185}, {num: 2+1+4, points: 110+50+185}, {num:2+2+4, points: 110+100+185}
         ]},
     ]}],
     ["Karacnos Assault Tank Squadron", {minModels: 1, modelGroupShapes: [
-        {modelName: "Karacnos", modelLoadoutSlots: [
-            {name: "Cortex Controller", formationNames: ["Autokratorii Regiment"], notAWeapon: true, possibleModelLoadouts: [
-                {loadout: "No", points: 0}, {loadout: "Cortex Controller", points: 10, unitTraits: ["Cortex Controller"]}, 
-            ]}
-        ], possibleModelGroupQuantities: [
-            {num: 1, points: 40}, {num: 2, points: 40+40}, {num: 3, points: 40+70}, {num: 4, points: 40+100}
+        {modelName: "Karacnos", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 40}, {num: 2, points: 40+35}, {num: 3, points: 40+70}, {num: 4, points: 40+100}
         ]}
-    ]}],
-    ["Krios Battle Tank Squadron", {minModels: 3, maxModels: 9, modelGroupShapes: [
+        ], extras: [{name: "Cortex Controller", slotRequirementType: "Required", points: 10, formationNames:["Autokratorii Regiment"]}] 
+    }],
+    ["Krios Battle Tank Squadron", {modelGroupShapes: [
         {modelName: "Krios", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts: [
                 {loadout: "Krios lightning cannon", points: 0}, 
@@ -755,20 +753,22 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             {num: 6, points: 100+90},
             {num: 9, points: 100+170}, 
         ]}
-    ]}],
-    ["Krios Venator Squadron", {minModels: 3, maxModels: 9, modelGroupShapes: [
+        ], extras: [{name: "Cortex Controller", slotRequirementType: "Required", points: 10, formationNames:["Autokratorii Regiment"]}]
+    }],
+    ["Krios Venator Squadron", {modelGroupShapes: [
         {modelName: "Krios Venator", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 60},
-            {num: 2+2, points: 60+60},
+            {num: 2+2, points: 60+55},
             {num: 2+4, points: 60+110}, 
             {num: 2+6, points: 60+160}, 
         ]}
-    ]}],
+        ], extras: [{name: "Cortex Controller", slotRequirementType: "Required", points: 10, formationNames:["Autokratorii Regiment"]}]
+    }],
     ["Triaros Armoured Conveyor", {minModels: 1, modelGroupShapes: [
         {modelName: "Triaros", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             //p128 - max transport size is 8
-            {num: 1, points: 15*1}, {num: 2, points: 15*2}, {num: 3, points: 15*3}, {num: 4, points: 15*4}, 
-            {num: 5, points: 15*5}, {num: 6, points: 15*6}, {num: 7, points: 15*7}, {num: 8, points: 15*8}, 
+            {num: 1, points: 22*1}, {num: 2, points: 22*2}, {num: 3, points: 22*3}, {num: 4, points: 22*4}, 
+            {num: 5, points: 22*5}, {num: 6, points: 22*6}, {num: 7, points: 22*7}, {num: 8, points: 22*8}, 
         ]}
     ]}],
     //dark mech
@@ -901,13 +901,13 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
         unitTraits: ["Armoured", "Cybernetica Cortex (Advance, March)"],
     }],
     ["Domitar", {
-        detachmentType: "Walker", scale: 1, move: 7, saves: [
+        detachmentType: "Walker", scale: 1, move: 5, saves: [
             {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 6, arc: "All"}
         ],
         caf: 4, wounds: 2, tacticalStrength: 3,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
-                {loadout: "", weaponTypes: ["Missile launchers", "Graviton hammers"]}
+                {loadout: "", weaponTypes: ["Domitar missile launcher", "Graviton hammers"]}
             ]},
         ],
         unitTraits: ["Armoured", "Cybernetica Cortex (Advance, March)"],

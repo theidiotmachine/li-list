@@ -384,6 +384,20 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: ["Bombing Run"]
         }
     ]}],
+    ["Domitar missile launcher", {arc: "All", weaponStatsAtRange: [
+        {minRange: 0, maxRange: 20, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: 0, wounds: 1},
+            traits: ["Ignores Cover", "Light"],
+        },
+        {minRange: 0, maxRange: 20, dice: 1, hit: 4, 
+            infAndCav: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
+            vShvKT: {modifier: -1, wounds: 1},
+            ionShield: {modifier: 0, wounds: 1},
+            traits: ["Anti-tank"], voidShields: 1
+        }
+    ]}],
     ["Errax lascutters", {arc: "Front", weaponStatsAtRange: [
         {minRange: 0, maxRange: 4, dice: 1, hit: 4, 
             infAndCav:{modifier: 0, wounds: 1}, 
@@ -1071,7 +1085,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
         },
         {minRange: 0, maxRange: 20, dice: 1, hit: 4, 
             infAndCav: {modifier: 0, wounds: 1},
-            walker: {modifier: 0, wounds: 1},
+            walker: {modifier: -1, wounds: 1},
             vShvKT: {modifier: -1, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             traits: ["Anti-tank"], voidShields: 1
@@ -1491,7 +1505,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
         }
     ]}],
     ["Rotor cannon", {arc: "All", weaponStatsAtRange: [
-        {minRange: 0, maxRange: 12, dice: 4, hit: 5,
+        {minRange: 0, maxRange: 12, dice: 3, hit: 5,
             infAndCav: {modifier: -1, wounds: 1},
             walker: {modifier: -1, wounds: 1},
             traits: ["Light", "Rapid Fire"]
