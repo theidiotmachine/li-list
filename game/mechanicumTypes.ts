@@ -34,7 +34,8 @@ export type DarkMechanicumSlot =
     "Ironbound Ruinhost Bastion" |
     "Ironbound Ruinhost HQ" |
     "Ironbound Ruinhost Support" |
-    "Ironbound Ruinhost Vanguard"
+    "Ironbound Ruinhost Vanguard" |
+    "Vanguard Swarm Protocol Cohort"
 ;
 
 export type MechanicumDetachmentName = 

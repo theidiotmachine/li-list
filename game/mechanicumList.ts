@@ -398,9 +398,12 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
     }],
     ["Swarm Protocol Cohort", {
         slotRequirements: [
-            {slot: "Vanguard",              slotRequirementType: "Required"},
-            {slot: "Vanguard",              slotRequirementType: "Required"},
-            {slot: "Vanguard",              slotRequirementType: "Required"},
+            {slot: "Vanguard Swarm Protocol Cohort",              
+                slotRequirementType: "Required"},
+            {slot: "Vanguard Swarm Protocol Cohort",              
+                slotRequirementType: "Required"},
+            {slot: "Vanguard Swarm Protocol Cohort",              
+                slotRequirementType: "Required"},
             {slot: "Vanguard",              slotRequirementType: "Optional"},
             {slot: "Vanguard",              slotRequirementType: "Optional"},
             {slot: "Vanguard",              slotRequirementType: "Optional"},
@@ -422,7 +425,7 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
             {slot: "Warhound",              slotRequirementType: "One Of",          //8      
                 oneOfGroup: 1
             },
-            {slot: "Acastus",               slotRequirementType: "One Of",          //9
+            {slot: "Knight",               slotRequirementType: "One Of",          //9
                 oneOfGroup: 1
             },
         ]
@@ -628,6 +631,9 @@ const darkMechDetachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachm
         "Harpax 'Swarmer' Scout Host",
         "Ursarax Cohort",
     ]],
+    ["Vanguard Swarm Protocol Cohort", [
+        "Harpax 'Swarmer' Scout Host",
+    ]],
 ]);
 
 //The dark mechanicum can also call on knights and titans, as well regular mech
@@ -642,13 +648,13 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
     //mech
     ["Archmagos Prime", {modelGroupShapes: [
         {modelName: "Archmagos Prime", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 25}]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Dark Taghma Sub-covenant", "Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 22}
         ]},
     ]}],
     ["Archmagos Prime on Abeyant", {modelGroupShapes: [
         {modelName: "Archmagos on Abeyant", modelLoadoutSlots: [], possibleModelGroupQuantities: [{num: 1, points: 45}]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Dark Taghma Sub-covenant", "Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 22}
         ]},
     ]}],
@@ -656,7 +662,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelName: "Tech-thrall", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 5, points: 40}, {num: 5+5, points: 40+35}, {num: 5+10, points: 40+70}
         ]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Dark Taghma Sub-covenant", "Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 2, points: 22*2}, {num: 3, points: 22*3}, {num: 4, points: 22*4}
         ]},
     ]}],
@@ -664,7 +670,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelName: "Thallax", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 25}, {num: 4, points: 25+20}, {num: 6, points: 25+40}, {num: 8, points: 25+60}
         ]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Dark Taghma Sub-covenant", "Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 22}, {num: 2, points: 22*2}
         ]},
     ]}],
@@ -672,7 +678,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelName: "Tech-Priest", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 1, points: 15}
         ]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Dark Taghma Sub-covenant", "Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 22}
         ]},
     ]}],
@@ -680,7 +686,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelName: "Myrmidon Secutor", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+50}, {num: 8, points: 30+75}
         ]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Dark Taghma Sub-covenant", "Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 22}, {num: 2, points: 22*2}
         ]},
     ]}],
@@ -688,7 +694,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         {modelName: "Myrmidon Destructor", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 30}, {num: 2+2, points: 30+25}, {num: 2+4, points: 30+50}, {num: 8, points: 30+75}
         ]},
-        {modelName: "Triaros", dedicatedTransport: true, formationNames: [], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Dark Taghma Sub-covenant", "Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 0, points: 0}, {num: 1, points: 15}, {num: 2, points: 15*2}
         ]},
     ]}],
@@ -780,7 +786,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {loadout: "Storm laser", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 75}, {num: 1+1, points: 75+75}, {num: 1+2, points: 75+130}, 
+            {num: 1, points: 75}, {num: 1+1, points: 75+70}, {num: 1+2, points: 75+130}, 
             {num: 1+3, points: 75+190}, {num: 1+2+2, points: 75+130+130}, {num: 1+2+3, points: 75+130+190}
         ]},
     ]}],
@@ -792,26 +798,23 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {loadout: "Errax lascutters", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 45}, {num: 1+1, points: 45+45}, {num: 1+2, points: 45+80}, 
+            {num: 1, points: 45}, {num: 1+1, points: 45+40}, {num: 1+2, points: 45+80}, 
             {num: 1+3, points: 45+115}, {num: 1+2+2, points: 45+80+80}, {num: 1+2+3, points: 45+80+115},
             {num: 1+3+3, points: 45+115+115}, {num: 1+1+3+3, points: 45+45+115+115}, 
             {num: 1+2+3+3, points: 45+80+115+115},
         ]},
     ]}],
-    ["Harpax 'Swarmer' Scout Host", {minModels: 2, maxModels: 10, modelGroupShapes: [
+    ["Harpax 'Swarmer' Scout Host", {modelGroupShapes: [
         {modelName: "Harpax", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts: [
                 {loadout: "Exo-planar repeaters", points: 0},
                 {loadout: "Harpax lascutters", points: 0},
             ]},
-            {name: "Controller Host", formationNames: ["Swarm Protocol Cohort"], formationSlotRequirement: "Required", 
-                notAWeapon: true, possibleModelLoadouts: [
-                    {loadout: "", points: 0}, {loadout: "Controller Host", points: 15, unitTraits: ["Noosphere Controller"]}, 
-                ]}
         ], possibleModelGroupQuantities: [
             {num: 4, points: 30}, {num: 4+2, points: 30+15}, {num: 4+4, points: 30+25}, {num: 4+6, points: 30+35}
         ]}
-    ]}],
+        ], extras: [{name: "Controller Host", slotRequirementType: "Required", points: 15, formationNames:["Swarm Protocol Cohort"]}] 
+    }],
     ["Tenebrax 'Archer' Battle Stalker Cohort", {minModels: 1, maxModels: 6, modelGroupShapes:[
         {modelName: "Tenebrax", modelLoadoutSlots: [
             {name: "Primary", possibleModelLoadouts: [
@@ -836,7 +839,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             ]},
         ], possibleModelGroupQuantities: [
             {num: 2, points: 175}, {num: 2+1, points: 175+85}, {num: 2+2, points: 175+150}, 
-            {num: 2+3, points: 175+230}, {num: 2+1+3, points: 175+85+230}
+            {num: 2+3, points: 175+225}, {num: 2+1+3, points: 175+150+150}
         ]}
     ]}],
 ]);
