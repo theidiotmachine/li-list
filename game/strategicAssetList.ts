@@ -672,7 +672,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 {loadout: "Warhound swarmer missiles", points: 0},
             ]}
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 330}, {num: 2, points: 660}, {num: 3, points: 330+640}
+            {num: 1, points: 300}, {num: 2, points: 600}, {num: 3, points: 300+600}
         ]},
     ]}],
     ["Dire Wolf Heavy Scout Titan", {modelGroupShapes: [
@@ -683,7 +683,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 {loadout: "Volcano cannon", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 385}
+            {num: 1, points: 350}
         ]},
     ]}],
     ["Reaver Battle Titan", {modelGroupShapes: [
@@ -714,7 +714,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 {loadout: "Reaver conversion beam dissolutor", points: 0},
             ]}
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 415}
+            {num: 1, points: 400}
         ]},
     ]}],
     ["Warbringer Nemesis Titan", {modelGroupShapes: [
@@ -814,7 +814,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 {loadout: "Plasma blastgun", points: 0},
             ]},
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 750}
+            {num: 1, points: 850}
         ]}
     ]}],
     ["Warmaster Iconoclast Titan", {modelGroupShapes: [
@@ -840,7 +840,7 @@ const detachmentConfigurationForDetachmentName: Map<StrategicAssetDetachmentName
                 {loadout: "Kirus grav imploder", points: 10},
             ]}
         ], possibleModelGroupQuantities: [
-            {num: 1, points: 750}
+            {num: 1, points: 850}
         ]}
     ]}]
 ]);
@@ -1071,7 +1071,7 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 10, wounds: 4, tacticalStrength: 0, voidShields: 2,
+        caf: 10, wounds: 5, tacticalStrength: 0, voidShields: 2,
         modelLoadoutSlots: [
             {name: "", possibleModelLoadouts: [
                 {loadout: "", weaponTypes: ["Ardex mega-bolters"]}
@@ -1089,7 +1089,7 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 12, wounds: 5, tacticalStrength: 0, voidShields: 4,
+        caf: 12, wounds: 6, tacticalStrength: 0, voidShields: 4,
         modelLoadoutSlots: [{name: "Left", possibleModelLoadouts: [
             {loadout: "Reaver chainfist"}, //TODO
             {loadout: "Reaver gatling blaster"}, //TODO
@@ -1122,7 +1122,7 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 12, wounds: 5, tacticalStrength: 0, voidShields: 6,
+        caf: 12, wounds: 6, tacticalStrength: 0, voidShields: 6,
         modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],
@@ -1131,7 +1131,7 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 10, wounds: 4, tacticalStrength: 0, voidShields: 2,
+        caf: 10, wounds: 5, tacticalStrength: 0, voidShields: 2,
         modelLoadoutSlots: [{name: "Left", possibleModelLoadouts: [
             {loadout: "Conversion beam dissolutor"},
             {loadout: "Graviton eradicator"},
@@ -1163,20 +1163,20 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
         unitTraits: ["Agile"],
     }],
     ["Warlord Battle Titan", {
-        detachmentType: "Titan", scale: 5, move: 10, saves: [
+        detachmentType: "Titan", scale: 5, move: 5, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 14, wounds: 6, tacticalStrength: 0, voidShields: 6,
+        caf: 14, wounds: 7, tacticalStrength: 0, voidShields: 8,
         modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],
     ["Warlord-Sinister", {
-        detachmentType: "Titan", scale: 5, move: 10, saves: [
+        detachmentType: "Titan", scale: 5, move: 5, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Rear"},
         ],
-        caf: 14, wounds: 6, tacticalStrength: 0, voidShields: 6,
+        caf: 14, wounds: 7, tacticalStrength: 0, voidShields: 6,
         modelLoadoutSlots: [], //TODO
         unitTraits: ["Dread Aura (8)", "Loyalist", "Nechrotechnica"],
     }],
@@ -1185,7 +1185,7 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {saveType: "Armour", save: 1, arc: "Front"},
             {saveType: "Armour", save: 2, arc: "Rear"},
         ],
-        caf: 18, wounds: 7, tacticalStrength: 0, voidShields: 12,
+        caf: 18, wounds: 8, tacticalStrength: 0, voidShields: 12,
         modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],
@@ -1194,7 +1194,7 @@ const statsForModelType = new Map<StrategicAssetModelName, Stats>([
             {saveType: "Armour", save: 1, arc: "Front"},
             {saveType: "Armour", save: 2, arc: "Rear"},
         ],
-        caf: 18, wounds: 7, tacticalStrength: 0, voidShields: 12,
+        caf: 18, wounds: 8, tacticalStrength: 0, voidShields: 12,
         modelLoadoutSlots: [], //TODO
         unitTraits: [],
     }],

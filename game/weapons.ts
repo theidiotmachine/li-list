@@ -1273,7 +1273,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             walker: {modifier: 0, wounds: 1}, traits: ["Assault", "Light", "Point Defence"]}
     ]}],
     ["Plasma blastgun", {arc: "Front", weaponStatsAtRange: [
-        {minRange: 0, maxRange: 20, dice: 2, hit: 3, 
+        {minRange: 0, maxRange: 20, dice: 3, hit: 3, 
             infAndCav: {modifier: -3, wounds: 1},
             walker: {modifier: -3, wounds: 1},
             vShvKT: {modifier: -3, wounds: 1},
