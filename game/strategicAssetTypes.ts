@@ -52,17 +52,15 @@ export type QuestorisFamiliaFormationSlot =
 ;
 
 export type StrategicAssetDetachmentName = 
-    //general knight detachments
-    "Acastus Knight Banner" |
+    //knight detachments
+    "Acastus Knight Asterius Banner" |
+    "Acastus Knight Porphyrion Banner" |
     "Cerastus Knight Banner" |
+    "Cerastus Knight Atrapos Banner" |
     "Questoris Knight Banner" |
-
-    //specialised for the familia
-    "Armiger Knight Banner" |
-    //this isn't actually a detachment, but it makes it much easier
-    "Moirax Knight Banner" |
-    //this isn't actually a detachment, but it makes it much easier
-    "Bonded Questoris Knight Banner" |
+    "Knight Armiger Banner" |
+    "Mechanicum Moirax Knight Banner" |
+    "Questoris Mechanicum Knight Banner" |
 
     //titans
     "Dire Wolf Heavy Scout Titan" |

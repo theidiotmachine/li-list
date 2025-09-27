@@ -171,7 +171,6 @@ const weapons = new Map<WeaponType, WeaponStats>([
             traits: []
         }
     ]}],
-    
     ["Bolt pistols", {arc: "All", weaponStatsAtRange: [
         {minRange: 0, maxRange: 6, dice: 1, hit: 5, 
             infAndCav: {modifier: 0, wounds: 1},
@@ -941,7 +940,7 @@ const weapons = new Map<WeaponType, WeaponStats>([
             walker: {modifier: -2, wounds: 1},
             vShvKT: {modifier: -2, wounds: 1},
             ionShield: {modifier: -1, wounds: 1},
-            traits: ["Blast (3\")"], voidShields: 1
+            traits: [], voidShields: 1
         }
     ]}],
     ["Lightning guns", {arc: "All", weaponStatsAtRange: [
@@ -2001,9 +2000,9 @@ const weapons = new Map<WeaponType, WeaponStats>([
         }
     ]}],
     ["Volkite chieorovile", {arc: "Front", weaponStatsAtRange: [
-        {minRange: 0, maxRange: 12, dice: 3, 
-            infAndCav: {modifier: -1, wounds: 1},
-            walker: {modifier: -1, wounds: 1},
+        {minRange: 0, maxRange: 12, dice: 3, hit: 4,
+            infAndCav: {modifier: -2, wounds: 1},
+            walker: {modifier: -2, wounds: 1},
             vShvKT: {modifier: 0, wounds: 1},
             ionShield: {modifier: 0, wounds: 1},
             voidShields: 1,
