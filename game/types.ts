@@ -9,6 +9,8 @@ export type DetachmentValidationError =
     "Attached Deployment not attached to detachment" |
     "Commander not attached to detachment" |
     "Cortex Controller rules broken" |
+    "Invalid allegiance" |
+    "Invalid Legion name" |
     "Invalid loadouts of models in group" |
     "Invalid number of models in group" |
     "Multiple Commanders in Formation" | 
@@ -87,7 +89,7 @@ export type FormationSlot =
     "Support" | 
     "Titan" |
     "Transport" | 
-    "Vanguard" 
+    "Vanguard"
 ; 
 
 export type SlotRequirementType = 
@@ -112,11 +114,63 @@ export type SlotRequirements = {
 
 export type FormationType = "Normal" | "Support";
 
-export type FormationShape = {
-    formationType?: FormationType;
+export type StandardFormationShape = {
+    formationType: FormationType;
     slotRequirements: SlotRequirements[];
-    customValidation?: (Formation: Formation, detachmentIndex: number) => DetachmentValidationState
+    customValidation?: (Formation: Formation, detachmentIndex: number) => DetachmentValidationState;
+    allegiance?: Allegiance;
+    legionName?: LegionName;
 }
+
+export const EmptyStandardFormationShape: StandardFormationShape = {
+    formationType: "Normal",
+    slotRequirements: []
+}
+
+//a part of the model which can have a different weapon slotted in
+export type IconicModelLoadoutSlot = {
+    name: string;
+    loadout: string;
+}
+
+export type IconicModelLoadoutGroup = {
+    number: number;
+    modelLoadoutSlots: IconicModelLoadoutSlot[];
+};
+
+export type IconicModelGroup = {
+    modelName: ModelName;
+    
+    //groups of models with the same loadout, e.g. 1 group with havocs and 1 group with bolters
+    modelLoadoutGroups: IconicModelLoadoutGroup[];
+};
+
+export type IconicDetachmentRequirementType = "Required" | "Expanded";
+
+export type IconicDetachment = {
+    slot: FormationSlot;
+    iconicDetachmentRequirementType: IconicDetachmentRequirementType;
+    detachmentName: DetachmentName;
+    modelGroups: IconicModelGroup[];
+}
+
+export const EmptyIconicFormationShape: IconicFormationShape = {
+    formationType: "Iconic",
+    iconicDetachments: [],
+    points: 0,
+    expandedPoints: 0,
+}
+
+export type IconicFormationShape = {
+    formationType: "Iconic",
+    iconicDetachments: IconicDetachment[],
+    allegiance?: Allegiance;
+    legionName?: LegionName;
+    points: number;
+    expandedPoints: number;
+}
+
+export type FormationShape = StandardFormationShape | IconicFormationShape;
         
 export type DetachmentName = 
     AuxiliaDetachmentName | 
@@ -158,7 +212,7 @@ export type ModelGroupQuantity = {
 export type ModelLoadoutSlotShape = {
     name: string;
     possibleModelLoadouts: ModelLoadoutForSlot[];
-    formationType?: FormationName;
+    //formationType?: FormationName;
 }
 
 export type ModelGroupShape = {
@@ -229,6 +283,8 @@ export type Formation = {
     breakPoint: number;
     activations: number;
     legionName?: LegionName | "";
+    formationType: "Iconic" | "Normal" | "Support" | "",
+    iconicDetachmentRequirementType?: IconicDetachmentRequirementType;
 };
 
 export type Army = {

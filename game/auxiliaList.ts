@@ -1,7 +1,7 @@
 import { AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaModelName } from "./auxiliaTypes.ts";
 import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
 import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
-import { Detachment, DetachmentConfiguration, DetachmentValidationState, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
+import { Detachment, DetachmentConfiguration, DetachmentValidationState, EmptyStandardFormationShape, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const tankCommanderValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
     if(detachmentIndex > 2) {
@@ -29,7 +29,7 @@ const tankCommanderValidation = (formation: Formation, detachmentIndex: number):
 
 const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
     [ "Solar Auxilia Armoured Company", { 
-        customValidation: tankCommanderValidation,
+        customValidation: tankCommanderValidation, formationType: "Normal",
         slotRequirements: [
         {slot: "Battle Tank",       
             slotRequirementType: "Required"                 
@@ -47,7 +47,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         {   slot: "Artillery",          slotRequirementType: "One Of",  oneOfGroup: 1   },
         {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 1   },
     ]}],
-    ["Solar Auxilia Artillery Company", { slotRequirements: [
+    ["Solar Auxilia Artillery Company", {formationType: "Normal", slotRequirements: [
         {   slot: "HQ",                 slotRequirementType: "Required"                 },
         {   slot: "Artillery",          slotRequirementType: "Required"                 },
         {   slot: "Artillery",          slotRequirementType: "Required"                 },
@@ -58,7 +58,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         {   slot: "Bastion",            slotRequirementType: "Optional"                 },
     ]}],
     ["Solar Auxilia Leman Russ Spearhead", {
-        customValidation: tankCommanderValidation,
+        customValidation: tankCommanderValidation, formationType: "Normal",
         slotRequirements: [
             {   slot: "Leman Russ",     slotRequirementType: "Required"                 },
             {   slot: "Leman Russ",     slotRequirementType: "Required"                 },
@@ -68,7 +68,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
             {   slot: "Heavy Armour",   slotRequirementType: "Optional"                 },
             {   slot: "Air Support",    slotRequirementType: "Optional"                 },
     ]}],
-    ["Solar Auxilia Mechanised Infantry Sub-Cohort", {slotRequirements: [
+    ["Solar Auxilia Mechanised Infantry Sub-Cohort", {formationType: "Normal", slotRequirements: [
         {   slot: "HQ",                 slotRequirementType: "Required"                 },
         {   slot: "Support",            slotRequirementType: "Required"                 },
         {   slot: "Core",               slotRequirementType: "Required"                 },
@@ -78,7 +78,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         {   slot: "Air Support",        slotRequirementType: "Optional"                 },
         {   slot: "Support",            slotRequirementType: "Optional"                 },
     ]}],
-    [ "Solar Auxilia Pioneer Company", { slotRequirements: [
+    [ "Solar Auxilia Pioneer Company", {formationType: "Normal", slotRequirements: [
         {   slot: "HQ",                 slotRequirementType: "Required"                 },
         {   slot: "Bastion",            slotRequirementType: "Required"                 },
         {   slot: "Storm Section",      slotRequirementType: "Required"                 },
@@ -92,7 +92,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         {   slot: "Artillery",          slotRequirementType: "One Of",  oneOfGroup: 1   },
         {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 1   },
     ]}],
-    [ "Solar Auxilia Sub-Cohort", { slotRequirements: [
+    [ "Solar Auxilia Sub-Cohort", {formationType: "Normal", slotRequirements: [
         {   slot: "HQ",                 slotRequirementType: "Required"                 },
         {   slot: "Support",            slotRequirementType: "Required"                 },
         {   slot: "Auxilia Lasrifle",   slotRequirementType: "Required"                 },
@@ -111,7 +111,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         {   slot: "Air Support",        slotRequirementType: "One Of",  oneOfGroup: 2   },
     ]}],    
     [ "Solar Auxilia Super-Heavy Company", {
-        customValidation: tankCommanderValidation,
+        customValidation: tankCommanderValidation, formationType: "Normal",
         slotRequirements: [
         {slot: "Heavy Armour",        
             slotRequirementType: "Required"                 
@@ -130,7 +130,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         },
     ]}],
     [ "Solar Auxilia Titan Hunter Company", {
-        customValidation: tankCommanderValidation,
+        customValidation: tankCommanderValidation, formationType: "Normal",
         slotRequirements: [
         {   slot: "Auxilia Shadowsword", 
             slotRequirementType: "Required"
@@ -193,8 +193,8 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
 ])
 
 export function getShapeForAuxiliaFormationName(formationName: AuxiliaFormationName | ""): FormationShape {
-    if(formationName == "") return { slotRequirements: [] };
-    return formationShapes.get(formationName) ?? { slotRequirements: [] };
+    if(formationName == "") return EmptyStandardFormationShape;
+    return formationShapes.get(formationName) ?? EmptyStandardFormationShape;
 }
 
 const detachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachmentName|AuxiliaDetachmentName)[]>([

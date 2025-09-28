@@ -1,5 +1,5 @@
 import { useContext } from "preact/hooks";
-import { ArmyListName, DetachmentName, FormationName, ModelLoadoutGroup, ModelName } from "../game/types.ts";
+import { ArmyListName, DetachmentName, ModelLoadoutGroup, ModelName } from "../game/types.ts";
 import { ModelLoadoutSelect } from "./ModelLoadoutSelect.tsx";
 import { NumModelLoadoutSelect } from "./NumModelLoadoutSelect.tsx";
 import { AppState } from "../islands/App.tsx";
@@ -9,7 +9,6 @@ import { getDetachmentConfigurationForDetachmentName } from "../game/lists.ts";
 interface ModelLoadoutWidgetProps {
     uuid: string;
     armyListName: ArmyListName;
-    formationType: FormationName;
     detachmentIndex: number;
     groupSize: number;
     modelType: ModelName;
@@ -24,7 +23,7 @@ export function ModelLoadoutWidget(props: ModelLoadoutWidgetProps) {
     const { removeModelLoadoutGroup } = useContext(AppState);
     const config = getDetachmentConfigurationForDetachmentName(props.armyListName, props.detachmentName);
     const modelOptions = config?.modelGroupShapes.find((x)=>x.modelName == props.modelType);
-    const filteredModelLoadoutSlotShapes = modelOptions?.modelLoadoutSlots.filter((t)=>t.formationType==undefined || t.formationType==props.formationType);
+    const filteredModelLoadoutSlotShapes = modelOptions?.modelLoadoutSlots;
     if(filteredModelLoadoutSlotShapes == undefined)
         return <div>No data</div>
 

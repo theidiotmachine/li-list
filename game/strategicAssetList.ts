@@ -1,10 +1,10 @@
 import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
 import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
 import { CollegiaTitanicaFormationName, QuestorisFamiliaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelName } from "./strategicAssetTypes.ts";
-import { Allegiance, DetachmentConfiguration, FormationShape, FormationSlot, Stats } from "./types.ts";
+import { Allegiance, DetachmentConfiguration, EmptyStandardFormationShape, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, FormationShape>([
-    ["Axiom Battleline Maniple", {slotRequirements: [
+    ["Axiom Battleline Maniple", {formationType: "Normal", slotRequirements: [
         {slot: "Warlord", slotRequirementType: "Required"},
         {slot: "Reaver", slotRequirementType: "Required"},
         {slot: "Warhound", slotRequirementType: "Required"},
@@ -12,7 +12,7 @@ const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, F
         {slot: "Knight", slotRequirementType: "Optional"},
         {slot: "Knight", slotRequirementType: "Optional"},
     ]}],
-    ["Corsair Battleline Maniple", {slotRequirements: [
+    ["Corsair Battleline Maniple", {formationType: "Normal", slotRequirements: [
         {slot: "Reaver", slotRequirementType: "Required"},
         {slot: "Reaver", slotRequirementType: "Required"},
         {slot: "Reaver", slotRequirementType: "Optional"},
@@ -20,28 +20,28 @@ const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, F
         {slot: "Reaver", slotRequirementType: "Optional"},
         {slot: "Knight", slotRequirementType: "Optional"},
     ]}],
-    ["Ferox Light Maniple", {slotRequirements: [
+    ["Ferox Light Maniple", {formationType: "Normal", slotRequirements: [
         {slot: "Reaver", slotRequirementType: "Required"},
         {slot: "Warhound", slotRequirementType: "Required"},
         {slot: "Reaver", slotRequirementType: "Optional"},
         {slot: "Dire Wolf", slotRequirementType: "Optional"},
         {slot: "Knight", slotRequirementType: "Optional"},
     ]}],
-    ["Lupercal Light Maniple", {slotRequirements: [
+    ["Lupercal Light Maniple", {formationType: "Normal", slotRequirements: [
         {slot: "Warhound", slotRequirementType: "Required"},
         {slot: "Warhound", slotRequirementType: "Required"},
         {slot: "Dire Wolf", slotRequirementType: "Optional"},
         {slot: "Dire Wolf", slotRequirementType: "Optional"},
         {slot: "Knight", slotRequirementType: "Optional"},
     ]}],
-    ["Purgigatus Heavy Maniple", {slotRequirements: [
+    ["Purgigatus Heavy Maniple", {formationType: "Normal", slotRequirements: [
         {slot: "Warmaster", slotRequirementType: "Required"},
         {slot: "Warmaster", slotRequirementType: "Optional"},
         {slot: "Warlord", slotRequirementType: "Optional"},
         {slot: "Warbringer", slotRequirementType: "Optional"},
         {slot: "Warbringer", slotRequirementType: "Optional"},
     ]}],
-    ["Ruptura Battleline Maniple", {slotRequirements: [
+    ["Ruptura Battleline Maniple", {formationType: "Normal", slotRequirements: [
         {slot: "Warbringer", slotRequirementType: "Required"},
         {slot: "Warbringer", slotRequirementType: "Required"},
         {slot: "Reaver", slotRequirementType: "Optional"},
@@ -81,7 +81,7 @@ const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, F
 ]);
 
 const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, FormationShape>([
-    ["Barony Guard Lance", {slotRequirements: [
+    ["Barony Guard Lance", {formationType: "Normal", slotRequirements: [
         {slot: "Questoris", slotRequirementType: "Required"},
         {slot: "Questoris", slotRequirementType: "Required"},
         {slot: "Cerastus", slotRequirementType: "Required"},
@@ -90,7 +90,7 @@ const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, F
         {slot: "Armiger", slotRequirementType: "Optional"},
         {slot: "Armiger", slotRequirementType: "Optional"},
     ]}],
-    ["Bastion Lance", {slotRequirements: [
+    ["Bastion Lance", {formationType: "Normal", slotRequirements: [
         {slot: "Acastus", slotRequirementType: "Required"},
         {slot: "Acastus", slotRequirementType: "Required"},
         {slot: "Questoris", slotRequirementType: "Required"},
@@ -98,7 +98,7 @@ const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, F
         {slot: "Armiger", slotRequirementType: "Optional"},
         {slot: "Armiger", slotRequirementType: "Optional"},
     ]}],
-    ["Bonded Household Lance", {slotRequirements: [
+    ["Bonded Household Lance", {formationType: "Normal", slotRequirements: [
         {slot: "Mechanicum Questoris", slotRequirementType: "Required", displayName: "Questoris"},
         {slot: "Mechanicum Questoris", slotRequirementType: "Required", displayName: "Questoris"},
         {slot: "Mechanicum Questoris", slotRequirementType: "Optional", displayName: "Questoris"},
@@ -107,7 +107,7 @@ const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, F
         {slot: "Moirax", slotRequirementType: "Optional", displayName: "Armiger"},
         {slot: "Moirax", slotRequirementType: "Optional", displayName: "Armiger"},
     ]}],
-    ["Vanguard Lance", {slotRequirements: [
+    ["Vanguard Lance", {formationType: "Normal", slotRequirements: [
         {slot: "Cerastus", slotRequirementType: "Required"},
         {slot: "Cerastus", slotRequirementType: "Required"},
         {slot: "Armiger", slotRequirementType: "Required"},
@@ -164,27 +164,27 @@ const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, F
 ]);
 
 const strategicAssetFormationShapes = new Map<StrategicAssetFormationName, FormationShape>([
-    ["Knight Household Lance", {slotRequirements: [
-        {   slot: "Knight",     slotRequirementType: "Required" },
+    ["Knight Household Lance", {formationType: "Normal", slotRequirements: [
+        {slot: "Knight", slotRequirementType: "Required"},
     ]}],
-    ["Legion Support", {slotRequirements: [
-        {   slot: "Titan",      slotRequirementType: "Required" },
+    ["Legion Support", {formationType: "Normal", slotRequirements: [
+        {slot: "Titan", slotRequirementType: "Required"},
     ]}]
 ]);
 
 export function getShapeForCollegiaTitanicaFormationName(formationType: CollegiaTitanicaFormationName | ""): FormationShape {
-    if(formationType == "") return { slotRequirements: [] };
-    return collegiaTitanicaFormationShapes.get(formationType) ?? { slotRequirements: [] };
+    if(formationType == "") return EmptyStandardFormationShape;
+    return collegiaTitanicaFormationShapes.get(formationType) ?? EmptyStandardFormationShape;
 }
 
 export function getShapeForQuestorisFamiliaFormationName(formationType: QuestorisFamiliaFormationName | ""): FormationShape {
-    if(formationType == "") return { slotRequirements: [] };
-    return questorisFamiliaFormationShapes.get(formationType) ?? { slotRequirements: [] };
+    if(formationType == "") return EmptyStandardFormationShape;
+    return questorisFamiliaFormationShapes.get(formationType) ?? EmptyStandardFormationShape;
 }
 
 export function getShapeForStrategicAssetFormationName(formationType: StrategicAssetFormationName | ""): FormationShape {
-    if(formationType == "") return { slotRequirements: [] };
-    return strategicAssetFormationShapes.get(formationType) ?? { slotRequirements: [] };
+    if(formationType == "") return EmptyStandardFormationShape;
+    return strategicAssetFormationShapes.get(formationType) ?? EmptyStandardFormationShape;
 }
 
 type DetachmentNameData = {

@@ -1,15 +1,14 @@
 import { DetachmentNameSelect } from "./DetachmentNameSelect.tsx";
 import { getDetachmentConfigurationForDetachmentName, getShapeForFormationName } from "../game/lists.ts";
-import { NumModelSelect } from "./NumModelSelect.tsx";
 import { DetachmentValidityIcon, DetachmentValidityText } from "./DetachmentValidity.tsx";
-import { ModelLoadoutWidget } from "./ModelLoadoutWidget.tsx";
 import { useContext } from "preact/hooks";
 import { AppState } from "../islands/App.tsx";
-import { Allegiance, ArmyListName, Detachment, DetachmentName, FormationName, ModelGroup, ModelGroupShape } from "../game/types.ts";
+import { Allegiance, ArmyListName, Detachment, FormationName, ModelGroup, ModelGroupShape } from "../game/types.ts";
 import { DetachmentAttachmentSelect } from "./DetachmentAttachmentSelect.tsx";
-import { YesNoExtraSelect } from "./YesNoExtraSelect.tsx";
+import { ModelGroupWidget } from "./ModelGroupWidget.tsx";
+import { DetachmentExtraWidget } from "./DetachmentExtraWidget.tsx";
 
-function EditButton(props: { detachmentIndex: number, modelGroupShape: ModelGroupShape; uuid: string, modelGroup: ModelGroup }) {
+export function EditButton(props: { detachmentIndex: number, modelGroupShape: ModelGroupShape; uuid: string, modelGroup: ModelGroup }) {
     const {openModelGroup, closeModelGroup, modelGroupOpenState, getModelGroupKey} = useContext(AppState);
     if (modelGroupOpenState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, props.modelGroupShape.modelName))) 
         return <svg width="16" height="16" version="1.1" viewBox="0 0 4.2333 4.2333" xmlns="http://www.w3.org/2000/svg"
@@ -30,113 +29,10 @@ function EditButton(props: { detachmentIndex: number, modelGroupShape: ModelGrou
         </svg>
 }
 
-type ModelGroupWidgetProps = {
-    modelGroupShapeIndex: number;
-    modelGroupShape: ModelGroupShape;
-    modelGroup: ModelGroup;
-    uuid: string;
-    armyListName: ArmyListName;
-    formationType: FormationName;
-    detachmentIndex: number;
-    detachmentName: DetachmentName;
-    detachment: Detachment;
-    editable: boolean
-}
-function ModelGroupWidget(props: ModelGroupWidgetProps) {
-    const {addModelLoadoutGroup, modelGroupOpenState, getModelGroupKey} = useContext(AppState);
-
-    return <div 
-        class={"grid gap-[1%] grid-cols-[10%_78%_10%] md:gap-[0%] md:grid-cols-[20%_8%_62%_10%] dark:text-white " + ((props.modelGroupShapeIndex%2)?"bg-gray-50 dark:bg-gray-950 ":"bg-white dark:bg-black")}
-    >
-    {
-        //if there are no size options, or we manage it from loadouts, just present a number. 
-        (props.modelGroupShape.possibleModelGroupQuantities.length === 1 || props.modelGroupShape.modelLoadoutSlots.length > 0) ? ( 
-            <div class="col-start-1 md:col-start-2 flex items-center">
-                {props.modelGroup.number}
-                {(props.modelGroupShape.possibleModelGroupQuantities.length === 1 && props.modelGroupShape.modelLoadoutSlots.length == 0)?
-                    <div></div>: 
-                    <EditButton 
-                        detachmentIndex={props.detachmentIndex} modelGroupShape={props.modelGroupShape} uuid={props.uuid} modelGroup={props.modelGroup}
-                    />
-                }
-            </div> 
-        ) : (
-            <div class="col-start-1 md:col-start-2"><NumModelSelect 
-                uuid={props.uuid} armyListName={props.armyListName} detachmentIndex={props.detachmentIndex} modelType={props.modelGroupShape.modelName}
-                numModels={props.modelGroup.number} detachmentName={props.detachmentName} editable={props.editable}
-            />
-            </div>
-        )
-    }
-
-    <div class="col-start-2 md:col-start-3">
-        <a href={"unit/"+props.modelGroup.modelName} target="_blank" class="hover:underline">
-            {props.modelGroup.modelName + ((props.modelGroupShape.dedicatedTransport ? " (dedicated transport)": ""))}
-        </a>
-    </div>
-
-    <div class="col-start-3 md:col-start-4 text-right w-full">{props.modelGroup.points}</div> 
-
-    {
-        (props.modelGroupShape.modelLoadoutSlots.length > 0) ? (
-            <div class="contents">
-                <div class="col-start-1 col-span-4"
-                    hidden={(modelGroupOpenState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, props.modelGroupShape.modelName)))?false:true}>
-                    {props.modelGroup.modelLoadoutGroups.map((x, j)=>
-                        <ModelLoadoutWidget key={j} uuid={props.uuid} armyListName={props.armyListName}
-                            formationType={props.formationType} detachmentIndex={props.detachmentIndex} 
-                            modelType={props.modelGroupShape.modelName} detachmentName={props.detachmentName}
-                            modelLoadoutGroup={x} modelLoadoutGroupIndex={j} groupSize={x.number} 
-                            numModelLoadoutGroups={props.modelGroup.modelLoadoutGroups.length}
-                            editable={props.editable}
-                        />
-                    )}
-                </div>
-                <button type="button" class="w-full text-centre bg-blue-100 dark:bg-blue-900 col-start-2 md:col-start-3"
-                    hidden={
-                        !(modelGroupOpenState.value.has(getModelGroupKey(props.uuid, props.detachmentIndex, props.modelGroupShape.modelName)) && props.editable)
-                    }
-                    onClick={() => addModelLoadoutGroup(props.uuid, props.detachmentIndex, props.modelGroup.modelName)}>
-                    New Loadout Group
-                </button>
-            </div>
-        ) :
-            <div hidden></div>//sigh
-    } 
-
-    </div>
-}
-
-type DetachmentExtraWidgetProps = {
-    uuid: string;
-    detachmentIndex: number;
-    detachmentExtraIndex: number;
-    extraName: string;
-    points: number;
-    has: boolean;
-    editable: boolean
-}
-function DetachmentExtraWidget(props: DetachmentExtraWidgetProps) {
-    return <div 
-        class={"grid gap-[1%] grid-cols-[10%_78%_10%] md:gap-[0%] md:grid-cols-[20%_8%_62%_10%] dark:text-white " + ((props.detachmentExtraIndex%2)?"bg-gray-50 dark:bg-gray-950 ":"bg-white dark:bg-black")}
-    >
-        <div class="col-start-1 md:col-start-2">
-            <YesNoExtraSelect uuid={props.uuid} detachmentIndex={props.detachmentIndex} 
-                extraName={props.extraName} has={props.has} points={props.points} editable={props.editable}/>
-        </div>
-
-        <div class="col-start-2 md:col-start-3">
-            {props.extraName}
-        </div>
-
-        <div class="col-start-3 md:col-start-4 text-right w-full">{props.has?props.points:0}</div> 
-    </div>
-}
-
 interface DetachmentWidgetProps {
     uuid: string;
     armyListName: ArmyListName;
-    formationType: FormationName;
+    formationName: FormationName;
     detachmentIndex: number;
     detachment: Detachment;
     allegiance: Allegiance  | "";
@@ -148,6 +44,9 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
     const formationName = army.value.formations.find(x=>x.uuid == props.uuid)?.formationName ?? "";
 
     const shape = getShapeForFormationName(props.armyListName, formationName);
+    //handled elsewhere
+    if(shape.formationType === "Iconic")
+        return <div></div>
 
     let modelGroups = <div></div>;
     let extras = <div></div>
@@ -163,9 +62,9 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                     return <ModelGroupWidget 
                         modelGroupShapeIndex={i} modelGroupShape={u} uuid={props.uuid}
                         modelGroup={props.detachment.modelGroups[modelGroupIndex]}
-                        armyListName={props.armyListName} formationType={props.formationType} detachmentIndex={props.detachmentIndex}
+                        armyListName={props.armyListName} detachmentIndex={props.detachmentIndex}
                         detachmentName={detachmentName} detachment={props.detachment} key={i}
-                        editable={props.editable}
+                        editable={props.editable} formationType={shape.formationType}
                     />
                 })
         } </div>
@@ -240,6 +139,8 @@ export function DisabledDetachmentWidget(props: DisabledDetachmentWidgetProps) {
     const formationName = army.value.formations.find(x=>x.uuid == props.uuid)?.formationName ?? "";
 
     const shape = getShapeForFormationName(props.armyListName, formationName);
+    if(shape.formationType == "Iconic")
+        return <div></div>
 
     const slotDisplayName = (props.detachmentIndex+1).toString() 
         + ": " 

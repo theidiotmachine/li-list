@@ -7,7 +7,10 @@ export const LegionFormationNames = [
     "Legion Heavy Assault Spearhead",
     "Legion Sky-hunter Phalanx",
     "Legion Subterranean Assault",
+    //support
     "Brethren of Iron",
+    //iconic
+    "Seeker-Killer Clave Ultor",
 ] as const;
 export type LegionFormationName = (typeof LegionFormationNames)[number];
 

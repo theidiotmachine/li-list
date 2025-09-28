@@ -1,7 +1,7 @@
 import { DarkMechanicumDetachmentName, DarkMechanicumFormationName, DarkMechanicumModelName, MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName } from "./mechanicumTypes.ts";
 import { getQuestorisFamiliaDetachmentNamesForSlot, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
 import { StrategicAssetDetachmentName } from "./strategicAssetTypes.ts";
-import { Allegiance, DetachmentConfiguration, DetachmentName, DetachmentValidationState, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
+import { Allegiance, DetachmentConfiguration, DetachmentName, DetachmentValidationState, EmptyStandardFormationShape, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const cortexControllerValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
     if(detachmentIndex > 2)
@@ -27,7 +27,7 @@ const cortexControllerValidation = (formation: Formation, detachmentIndex: numbe
 
 const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
     ["Autokratorii Regiment", {
-        customValidation: cortexControllerValidation,
+        customValidation: cortexControllerValidation, formationType: "Normal",
         slotRequirements: [
             {slot: "Battle Tank",           slotRequirementType: "Required"},       //0
             {slot: "Battle Tank",           slotRequirementType: "Required"},       //1
@@ -73,7 +73,7 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
                 displayName: "Tech-Priest",
             }
     ]}],
-    ["Legio Cybernetica Cohort", {
+    ["Legio Cybernetica Cohort", {formationType: "Normal",
         slotRequirements: [
             {slot: "HQ",                    slotRequirementType: "Required"},
             {slot: "Core",                  slotRequirementType: "Required"},
@@ -122,7 +122,7 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
             {slot: "Titan",                 slotRequirementType: "Optional"},
         ]
     }], 
-    ["Myrmidax Conclave", {
+    ["Myrmidax Conclave", {formationType: "Normal",
         slotRequirements: [
             {slot: "HQ",                    slotRequirementType: "Required"},
             {slot: "Support Myrmidax Conclave",
@@ -145,7 +145,7 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
             },
         ]
     }],
-    ["Ordo Reductor Subdivision", {
+    ["Ordo Reductor Subdivision", {formationType: "Normal",
         slotRequirements: [
             {slot: "HQ",                    slotRequirementType: "Required"},       //0
             {slot: "Support",               slotRequirementType: "Required"},       //1
@@ -189,7 +189,7 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
             },
         ]
     }],
-    ["Taghma Sub-covenant", {
+    ["Taghma Sub-covenant", {formationType: "Normal",
         slotRequirements: [
             {slot: "HQ",                    slotRequirementType: "Required"},       //0
             {slot: "Adsecularis Tech-Thrall Covenant",                              //1
@@ -300,12 +300,12 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
 ]);
 
 export function getShapeForMechanicumFormationName(formationName: MechanicumFormationName | ""): FormationShape {
-    if(formationName == "") return { slotRequirements: [] };
-    return mechFormationShapes.get(formationName) ?? { slotRequirements: [] };
+    if(formationName == "") return EmptyStandardFormationShape;
+    return mechFormationShapes.get(formationName) ?? EmptyStandardFormationShape;
 }
 
 const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationShape>([
-    ["Dark Taghma Sub-covenant", {
+    ["Dark Taghma Sub-covenant", {formationType: "Normal",
         slotRequirements: [
             {slot: "HQ",                    slotRequirementType: "Required"},       //0
             {slot: "Support",               slotRequirementType: "Required"},       //1
@@ -369,7 +369,7 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
             },
         ]
     }],
-    ["Purge Protocol Cohort", {
+    ["Purge Protocol Cohort", {formationType: "Normal",
         slotRequirements: [
             {slot: "Heavy Armour",          slotRequirementType: "Required"},
             {slot: "Light Armour",          slotRequirementType: "Required"},
@@ -396,7 +396,7 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
             {slot: "Titan",                 slotRequirementType: "Optional"},
         ]
     }],
-    ["Swarm Protocol Cohort", {
+    ["Swarm Protocol Cohort", {formationType: "Normal",
         slotRequirements: [
             {slot: "Vanguard Swarm Protocol Cohort",              
                 slotRequirementType: "Required"},
@@ -412,7 +412,7 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
             {slot: "Knight",                slotRequirementType: "Optional"},
         ]
     }],
-    ["Terror Protocol Cohort", {
+    ["Terror Protocol Cohort", {formationType: "Normal",
         slotRequirements: [
             {slot: "HQ",                    slotRequirementType: "Required"},       //0
             {slot: "Vanguard",              slotRequirementType: "Required"},       //1
@@ -522,8 +522,8 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
 ]);
 
 export function getShapeForDarkMechanicumFormationName(formationName: DarkMechanicumFormationName | ""): FormationShape {
-    if(formationName == "") return { slotRequirements: [] };
-    return darkMechFormationShapes.get(formationName) ?? { slotRequirements: [] };
+    if(formationName == "") return EmptyStandardFormationShape;
+    return darkMechFormationShapes.get(formationName) ?? EmptyStandardFormationShape;
 }
 
 const mechDetachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]>([

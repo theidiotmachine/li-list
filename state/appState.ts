@@ -1,5 +1,5 @@
 import { Signal, signal, computed } from "@preact/signals";
-import { DetachmentName, FormationName, ModelName, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration } from "../game/types.ts";
+import { DetachmentName, FormationName, ModelName, FormationShape, ArmyListName, DetachmentValidationState, Detachment, ModelLoadoutGroup, ModelGroup, Army, Formation, Allegiance, statsHasTrait, ArmyValidationState, Stats, DetachmentConfiguration, IconicDetachmentRequirementType, IconicFormationShape } from "../game/types.ts";
 import { getDetachmentConfigurationForDetachmentName, getDetachmentNamesForSlot, getShapeForFormationName, getStatsForModelName } from "../game/lists.ts";
 import { getArmyNamesLocally, loadArmyLocally, saveArmyLocally } from "../storage/localStorage.ts";
 import { LegionName } from "../game/legionTypes.ts";
@@ -44,6 +44,7 @@ export type AppStateType = {
     removeFormation: RemoveFormation;
     changeFormationArmyList: ChangeFormationArmyList;
     changeFormationLegionName: (uuid: string, legionName: LegionName) => void;
+    changeIconicFormationRequirement: (uuid: string, iconicDetachmentRequirementType: IconicDetachmentRequirementType) => void;
     changeFormationName: (uuid: string, formationName: FormationName | "") => void;
     changeDetachmentName: (uuid: string, detachmentIndex: number, detachmentName: DetachmentName | "") => void;
     changeDetachmentAttachment: (uuid: string, detachmentIndex: number, attachedDetachmentIndex: number) => void;
@@ -219,6 +220,8 @@ function calcFormationActivations(formation: Formation) {
                                 hasNormalModelGroup = true;
                             }
                         }
+                    } else {
+                        console.error("Could not find model group shape for " + mg.modelName + " in detachment " + d.detachmentName + " of formation " + formation.formationName);
                     }
                 }
             }
@@ -381,6 +384,8 @@ function recordModelNumbersForModelGroup(out: ModelNumbersForDetachment, modelGr
 
 function calcDetachmentValidation(formation: Formation, detachmentIndex: number, formationShape: FormationShape): DetachmentValidationState {
     const detachment = formation.detachments[detachmentIndex];
+    if(formationShape.formationType=="Iconic")
+        return {valid: true};
     const slotRequirements = formationShape.slotRequirements[detachmentIndex];
     if(slotRequirements.slotRequirementType == "Required" && detachment.modelGroups.length === 0) {
         return {valid: false, error: "Required detachment missing"};
@@ -600,26 +605,36 @@ function calcDetachmentValidation(formation: Formation, detachmentIndex: number,
 //recalc all points and validations
 function refreshFormation(newFormation: Formation) {
     const formationShape = getShapeForFormationName(newFormation.armyListName, newFormation.formationName);
-    newFormation.detachments.forEach(
-        (x, i) => {
-            x.modelGroups.forEach((y)=>{
-                //some numbers are calculated from their model loadout groups.
-                if(y.modelLoadoutGroups.length != 0)
-                    y.number = y.modelLoadoutGroups.reduce((p, z) => p + z.number, 0);
+    if(formationShape.formationType === "Iconic") {
+        
+        newFormation.points = formationShape.points;
+        if(newFormation.iconicDetachmentRequirementType === "Expanded")
+            newFormation.points += formationShape.expandedPoints;
 
-                y.modelLoadoutGroups.forEach((z)=>{
-                    z.points = calcModelLoadoutGroupPoints(z);
-                });
-                if(x.detachmentName == "" || newFormation.armyListName == "")
-                    y.points = 0;
-                else
-                    y.points = calcModelGroupPoints(newFormation.armyListName, y, x.detachmentName);
-            })
-            x.validationState = calcDetachmentValidation(newFormation, i, formationShape);
-            x.points = calcDetachmentPoints(x);            
-        }
-    );
-    newFormation.points = calcFormationPoints(newFormation);
+        if(newFormation.legionName !== undefined && formationShape.legionName !== undefined && newFormation.legionName !== formationShape.legionName)
+            newFormation.detachments[0].validationState = {valid: false, error: "Invalid Legion name", data: "Must be " +  formationShape.legionName};
+    } else {
+        newFormation.detachments.forEach(
+            (x, i) => {
+                x.modelGroups.forEach((y)=>{
+                    //some numbers are calculated from their model loadout groups.
+                    if(y.modelLoadoutGroups.length != 0)
+                        y.number = y.modelLoadoutGroups.reduce((p, z) => p + z.number, 0);
+
+                    y.modelLoadoutGroups.forEach((z)=>{
+                        z.points = calcModelLoadoutGroupPoints(z);
+                    });
+                    if(x.detachmentName == "" || newFormation.armyListName == "")
+                        y.points = 0;
+                    else
+                        y.points = calcModelGroupPoints(newFormation.armyListName, y, x.detachmentName);
+                })
+                x.validationState = calcDetachmentValidation(newFormation, i, formationShape);
+                x.points = calcDetachmentPoints(x);            
+            }
+        );
+        newFormation.points = calcFormationPoints(newFormation);
+    }
     newFormation.activations = calcFormationActivations(newFormation);
 }
 
@@ -628,9 +643,9 @@ function calcArmyValidation(army: Army): ArmyValidationState {
     let numSupportFormations = 0;
     for(const formation of army.formations) {
         const formationShape = getShapeForFormationName(formation.armyListName, formation.formationName);
-        if(formationShape.formationType == undefined || formationShape.formationType == "Normal")
+        if(formationShape.formationType == "Normal" || formationShape.formationType == "Iconic")
             numNormalFormations++;
-        else
+        else if(formationShape.formationType == "Support")
             numSupportFormations++;
 
         for(const detachment of formation.detachments) {
@@ -721,7 +736,6 @@ function takeRandom(words: string[]): string {
 }
 
 function defaultArmyName(): string {
-    
     const r1 = getRandomInt(5);
     switch(r1) {
         case 0: return 'The ' + takeRandom(pluaralNouns) + ' of ' + takeRandom(singularProperNouns);
@@ -731,6 +745,30 @@ function defaultArmyName(): string {
         case 4: return 'The ' + takeRandom(adjectives) + ' ' + takeRandom(singularNouns) + ' ' + takeRandom(pluaralNouns);
         default: return 'Are We The Baddies?';
     }
+}
+
+function generateIconicFormationDetachments(formationShape: IconicFormationShape, newFormation: Formation): Detachment[] {
+    return formationShape.iconicDetachments
+                .filter((s)=>s.iconicDetachmentRequirementType=="Required" || newFormation.iconicDetachmentRequirementType=="Expanded")
+                .map((s)=>{
+                    const out: Detachment = {
+                        slot: s.slot, modelGroups: s.modelGroups.map((t)=>{
+                            const out: ModelGroup = {modelName: t.modelName, number: 0, points: 0, unitTraits: [], modelLoadoutGroups: 
+                                t.modelLoadoutGroups.map((u)=>{
+                                    return {points: 0, number: u.number, modelLoadoutSlots: 
+                                        u.modelLoadoutSlots.map((v)=>{
+                                            return {name: v.name, modelLoadout: {loadout: v.loadout, points: 0}};
+                                        })
+                                    };
+                                })
+                            };
+                            out.number = out.modelLoadoutGroups.reduce<number>((prev, curr)=>prev+curr.number, 0);
+                            return out;
+                        }),
+                        points: 0, detachmentName: s.detachmentName, validationState: {valid: true}
+                    };
+                    return out;
+                });
 }
 
 function createAppState(): AppStateType {
@@ -956,7 +994,6 @@ function createAppState(): AppStateType {
     const canCloneArmy = computed(()=>armyHasName());
     //I think there was a movie about this
     const cloneArmy = async () => {
-
         const storedArmy = structuredClone(army.value);
         
         storedArmy.uuid = crypto.randomUUID();
@@ -1049,7 +1086,7 @@ function createAppState(): AppStateType {
 
         const newArmy = {...army.value};
         newArmy.formations = newArmy.formations.slice();
-        newArmy.formations.push({armyListName: "", formationName: "", points: 0, detachments:[], uuid, breakPoint: 0, activations: 0});
+        newArmy.formations.push({armyListName: "", formationName: "", points: 0, detachments:[], uuid, breakPoint: 0, activations: 0, formationType: ""});
         const points = calcArmyPoints(newArmy.formations, newArmy.primaryArmyListName);
         newArmy.points = points.points
         newArmy.alliedPoints = points.alliedPoints;
@@ -1081,13 +1118,6 @@ function createAppState(): AppStateType {
 
         if(army.value.formations[formationIdx].armyListName == armyListName)
             return;
-
-        if(army.value.formations[formationIdx].armyListName == "Legions Astartes" as ArmyListName && armyListName == "Legiones Astartes") {
-            const newFormation = structuredClone(army.value.formations[formationIdx]);
-            newFormation.armyListName = armyListName;
-            setFormationAtIdx(newFormation, formationIdx);    
-            return;
-        }
         
         const newFormation = structuredClone(army.value.formations[formationIdx])
 
@@ -1118,6 +1148,26 @@ function createAppState(): AppStateType {
         setFormationAtIdx(newFormation, formationIdx);
     }
 
+    const changeIconicFormationRequirement = (uuid: string, iconicDetachmentRequirementType: IconicDetachmentRequirementType) => {
+        const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
+        if(formationIdx === -1)
+            return;
+
+        if(army.value.formations[formationIdx].iconicDetachmentRequirementType == iconicDetachmentRequirementType)
+            return;
+        
+        const newFormation = structuredClone(army.value.formations[formationIdx]);
+
+        newFormation.iconicDetachmentRequirementType = iconicDetachmentRequirementType;
+
+        const formationShape = getShapeForFormationName(newFormation.armyListName, newFormation.formationName);
+        if(formationShape.formationType != "Iconic")
+            return;
+        newFormation.detachments = generateIconicFormationDetachments(formationShape, newFormation);
+        
+        setFormationAtIdx(newFormation, formationIdx);
+    }
+
     const changeFormationName = (uuid: string, formationName: FormationName | "") => {
         const formationIdx = army.value.formations.findIndex((f: Formation) => f.uuid == uuid);
         if(formationIdx === -1)
@@ -1131,33 +1181,40 @@ function createAppState(): AppStateType {
         newFormation.formationName = formationName;
         
         const formationShape = getShapeForFormationName(newFormation.armyListName, formationName);
-        newFormation.detachments = formationShape.slotRequirements.map((s) => {
-            //fill in anything which we have no options on
-            if(s.slotRequirementType == "Required" && newFormation.armyListName != "") {
-                const dtfs = getDetachmentNamesForSlot(newFormation.armyListName, s.slot, army.value.allegiance);
-                if(dtfs.length == 1 && newFormation.formationName != "") {
-                    const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, dtfs[0]);
-                    const out: Detachment = {
-                        slot: s.slot, modelGroups: getDefaultModelGroupsForDetachment(config, newFormation.formationName), 
-                        points: 0, detachmentName: dtfs[0], validationState: {valid: true}
-                    };
-                    if(out.modelGroups.length > 0) {
-                        const stats = getStatsForModelName(out.modelGroups[0].modelName);
-                        if(stats && (statsHasTrait(stats, "Commander") || statsHasTrait(stats, "Attached Deployment")))
-                            out.attachedDetachmentIndex = -1;
+        newFormation.formationType = formationShape.formationType;
+
+        if(formationShape.formationType == "Iconic"){
+            newFormation.iconicDetachmentRequirementType = "Required";
+            newFormation.detachments = generateIconicFormationDetachments(formationShape, newFormation);
+        } else {
+            newFormation.iconicDetachmentRequirementType = undefined;
+            newFormation.detachments = formationShape.slotRequirements.map((s) => {
+                //fill in anything which we have no options on
+                if(s.slotRequirementType == "Required" && newFormation.armyListName != "") {
+                    const dtfs = getDetachmentNamesForSlot(newFormation.armyListName, s.slot, army.value.allegiance);
+                    if(dtfs.length == 1 && newFormation.formationName != "") {
+                        const config = getDetachmentConfigurationForDetachmentName(newFormation.armyListName, dtfs[0]);
+                        const out: Detachment = {
+                            slot: s.slot, modelGroups: getDefaultModelGroupsForDetachment(config, newFormation.formationName), 
+                            points: 0, detachmentName: dtfs[0], validationState: {valid: true}
+                        };
+                        if(out.modelGroups.length > 0) {
+                            const stats = getStatsForModelName(out.modelGroups[0].modelName);
+                            if(stats && (statsHasTrait(stats, "Commander") || statsHasTrait(stats, "Attached Deployment")))
+                                out.attachedDetachmentIndex = -1;
+                        }
+                        if(config.extras != undefined) {
+                            out.extras = config.extras.map((e)=>{return{name: e.name, points: e.points, has: false}});
+                        }
+                        return out;
                     }
-                    if(config.extras != undefined) {
-                        out.extras = config.extras.map((e)=>{return{name: e.name, points: e.points, has: false}});
-                    }
-                    return out;
                 }
-            }
 
-            return {
-                slot: s.slot, modelGroups: [], points: 0, detachmentName: "", validationState: {valid: true}
-            }
-        });
-
+                return {
+                    slot: s.slot, modelGroups: [], points: 0, detachmentName: "", validationState: {valid: true}
+                }
+            });
+        }
         setFormationAtIdx(newFormation, formationIdx);
     };
 
@@ -1196,7 +1253,7 @@ function createAppState(): AppStateType {
             } else {
                 //clear down any other linked tech priests.
                 const shape = getShapeForFormationName(newFormation.armyListName, newFormation.formationName);
-                if(shape) {
+                if(shape && shape.formationType !== "Iconic") {
                     for(let i = 0; i < shape.slotRequirements.length; ++i) {
                         if(shape.slotRequirements[i].linkedSlotIndex == detachmentIndex) {
                             newFormation.detachments[i].detachmentName = detachmentName;
@@ -1381,7 +1438,7 @@ function createAppState(): AppStateType {
     };
 
     return {army, makeNewArmy, changeArmyName, changeArmyMaxPoints, changePrimaryArmyListName, changeArmyAllegiance,
-        addFormation, removeFormation, changeFormationArmyList, changeFormationLegionName,
+        addFormation, removeFormation, changeFormationArmyList, changeFormationLegionName, changeIconicFormationRequirement,
         changeFormationName, changeDetachmentName, changeDetachmentAttachment, changeModelNumber, changeExtraHas,
         changeModelLoadout, addModelLoadoutGroup, removeModelLoadoutGroup, changeModelLoadoutGroupNumber, canUndo, undo, canRedo, redo,
         armyLoadSource, isLoggedIn, username,

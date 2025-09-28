@@ -8,7 +8,7 @@ import { AppState } from "../islands/App.tsx";
 interface DetachmentTableProps extends JSX.HTMLAttributes<HTMLTableElement>{
     uuid: string;
     armyListName: ArmyListName;
-    formationType: FormationName;
+    formationName: FormationName;
     detachments: Detachment[];
     allegiance: Allegiance  | "";
     editable: boolean;
@@ -22,6 +22,9 @@ export function DetachmentTable(props: DetachmentTableProps) {
                 const formation = army.value.formations.find(x=>x.uuid == props.uuid);
                 const formationName = formation?.formationName ?? "";
                 const shape = getShapeForFormationName(props.armyListName, formationName);
+                //handled in IconicDetachmentTable
+                if(shape.formationType == "Iconic")
+                    return <div key={props.uuid + "-" + i}></div>;
                 if(shape.slotRequirements[i].linkedSlotIndex != undefined) {
                     //sigh. TODO make this more generic if need be
                     if(props.detachments[shape.slotRequirements[i].linkedSlotIndex].detachmentName != "Tech-Priest Auxilia")
@@ -58,7 +61,7 @@ export function DetachmentTable(props: DetachmentTableProps) {
                 
                 return <DetachmentWidget
                     uuid={props.uuid} armyListName={props.armyListName} detachment={x} 
-                    detachmentIndex={i} allegiance={props.allegiance} formationType={props.formationType}
+                    detachmentIndex={i} allegiance={props.allegiance} formationName={props.formationName}
                     key={props.uuid + "-" + i}
                     editable={props.editable}
                 />

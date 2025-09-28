@@ -1,11 +1,11 @@
 import { LegionDetachmentName, LegionFormationName, LegionModelName } from "./legionTypes.ts";
 import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
 import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
-import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment, ModelLoadoutSlotShape } from "./types.ts";
+import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment, ModelLoadoutSlotShape, EmptyStandardFormationShape } from "./types.ts";
 
 const formationShapes = new Map<LegionFormationName, FormationShape>([
     //CRB
-    [ "Legion Demi-Company", { slotRequirements: [
+    [ "Legion Demi-Company", { formationType: "Normal", slotRequirements: [
         {   slot: "HQ",             slotRequirementType: "Required"                 },
         {   slot: "Support",        slotRequirementType: "Required"                 },
         {   slot: "Core",           slotRequirementType: "Required"                 },
@@ -23,7 +23,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Battle Tank",    slotRequirementType: "One Of",  oneOfGroup: 2   },
         {   slot: "Heavy Armour",   slotRequirementType: "One Of",  oneOfGroup: 2   },
     ] } ],
-    ["Legion Garrison Force", { slotRequirements: [
+    ["Legion Garrison Force", { formationType: "Normal", slotRequirements: [
         {   slot: "HQ",             slotRequirementType: "Required"                 },
         {   slot: "Support",        slotRequirementType: "Required"                 },
         {   slot: "Core",           slotRequirementType: "Required"                 },
@@ -38,7 +38,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Heavy Armour",   slotRequirementType: "One Of",  oneOfGroup: 1   },
         {   slot: "Artillery",      slotRequirementType: "One Of",  oneOfGroup: 1   },
     ] } ],
-    ["Legion Armoured Company", {slotRequirements: [
+    ["Legion Armoured Company", {formationType: "Normal",  slotRequirements: [
         {slot: "Legion Armoured Company HQ",             
             slotRequirementType: "Required" , displayName: "HQ"},
         {   slot: "Battle Tank",    slotRequirementType: "Required"                 },
@@ -51,7 +51,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Air Support",    slotRequirementType: "One Of",  oneOfGroup: 1   },
         {   slot: "Heavy Armour",   slotRequirementType: "One Of",  oneOfGroup: 1   },
     ] } ],
-    ["Legion Aerial Assault", {slotRequirements: [
+    ["Legion Aerial Assault", {formationType: "Normal", slotRequirements: [
         {slot: "Legion Aerial Assault HQ",             
             slotRequirementType: "Required", displayName: "HQ"},
         {slot: "Support",        slotRequirementType: "Required"                 },
@@ -65,7 +65,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {slot: "Air Support",    slotRequirementType: "Optional"                 },
     ]}],
     //TGS
-    [ "Legion Sky-hunter Phalanx", { slotRequirements: [
+    [ "Legion Sky-hunter Phalanx", {formationType: "Normal", slotRequirements: [
         {   slot: "Sky-hunter Phalanx Vanguard Compulsory", displayName: "Vanguard",
                                     slotRequirementType: "Required"                 },
         {   slot: "Sky-hunter Phalanx Vanguard Compulsory", displayName: "Vanguard",
@@ -79,7 +79,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Air Support",    slotRequirementType: "Optional"                 },
         {   slot: "Vanguard",       slotRequirementType: "Optional"                 },
     ] } ],
-    [ "Legion Drop Pod Assault", { slotRequirements: [
+    [ "Legion Drop Pod Assault", {formationType: "Normal", slotRequirements: [
         {   slot: "HQ",             slotRequirementType: "Required"                 },
         {   slot: "Support",        slotRequirementType: "Required"                 },
         {   slot: "Core",           slotRequirementType: "Required"                 },
@@ -91,7 +91,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Support",        slotRequirementType: "Optional"                 },
     ]}],
     //TDOT
-    ["Legion Heavy Assault Spearhead", { slotRequirements: [
+    ["Legion Heavy Assault Spearhead", {formationType: "Normal", slotRequirements: [
         {   slot: "Legion Terminators", slotRequirementType: "Required"             },
         {   slot: "Legion Terminators", slotRequirementType: "Required"             },
         {   slot: "Legion Heavy Assault Spearhead Support Compulsory", displayName: "Support",
@@ -104,7 +104,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Heavy Armour",   slotRequirementType: "Optional"                 },
         {   slot: "Heavy Armour",   slotRequirementType: "Optional"                 },
     ]}],
-    ["Legion Subterranean Assault", { slotRequirements: [
+    ["Legion Subterranean Assault", {formationType: "Normal", slotRequirements: [
         {   slot: "HQ",             slotRequirementType: "Required"                 },
         {   slot: "Support",        slotRequirementType: "Required"                 },
         {   slot: "Core",           slotRequirementType: "Required"                 },
@@ -151,11 +151,62 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
             },
         ]
     }],
+    //Iconic
+    ["Seeker-Killer Clave Ultor", {
+        allegiance: "Loyalist", legionName: "Iron Hands", points: 410, expandedPoints: 260, formationType: "Iconic",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Required", slot: "Battle Tank",
+            detachmentName: "Legion Sicaran Squadron",
+            modelGroups: [{
+                modelName: "Legion Sicaran", modelLoadoutGroups: [{
+                    number: 4, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]
+                }]
+            }]
+        }, {
+            iconicDetachmentRequirementType: "Required", slot: "Battle Tank",
+            detachmentName: "Legion Sicaran Omega Squadron",
+            modelGroups: [{
+                modelName: "Sicaran Omega", modelLoadoutGroups: [{
+                    number: 4, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]
+                }]
+            }]
+        }, {
+            iconicDetachmentRequirementType: "Required", slot: "Light Armour",
+            detachmentName: "Legion Sabre Squadron",
+            modelGroups: [{
+                modelName: "Sabre", modelLoadoutGroups: [{
+                    number: 4, modelLoadoutSlots: [
+                        {name: "Primary", loadout: "Hull Mounted neutron blaster"},
+                        {name: "Hull Mounted", loadout: "Multi-melta"}
+                    ]
+                }]
+            }]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank",
+            detachmentName: "Legion Sicaran Squadron", modelGroups: [{
+                modelName: "Legion Sicaran",
+                modelLoadoutGroups: [{
+                    number: 4, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]
+                }]
+            }]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Light Armour",
+            detachmentName: "Legion Sabre Squadron", modelGroups: [{
+                modelName: "Sabre",
+                modelLoadoutGroups: [{
+                    number: 4, modelLoadoutSlots: [
+                        {name: "Primary", loadout: "Hull Mounted neutron blaster"},
+                        {name: "Hull Mounted", loadout: "Multi-melta"}
+                    ]
+                }]
+            }]
+        }]
+    }]
 ])
 
 export function getShapeForLegionFormationName(formationName: LegionFormationName | ""): FormationShape {
-    if(formationName == "") return { slotRequirements: [] };
-    return formationShapes.get(formationName) ?? { slotRequirements: [] };
+    if(formationName == "") return EmptyStandardFormationShape;
+    return formationShapes.get(formationName) ?? EmptyStandardFormationShape;
 }
 
 const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|MechanicumDetachmentName)[]>([
