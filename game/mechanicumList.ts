@@ -297,6 +297,54 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
             },
         ]
     }],
+    //iconic
+    ["Exsomnis-Tertia Cybernetica Cohort", {
+        points: 610, expandedPoints: 800, formationType: "Iconic", 
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Archmagos Prime on Abeyant",
+            modelGroups: [{modelName: "Archmagos on Abeyant", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Domitar Battle-automata Maniple",
+            modelGroups: [{modelName: "Domitar", modelLoadoutGroups: [{number: 3, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Castellax Battle-automata Maniple",
+            modelGroups: [{modelName: "Castellax", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Castellax Battle-automata Maniple",
+            modelGroups: [{modelName: "Castellax", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Vanguard", detachmentName: "Vorax Battle-automata Maniple",
+            modelGroups: [{modelName: "Vorax", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Tech-Priest Auxilia",
+            modelGroups: [{modelName: "Tech-Priest", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Tech-Priest Auxilia",
+            modelGroups: [{modelName: "Tech-Priest", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Tech-Priest Auxilia",
+            modelGroups: [{modelName: "Tech-Priest", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Castellax Battle-automata Maniple",
+            modelGroups: [{modelName: "Castellax", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Castellax Battle-automata Maniple",
+            modelGroups: [{modelName: "Castellax", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Domitar Battle-automata Maniple",
+            modelGroups: [{modelName: "Domitar", modelLoadoutGroups: [{number: 3, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Vanguard", detachmentName: "Vorax Battle-automata Maniple",
+            modelGroups: [{modelName: "Vorax", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Bastion", detachmentName: "Thanatar Siege-automata Maniple",
+            modelGroups: [
+                {modelName: "Thanatar", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Plasma mortar"}
+                ]}]}
+            ],
+        }]
+    }],
 ]);
 
 export function getShapeForMechanicumFormationName(formationName: MechanicumFormationName | ""): FormationShape {
@@ -517,7 +565,60 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
                 displayName: "Tech-Priest",
             },
         ]
-
+    }],
+    ["Sibilans Taghma", {
+        points: 900, expandedPoints: 700, formationType: "Iconic", 
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Scintillax 'Cyclops' Noospheric Stalker Network",
+            modelGroups: [
+                {modelName: "Scintillax", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Storm laser"},
+                ]}]}
+            ],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Adsecularis Tech-Thrall Covenant",
+            modelGroups: [{modelName: "Tech-thrall", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Adsecularis Tech-Thrall Covenant",
+            modelGroups: [{modelName: "Tech-thrall", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Heavy Armour", detachmentName: "Serperos 'Overlord' Heavy Stalker Maniple",
+            modelGroups: [
+                {modelName: "Serperos", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: [
+                    {name: "Carapace", loadout: "Exo-planar bombard"},
+                    {name: "Underslung", loadout: "Irradiation engine"},
+                ]}]}
+            ],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Myrmidon Secutor Host",
+            modelGroups: [
+                {modelName: "Myrmidon Secutor", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]},
+                {modelName: "Triaros", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]}
+            ],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Core", detachmentName: "Adsecularis Tech-Thrall Covenant",
+            modelGroups: [{modelName: "Tech-thrall", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Myrmidon Secutor Host",
+            modelGroups: [
+                {modelName: "Myrmidon Secutor", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]},
+                {modelName: "Triaros", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]}
+            ],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Myrmidon Secutor Host",
+            modelGroups: [
+                {modelName: "Myrmidon Secutor", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]},
+                {modelName: "Triaros", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]}
+            ],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Heavy Armour", detachmentName: "Serperos 'Overlord' Heavy Stalker Maniple",
+            modelGroups: [
+                {modelName: "Serperos", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: [
+                    {name: "Carapace", loadout: "Exo-planar bombard"},
+                    {name: "Underslung", loadout: "Irradiation engine"},
+                ]}]}
+            ],
+        }]
     }]
 ]);
 

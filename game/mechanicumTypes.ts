@@ -4,9 +4,10 @@ export const MechanicumFormationNames = [
     "Legio Cybernetica Cohort",
     "Myrmidax Conclave",
     "Taghma Sub-covenant",
-
     //support formations
     "Itinerant Cybernetica Cohort",
+    //iconic
+    "Exsomnis-Tertia Cybernetica Cohort",
 ] as const;
 export type MechanicumFormationName = typeof MechanicumFormationNames[number];
 
@@ -17,6 +18,8 @@ export const DarkMechanicumFormationNames = [
     "Terror Protocol Cohort",
     //support
     "Ironbound Ruinhost",
+    //iconic
+    "Sibilans Taghma",
 ] as const;
 export type DarkMechanicumFormationName = typeof DarkMechanicumFormationNames[number];
 
