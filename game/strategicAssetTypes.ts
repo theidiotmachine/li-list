@@ -7,6 +7,8 @@ export const CollegiaTitanicaFormationNames = [
     "Ruptura Battleline Maniple",
     //support
     "Collegia Titanica Support Cohorts",
+    //iconic
+    "Demi-Maniple Aeterna",
 ] as const;
 export type CollegiaTitanicaFormationName = (typeof CollegiaTitanicaFormationNames)[number];
 

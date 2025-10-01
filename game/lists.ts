@@ -6,7 +6,7 @@ import { getDarkMechanicumDetachmentNamesForSlot, getMechanicumDetachmentConfigu
 import { DarkMechanicumFormationName, DarkMechanicumFormationNames, DarkMechanicumModelName, DarkMechanicumModelNames, MechanicumDetachmentName, MechanicumFormationName, MechanicumFormationNames, MechanicumModelName, MechanicumModelNames } from "./mechanicumTypes.ts";
 import { getCollegiaTitanicaDetachmentNamesForSlot, getQuestorisFamiliaDetachmentNamesForSlot, getShapeForCollegiaTitanicaFormationName, getShapeForQuestorisFamiliaFormationName, getShapeForStrategicAssetFormationName, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
 import { AllStrategicAssetModelNames, CollegiaTitanicaFormationName, CollegiaTitanicaFormationNames, QuestorisFamiliaFormationName, QuestorisFamiliaFormationNames, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetFormationNames, StrategicAssetModelName } from "./strategicAssetTypes.ts";
-import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelName, Stats, EmptyStandardFormationShape } from "./types.ts";
+import { Allegiance, ArmyListName, DetachmentConfiguration, DetachmentName, FormationShape, FormationSlot, FormationName, ModelName, Stats, EmptyNormalFormationShape } from "./types.ts";
 
 
 const formationNamesForArmyListName: Map<ArmyListName, FormationName[]> = new Map([
@@ -27,8 +27,8 @@ export function getFormationNamesForArmyListName(armyListName: ArmyListName | ""
 }
 
 export function getShapeForFormationName(armyListName: ArmyListName | "", formationName: FormationName | ""): FormationShape {
-    if(armyListName == "") return EmptyStandardFormationShape;
-    if(formationName == "") return EmptyStandardFormationShape;
+    if(armyListName == "") return EmptyNormalFormationShape;
+    if(formationName == "") return EmptyNormalFormationShape;
 
     switch(armyListName) {
         case "Collegia Titanica":
@@ -46,7 +46,7 @@ export function getShapeForFormationName(armyListName: ArmyListName | "", format
         case "Strategic Asset":
             return getShapeForStrategicAssetFormationName(formationName as StrategicAssetFormationName);
         default:
-            return EmptyStandardFormationShape;
+            return EmptyNormalFormationShape;
     }
 }
 
@@ -55,7 +55,7 @@ export function getDetachmentNamesForSlot(armyListName: ArmyListName, slot: Form
         case "Collegia Titanica":
             return getCollegiaTitanicaDetachmentNamesForSlot(slot, allegiance);
         case "Dark Mechanicum":
-                return getDarkMechanicumDetachmentNamesForSlot(slot, allegiance);
+            return getDarkMechanicumDetachmentNamesForSlot(slot, allegiance);
         case "Legiones Astartes":
             return getLegionDetachmentNamesForSlot(slot);
         case "Mechanicum Taghmata":

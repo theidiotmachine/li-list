@@ -23,6 +23,10 @@ export function DetachmentNameSelect(props: DetachmentNameSelectProps) {
     const detachment = formation?.detachments[props.detachmentIndex];
     const unit = detachment?.detachmentName;
 
+    if(unit !== undefined && unit != "" && !detachmentNamesForSlot.includes(unit) && formation?.formationType === "Iconic") {
+        detachmentNamesForSlot.push(unit);
+    }
+
     const options = detachmentNamesForSlot.map((u)=> {
         let optionText = u;
         if(u != "") {

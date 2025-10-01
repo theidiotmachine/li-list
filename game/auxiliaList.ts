@@ -1,7 +1,7 @@
 import { AuxiliaDetachmentName, AuxiliaFormationName, AuxiliaModelName } from "./auxiliaTypes.ts";
 import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
 import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
-import { Detachment, DetachmentConfiguration, DetachmentValidationState, EmptyStandardFormationShape, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
+import { Detachment, DetachmentConfiguration, DetachmentValidationState, EmptyNormalFormationShape, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const tankCommanderValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
     if(detachmentIndex > 2) {
@@ -266,8 +266,8 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
 ])
 
 export function getShapeForAuxiliaFormationName(formationName: AuxiliaFormationName | ""): FormationShape {
-    if(formationName == "") return EmptyStandardFormationShape;
-    return formationShapes.get(formationName) ?? EmptyStandardFormationShape;
+    if(formationName == "") return EmptyNormalFormationShape;
+    return formationShapes.get(formationName) ?? EmptyNormalFormationShape;
 }
 
 const detachmentNamesForSlot = new Map<FormationSlot, (MechanicumDetachmentName|AuxiliaDetachmentName)[]>([

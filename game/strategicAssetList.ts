@@ -1,7 +1,7 @@
 import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
 import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
 import { CollegiaTitanicaFormationName, QuestorisFamiliaFormationName, StrategicAssetDetachmentName, StrategicAssetFormationName, StrategicAssetModelName } from "./strategicAssetTypes.ts";
-import { Allegiance, DetachmentConfiguration, EmptyStandardFormationShape, FormationShape, FormationSlot, Stats } from "./types.ts";
+import { Allegiance, DetachmentConfiguration, EmptyNormalFormationShape, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, FormationShape>([
     ["Axiom Battleline Maniple", {formationType: "Normal", slotRequirements: [
@@ -77,7 +77,59 @@ const collegiaTitanicaFormationShapes = new Map<CollegiaTitanicaFormationName, F
         {slot: "Collegia Titanica Support Cohorts Bastion", slotRequirementType: "One Of Group",
             displayName: "Bastion", oneOfGroup: 1, oneOfGroupGroup: 2,
         },
-    ]}]
+    ]}],
+    ["Demi-Maniple Aeterna", {
+        allegiance: "Loyalist", points: 780, expandedPoints: 960, formationType: "Iconic",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "Reaver", detachmentName: "Reaver Battle Titan", 
+            modelGroups: [
+                {modelName: "Reaver Battle Titan", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Left", loadout: "Reaver volcano cannon"},
+                    {name: "Right", loadout: "Reaver gatling blaster"},
+                    {name: "Carapace", loadout: "Reaver Vulcan mega-bolter"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Questoris", detachmentName: "Questoris Knight Banner",
+            modelGroups: [
+                {modelName: "Knight Errant", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Close combat", loadout: "Reaper chainsword"},
+                    {name: "Carapace", loadout: "Rocket pods"},
+                ]}]},
+                {modelName: "Knight Gallant", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Close combat 2", loadout: "Reaper chainsword"},
+                    {name: "Carapace", loadout: "Rocket pods"},
+                ]}]},
+            ] 
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Krios Venator Squadron",
+            modelGroups: [
+                {modelName: "Krios Venator", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Cerastus", detachmentName: "Cerastus Knight Banner",
+            modelGroups: [
+                {modelName: "Knight Lancer", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Vanguard", detachmentName: "Vultarax Battle-automata Squadron",
+            modelGroups: [
+                {modelName: "Vultarax", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Warhound", detachmentName: "Warhound Hunting Pack",
+            modelGroups: [
+                {modelName: "Warhound Titan", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Left", loadout: "Plasma blastgun"},
+                    {name: "Right", loadout: "Vulcan mega-bolter"}
+                ]}]},
+                {modelName: "Warhound Titan", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Left", loadout: "Volkite eradicator"},
+                    {name: "Right", loadout: "Vulcan mega-bolter"}
+                ]}]},
+            ]
+        }]
+    }],
 ]);
 
 const questorisFamiliaFormationShapes = new Map<QuestorisFamiliaFormationName, FormationShape>([
@@ -173,18 +225,18 @@ const strategicAssetFormationShapes = new Map<StrategicAssetFormationName, Forma
 ]);
 
 export function getShapeForCollegiaTitanicaFormationName(formationType: CollegiaTitanicaFormationName | ""): FormationShape {
-    if(formationType == "") return EmptyStandardFormationShape;
-    return collegiaTitanicaFormationShapes.get(formationType) ?? EmptyStandardFormationShape;
+    if(formationType == "") return EmptyNormalFormationShape;
+    return collegiaTitanicaFormationShapes.get(formationType) ?? EmptyNormalFormationShape;
 }
 
 export function getShapeForQuestorisFamiliaFormationName(formationType: QuestorisFamiliaFormationName | ""): FormationShape {
-    if(formationType == "") return EmptyStandardFormationShape;
-    return questorisFamiliaFormationShapes.get(formationType) ?? EmptyStandardFormationShape;
+    if(formationType == "") return EmptyNormalFormationShape;
+    return questorisFamiliaFormationShapes.get(formationType) ?? EmptyNormalFormationShape;
 }
 
 export function getShapeForStrategicAssetFormationName(formationType: StrategicAssetFormationName | ""): FormationShape {
-    if(formationType == "") return EmptyStandardFormationShape;
-    return strategicAssetFormationShapes.get(formationType) ?? EmptyStandardFormationShape;
+    if(formationType == "") return EmptyNormalFormationShape;
+    return strategicAssetFormationShapes.get(formationType) ?? EmptyNormalFormationShape;
 }
 
 type DetachmentNameData = {

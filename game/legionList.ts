@@ -1,7 +1,7 @@
 import { LegionDetachmentName, LegionFormationName, LegionModelName } from "./legionTypes.ts";
 import { getMechanicumDetachmentConfigurationForDetachmentName } from "./mechanicumList.ts";
 import { MechanicumDetachmentName } from "./mechanicumTypes.ts";
-import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment, ModelLoadoutSlotShape, EmptyStandardFormationShape } from "./types.ts";
+import { DetachmentName, FormationSlot, FormationShape, DetachmentConfiguration, Stats, DetachmentValidationState, Detachment, ModelLoadoutSlotShape, EmptyNormalFormationShape } from "./types.ts";
 
 const formationShapes = new Map<LegionFormationName, FormationShape>([
     //CRB
@@ -343,8 +343,8 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
 ])
 
 export function getShapeForLegionFormationName(formationName: LegionFormationName | ""): FormationShape {
-    if(formationName == "") return EmptyStandardFormationShape;
-    return formationShapes.get(formationName) ?? EmptyStandardFormationShape;
+    if(formationName == "") return EmptyNormalFormationShape;
+    return formationShapes.get(formationName) ?? EmptyNormalFormationShape;
 }
 
 const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|MechanicumDetachmentName)[]>([

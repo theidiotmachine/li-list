@@ -122,7 +122,7 @@ export type StandardFormationShape = {
     legionName?: LegionName;
 }
 
-export const EmptyStandardFormationShape: StandardFormationShape = {
+export const EmptyNormalFormationShape: StandardFormationShape = {
     formationType: "Normal",
     slotRequirements: []
 }

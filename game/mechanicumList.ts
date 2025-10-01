@@ -1,7 +1,7 @@
 import { DarkMechanicumDetachmentName, DarkMechanicumFormationName, DarkMechanicumModelName, MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName } from "./mechanicumTypes.ts";
 import { getQuestorisFamiliaDetachmentNamesForSlot, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
 import { StrategicAssetDetachmentName } from "./strategicAssetTypes.ts";
-import { Allegiance, DetachmentConfiguration, DetachmentName, DetachmentValidationState, EmptyStandardFormationShape, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
+import { Allegiance, DetachmentConfiguration, DetachmentName, DetachmentValidationState, EmptyNormalFormationShape, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const cortexControllerValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
     if(detachmentIndex > 2)
@@ -300,8 +300,8 @@ const mechFormationShapes = new Map<MechanicumFormationName, FormationShape>([
 ]);
 
 export function getShapeForMechanicumFormationName(formationName: MechanicumFormationName | ""): FormationShape {
-    if(formationName == "") return EmptyStandardFormationShape;
-    return mechFormationShapes.get(formationName) ?? EmptyStandardFormationShape;
+    if(formationName == "") return EmptyNormalFormationShape;
+    return mechFormationShapes.get(formationName) ?? EmptyNormalFormationShape;
 }
 
 const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationShape>([
@@ -522,8 +522,8 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
 ]);
 
 export function getShapeForDarkMechanicumFormationName(formationName: DarkMechanicumFormationName | ""): FormationShape {
-    if(formationName == "") return EmptyStandardFormationShape;
-    return darkMechFormationShapes.get(formationName) ?? EmptyStandardFormationShape;
+    if(formationName == "") return EmptyNormalFormationShape;
+    return darkMechFormationShapes.get(formationName) ?? EmptyNormalFormationShape;
 }
 
 const mechDetachmentNamesForSlot = new Map<FormationSlot, MechanicumDetachmentName[]>([
