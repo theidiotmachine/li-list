@@ -189,6 +189,79 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
                 displayName: "Tech-Priest",
             }
         ]
+    }],
+    //iconic
+    ["Tallarn Reborn Carmine Ambush Tercio", {
+        allegiance: "Loyalist", points: 465, expandedPoints: 110, formationType: "Iconic", 
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Leman Russ Annihilator Squadron",
+            modelGroups: [
+                {modelName: "Leman Russ Annihilator", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Hull Mounted", loadout: "Lascannon"},
+                    {name: "Pintle Mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Leman Russ Executioner Squadron",
+            modelGroups: [
+                {modelName: "Leman Russ Executioner", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Hull Mounted", loadout: "Lascannon"},
+                    {name: "Pintle Mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Leman Russ Vanquisher Squadron",
+            extras: ["Tank Commander"],
+            modelGroups: [
+                {modelName: "Leman Russ Vanquisher", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Hull Mounted", loadout: "Lascannon"},
+                    {name: "Pintle Mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Vanguard", detachmentName: "Auxilia Aethon Heavy Sentinel Patrol",
+            modelGroups: [
+                {modelName: "Aethon Heavy Sentinel", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Vanguard", detachmentName: "Auxilia Aethon Heavy Sentinel Patrol",
+            modelGroups: [
+                {modelName: "Aethon Heavy Sentinel", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }]
+    }], 
+    ["Galibed Oathsworn Thyreos Siege Breaker Company", {
+        allegiance: "Traitor", points: 480, expandedPoints: 370, formationType: "Iconic",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "Heavy Armour", detachmentName: "Auxilia Stormsword Squadron",
+            modelGroups: [
+                {modelName: "Stormsword", modelLoadoutGroups: [{number: 3, modelLoadoutSlots: [
+                    {name: "Pintle Mounted", loadout: "None"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Artillery", detachmentName: "Auxilia Basilisk Battery",
+            modelGroups: [
+                {modelName: "Basilisk", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Artillery", detachmentName: "Auxilia Medusa Battery",
+            modelGroups: [
+                {modelName: "Medusa", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Heavy Armour", detachmentName: "Auxilia Stormsword Squadron",
+            modelGroups: [
+                {modelName: "Stormsword", modelLoadoutGroups: [{number: 3, modelLoadoutSlots: [
+                    {name: "Pintle Mounted", loadout: "None"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Basilisk Battery",
+            modelGroups: [
+                {modelName: "Basilisk", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }] 
     }]
 ])
 

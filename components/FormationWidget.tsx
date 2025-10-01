@@ -19,6 +19,7 @@ interface FormationWidgetProps {
 export function FormationWidget(props: FormationWidgetProps) {
     const { removeFormation, formationClosedState } = useContext(AppState);
     const isLegion = props.formation.armyListName == "Legiones Astartes";
+    const isIconic = props.formation.formationType == "Iconic";
     const isOpen = !formationClosedState.value.has(props.formation.uuid);
     return <div class="mb-6 md:mb-8">
         <div class ="grid grid-cols-[6%_82%_10%] md:grid-cols-[5%_41%_41%_10%] gap-[1%] mb-4">   
@@ -44,7 +45,7 @@ export function FormationWidget(props: FormationWidgetProps) {
                 :(<div class="hidden"></div>)
             }
 
-            {(props.formation.formationType === "Iconic")?
+            {(isIconic)?
                 (<IconicFormationExpandedSelect editable={isOpen && props.editable} uuid={props.formation.uuid}
                     iconicDetachmentRequirementType={props.formation.iconicDetachmentRequirementType??"Standard"}
                     class = {((isLegion)?"row-start-4":"row-start-3") + " md:row-start-2 md:col-start-3 col-start-2 md:text-lg"}
@@ -56,10 +57,10 @@ export function FormationWidget(props: FormationWidgetProps) {
                 <DelButton hidden={!isOpen || !props.editable} onClick={()=>removeFormation(props.formation.uuid)}></DelButton>
             </div>
 
-            <div class={"col-start-2 md:text-lg dark:text-white " + ((isLegion)?"md:row-start-3 row-start-5" : "md:row-start-2 row-start-4")}>
+            <div class={"col-start-2 md:text-lg dark:text-white " + ((isLegion || isIconic)?"md:row-start-3 row-start-5" : "md:row-start-2 row-start-4")}>
                 Breakpoint: {props.formation.breakPoint}
             </div>
-            <div class={"col-start-2 md:col-start-3 md:text-lg dark:text-white " + ((isLegion)?"md:row-start-3 row-start-6" : "md:row-start-2 row-start-5")}>
+            <div class={"col-start-2 md:col-start-3 md:text-lg dark:text-white " + ((isLegion || isIconic)?"md:row-start-3 row-start-6" : "md:row-start-2 row-start-5")}>
                 Activations: {props.formation.activations}
             </div>
 

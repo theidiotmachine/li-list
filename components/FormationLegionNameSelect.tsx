@@ -16,7 +16,7 @@ export function FormationLegionNameListSelect(props: FormationLegionNameListSele
         {props.legionName}
     </div>;
     const options = [
-        <SelectOption type="option" value="" selected={props.legionName == ""} key=""> </SelectOption>
+        <SelectOption type="option" value="" selected={props.legionName == ""} key="">No Legion</SelectOption>
     ];
     AllLegionNames.forEach((s, i)=>{
         options.push(<SelectOption type="option" key={"ln"+i} selected={props.legionName == s}>{s}</SelectOption>)

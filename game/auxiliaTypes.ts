@@ -9,6 +9,9 @@ export const AuxiliaFormationNames = [
     "Solar Auxilia Titan Hunter Company",
     //support
     "Iron Cohort",
+    //iconic
+    "Tallarn Reborn Carmine Ambush Tercio",
+    "Galibed Oathsworn Thyreos Siege Breaker Company"
 ] as const;
 export type AuxiliaFormationName = (typeof AuxiliaFormationNames)[number];
 
