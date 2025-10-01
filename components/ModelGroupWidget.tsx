@@ -20,6 +20,11 @@ type ModelGroupWidgetProps = {
 export function ModelGroupWidget(props: ModelGroupWidgetProps) {
   const { addModelLoadoutGroup, modelGroupOpenState, getModelGroupKey } = useContext(AppState);
 
+  console.log("*_* props.modelGroupShapeIndex: ", props.modelGroupShapeIndex);
+  console.log("*_* props.modelGroupShape: ", props.modelGroupShape);
+  console.log("*_* props.modelGroup:", props.modelGroup);
+  console.log("*_* props.detachmentIndex:", props.detachmentIndex);
+  console.log("*_* props.detachmentName:", props.detachmentName);
   return <div 
     class={"grid gap-[1%] grid-cols-[10%_78%_10%] md:gap-[0%] md:grid-cols-[20%_8%_62%_10%] dark:text-white " + ((props.modelGroupShapeIndex % 2) ? "bg-gray-50 dark:bg-gray-950 " : "bg-white dark:bg-black")}
   >

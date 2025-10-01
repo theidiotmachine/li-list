@@ -11,6 +11,9 @@ export const LegionFormationNames = [
     "Brethren of Iron",
     //iconic
     "Seeker-Killer Clave Ultor",
+    "Proioxis Macro-Assault Wing",
+    "Harrow Group Arcadus",
+    "Legion Tactical Strike Force",
 ] as const;
 export type LegionFormationName = (typeof LegionFormationNames)[number];
 
@@ -41,7 +44,7 @@ export type LegionDetachmentName =
     "Legion Kratos Squadron" | 
     "Legion Land Raider Detachment" |
     "Legion Land Speeder Squadron" |
-    "Legion Mastadon Squadron" |
+    "Legion Mastodon Squadron" |
     "Legion Missile Launcher Support Detachment" |
     "Legion Outrider Squadron" |
     "Legion Palisade Drop Pod" |
@@ -96,7 +99,7 @@ export const AllLegionModelNames = [
     "Legion Terminators",
     "Legion Termite",
     "Leviathan Dreadnought",
-    "Mastadon",
+    "Mastodon",
     "Missile Launcher Legionaries", //renamed from "Missile Launcher Heavy Support Legionaries" because come on
     "Outrider",
     "Palisade Drop Pod",

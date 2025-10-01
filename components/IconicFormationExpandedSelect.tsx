@@ -18,7 +18,7 @@ export function IconicFormationExpandedSelect(props: IconicFormationExpandedSele
     </div>;
 
     const options = [
-        <SelectOption type="option" value="Required" selected={props.iconicDetachmentRequirementType == "Required"} key="Required">Required</SelectOption>,
+        <SelectOption type="option" value="Standard" selected={props.iconicDetachmentRequirementType == "Standard"} key="Standard">Standard</SelectOption>,
         <SelectOption type="option" value="Expanded" selected={props.iconicDetachmentRequirementType == "Expanded"} key="Expanded">Expanded</SelectOption>
     ];
 

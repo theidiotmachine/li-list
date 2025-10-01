@@ -84,8 +84,9 @@ export function DetachmentWidget(props: DetachmentWidgetProps) {
                     }).
                     map((u, i) => {
                     return <DetachmentExtraWidget uuid={props.uuid} detachmentIndex={props.detachmentIndex}
-                        detachmentExtraIndex={i} key={i} extraName={u.name} 
-                        has={u.has} points={u.points} editable={props.editable}/>
+                        detachmentExtraIndex={i} key={i} extraName={u.name} formationType={shape.formationType}
+                        has={u.has} points={u.points} editable={props.editable}
+                    />
                 })
             }</div>
         }

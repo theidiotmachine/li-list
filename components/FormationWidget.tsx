@@ -46,7 +46,7 @@ export function FormationWidget(props: FormationWidgetProps) {
 
             {(props.formation.formationType === "Iconic")?
                 (<IconicFormationExpandedSelect editable={isOpen && props.editable} uuid={props.formation.uuid}
-                    iconicDetachmentRequirementType={props.formation.iconicDetachmentRequirementType??"Required"}
+                    iconicDetachmentRequirementType={props.formation.iconicDetachmentRequirementType??"Standard"}
                     class = {((isLegion)?"row-start-4":"row-start-3") + " md:row-start-2 md:col-start-3 col-start-2 md:text-lg"}
                 />)
                 :(<div class="hidden"></div>)

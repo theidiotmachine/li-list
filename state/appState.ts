@@ -749,26 +749,30 @@ function defaultArmyName(): string {
 
 function generateIconicFormationDetachments(formationShape: IconicFormationShape, newFormation: Formation): Detachment[] {
     return formationShape.iconicDetachments
-                .filter((s)=>s.iconicDetachmentRequirementType=="Required" || newFormation.iconicDetachmentRequirementType=="Expanded")
-                .map((s)=>{
-                    const out: Detachment = {
-                        slot: s.slot, modelGroups: s.modelGroups.map((t)=>{
-                            const out: ModelGroup = {modelName: t.modelName, number: 0, points: 0, unitTraits: [], modelLoadoutGroups: 
-                                t.modelLoadoutGroups.map((u)=>{
-                                    return {points: 0, number: u.number, modelLoadoutSlots: 
-                                        u.modelLoadoutSlots.map((v)=>{
-                                            return {name: v.name, modelLoadout: {loadout: v.loadout, points: 0}};
-                                        })
-                                    };
+        .filter((s)=>s.iconicDetachmentRequirementType=="Standard" || newFormation.iconicDetachmentRequirementType=="Expanded")
+        .map((s)=>{
+            const out: Detachment = {
+                slot: s.slot, modelGroups: s.modelGroups.map((t)=>{
+                    const out: ModelGroup = {modelName: t.modelName, number: 0, points: 0, unitTraits: [], modelLoadoutGroups: 
+                        t.modelLoadoutGroups.map((u)=>{
+                            return {points: 0, number: u.number, modelLoadoutSlots: 
+                                u.modelLoadoutSlots.map((v)=>{
+                                    return {name: v.name, modelLoadout: {loadout: v.loadout, points: 0}};
                                 })
                             };
-                            out.number = out.modelLoadoutGroups.reduce<number>((prev, curr)=>prev+curr.number, 0);
-                            return out;
-                        }),
-                        points: 0, detachmentName: s.detachmentName, validationState: {valid: true}
+                        })
                     };
+                    out.number = out.modelLoadoutGroups.reduce<number>((prev, curr)=>prev+curr.number, 0);
                     return out;
+                }),
+                points: 0, detachmentName: s.detachmentName, validationState: {valid: true}
+            };
+            if(s.extras !== undefined)
+                out.extras = s.extras.map((t)=>{
+                    return {name: t, points: 0, has: true};
                 });
+            return out;
+        });
 }
 
 function createAppState(): AppStateType {
@@ -1184,7 +1188,7 @@ function createAppState(): AppStateType {
         newFormation.formationType = formationShape.formationType;
 
         if(formationShape.formationType == "Iconic"){
-            newFormation.iconicDetachmentRequirementType = "Required";
+            newFormation.iconicDetachmentRequirementType = "Standard";
             newFormation.detachments = generateIconicFormationDetachments(formationShape, newFormation);
         } else {
             newFormation.iconicDetachmentRequirementType = undefined;

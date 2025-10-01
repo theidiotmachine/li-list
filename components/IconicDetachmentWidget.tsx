@@ -37,6 +37,9 @@ export function IconicDetachmentWidget(props: IconicDetachmentWidgetProps) {
             config.modelGroupShapes
                 .map((u, i) => {
                     const modelGroupIndex = props.detachment.modelGroups.findIndex((m: ModelGroup) => m.modelName == u.modelName);
+                    //I should make this much better, but honestly, fuck it
+                    if(modelGroupIndex === -1)
+                        return <div hidden={true} key={i}></div>
                     return <ModelGroupWidget 
                         modelGroupShapeIndex={i} modelGroupShape={u} uuid={props.uuid}
                         modelGroup={props.detachment.modelGroups[modelGroupIndex]}
@@ -52,7 +55,8 @@ export function IconicDetachmentWidget(props: IconicDetachmentWidgetProps) {
                     map((u, i) => {
                         return <DetachmentExtraWidget uuid={props.uuid} detachmentIndex={props.detachmentIndex}
                             detachmentExtraIndex={i} key={i} extraName={u.name} 
-                            has={u.has} points={u.points} editable={false}/>
+                            has={u.has} points={u.points} editable={false} formationType="Iconic"
+                        />
                     })
             }</div>
         }    

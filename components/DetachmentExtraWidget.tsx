@@ -1,3 +1,4 @@
+import { FormationType } from "../game/types.ts";
 import { YesNoExtraSelect } from "./YesNoExtraSelect.tsx";
 
 type DetachmentExtraWidgetProps = {
@@ -8,6 +9,7 @@ type DetachmentExtraWidgetProps = {
   points: number;
   has: boolean;
   editable: boolean;
+  formationType: FormationType | "Iconic";
 };
 export function DetachmentExtraWidget(props: DetachmentExtraWidgetProps) {
   return <div 
@@ -22,6 +24,6 @@ export function DetachmentExtraWidget(props: DetachmentExtraWidgetProps) {
       {props.extraName}
     </div>
 
-    <div class="col-start-3 md:col-start-4 text-right w-full">{props.has ? props.points : 0}</div> 
+    <div class="col-start-3 md:col-start-4 text-right w-full">{(props.formationType == "Iconic") ?"-":(props.has ? props.points : 0)}</div> 
   </div>;
 }

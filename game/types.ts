@@ -145,13 +145,14 @@ export type IconicModelGroup = {
     modelLoadoutGroups: IconicModelLoadoutGroup[];
 };
 
-export type IconicDetachmentRequirementType = "Required" | "Expanded";
+export type IconicDetachmentRequirementType = "Standard" | "Expanded";
 
 export type IconicDetachment = {
     slot: FormationSlot;
     iconicDetachmentRequirementType: IconicDetachmentRequirementType;
     detachmentName: DetachmentName;
     modelGroups: IconicModelGroup[];
+    extras?: string[];
 }
 
 export const EmptyIconicFormationShape: IconicFormationShape = {

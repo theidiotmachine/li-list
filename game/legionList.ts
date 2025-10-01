@@ -155,53 +155,191 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
     ["Seeker-Killer Clave Ultor", {
         allegiance: "Loyalist", legionName: "Iron Hands", points: 410, expandedPoints: 260, formationType: "Iconic",
         iconicDetachments: [{
-            iconicDetachmentRequirementType: "Required", slot: "Battle Tank",
-            detachmentName: "Legion Sicaran Squadron",
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Legion Sicaran Squadron",
+            modelGroups: [
+                {modelName: "Legion Sicaran", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Sponson Mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Legion Sicaran Omega Squadron",
+            modelGroups: [
+                {modelName: "Sicaran Omega", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Sponson Mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Light Armour", detachmentName: "Legion Sabre Squadron",
             modelGroups: [{
-                modelName: "Legion Sicaran", modelLoadoutGroups: [{
-                    number: 4, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]
-                }]
-            }]
+                modelName: "Sabre", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted neutron blaster"},
+                    {name: "Hull Mounted", loadout: "Multi-melta"}
+                ]}]}
+            ]
         }, {
-            iconicDetachmentRequirementType: "Required", slot: "Battle Tank",
-            detachmentName: "Legion Sicaran Omega Squadron",
-            modelGroups: [{
-                modelName: "Sicaran Omega", modelLoadoutGroups: [{
-                    number: 4, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]
-                }]
-            }]
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Legion Sicaran Squadron", 
+            modelGroups: [
+                {modelName: "Legion Sicaran", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Sponson Mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"},
+                ]}]}
+            ]
         }, {
-            iconicDetachmentRequirementType: "Required", slot: "Light Armour",
-            detachmentName: "Legion Sabre Squadron",
-            modelGroups: [{
-                modelName: "Sabre", modelLoadoutGroups: [{
-                    number: 4, modelLoadoutSlots: [
-                        {name: "Primary", loadout: "Hull Mounted neutron blaster"},
-                        {name: "Hull Mounted", loadout: "Multi-melta"}
-                    ]
-                }]
-            }]
-        }, {
-            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank",
-            detachmentName: "Legion Sicaran Squadron", modelGroups: [{
-                modelName: "Legion Sicaran",
-                modelLoadoutGroups: [{
-                    number: 4, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]
-                }]
-            }]
-        }, {
-            iconicDetachmentRequirementType: "Expanded", slot: "Light Armour",
-            detachmentName: "Legion Sabre Squadron", modelGroups: [{
-                modelName: "Sabre",
-                modelLoadoutGroups: [{
-                    number: 4, modelLoadoutSlots: [
-                        {name: "Primary", loadout: "Hull Mounted neutron blaster"},
-                        {name: "Hull Mounted", loadout: "Multi-melta"}
-                    ]
-                }]
-            }]
+            iconicDetachmentRequirementType: "Expanded", slot: "Light Armour", detachmentName: "Legion Sabre Squadron", 
+            modelGroups: [
+                {modelName: "Sabre", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted neutron blaster"},
+                    {name: "Hull Mounted", loadout: "Multi-melta"}
+                ]}]}
+            ]
         }]
-    }]
+    }],
+    ["Proioxis Macro-Assault Wing", {
+        allegiance: "Traitor", legionName: "Iron Warriors", points: 340, expandedPoints: 410, formationType: "Iconic",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Terminator Detachment",
+            modelGroups: [
+                {modelName: "Legion Terminators", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Spartan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Sponson mounted", loadout: "Quad lascannon"},
+                    {name: "Hull mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"}
+                ]}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Terminator Detachment",
+            modelGroups: [
+                {modelName: "Legion Terminators", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Spartan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Sponson mounted", loadout: "Quad lascannon"},
+                    {name: "Hull mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"}
+                ]}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Terminator Detachment",
+            modelGroups: [
+                {modelName: "Legion Terminators", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Spartan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Sponson mounted", loadout: "Quad lascannon"},
+                    {name: "Hull mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"}
+                ]}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Heavy Armour", detachmentName: "Legion Kratos Squadron", 
+            modelGroups: [
+                {modelName: "Legion Kratos", modelLoadoutGroups: [{number: 3, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Kratos battlecannon"},
+                    {name: "Hull Mounted", loadout: "Kratos lascannon"},
+                    {name: "Sponson Mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"}
+                ]}]}
+            ]
+        }]
+    }],
+    ["Harrow Group Arcadus", {
+        legionName: "Alpha Legion", points: 495, expandedPoints: 300, formationType: "Iconic",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Legion Sicaran Punisher Squadron",
+            modelGroups: [
+                {modelName: "Sicaran Punisher", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Sponson Mounted", loadout: "Heavy bolters"},
+                    {name: "Pintle mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Legion Sicaran Punisher Squadron",
+            modelGroups: [
+                {modelName: "Sicaran Punisher", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Sponson Mounted", loadout: "Heavy bolters"},
+                    {name: "Pintle mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Plasma Gun Support Detachment",
+            modelGroups: [
+                {modelName: "Plasma Support Legionaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Land Raider", modelLoadoutGroups: [
+                    {number: 1, modelLoadoutSlots: [{name: "Pintle mounted", loadout: "Multi-melta"}]},
+                    {number: 3, modelLoadoutSlots: [{name: "Pintle mounted", loadout: "None"}]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Light Armour", detachmentName: "Legion Sabre Squadron", 
+            modelGroups: [
+                {modelName: "Sabre", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted Anvilus autocannon"},
+                    {name: "Hull Mounted", loadout: "Heavy bolter"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Plasma Gun Support Detachment",
+            modelGroups: [
+                {modelName: "Plasma Support Legionaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Land Raider", modelLoadoutGroups: [
+                    {number: 1, modelLoadoutSlots: [{name: "Pintle mounted", loadout: "Multi-melta"}]},
+                    {number: 3, modelLoadoutSlots: [{name: "Pintle mounted", loadout: "None"}]}
+                ]}
+            ]
+        }],
+    }],
+    ["Legion Tactical Strike Force", {
+        points: 230, expandedPoints: 140, formationType: "Iconic",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legion Command",
+            modelGroups: [
+                {modelName: "Command Squad", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]},
+                {modelName: "Rhino", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Extra pintle mounted", loadout: "Multi-melta"},
+                    {name: "Missile", loadout: "None"}, 
+                ]}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Legion Tactical Detachment",
+            extras: ["Apothecary"],
+            modelGroups: [
+                {modelName: "Tactical Legionaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Rhino", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Extra pintle mounted", loadout: "None"},
+                    {name: "Missile", loadout: "None"}, 
+                ]}]},
+            ], 
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Legion Tactical Detachment",
+            extras: ["Apothecary"],
+            modelGroups: [
+                {modelName: "Tactical Legionaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Rhino", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Extra pintle mounted", loadout: "None"},
+                    {name: "Missile", loadout: "None"}, 
+                ]}]},
+            ], 
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Plasma Gun Support Detachment",
+            modelGroups: [
+                {modelName: "Plasma Support Legionaries", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Rhino", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Extra pintle mounted", loadout: "Havoc launcher"},
+                    {name: "Missile", loadout: "None"}, 
+                ]}]},
+            ], 
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Missile Launcher Support Detachment",
+            modelGroups: [
+                {modelName: "Missile Launcher Legionaries", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Rhino", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Extra pintle mounted", loadout: "None"},
+                    {name: "Missile", loadout: "None"}, 
+                ]}]},
+            ], 
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Assault Detachment",
+            modelGroups: [{modelName: "Assault Marines", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}]
+        }]
+    }],
 ])
 
 export function getShapeForLegionFormationName(formationName: LegionFormationName | ""): FormationShape {
@@ -247,7 +385,7 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
     ["Heavy Armour", [
         "Legion Cerberus Squadron",
         "Legion Kratos Squadron",
-        "Legion Mastadon Squadron",
+        "Legion Mastodon Squadron",
         "Legion Typhon Squadron"
     ]],
     ["HQ", [ 
@@ -394,7 +532,16 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         ]},
         {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 2, points: 14*2}, {num: 3, points: 14*3}, {num: 4, points: 14*4}
-        ]}
+        ]},
+        {modelName: "Land Raider", dedicatedTransport: true, formationNames: ["Harrow Group Arcadus"], modelLoadoutSlots: [
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+                {loadout: "Multi-melta", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [ 
+            {num: 0, points: 0}, {num: 4, points: 4*35}, {num: 6, points: 6*35}, {num: 8, points: 8*35}, 
+        ]},
     ]}],
     ["Legion Missile Launcher Support Detachment", {modelGroupShapes: [
         {modelName: "Missile Launcher Legionaries", modelLoadoutSlots: [], possibleModelGroupQuantities: [
@@ -907,8 +1054,8 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {num: 4, points: 80+200}
         ]}
     ]}],
-    ["Legion Mastadon Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
-        {modelName: "Mastadon", modelLoadoutSlots: [
+    ["Legion Mastodon Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Mastodon", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Lascannon", points: 0}, 
                 {loadout: "Heavy bolters", points: 0}
@@ -1282,7 +1429,7 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         ],
         unitTraits: ["Armoured"],
     }],
-    ["Mastadon", {
+    ["Mastodon", {
         detachmentType: "Super-heavy vehicle", scale: 3, move: 8, saves: [
             {saveType: "Armour", save: 2, arc: "Front"},
             {saveType: "Armour", save: 3, arc: "Front"},
