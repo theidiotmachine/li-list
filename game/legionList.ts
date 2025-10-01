@@ -340,6 +340,56 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
             modelGroups: [{modelName: "Assault Marines", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}]
         }]
     }],
+    ["Legion Speartip Assault", {
+        points: 230, expandedPoints: 205, formationType: "Iconic",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legion Command",
+            modelGroups: [
+                {modelName: "Command Squad", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]},
+                {modelName: "Drop Pod", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Legion Tactical Detachment",
+            extras: ["Apothecary"],
+            modelGroups: [
+                {modelName: "Tactical Legionaries", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Plasma Support Legionaries", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]},
+                {modelName: "Missile Launcher Legionaries", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]},
+                {modelName: "Drop Pod", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Legion Tactical Detachment",
+            extras: ["Apothecary"],
+            modelGroups: [
+                {modelName: "Tactical Legionaries", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Plasma Support Legionaries", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]},
+                {modelName: "Missile Launcher Legionaries", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]},
+                {modelName: "Drop Pod", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Palisade Drop Pod",
+            modelGroups: [{modelName: "Palisade Drop Pod", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Leviathan Siege Dreadnought Detachment",
+            modelGroups: [
+                {modelName: "Leviathan Dreadnought", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Cyclonic melta lance"},
+                ]}]},
+                {modelName: "Dreadnought Drop Pod", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Contemptor Dreadnought Talon",
+            modelGroups: [
+                {modelName: "Contemptor Dreadnought", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Twin-linked lascannon"},
+                ]}]},
+                {modelName: "Dreadnought Drop Pod", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Palisade Drop Pod",
+            modelGroups: [{modelName: "Palisade Drop Pod", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }],
+    }]
 ])
 
 export function getShapeForLegionFormationName(formationName: LegionFormationName | ""): FormationShape {

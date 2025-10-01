@@ -14,6 +14,7 @@ export const LegionFormationNames = [
     "Proioxis Macro-Assault Wing",
     "Harrow Group Arcadus",
     "Legion Tactical Strike Force",
+    "Legion Speartip Assault",
 ] as const;
 export type LegionFormationName = (typeof LegionFormationNames)[number];
 
