@@ -262,6 +262,172 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
                 {modelName: "Basilisk", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
             ]
         }] 
+    }], 
+    ["Solar Pattern Sub-Cohort", {
+        formationType: "Iconic", points: 335, expandedPoints: 385,
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legate Commander Detachment",
+            modelGroups: [
+                {modelName: "Auxilia Commander", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]},
+                {modelName: "Dracosan", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted demolisher cannon"},
+                    {name: "Pintle", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Auxilia Veletaris Storm Section",
+            modelGroups: [
+                {modelName: "Veletarii", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Dracosan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted twin lascannon"},
+                    {name: "Pintle", loadout: "Multi-laser"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Auxilia Veletaris Storm Section",
+            modelGroups: [
+                {modelName: "Veletarii", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Dracosan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted twin lascannon"},
+                    {name: "Pintle", loadout: "Multi-laser"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "HQ", detachmentName: "Legate Commander Detachment",
+            modelGroups: [
+                {modelName: "Auxilia Commander", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]},
+                {modelName: "Dracosan", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted demolisher cannon"},
+                    {name: "Pintle", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Auxilia Ogryn Charonite Section",
+            modelGroups: [
+                {modelName: "Charonite Ogryns", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Dracosan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted twin lascannon"},
+                    {name: "Pintle", loadout: "Multi-laser"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Auxilia Veletaris Storm Section",
+            modelGroups: [
+                {modelName: "Veletarii", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Dracosan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted twin lascannon"},
+                    {name: "Pintle", loadout: "Multi-laser"},
+                ]}]}
+            ]
+        }]
+    }], 
+    ["Ultima Pattern Sub-Cohort", {
+        formationType: "Iconic", points: 300, expandedPoints: 300,
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legate Commander Detachment",
+            modelGroups: [{modelName: "Auxilia Commander", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Auxilia Tactical Command Detachment",
+            modelGroups: [{modelName: "Tactical Command", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Auxilia Lasrifle Tercio",
+            modelGroups: [
+                {modelName: "Auxiliaries", modelLoadoutGroups: [{number: 12, modelLoadoutSlots: []}]},
+                {modelName: "Auxiliaries with Flamers", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Auxilia Lasrifle Tercio",
+            modelGroups: [
+                {modelName: "Auxiliaries", modelLoadoutGroups: [{number: 12, modelLoadoutSlots: []}]},
+                {modelName: "Auxiliaries with Flamers", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Auxilia Lasrifle Tercio",
+            modelGroups: [
+                {modelName: "Auxiliaries", modelLoadoutGroups: [{number: 12, modelLoadoutSlots: []}]},
+                {modelName: "Auxiliaries with Flamers", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "HQ", detachmentName: "Auxilia Tactical Command Detachment",
+            modelGroups: [{modelName: "Tactical Command", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Rapier Battery",
+            modelGroups: [
+                {modelName: "Auxilia Rapier", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Laser destroyer array"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Rapier Battery",
+            modelGroups: [
+                {modelName: "Auxilia Rapier", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Laser destroyer array"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Rapier Battery",
+            modelGroups: [
+                {modelName: "Auxilia Rapier", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Laser destroyer array"}
+                ]}]}
+            ]
+        }]
+    }],
+    ["Mechanised Pattern Sub-Cohort", {
+        formationType: "Iconic", points: 410, expandedPoints: 410,
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "Heavy Armour", detachmentName: "Auxilia Stormblade Squadron",
+            extras: ["Tank Commander"],
+            modelGroups: [
+                {modelName: "Stormblade", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Pintle Mounted", loadout: "None"}, 
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Leman Russ Strike Squadron",
+            extras: ["Tank Commander"],
+            modelGroups: [
+                {modelName: "Leman Russ Tank", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Hull Mounted", loadout: "Heavy bolter"},
+                    {name: "Pintle Mounted", loadout: "Heavy stubber"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Leman Russ Demolisher Squadron",
+            extras: ["Tank Commander"],
+            modelGroups: [
+                {modelName: "Leman Russ Demolisher", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Hull Mounted", loadout: "Lascannon"},
+                    {name: "Pintle Mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Leman Russ Executioner Squadron",
+            extras: ["Tank Commander"],
+            modelGroups: [
+                {modelName: "Leman Russ Executioner", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Hull Mounted", loadout: "Lascannon"},
+                    {name: "Pintle Mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Leman Russ Exterminator Squadron",
+            extras: ["Tank Commander"],
+            modelGroups: [
+                {modelName: "Leman Russ Exterminator", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Hull Mounted", loadout: "Heavy bolter"},
+                    {name: "Pintle Mounted", loadout: "Heavy stubber"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Auxilia Valdor Squadron",
+            modelGroups: [
+                {modelName: "Valdor", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Sponson Mounted", loadout: "Malcador lascannon sponson"},
+                    {name: "Pintle Mounted", loadout: "None"},
+                ]}]}
+            ]
+        }]
     }]
 ])
 
@@ -355,15 +521,15 @@ export function getAuxiliaDetachmentNamesForSlot(slot: FormationSlot): (Mechanic
 }
 
 const dracosanModelLoadoutSlots = [
-                {name: "Primary", possibleModelLoadouts: [
-                    {loadout: "Hull Mounted twin lascannon", points: 0},
-                    {loadout: "Hull Mounted demolisher cannon", points: 5},
-                ]},
-                {name: "Pintle", possibleModelLoadouts: [
-                    {loadout: "None", points: 0},
-                    {loadout: "Multi-laser", points: 5},
-                ]},
-        ];
+    {name: "Primary", possibleModelLoadouts: [
+        {loadout: "Hull Mounted twin lascannon", points: 0},
+        {loadout: "Hull Mounted demolisher cannon", points: 5},
+    ]},
+    {name: "Pintle", possibleModelLoadouts: [
+        {loadout: "None", points: 0},
+        {loadout: "Multi-laser", points: 5},
+    ]},
+];
 
 const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|AuxiliaDetachmentName, DetachmentConfiguration> = new Map([
     ["Legate Commander Detachment", {modelGroupShapes: [
@@ -691,7 +857,7 @@ const detachmentConfigurationForDetachmentName: Map<MechanicumDetachmentName|Aux
         ]},
     ]}],
     ["Auxilia Malcador Infernus Squadron", {modelGroupShapes: [
-        {modelName: "Malcador Inferus", modelLoadoutSlots: [
+        {modelName: "Malcador Infernus", modelLoadoutSlots: [
             {name: "Sponson Mounted", possibleModelLoadouts: [
                 {loadout: "Malcador lascannon sponsons", points: 0}, {loadout: "Malcador autocannon sponsons", points: 0}, 
             ]},

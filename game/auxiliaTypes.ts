@@ -11,7 +11,10 @@ export const AuxiliaFormationNames = [
     "Iron Cohort",
     //iconic
     "Tallarn Reborn Carmine Ambush Tercio",
-    "Galibed Oathsworn Thyreos Siege Breaker Company"
+    "Galibed Oathsworn Thyreos Siege Breaker Company",
+    "Solar Pattern Sub-Cohort",
+    "Ultima Pattern Sub-Cohort",
+    "Mechanised Pattern Sub-Cohort",
 ] as const;
 export type AuxiliaFormationName = (typeof AuxiliaFormationNames)[number];
 

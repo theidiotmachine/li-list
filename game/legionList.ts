@@ -389,6 +389,44 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
             iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Palisade Drop Pod",
             modelGroups: [{modelName: "Palisade Drop Pod", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
         }],
+    }],
+    ["Legion Stonebreaker Siege Force", {
+        formationType: "Iconic", points: 370, expandedPoints: 520,
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legion Command",
+            modelGroups: [
+                {modelName: "Command Squad", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]},
+                {modelName: "Land Raider", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: [
+                    {name: "Pintle mounted", loadout: "Multi-melta"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Legion Tactical Detachment",
+            extras: ["Apothecary"],
+            modelGroups: [
+                {modelName: "Tactical Legionaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Land Raider", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Pintle mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Legion Vindicator Squadron",
+            modelGroups: [{modelName: "Vindicator", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Legion Whirlwind Battery",
+            modelGroups: [{modelName: "Whirlwind", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Terminator Detachment",
+            modelGroups: [
+                {modelName: "Legion Terminators", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]},
+                {modelName: "Land Raider", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: [
+                    {name: "Pintle mounted", loadout: "None"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Legion Vindicator Squadron",
+            modelGroups: [{modelName: "Vindicator", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}]
+        }]
     }]
 ])
 
@@ -524,7 +562,16 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         ]},
         {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 1, points: 14}
-        ]}
+        ]},
+        {modelName: "Land Raider", dedicatedTransport: true, formationNames: ["Legion Stonebreaker Siege Force"], modelLoadoutSlots: [
+            {name: "Pintle mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Heavy bolter", points: 5},
+                {loadout: "Multi-melta", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [ 
+            {num: 1, points: 35}
+        ]},
     ]}],
     ["Legion Tactical Detachment", {maxModels: 12, 
         modelGroupShapes: [
@@ -559,7 +606,16 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
             ]},
             {modelName: "Legion Termite", dedicatedTransport: true, formationNames: ["Legion Subterranean Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
                 {num: 2, points: 14*2}, {num: 3, points: 14*3}, {num: 4, points: 14*4}, {num: 5, points: 14*5}, {num: 6, points: 14*6}
-            ]}
+            ]},
+            {modelName: "Land Raider", dedicatedTransport: true, formationNames: ["Legion Stonebreaker Siege Force"], modelLoadoutSlots: [
+                {name: "Pintle mounted", possibleModelLoadouts: [
+                    {loadout: "None", points: 0}, 
+                    {loadout: "Heavy bolter", points: 5},
+                    {loadout: "Multi-melta", points: 5},
+                ]},
+            ], possibleModelGroupQuantities: [ 
+                {num: 1, points: 35}, {num: 2, points: 35*2}, {num: 3, points: 35*3}, {num: 4, points: 35*4}
+            ]},
         ], extras: [{name: "Apothecary", points: 10}]
     }],
     ["Legion Plasma Gun Support Detachment", {modelGroupShapes: [

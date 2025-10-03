@@ -100,5 +100,5 @@ export const AllStrategicAssetModelNames = [
     "Warlord-Sinister",
     "Warmaster Titan",
     "Warmaster Iconoclast"
-];
+] as const;
 export type StrategicAssetModelName = (typeof AllStrategicAssetModelNames)[number];
