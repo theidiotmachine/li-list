@@ -16,6 +16,8 @@ export const LegionFormationNames = [
     "Legion Tactical Strike Force",
     "Legion Speartip Assault",
     "Legion Stonebreaker Siege Force",
+    "Reaping Host",
+    "Chogorian Warband",
 ] as const;
 export type LegionFormationName = (typeof LegionFormationNames)[number];
 
@@ -103,7 +105,6 @@ export const AllLegionModelNames = [
     "Leviathan Dreadnought",
     "Mastodon",
     "Missile Launcher Legionaries", //renamed from "Missile Launcher Heavy Support Legionaries" because come on
-    "Outrider",
     "Palisade Drop Pod",
     "Plasma Support Legionaries",
     "Predator Commander",

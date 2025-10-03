@@ -427,6 +427,100 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
             iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Legion Vindicator Squadron",
             modelGroups: [{modelName: "Vindicator", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}]
         }]
+    }], 
+    ["Reaping Host", {
+        formationType: "Iconic", legionName: "Death Guard", points: 285, expandedPoints: 350, 
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legion Command",
+            modelGroups: [
+                {modelName: "Command Squad", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Missile Launcher Support Detachment",
+            modelGroups: [{modelName: "Missile Launcher Legionaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]}]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Terminator Detachment",
+            modelGroups: [
+                {modelName: "Legion Terminators", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Spartan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Sponson mounted", loadout: "Laser destroyers"},
+                    {name: "Hull mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"}
+                ]}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Missile Launcher Support Detachment",
+            modelGroups: [{modelName: "Missile Launcher Legionaries", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Rapier Battery Detachment",
+            modelGroups: [
+                {modelName: "Legion Rapier", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Quad launcher"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Rapier Battery Detachment",
+            modelGroups: [
+                {modelName: "Legion Rapier", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Quad launcher"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Terminator Detachment",
+            modelGroups: [
+                {modelName: "Legion Terminators", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+                {modelName: "Spartan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Sponson mounted", loadout: "Laser destroyers"},
+                    {name: "Hull mounted", loadout: "Lascannon"},
+                    {name: "Pintle mounted", loadout: "None"}
+                ]}]},
+            ]
+        }]
+    }], 
+    ["Chogorian Warband", {
+        formationType: "Iconic", legionName: "White Scars", points: 305, expandedPoints: 265,
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "Vanguard", detachmentName: "Legion Scimitar Jetbike Squadron",
+            modelGroups: [{modelName: "Scimitar Jetbike", modelLoadoutGroups: [{number: 9, modelLoadoutSlots: []}]}]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Vanguard", detachmentName: "Legion Scimitar Jetbike Squadron",
+            modelGroups: [{modelName: "Scimitar Jetbike", modelLoadoutGroups: [{number: 9, modelLoadoutSlots: []}]}]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Vanguard", detachmentName: "Legion Land Speeder Squadron",
+            modelGroups: [
+                {modelName: "Land Speeder", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Guns", loadout: "Nose mounted heavy flamer and multi-melta"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Vanguard", detachmentName: "Legion Javelin Squadron",
+            modelGroups: [
+                {modelName: "Javelin", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: [
+                    {name: "Sponson Mounted", loadout: "Lascannon"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Vanguard", detachmentName: "Legion Outrider Squadron",
+            modelGroups: [{modelName: "Legion Outrider", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: []}]}]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Core", detachmentName: "Legion Tactical Detachment",
+            extras: ["Apothecary"],
+            modelGroups: [
+                {modelName: "Tactical Legionaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Rhino", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Extra pintle mounted", loadout: "None"},
+                    {name: "Missile", loadout: "None"}, 
+                ]}]},
+            ], 
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Light Armour", detachmentName: "Legion Sabre Squadron",
+            modelGroups: [
+                {modelName: "Sabre", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted Anvilus autocannon"},
+                    {name: "Hull Mounted", loadout: "Heavy bolter"}
+                ]}]}
+            ]
+        }]
     }]
 ])
 
