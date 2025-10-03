@@ -240,12 +240,12 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
                 ]}]}
             ]
         }, {
-            iconicDetachmentRequirementType: "Standard", slot: "Artillery", detachmentName: "Auxilia Basilisk Battery",
+            iconicDetachmentRequirementType: "Standard", slot: "Bastion", detachmentName: "Auxilia Basilisk Battery",
             modelGroups: [
                 {modelName: "Basilisk", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
             ]
         }, {
-            iconicDetachmentRequirementType: "Standard", slot: "Artillery", detachmentName: "Auxilia Medusa Battery",
+            iconicDetachmentRequirementType: "Standard", slot: "Bastion", detachmentName: "Auxilia Medusa Battery",
             modelGroups: [
                 {modelName: "Medusa", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
             ]
@@ -257,7 +257,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
                 ]}]}
             ]
         }, {
-            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Basilisk Battery",
+            iconicDetachmentRequirementType: "Expanded", slot: "Bastion", detachmentName: "Auxilia Basilisk Battery",
             modelGroups: [
                 {modelName: "Basilisk", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
             ]
@@ -351,21 +351,21 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
             iconicDetachmentRequirementType: "Expanded", slot: "HQ", detachmentName: "Auxilia Tactical Command Detachment",
             modelGroups: [{modelName: "Tactical Command", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
         }, {
-            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Rapier Battery",
+            iconicDetachmentRequirementType: "Expanded", slot: "Bastion", detachmentName: "Auxilia Rapier Battery",
             modelGroups: [
                 {modelName: "Auxilia Rapier", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: [
                     {name: "Primary", loadout: "Laser destroyer array"}
                 ]}]}
             ]
         }, {
-            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Rapier Battery",
+            iconicDetachmentRequirementType: "Expanded", slot: "Bastion", detachmentName: "Auxilia Rapier Battery",
             modelGroups: [
                 {modelName: "Auxilia Rapier", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: [
                     {name: "Primary", loadout: "Laser destroyer array"}
                 ]}]}
             ]
         }, {
-            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Rapier Battery",
+            iconicDetachmentRequirementType: "Expanded", slot: "Bastion", detachmentName: "Auxilia Rapier Battery",
             modelGroups: [
                 {modelName: "Auxilia Rapier", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: [
                     {name: "Primary", loadout: "Laser destroyer array"}
@@ -428,7 +428,112 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
                 ]}]}
             ]
         }]
-    }]
+    }],
+    ["Cthonian Headhunters Sub-Cohort", {
+        formationType: "Iconic", points: 270, expandedPoints: 330, allegiance: "Traitor",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Auxilia Tactical Command Detachment",
+            modelGroups: [{modelName: "Tactical Command", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Auxilia Lasrifle Tercio",
+            modelGroups: [
+                {modelName: "Auxiliaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Auxiliaries with Flamers", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Auxilia Veletaris Storm Section",
+            modelGroups: [
+                {modelName: "Veletarii", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Dracosan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted twin lascannon"},
+                    {name: "Pintle", loadout: "Multi-laser"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Vanguard", detachmentName: "Auxilia Aethon Heavy Sentinel Patrol",
+            modelGroups: [
+                {modelName: "Aethon Heavy Sentinel", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "HQ", detachmentName: "Auxilia Tactical Command Detachment",
+            modelGroups: [{modelName: "Tactical Command", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Core", detachmentName: "Auxilia Lasrifle Tercio",
+            modelGroups: [
+                {modelName: "Auxiliaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Auxiliaries with Flamers", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Auxilia Veletaris Storm Section",
+            modelGroups: [
+                {modelName: "Veletarii", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]},
+                {modelName: "Dracosan", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Hull Mounted twin lascannon"},
+                    {name: "Pintle", loadout: "Multi-laser"},
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Auxilia Malcador Infernus Squadron",
+            modelGroups: [
+                {modelName: "Malcador Infernus", modelLoadoutGroups: [{number: 2, modelLoadoutSlots: [
+                    {name: "Sponson Mounted", loadout: "Malcador autocannon sponsons"},
+                    {name: "Pintle Mounted", loadout: "None"},
+                ]}]}
+            ]
+        }]
+    }],
+    ["Theta-Garmon Deathless Sub-Cohort", {
+        formationType: "Iconic", points: 385, expandedPoints: 360, allegiance: "Loyalist",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Auxilia Tactical Command Detachment",
+            modelGroups: [{modelName: "Tactical Command", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Auxilia Lasrifle Tercio",
+            modelGroups: [
+                {modelName: "Auxiliaries", modelLoadoutGroups: [{number: 12, modelLoadoutSlots: []}]},
+                {modelName: "Auxiliaries with Flamers", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Auxilia Lasrifle Tercio",
+            modelGroups: [
+                {modelName: "Auxiliaries", modelLoadoutGroups: [{number: 12, modelLoadoutSlots: []}]},
+                {modelName: "Auxiliaries with Flamers", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Auxilia Lasrifle Tercio",
+            modelGroups: [
+                {modelName: "Auxiliaries", modelLoadoutGroups: [{number: 12, modelLoadoutSlots: []}]},
+                {modelName: "Auxiliaries with Flamers", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]},
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Bastion", detachmentName: "Auxilia Rapier Battery",
+            modelGroups: [
+                {modelName: "Auxilia Rapier", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Laser destroyer array"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "HQ", detachmentName: "Legate Commander Detachment",
+            modelGroups: [{modelName: "Auxilia Commander", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}],
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Bastion", detachmentName: "Auxilia Rapier Battery",
+            modelGroups: [
+                {modelName: "Auxilia Rapier", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: [
+                    {name: "Primary", loadout: "Laser destroyer array"}
+                ]}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Basilisk Battery",
+            modelGroups: [
+                {modelName: "Basilisk", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Artillery", detachmentName: "Auxilia Basilisk Battery",
+            modelGroups: [
+                {modelName: "Basilisk", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
+            ]
+        }]
+    }],
 ])
 
 export function getShapeForAuxiliaFormationName(formationName: AuxiliaFormationName | ""): FormationShape {

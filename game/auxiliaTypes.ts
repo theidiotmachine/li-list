@@ -15,6 +15,8 @@ export const AuxiliaFormationNames = [
     "Solar Pattern Sub-Cohort",
     "Ultima Pattern Sub-Cohort",
     "Mechanised Pattern Sub-Cohort",
+    "Cthonian Headhunters Sub-Cohort",
+    "Theta-Garmon Deathless Sub-Cohort",
 ] as const;
 export type AuxiliaFormationName = (typeof AuxiliaFormationNames)[number];
 
