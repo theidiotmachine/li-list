@@ -128,7 +128,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
             {slot: "Brethren of Iron Core", displayName: "Core",
                 slotRequirementType: "Optional"
             },
-            {slot: "Brethren of Iron Bastion", displayName: "Core",
+            {slot: "Brethren of Iron Bastion", displayName: "Bastion",
                 slotRequirementType: "Optional"
             },
             {slot: "Brethren of Iron Support", displayName: "Support",

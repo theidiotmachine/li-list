@@ -150,7 +150,7 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
         slotRequirements: [
             {slot: "HQ", slotRequirementType: "Required"},                      //0
             {slot: "Tech-Priest Auxilia", slotRequirementType: "Required",      //1
-                displayName: "Tech-Priest"
+                displayName: "Support"
             },
             {slot: "Iron Cohort Core", slotRequirementType: "Required",         //2
                 displayName: "Core"

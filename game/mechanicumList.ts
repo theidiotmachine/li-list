@@ -577,10 +577,10 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
             ],
         }, {
             iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Adsecularis Tech-Thrall Covenant",
-            modelGroups: [{modelName: "Tech-thrall", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
+            modelGroups: [{modelName: "Tech-thralls", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
         }, {
             iconicDetachmentRequirementType: "Standard", slot: "Core", detachmentName: "Adsecularis Tech-Thrall Covenant",
-            modelGroups: [{modelName: "Tech-thrall", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
+            modelGroups: [{modelName: "Tech-thralls", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
         }, {
             iconicDetachmentRequirementType: "Standard", slot: "Heavy Armour", detachmentName: "Serperos 'Overlord' Heavy Stalker Maniple",
             modelGroups: [
@@ -597,7 +597,7 @@ const darkMechFormationShapes = new Map<DarkMechanicumFormationName, FormationSh
             ],
         }, {
             iconicDetachmentRequirementType: "Expanded", slot: "Core", detachmentName: "Adsecularis Tech-Thrall Covenant",
-            modelGroups: [{modelName: "Tech-thrall", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
+            modelGroups: [{modelName: "Tech-thralls", modelLoadoutGroups: [{number: 10, modelLoadoutSlots: []}]}],
         }, {
             iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Myrmidon Secutor Host",
             modelGroups: [
@@ -760,7 +760,7 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
         ]},
     ]}],
     ["Adsecularis Tech-Thrall Covenant", {modelGroupShapes: [
-        {modelName: "Tech-thrall", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+        {modelName: "Tech-thralls", modelLoadoutSlots: [], possibleModelGroupQuantities: [
             {num: 5, points: 40}, {num: 5+5, points: 40+35}, {num: 5+10, points: 40+70}
         ]},
         {modelName: "Triaros", dedicatedTransport: true, formationNames: ["Dark Taghma Sub-covenant", "Taghma Sub-covenant"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
