@@ -1,6 +1,6 @@
 import { DarkMechanicumDetachmentName, DarkMechanicumFormationName, DarkMechanicumModelName, MechanicumDetachmentName, MechanicumFormationName, MechanicumModelName } from "./mechanicumTypes.ts";
 import { getQuestorisFamiliaDetachmentNamesForSlot, getStatsForStrategicAssetModelType, getStrategicAssetDetachmentConfigurationForDetachmentName, getStrategicAssetDetachmentNamesForSlot } from "./strategicAssetList.ts";
-import { StrategicAssetDetachmentName } from "./strategicAssetTypes.ts";
+import { StrategicAssetDetachmentName, StrategicAssetModelName } from "./strategicAssetTypes.ts";
 import { Allegiance, DetachmentConfiguration, DetachmentName, DetachmentValidationState, EmptyNormalFormationShape, Formation, FormationShape, FormationSlot, Stats } from "./types.ts";
 
 const cortexControllerValidation = (formation: Formation, detachmentIndex: number): DetachmentValidationState => {
@@ -1261,7 +1261,7 @@ const statsForModelType = new Map<MechanicumModelName | DarkMechanicumModelName,
     }],
 ]);
 
-export function getStatsForMechanicumModelName(modelName: MechanicumModelName | DarkMechanicumModelName): Stats | undefined {
-    return statsForModelType.get(modelName) ??
-        getStatsForStrategicAssetModelType(modelName);
+export function getStatsForMechanicumModelName(modelName: MechanicumModelName | DarkMechanicumModelName | StrategicAssetModelName): Stats | undefined {
+    return statsForModelType.get(modelName as MechanicumModelName | DarkMechanicumModelName) ??
+        getStatsForStrategicAssetModelType(modelName as StrategicAssetModelName);
 }
