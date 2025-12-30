@@ -409,7 +409,8 @@ export type UnitTrait =
     "Tracking Array" |
     "Traitor" |
     "Transport (2)" |
-    "Transport (4)"
+    "Transport (4)" |
+    "Very Bulky"
 ;
 
 //note this isn't completely correct, as it doesn't take into account the unit traits from loadouts

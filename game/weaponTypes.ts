@@ -9,6 +9,7 @@ export type WeaponType =
     "Arc blasters" |
     "Arcus missile launcher" |
     "Ardex mega-bolters" |
+    "Ascalon inferno gun" |
     "Atrapos lascutter" |
     "Autocannon" |
     "Auxilia laspistols" |
@@ -34,6 +35,8 @@ export type WeaponType =
     "Demolisher cannon" |
     "Demolition charge" |
     "Destroyer bomb bay" |
+    "Disintegrator cannon" |
+    "Disruption fists" |
     "Domitar missile launcher" |
     "Errax lascutters" |
     "Errax meltagun" |
@@ -42,15 +45,18 @@ export type WeaponType =
     "Exo-planar cannon" |
     "Exo-planar repeaters" |
     "Exterminator autocannon" |
+    "Fellblade accelerator cannon" |
     "Flamers" |
     "Gravis autocannon batteries" |
     "Graviton eradicator" |
     "Graviton gun" |
     "Graviton hammers" |
+    "Graviton pulveriser" |
     "Graviton singularity cannon" |
     "Graviton ram" |
     "Harpax lascutters" |
     "Heavy bolter" |
+    "Heavy plasma bombard" |
     "Hekaton siege claw" |
     "Heavy stubber" |
     "Heavy stubber tail gun" |
@@ -77,6 +83,7 @@ export type WeaponType =
     "Incineration charge" |
     "Incisor pattern melta lance" |
     "Inferno gun" |
+    "Inversion beamer" |
     "Ion gauntlet shield" |
     "Irad-scourer" |
     "Irradiation engine" |
@@ -119,11 +126,16 @@ export type WeaponType =
     "Myrmidon volkites" |
     "Natrix shock lance" |
     "Neutron beam laser" |
+    "Neutron wave cannon" |
     "Nose Mounted autocannon array" |
     "Nose Mounted heavy bolter" |
     "Nose Mounted heavy flamer" |
     "Nose Mounted lascannon" |
     "Omega plasma array" |
+    "Orias heavy frag missiles" |
+    "Paired plasma bombards" |
+    "Paired twin heavy disintegrators" |
+    "Particle shredders" |
     "Phased plasma-fusil" |
     "Phosphex bomb clusters" |
     "Pintle Mounted havoc launcher" |
@@ -134,6 +146,7 @@ export type WeaponType =
     "Pintle Mounted twin bolter" |
     "Pintle Mounted twin-linked bolter" |
     "Plasma blastgun" |
+    "Plasma bombards" |
     "Plasma cannon" |
     "Plasma guns" |
     "Plasma mortar" |
@@ -143,6 +156,7 @@ export type WeaponType =
     "Predator lascannon" |
     "Pulsar-fusil" |
     "Punisher rotary cannon" |
+    "Quad accelerator autocannon" |
     "Quad autocannon" |
     "Quad heavy bolter batteries" |
     "Quad launcher" |
@@ -161,6 +175,7 @@ export type WeaponType =
     "Rotor cannon" |
     "Sabre missiles" |
     "Sarcophagus mounted weapon" |
+    "Saturnine power weapons" |
     "Scimitar heavy bolter" |
     "Scintillax lascutter" |
     "Scorpius missile launcher" |
@@ -176,7 +191,8 @@ export type WeaponType =
     "Sponson Mounted heavy bolters" |
     "Sponson Mounted heavy flamers" |
     "Sponson Mounted lascannon" |
-    "Sponson mounted laser destroyers" |
+    "Sponson Mounted laser destroyers" |
+    "Sponson Mounted quad heavy bolters" |
     "Sponson Mounted quad lascannon" |
     "Sponson Mounted twin-linked lascannon" |
     "Stalker maxima bolters" |
@@ -209,12 +225,15 @@ export type WeaponType =
     "Twin-linked mauler bolt cannon" |
     "Twin-linked volkite calvier" |
     "Twin-linked volkite calviers" |
+    "Twin heavy disintegrators" |
     "Twin plasma guns" |
+    "Twin punisher cannon" |
     "Ursus claw" |
     "Vanquisher battlecannon" |
     "Vengance launcher" |
     "Volcano cannon" |
     "Volkite calvier sponsons" |
+    "Volkite carronade" |
     "Volkite chargers" |
     "Volkite chieorovile" |
     "Volkite culverins" |
@@ -250,6 +269,7 @@ export type WeaponTrait =
     "Collapsing Singularity" |
     "Deflagrate" |
     "Demolisher" |
+    "Disruptive" |
     "Engine Killer (1)" |
     "Engine Killer (2)" |
     "Firestorm" |
@@ -259,8 +279,10 @@ export type WeaponTrait =
     "Light" |
     "Light AT" |
     "Limited (1)" |
+    "Limited (2)" |
     "Neutron-flux" |
     "Point Defence" |
+    "Power Capacitor" |
     "Quake" |
     "Rapid Fire" |
     "Reach" |

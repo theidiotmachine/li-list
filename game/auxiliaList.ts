@@ -533,7 +533,74 @@ const formationShapes = new Map<AuxiliaFormationName, FormationShape>([
                 {modelName: "Basilisk", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: []}]}
             ]
         }]
-    }],
+    }], 
+    ["The Sacramentii Foehammers", {
+        formationType: "Iconic", points: 675, expandedPoints: 490, allegiance: "Loyalist",
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Leman Russ Executioner Squadron",
+            extras: ["Tank Commander"],
+            modelGroups: [
+                {modelName: "Leman Russ Executioner", modelLoadoutGroups: [
+                    {number: 4, modelLoadoutSlots: [
+                        {name: "Hull Mounted", loadout: "Heavy bolter"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Leman Russ Strike Squadron",
+            modelGroups: [
+                {modelName: "Leman Russ Tank", modelLoadoutGroups: [
+                    {number: 8, modelLoadoutSlots: [
+                        {name: "Hull Mounted", loadout: "Heavy bolter"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Battle Tank", detachmentName: "Malcador Tank Squadron",
+            modelGroups: [
+                {modelName: "Malcador Tank", modelLoadoutGroups: [
+                    {number: 4, modelLoadoutSlots: [
+                        {name: "Hull Mounted", loadout: "Autocannon"},
+                        {name: "Sponson Mounted", loadout: "Malcador autocannon"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Auxilia Malcador Infernus Squadron",
+            modelGroups: [
+                {modelName: "Malcador Infernus", modelLoadoutGroups: [
+                    {number: 2, modelLoadoutSlots: [
+                        {name: "Sponson Mounted", loadout: "Malcador autocannon sponsons"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Battle Tank", detachmentName: "Malcador Annihilator Squadron",
+            modelGroups: [
+                {modelName: "Malcador Annihilator", modelLoadoutGroups: [
+                    {number: 4, modelLoadoutSlots: [
+                        {name: "Hull Mounted", loadout: "Lascannon"},
+                        {name: "Sponson Mounted", loadout: "Malcador lascannon"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Heavy Armour", detachmentName: "Auxilia Stormhammer Squadron",
+            modelGroups: [
+                {modelName: "Stormhammer", modelLoadoutGroups: [
+                    {number: 3, modelLoadoutSlots: [
+                        {name: "Sponson Mounted", loadout: "Stormhammer multi-laser sponsons"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }]
+    }]
 ])
 
 export function getShapeForAuxiliaFormationName(formationName: AuxiliaFormationName | ""): FormationShape {

@@ -1,12 +1,15 @@
 export const LegionFormationNames = [
+    "Legion Aegis Defence Strongpoint",
     "Legion Aerial Assault",
     "Legion Armoured Company",
     "Legion Demi-Company",
     "Legion Drop Pod Assault",
     "Legion Garrison Force",
     "Legion Heavy Assault Spearhead",
+    "Legion Saturnine Heavy Assault Cadre",
     "Legion Sky-hunter Phalanx",
     "Legion Subterranean Assault",
+    "Legion Super-heavy Spearhead",
     //support
     "Brethren of Iron",
     //iconic
@@ -18,6 +21,8 @@ export const LegionFormationNames = [
     "Legion Stonebreaker Siege Force",
     "Reaping Host",
     "Chogorian Warband",
+    "Saturnine Excubitor Cadre",
+    "Iron Warriors Obliteration Century",
 ] as const;
 export type LegionFormationName = (typeof LegionFormationNames)[number];
 
@@ -26,14 +31,20 @@ export type LegionFormationSlot =
     "Brethren of Iron Core" |
     "Brethren of Iron Support" |
     "Brethren of Iron Vanguard" |
+    "Legion Aegis Defence Strongpoint Bastion" |
     "Legion Aerial Assault HQ" |
     "Legion Armoured Company HQ" |
     "Legion Heavy Assault Spearhead Support Compulsory" |
+    "Legion Saturnine Heavy Assault Cadre HQ" |
+    "Legion Saturnine Heavy Assault Cadre Bastion" |
+    "Legion Saturnine Heavy Assault Cadre Support" |
     "Legion Terminators" |
     "Sky-hunter Phalanx Vanguard Compulsory" //This just makes it easier. It can't have bikes
 ;
 
 export type LegionDetachmentName = 
+    "Araknae Weapons Platform Battery" |
+    "Legion Ascalon Squadron" |
     "Legion Assault Detachment" |
     "Legion Cerberus Squadron" |
     "Legion Command" | 
@@ -42,6 +53,9 @@ export type LegionDetachmentName =
     "Legion Deredeo Dreadnought Detachment" |
     "Legion Dreadnought Drop Pod Detachment" |
     "Legion Drop Pod Detachment" |
+    "Legion Falchion Squadron" |
+    "Legion Fellblade Squadron" |
+    "Legion Glaive Squadron" |
     "Legion Fire Raptor Squadron" |
     "Legion Javelin Squadron" |
     "Legion Kratos Commander" | 
@@ -58,6 +72,9 @@ export type LegionDetachmentName =
     "Legion Rapier Battery Detachment" |
     "Legion Rhino Detachment" |
     "Legion Sabre Squadron" |
+    "Legion Saturnine Command" |
+    "Legion Saturnine Dreadnought Detachment" |
+    "Legion Saturnine Terminator Detachment" |
     "Legion Scimitar Jetbike Squadron" |
     "Legion Scorpius Battery" |
     "Legion Sicaran Arcus Squadron" |
@@ -81,6 +98,8 @@ export type LegionDetachmentName =
 ;
 
 export const AllLegionModelNames = [
+    "Araknae Weapons Platform",
+    "Ascalon",
     "Assault Marines", 
     "Command Squad",
     "Contemptor Dreadnought",
@@ -88,7 +107,10 @@ export const AllLegionModelNames = [
     "Deredeo Dreadnought",
     "Dreadnought Drop Pod",
     "Drop Pod",
+    "Falchion",
+    "Fellblade",
     "Fire Raptor",
+    "Glaive",
     "Javelin",
     "Kratos Commander",
     "Land Raider",
@@ -110,6 +132,9 @@ export const AllLegionModelNames = [
     "Predator Commander",
     "Rhino",
     "Sabre",
+    "Saturnine Command Squad",
+    "Saturnine Dreadnought",
+    "Saturnine Terminators",
     "Scimitar Jetbike",
     "Scorpius",
     "Sicaran Arcus",

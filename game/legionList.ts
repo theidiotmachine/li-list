@@ -114,7 +114,35 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         {   slot: "Core",           slotRequirementType: "Optional"                 },
         {   slot: "Core",           slotRequirementType: "Optional"                 },
     ]}],
-    //supplement
+    //TRotS
+    ["Legion Saturnine Heavy Assault Cadre", {formationType: "Normal", slotRequirements: [
+        {slot: "Legion Saturnine Heavy Assault Cadre HQ", slotRequirementType: "Required", displayName: "HQ"},
+        {slot: "Legion Saturnine Heavy Assault Cadre Support", slotRequirementType: "Required", displayName: "Support"},
+        {slot: "Legion Saturnine Heavy Assault Cadre Support", slotRequirementType: "Required", displayName: "Support"},
+        {slot: "Legion Saturnine Heavy Assault Cadre Support", slotRequirementType: "Optional", displayName: "Support"},
+        {slot: "Legion Saturnine Heavy Assault Cadre Support", slotRequirementType: "Optional", displayName: "Support"},
+        {slot: "Legion Saturnine Heavy Assault Cadre Bastion", slotRequirementType: "Optional", displayName: "Bastion"},
+        {slot: "Legion Saturnine Heavy Assault Cadre Bastion", slotRequirementType: "Optional", displayName: "Bastion"},
+    ]}],
+    ["Legion Super-heavy Spearhead", {formationType: "Normal", slotRequirements: [
+        {slot: "Heavy Armour", slotRequirementType: "Required"},
+        {slot: "Heavy Armour", slotRequirementType: "Required"},
+        {slot: "Heavy Armour", slotRequirementType: "Required"},
+        {slot: "Heavy Armour", slotRequirementType: "Optional"},
+        {slot: "Heavy Armour", slotRequirementType: "Optional"},
+        {slot: "Air Support", slotRequirementType: "Optional"},
+    ]}],
+    ["Legion Aegis Defence Strongpoint", {formationType: "Normal", slotRequirements: [
+        {slot: "HQ", slotRequirementType: "Required"},
+        {slot: "Core", slotRequirementType: "Required"},
+        {slot: "Legion Aegis Defence Strongpoint Bastion", slotRequirementType: "Required", displayName: "Bastion"},
+        {slot: "Legion Aegis Defence Strongpoint Bastion", slotRequirementType: "Required", displayName: "Bastion"},
+        {slot: "Support", slotRequirementType: "Optional"},
+        {slot: "Artillery", slotRequirementType: "Optional"},
+        {slot: "Legion Aegis Defence Strongpoint Bastion", slotRequirementType: "Optional", displayName: "Bastion"},
+        {slot: "Legion Aegis Defence Strongpoint Bastion", slotRequirementType: "Optional", displayName: "Bastion"},
+    ]}],
+    //Support
     ["Brethren of Iron", {
         formationType: "Support",
         slotRequirements: [
@@ -432,9 +460,7 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         formationType: "Iconic", legionName: "Death Guard", points: 285, expandedPoints: 350, 
         iconicDetachments: [{
             iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legion Command",
-            modelGroups: [
-                {modelName: "Command Squad", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]},
-            ]
+            modelGroups: [{modelName: "Command Squad", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}]
         }, {
             iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Missile Launcher Support Detachment",
             modelGroups: [{modelName: "Missile Launcher Legionaries", modelLoadoutGroups: [{number: 8, modelLoadoutSlots: []}]}]
@@ -454,16 +480,16 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         }, {
             iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Rapier Battery Detachment",
             modelGroups: [
-                {modelName: "Legion Rapier", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
-                    {name: "Primary", loadout: "Quad launcher"},
-                ]}]}
+                {modelName: "Legion Rapier", modelLoadoutGroups: [
+                    {number: 4, modelLoadoutSlots: [{name: "Primary", loadout: "Quad launcher"}]}
+                ]}
             ]
         }, {
             iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Rapier Battery Detachment",
             modelGroups: [
-                {modelName: "Legion Rapier", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
-                    {name: "Primary", loadout: "Quad launcher"},
-                ]}]}
+                {modelName: "Legion Rapier", modelLoadoutGroups: [
+                    {number: 4, modelLoadoutSlots: [{name: "Primary", loadout: "Quad launcher"}]}
+                ]}
             ]
         }, {
             iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Terminator Detachment",
@@ -488,16 +514,16 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
         }, {
             iconicDetachmentRequirementType: "Standard", slot: "Vanguard", detachmentName: "Legion Land Speeder Squadron",
             modelGroups: [
-                {modelName: "Land Speeder", modelLoadoutGroups: [{number: 4, modelLoadoutSlots: [
-                    {name: "Guns", loadout: "Nose mounted heavy flamer and multi-melta"}
-                ]}]}
+                {modelName: "Land Speeder", modelLoadoutGroups: [
+                    {number: 4, modelLoadoutSlots: [{name: "Guns", loadout: "Nose mounted heavy flamer and multi-melta"}]}
+                ]}
             ]
         }, {
             iconicDetachmentRequirementType: "Standard", slot: "Vanguard", detachmentName: "Legion Javelin Squadron",
             modelGroups: [
-                {modelName: "Javelin", modelLoadoutGroups: [{number: 6, modelLoadoutSlots: [
-                    {name: "Sponson Mounted", loadout: "Lascannon"}
-                ]}]}
+                {modelName: "Javelin", modelLoadoutGroups: [
+                    {number: 6, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]}
+                ]}
             ]
         }, {
             iconicDetachmentRequirementType: "Expanded", slot: "Vanguard", detachmentName: "Legion Outrider Squadron",
@@ -521,6 +547,124 @@ const formationShapes = new Map<LegionFormationName, FormationShape>([
                 ]}]}
             ]
         }]
+    }],
+    ["Saturnine Excubitor Cadre", {
+        formationType: "Iconic", legionName: "Salamanders", allegiance: "Loyalist", points: 570, expandedPoints: 495,
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legion Saturnine Command",
+            modelGroups: [{modelName: "Saturnine Command Squad", modelLoadoutGroups: [{number: 1, modelLoadoutSlots: []}]}]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Saturnine Terminator Detachment",
+            modelGroups: [
+                {modelName: "Saturnine Terminators", modelLoadoutGroups: [
+                    {number: 3, modelLoadoutSlots: [{name: "", loadout: "Plasma bombards and disruption fists"}]},
+                    {number: 3, modelLoadoutSlots: [{name: "", loadout: "Paired plasma bombards"}]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Support", detachmentName: "Legion Saturnine Terminator Detachment",
+            modelGroups: [
+                {modelName: "Saturnine Terminators", modelLoadoutGroups: [
+                    {number: 3, modelLoadoutSlots: [{name: "", loadout: "Plasma bombards and disruption fists"}]},
+                    {number: 3, modelLoadoutSlots: [{name: "", loadout: "Paired plasma bombards"}]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Heavy Armour", detachmentName: "Legion Mastodon Squadron",
+            modelGroups: [
+                {modelName: "Mastodon", modelLoadoutGroups: [
+                    {number: 2, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Support", detachmentName: "Legion Saturnine Terminator Detachment",
+            modelGroups: [
+                {modelName: "Saturnine Terminators", modelLoadoutGroups: [
+                    {number: 6, modelLoadoutSlots: [{name: "", loadout: "Twin heavy disintegrators and disruption fists"}]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Bastion", detachmentName: "Legion Saturnine Dreadnought Detachment",
+            modelGroups: [
+                {modelName: "Saturnine Dreadnought", modelLoadoutGroups: [
+                    {number: 4, modelLoadoutSlots: [{name: "", loadout: "Heavy plasma bombard and disintegrator cannon"}]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Heavy Armour", detachmentName: "Legion Mastodon Squadron",
+            modelGroups: [
+                {modelName: "Mastodon", modelLoadoutGroups: [
+                    {number: 2, modelLoadoutSlots: [{name: "Sponson Mounted", loadout: "Lascannon"}]}
+                ]}
+            ]
+        }],
+    }],
+    ["Iron Warriors Obliteration Century", {
+        formationType: "Iconic", legionName: "Iron Warriors", allegiance: "Traitor", points: 620, expandedPoints: 790,
+        iconicDetachments: [{
+            iconicDetachmentRequirementType: "Standard", slot: "HQ", detachmentName: "Legion Kratos Commander",
+            modelGroups: [
+                {modelName: "Kratos Commander", modelLoadoutGroups: [
+                    {number: 1, modelLoadoutSlots: [
+                        {name: "Primary", loadout: "Melta blastgun"},
+                        {name: "Hull Mounted", loadout: "Kratos lascannon"},
+                        {name: "Sponson Mounted", loadout: "Lascannon"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Heavy Armour", detachmentName: "Legion Kratos Squadron",
+            modelGroups: [
+                {modelName: "Legion Kratos", modelLoadoutGroups: [
+                    {number: 3, modelLoadoutSlots: [
+                        {name: "Primary", loadout: "Melta blastgun"},
+                        {name: "Hull Mounted", loadout: "Kratos lascannon"},
+                        {name: "Sponson Mounted", loadout: "Lascannon"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Standard", slot: "Heavy Armour", detachmentName: "Legion Fellblade Squadron",
+            modelGroups: [
+                {modelName: "Fellblade", modelLoadoutGroups: [
+                    {number: 3, modelLoadoutSlots: [
+                        {name: "Sponson Mounted", loadout: "Quad lascannon"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "HQ", detachmentName: "Legion Falchion Squadron",
+            modelGroups: [
+                {modelName: "Falchion", modelLoadoutGroups: [
+                    {number: 3, modelLoadoutSlots: [
+                        {name: "Sponson Mounted", loadout: "Quad lascannon"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Heavy Armour", detachmentName: "Legion Glaive Squadron",
+            modelGroups: [
+                {modelName: "Glaive", modelLoadoutGroups: [
+                    {number: 3, modelLoadoutSlots: [
+                        {name: "Sponson Mounted", loadout: "Quad lascannon"},
+                    ]}
+                ]}
+            ]
+        }, {
+            iconicDetachmentRequirementType: "Expanded", slot: "Heavy Armour", detachmentName: "Legion Typhon Squadron",
+            modelGroups: [
+                {modelName: "Typhon", modelLoadoutGroups: [
+                    {number: 3, modelLoadoutSlots: [
+                        {name: "Sponson Mounted", loadout: "Quad lascannon"},
+                        {name: "Pintle Mounted", loadout: "None"},
+                    ]}
+                ]}
+            ]
+        }]
     }]
 ])
 
@@ -541,7 +685,9 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Whirlwind Battery",
     ]], 
     ["Bastion", [
+        "Araknae Weapons Platform Battery",
         "Legion Deredeo Dreadnought Detachment",
+        "Legion Saturnine Dreadnought Detachment",
         "Legion Tarantula Battery",
     ]],
     ["Battle Tank", [
@@ -565,7 +711,11 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
     ]],
     ["Core", ["Legion Tactical Detachment"]],  
     ["Heavy Armour", [
+        "Legion Ascalon Squadron",
         "Legion Cerberus Squadron",
+        "Legion Falchion Squadron",
+        "Legion Fellblade Squadron",
+        "Legion Glaive Squadron",
         "Legion Kratos Squadron",
         "Legion Mastodon Squadron",
         "Legion Typhon Squadron"
@@ -574,7 +724,12 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Command",
         "Legion Kratos Commander",
         "Legion Predator Commander",
+        "Legion Saturnine Command",
         "Legion Sicaran Commander"
+    ]],
+    ["Legion Aegis Defence Strongpoint Bastion", [
+        "Araknae Weapons Platform Battery",
+        "Legion Tarantula Battery"
     ]],
     ["Legion Aerial Assault HQ", ["Legion Command",]],
     ["Legion Armoured Company HQ", [
@@ -587,6 +742,9 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Terminator Detachment", 
         "Leviathan Siege Dreadnought Detachment",
     ]],
+    ["Legion Saturnine Heavy Assault Cadre HQ", ["Legion Saturnine Command"]],
+    ["Legion Saturnine Heavy Assault Cadre Bastion", ["Legion Saturnine Dreadnought Detachment"]],
+    ["Legion Saturnine Heavy Assault Cadre Support", ["Legion Saturnine Terminator Detachment"]],
     ["Legion Terminators", ["Legion Terminator Detachment"]],
     [ "Light Armour", [ "Legion Sabre Squadron" ] ],
     [ "Sky-hunter Phalanx Vanguard Compulsory", [
@@ -602,6 +760,7 @@ const detachmentNamesForSlot = new Map<FormationSlot, (LegionDetachmentName|Mech
         "Legion Palisade Drop Pod",
         "Legion Plasma Gun Support Detachment", 
         "Legion Rapier Battery Detachment",
+        "Legion Saturnine Terminator Detachment",
         "Legion Terminator Detachment", 
         "Leviathan Siege Dreadnought Detachment",
     ] ],
@@ -1280,6 +1439,120 @@ const detachmentConfigurationForDetachmentName: Map<DetachmentName, DetachmentCo
                 {num: 2+6, points: 90+240}
         ]}
     ]}],
+    //TRotS
+    ["Legion Saturnine Command", {minModels: 1, maxModels: 1, modelGroupShapes: [
+        {modelName: "Saturnine Command Squad", modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 1, points: 50}
+        ]},
+        {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 150}
+        ]},
+    ]}],
+    ["Legion Saturnine Terminator Detachment", {minModels: 3, maxModels: 9, modelGroupShapes: [
+        {modelName: "Saturnine Terminators", modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "Plasma bombards and disruption fists", points: 0},
+                {loadout: "Paired plasma bombards", points: 0},
+                {loadout: "Twin heavy disintegrators and disruption fists", points: 0},
+                {loadout: "Paired twin heavy disintegrators", points: 0},
+                {loadout: "Plasma bombards and twin heavy disintegrators", points: 10},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 3, points: 85}, {num: 6, points: 85+80}, {num: 9, points: 85+150}
+        ]},
+        {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+140}, {num: 3, points: 150+280}, {num: 4, points: 150+280+140}
+        ]},
+    ]}],
+    ["Legion Saturnine Dreadnought Detachment", {minModels: 2, maxModels: 6, modelGroupShapes: [
+        {modelName: "Saturnine Dreadnought", modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "Heavy plasma bombard and disintegrator cannon", points: 0},
+                {loadout: "Graviton pulveriser and inversion beamer", points: 0},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 2, points: 70}, {num: 4, points: 70+65}, {num: 6, points: 70+120}
+        ]},
+        {modelName: "Thunderhawk Gunship", dedicatedTransport: true, formationNames: ["Legion Aerial Assault"], modelLoadoutSlots: [], possibleModelGroupQuantities: [
+            {num: 0, points: 0}, {num: 1, points: 150}, {num: 2, points: 150+140}, {num: 3, points: 150+280}
+        ]},
+    ]}],
+    ["Araknae Weapons Platform Battery", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Araknae Weapons Platform", modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Quad accelerator autocannon", points: 0},
+                {loadout: "Twin punisher cannon", points: 0},
+                {loadout: "Orias heavy frag missiles", points: 0},
+            ]},
+        ], 
+            possibleModelGroupQuantities: [
+                {num: 1, points: 30}, {num: 2, points: 30+30}, {num: 3, points: 30+55},
+                {num: 4, points: 30+80}, {num: 5, points: 30+80+30}, {num: 6, points: 30+80+55}
+        ]}
+    ]}],
+    ["Legion Falchion Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Falchion", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", points: 0}, 
+                {loadout: "Laser destroyers", points: 0}, 
+                {loadout: "Quad heavy bolters", points: 0},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Multi-melta", points: 5},
+                {loadout: "Heavy bolter", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 130}, {num: 2, points: 130+120}, {num: 3, points: 130+240},
+            {num: 4, points: 130+350}
+        ]}
+    ]}],
+    ["Legion Ascalon Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Ascalon", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", points: 0}, 
+                {loadout: "Laser destroyers", points: 0}, 
+                {loadout: "Quad heavy bolters", points: 0},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Multi-melta", points: 5},
+                {loadout: "Heavy bolter", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 110}, {num: 2, points: 110+100}, {num: 3, points: 110+200},
+            {num: 4, points: 110+290}
+        ]}
+    ]}],
+    ["Legion Glaive Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Glaive", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", points: 0}, 
+                {loadout: "Laser destroyers", points: 0}, 
+                {loadout: "Quad heavy bolters", points: 0},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 110}, {num: 2, points: 110+100}, {num: 3, points: 110+200},
+            {num: 4, points: 110+290}
+        ]}
+    ]}],
+    ["Legion Fellblade Squadron", {minModels: 1, maxModels: 4, modelGroupShapes: [
+        {modelName: "Fellblade", modelLoadoutSlots: [
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", points: 0}, 
+                {loadout: "Laser destroyers", points: 0}, 
+                {loadout: "Quad heavy bolters", points: 0},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "None", points: 0}, 
+                {loadout: "Multi-melta", points: 5},
+                {loadout: "Heavy bolter", points: 5},
+            ]},
+        ], possibleModelGroupQuantities: [
+            {num: 1, points: 120}, {num: 2, points: 120+110}, {num: 3, points: 120+220},
+            {num: 4, points: 120+320}
+        ]}
+    ]}],
 ]);
 
 export function getLegionDetachmentConfigurationForDetachmentName(detachmentName: DetachmentName): DetachmentConfiguration {
@@ -1289,6 +1562,40 @@ export function getLegionDetachmentConfigurationForDetachmentName(detachmentName
 }
 
 const statsForModelType = new Map<LegionModelName, Stats>([
+    ["Araknae Weapons Platform", {
+        detachmentType: "Vehicle", scale: 2, move: 0, saves: [{saveType: "Armour", save: 4, arc: "All"}],
+        caf: -2, wounds: 1, voidShields: 0,
+        modelLoadoutSlots: [{name: "Primary", possibleModelLoadouts: [
+            {loadout: "Quad accelerator autocannon", weaponTypes: ["Quad accelerator autocannon"]},
+            {loadout: "Twin punisher cannon", weaponTypes: ["Twin punisher cannon"]},
+            {loadout: "Orias heavy frag missiles", weaponTypes: ["Orias heavy frag missiles"]},
+        ]}],
+        tacticalStrength: 0,
+        unitTraits: []
+    }],
+    ["Ascalon", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 4, morale: 3, wounds: 3, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Ascalon inferno gun", weaponTypes: ["Ascalon inferno gun"]}, 
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", weaponTypes: ["Sponson Mounted quad lascannon"]},
+                {loadout: "Laser destroyers", weaponTypes: ["Sponson Mounted laser destroyers"]},
+                {loadout: "Quad heavy bolters", weaponTypes: ["Sponson Mounted quad heavy bolters"]},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
+                {loadout: "None"},
+            ]}
+        ],
+        unitTraits: []
+    }],
     ["Assault Marines", {
         detachmentType: "Infantry", scale: 1, move: 7, saves: [
             {saveType: "Armour", save: 5, arc: "All"}
@@ -1399,6 +1706,52 @@ const statsForModelType = new Map<LegionModelName, Stats>([
         ],
         unitTraits: ["Drop Pod", "Transport (2)"]
     }],
+    ["Falchion", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 4, morale: 3, wounds: 3, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "Neutron wave cannon"}, 
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", weaponTypes: ["Sponson Mounted quad lascannon"]},
+                {loadout: "Laser destroyers", weaponTypes: ["Sponson Mounted laser destroyers"]},
+                {loadout: "Quad heavy bolters", weaponTypes: ["Sponson Mounted quad heavy bolters"]},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
+                {loadout: "None"},
+            ]}
+        ],
+        unitTraits: []
+    }],
+    ["Fellblade", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 4, morale: 3, wounds: 3, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Fellblade accelerator cannon", "Hull Mounted demolisher cannon", "Hull Mounted heavy bolters"]}, 
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", weaponTypes: ["Sponson Mounted quad lascannon"]},
+                {loadout: "Laser destroyers", weaponTypes: ["Sponson Mounted laser destroyers"]},
+                {loadout: "Quad heavy bolters", weaponTypes: ["Sponson Mounted quad heavy bolters"]},
+            ]},
+            {name: "Pintle Mounted", possibleModelLoadouts: [
+                {loadout: "Multi-melta", weaponTypes: ["Pintle Mounted multi-melta"]},
+                {loadout: "Heavy bolter", weaponTypes: ["Pintle Mounted heavy bolter"]},
+                {loadout: "None"},
+            ]}
+        ],
+        unitTraits: []
+    }],
     ["Fire Raptor", {
         detachmentType: "Vehicle", scale: 2, move: 25, saves: [
             {saveType: "Armour", save: 3, arc: "Front"}, {saveType: "Armour", save: 4, arc: "Rear"},
@@ -1416,6 +1769,24 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             ]},
         ],
         unitTraits: ["Flyer", "Hover"]
+    }],
+    ["Glaive", {
+        detachmentType: "Super-heavy vehicle", scale: 3, move: 8, saves: [
+            {saveType: "Armour", save: 2, arc: "Front"},
+            {saveType: "Armour", save: 3, arc: "Front"},
+        ],
+        caf: 4, morale: 3, wounds: 3, tacticalStrength: 2, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "Primary", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Volkite carronade", "Hull Mounted heavy bolters"]}, 
+            ]},
+            {name: "Sponson Mounted", possibleModelLoadouts: [
+                {loadout: "Quad lascannon", weaponTypes: ["Sponson Mounted quad lascannon"]},
+                {loadout: "Laser destroyers", weaponTypes: ["Sponson Mounted laser destroyers"]},
+                {loadout: "Quad heavy bolters", weaponTypes: ["Sponson Mounted quad heavy bolters"]},
+            ]},
+        ],
+        unitTraits: []
     }],
     ["Javelin", {
         detachmentType: "Cavalry", scale: 1, move: 11, saves: [
@@ -1743,6 +2114,47 @@ const statsForModelType = new Map<LegionModelName, Stats>([
             ]},
         ],
         unitTraits: ["Nimble"]
+    }],
+    ["Saturnine Command Squad", {
+        detachmentType: "Infantry", scale: 1, move: 4, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
+        ],
+        caf: 4, morale: 2, wounds: 2, tacticalStrength: 5, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "", weaponTypes: ["Particle shredders", "Saturnine power weapons"]}
+            ]},
+        ],
+        unitTraits: ["Armoured", "Commander", "Implacable", "Inspire (8)", "Master Tactician", "Very Bulky"], //and whatever gives them invuln
+    }],
+    ["Saturnine Dreadnought", {
+        detachmentType: "Walker", scale: 1, move: 5, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
+        ],
+        caf: 2, morale: 3, wounds: 2, tacticalStrength: 3, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts:[
+                {loadout: "Heavy plasma bombard and disintegrator cannon", weaponTypes: ["Heavy plasma bombard", "Disintegrator cannon"]},
+                {loadout: "Graviton pulveriser and inversion beamer", weaponTypes: ["Graviton pulveriser", "Inversion beamer"]},
+            ]},
+        ],
+        unitTraits: ["Armoured"],
+    }],
+    ["Saturnine Terminators", {
+        detachmentType: "Infantry", scale: 1, move: 4, saves: [
+            {saveType: "Armour", save: 4, arc: "All"}, {saveType: "Invuln", save: 5, arc: "All"}
+        ],
+        caf: 3, morale: 3, wounds: 2, tacticalStrength: 6, voidShields: 0,
+        modelLoadoutSlots: [
+            {name: "", possibleModelLoadouts: [
+                {loadout: "Plasma bombards and disruption fists", weaponTypes: ["Plasma bombards", "Disruption fists"]},
+                {loadout: "Paired plasma bombards", weaponTypes: ["Paired plasma bombards"]},
+                {loadout: "Twin heavy disintegrators and disruption fists", weaponTypes: ["Twin heavy disintegrators", "Disruption fists"]},
+                {loadout: "Paired twin heavy disintegrators", weaponTypes: ["Paired twin heavy disintegrators"]},
+                {loadout: "Plasma bombards and twin heavy disintegrators", weaponTypes: ["Plasma bombards", "Twin heavy disintegrators"]},
+            ]},
+        ],
+        unitTraits: ["Armoured", "Implacable", "Steadfast", "Very Bulky"] //and whatever gives invuln
     }],
     ["Scimitar Jetbike", {
         detachmentType: "Cavalry", scale: 1, move: 12, saves: [
